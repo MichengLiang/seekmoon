@@ -1,6 +1,6 @@
 == 包级评价
 
-包级评价回答一个问题：某个候选包在给定查询和消费者上下文中是否适合引入。它不回答世界上哪个包绝对最好。
+包级评价回答一个问题：某个候选包在给定查询和消费者上下文中是否适合引入。它不生成脱离上下文的全局包排名。
 
 包级评价函数可写作：
 
@@ -33,25 +33,28 @@ Feasible(package, context)
 
 相关性衡量候选包是否回应查询意图。相关性绑定 query，不是包的全局质量。
 
-相关性证据可以来自 description、README、keywords、classifiers、API symbols、examples、documentation headings、package categories 和 ecosystem-specific tags。一个高质量 JSON parser 不应因为下载量高而出现在 OAuth client 查询前列。
+相关性证据可以来自 description、README、keywords、classifiers、API symbols、examples、documentation headings、package categories 和 ecosystem-specific tags。与 OAuth client 查询无关的 JSON parser 不应因为下载量高而进入前列。
 
 === 质量与信任画像
 
-进入主排序后，包级评价可以组合文档、依赖图、维护、兼容、安全、采用度和可复现信号。
+进入主排序后，包级评价可以形成文档、依赖图、维护、兼容、安全、采用度和可复现画像。画像分量可以被排序模型使用，但它们不应吞掉硬约束，也不应互相冒充。
 
 [source,text]
 ----
 Suitability(package, query, context)
-  = relevance(query, package)
-  + documentation_fit(package, context)
-  + dependency_health(package, context)
-  + compatibility_fit(package, context)
-  + maintenance_state(package, context)
-  + security_governance_state(package, context)
-  + adoption_signal(package, context)
+  = Feasible(package, context)
+    gate {
+      relevance(query, package),
+      documentation_fit(package, context),
+      dependency_health(package, context),
+      compatibility_fit(package, context),
+      maintenance_state(package, context),
+      security_governance_state(package, context),
+      adoption_signal(package, context)
+    }
 ----
 
-这个表达式表示需要保留多个解释分量。具体实现可以使用加权、门控、分段函数或规则系统，但输出必须说明排序原因。
+这个表达式表示包级评价先经过硬约束门控，再生成可解释画像。具体实现可以使用加权、门控、分段函数或规则系统，但输出必须说明排序原因，并保留哪些分量不能抵消其他分量。
 
 [cols="1,2,2", options="header"]
 |===

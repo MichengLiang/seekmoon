@@ -12,7 +12,7 @@
 
 yank、deprecate、retract、unpublish 和 delete 是不同对象。
 
-Yanking 通常表示某个 release 不应被默认选择，但在显式 pin 或唯一匹配时可能仍可安装。Deprecation 是维护者对包或版本给出的使用警告。Retraction 是生态对版本不再推荐或不应使用的声明。Unpublish 或 delete 改变历史可用性和名称复用风险。
+Yanking、Deprecation、Retraction、Unpublish 和 Delete 属于同一治理状态族，但不是同一个对象。Yanking 在 PyPI、Cargo 等生态中影响默认候选选择；Deprecation 是维护者对包或版本给出的使用警告；Retraction 在 Go 等生态中通过版本声明表达不再推荐；Unpublish 或 Delete 改变历史可用性和名称复用风险。每个状态的 resolver 行为、安装行为和页面展示都必须按生态规则记录。
 
 这些状态会影响 Discovery、Resolution 和 Maintenance。发现页应显示弃用或撤回；resolver 可能跳过 yanked release；维护流程可能触发替换或锁文件更新。
 

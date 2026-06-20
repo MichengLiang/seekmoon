@@ -1,6 +1,6 @@
 = 附录 B：生态矩阵
 
-本附录横向比较主流生态的 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Compatibility 和 Security Surface。矩阵只提供查阅入口；具体边界以正文生态章节为准。
+生态矩阵横向呈现主流生态的 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Compatibility 和 Security Surface。矩阵提供查阅入口；具体边界以生态章节为准。
 
 [cols="1,1,1,1,1,1,1", options="header"]
 |===

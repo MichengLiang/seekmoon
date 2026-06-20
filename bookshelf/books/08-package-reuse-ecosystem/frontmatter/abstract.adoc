@@ -1,5 +1,5 @@
 == 摘要
 
-本书研究软件包复用生态中的包发现与包管理机制。包发现处理消费者在引入依赖之前的识别、理解、比较和判断；包管理处理消费者项目在引入依赖之后的声明、求解、获取、校验、安装、构建、锁定、升级和审计。
+软件包复用生态包含包发现与包管理两个相邻机制。包发现处理消费者在引入依赖之前的识别、理解、比较和判断；包管理处理消费者项目在引入依赖之后的声明、求解、获取、校验、安装、构建、锁定、升级和审计。
 
-本书以 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Documentation、Security Metadata 和 Ecosystem Feedback 为核心对象，说明软件构件如何成为可发现、可比较、可求解、可获取、可复现、可审计、可维护的依赖对象。主流语言生态作为同一对象模型下的事实案例出现，用于支撑生命周期模型、证据源分类、变量体系和评价尺度。
+Manifest、Registry、Index、Resolver、Lockfile、Artifact、Documentation、Security Metadata 和 Ecosystem Feedback 共同说明软件构件如何成为可发现、可比较、可求解、可获取、可复现、可审计、可维护的依赖对象。主流语言生态提供同一对象模型下的事实案例，并支撑生命周期模型、证据源分类、变量体系和评价尺度。

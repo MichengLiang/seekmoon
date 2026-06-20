@@ -19,11 +19,14 @@
 * [[[pypa-simple-api]]] Python Packaging User Guide, Simple Repository API, https://packaging.python.org/en/latest/specifications/simple-repository-api/
 * [[[pypa-wheel]]] Python Packaging User Guide, Binary distribution format, https://packaging.python.org/en/latest/specifications/binary-distribution-format/
 * [[[uv-resolution]]] uv Docs, Resolution, https://docs.astral.sh/uv/concepts/resolution/
+* [[[uv-sync]]] uv Docs, Locking and syncing, https://docs.astral.sh/uv/concepts/projects/sync/
+* [[[pypa-pylock]]] Python Packaging User Guide, pylock.toml Specification, https://packaging.python.org/en/latest/specifications/pylock-toml/
 * [[[pypi-trusted-publishing]]] PyPI Docs, Trusted Publishers, https://docs.pypi.org/trusted-publishers/
 * [[[pypi-digital-attestations]]] PyPI Docs, Digital attestations, https://docs.pypi.org/attestations/
 * [[[go-mod-ref]]] Go Modules Reference, https://go.dev/ref/mod
 * [[[go-vuln]]] Go Docs, Vulnerability management, https://go.dev/doc/security/vuln/
 * [[[pkg-go-dev-about]]] pkg.go.dev About, https://pkg.go.dev/about
+* [[[pkg-go-dev-api]]] Go Blog, Introducing the pkg.go.dev API, https://go.dev/blog/pkgsite-api
 * [[[maven-pom]]] Apache Maven, POM Reference, https://maven.apache.org/pom.html
 * [[[maven-dependency]]] Apache Maven, Dependency Mechanism, https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html
 * [[[maven-central-upload]]] Apache Maven, Central Repository Upload Guide, https://maven.apache.org/repository/guide-central-repository-upload.html
@@ -36,11 +39,15 @@
 * [[[nuget-resolution]]] Microsoft Learn, Dependency resolution, https://learn.microsoft.com/en-us/nuget/concepts/dependency-resolution
 * [[[nuget-tfm]]] Microsoft Learn, Target frameworks, https://learn.microsoft.com/en-us/nuget/reference/target-frameworks
 * [[[nuget-audit]]] Microsoft Learn, Auditing packages, https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages
+* [[[dotnet-restore-audit]]] Microsoft Learn, dotnet restore produces security vulnerability warnings, https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-restore-audit
+* [[[dotnet-10-transitive-audit]]] Microsoft Learn, dotnet restore audits transitive packages, https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/10.0/nugetaudit-transitive-packages
 * [[[conan-binary-model]]] Conan 2 Docs, Binary model, https://docs.conan.io/2/reference/binary_model.html
 * [[[conanfile-attributes]]] Conan 2 Docs, conanfile attributes, https://docs.conan.io/2/reference/conanfile/attributes.html
 * [[[conan-lockfiles]]] Conan 2 Docs, Lockfiles, https://docs.conan.io/2/tutorial/versioning/lockfiles.html
 * [[[vcpkg-manifest]]] Microsoft Learn, vcpkg manifest mode, https://learn.microsoft.com/en-us/vcpkg/concepts/manifest-mode
 * [[[vcpkg-json]]] Microsoft Learn, vcpkg.json reference, https://learn.microsoft.com/en-us/vcpkg/reference/vcpkg-json
+* [[[vcpkg-versioning]]] Microsoft Learn, vcpkg versioning reference, https://learn.microsoft.com/en-us/vcpkg/users/versioning
+* [[[vcpkg-registries]]] Microsoft Learn, vcpkg registries concepts, https://learn.microsoft.com/en-us/vcpkg/concepts/registries
 * [[[vcpkg-triplets]]] Microsoft Learn, Triplets, https://learn.microsoft.com/en-us/vcpkg/concepts/triplets
 * [[[swift-package-description]]] Swift Docs, PackageDescription, https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html
 * [[[swift-registry-se0292]]] Swift Evolution, SE-0292 Package Registry Service, https://github.com/swiftlang/swift-evolution/blob/main/proposals/0292-package-registry-service.md
@@ -48,6 +55,7 @@
 * [[[osv-schema]]] OSV Schema, https://ossf.github.io/osv-schema/
 * [[[github-advisory-db]]] GitHub Docs, GitHub Advisory Database, https://docs.github.com/en/code-security/concepts/vulnerability-reporting-and-management/github-advisory-database
 * [[[scorecard-checks]]] OpenSSF Scorecard checks, https://github.com/ossf/scorecard/blob/main/docs/checks.md
+* [[[crates-trusted-publishing]]] crates.io Docs, Trusted Publishing, https://crates.io/docs/trusted-publishing
 * [[[slsa-spec]]] SLSA v1.2 specification, https://slsa.dev/spec/v1.2/
 * [[[sigstore-overview]]] Sigstore Docs, Keyless signing overview, https://docs.sigstore.dev/cosign/signing/overview/
 * [[[deps-dev-docs]]] deps.dev Docs, https://docs.deps.dev/

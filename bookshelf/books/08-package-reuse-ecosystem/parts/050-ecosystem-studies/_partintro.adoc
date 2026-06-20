@@ -1,1 +1,1 @@
-本部用同一对象模型对照主流语言生态。生态章节不是排行榜，而是事实表和边界说明。每章都区分 Manifest、Registry / Index、Discovery Surface、Resolver、Lockfile / Reproducibility、Artifact / Compatibility、Security / Governance 和不可直接比较的字段。
+主流语言生态共享包复用问题，但使用不同 Manifest、Registry / Index、Discovery Surface、Resolver、Lockfile / Reproducibility、Artifact / Compatibility 与 Security / Governance 机制。生态对照的任务是标出事实表和边界，而不是生成工具排行榜。

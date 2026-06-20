@@ -10,11 +10,11 @@
 
 === 典型数据表面
 
-deps.dev / Open Source Insights 提供跨 npm、Maven、PyPI、Cargo、NuGet、Go、RubyGems 等生态的包、版本、依赖图、许可证、项目映射和 OSV advisory 数据。它适合作为图谱和 advisory 聚合层，不是各注册表的写入事实源。参见 xref:deps-dev-docs[deps.dev Docs]。
+deps.dev / Open Source Insights 提供跨 npm、Maven、PyPI、Cargo、NuGet、Go、RubyGems 等生态的包、版本、依赖图、许可证、项目映射和 OSV advisory 数据。它可作为图谱和 advisory 聚合层，不是各注册表的写入事实源。参见 xref:deps-dev-docs[deps.dev Docs]。
 
-Libraries.io 覆盖多个 package manager 和源码仓库，提供 package metadata、dependencies、dependents、dependent repositories、contributors、SourceRank、stars 和 forks 等字段。其公开说明标注数据来自互联网抓取且不保证准确，因此应作为发现提示和人工复核入口。参见 xref:libraries-io-api[Libraries.io API] 与 xref:libraries-io-data[Libraries.io data]。
+Libraries.io 覆盖多个 package manager 和源码仓库，提供 package metadata、dependencies、dependents、dependent repositories、contributors、SourceRank、stars 和 forks 等字段。其公开说明标注数据来自互联网抓取且不保证准确，因此这些字段只能作为发现提示和人工复核入口。参见 xref:libraries-io-api[Libraries.io API] 与 xref:libraries-io-data[Libraries.io data]。
 
-ecosyste.ms 提供 packages、resolve、archives、licenses、repos、advisories、SBOM 等开放 API 族。它适合作为开放数据基础设施，但每个端点的字段和覆盖范围需要单独审查。参见 xref:ecosystems-packages[ecosyste.ms packages]。
+ecosyste.ms 提供 packages、resolve、archives、licenses、repos、advisories、SBOM 等开放 API 族。它属于开放数据基础设施；每个端点的字段和覆盖范围需要单独审查。参见 xref:ecosystems-packages[ecosyste.ms packages]。
 
 Swift Package Index、lib.rs、MvnRepository 和 FuGet 是单生态增强面。SPI 提供 Swift 构建矩阵和 DocC 文档；lib.rs 增强 Rust 包发现；MvnRepository 聚合 Maven 坐标、版本、依赖片段和漏洞提示；FuGet 解析 NuGet 包内 XML docs 和程序集 metadata，提供 API 浏览。
 
@@ -40,7 +40,7 @@ GitHub Dependency Graph 是仓库视角的依赖图和 SBOM 表面。它从 mani
 |Libraries.io
 |第三方聚合
 |搜索、依赖、反向依赖、SourceRank、仓库信号。
-|数据未验证，适合提示。
+|数据未验证，只能作为提示。
 
 |ecosyste.ms
 |开放 API 套件

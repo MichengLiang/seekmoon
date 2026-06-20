@@ -8,7 +8,7 @@ Python 的复用对象是 distribution package，不等于 import package。`pyp
 
 Python 的 Index 需要处理文件级事实。Simple Repository API 暴露 project files、download URLs、hashes、requires-python、yanked state、metadata availability、upload time、size 和 provenance links。Wheel tag 表达 Python implementation、ABI 和 platform 兼容性。同一 package release 可以有多个 wheel 服务不同环境。参见 xref:pypa-simple-api[PyPI Simple Repository API] 与 xref:pypa-wheel[Python wheel format]。
 
-pip resolver 面对版本约束、environment marker、extras、Requires-Python、多索引和平台特定 wheel。uv 提供 universal resolution 和 `uv.lock`，可以在同一 lock 中记录跨平台或跨 Python 版本的不同选择。Python 的可复现性可以由 pinned requirements、hash-checking、lockfile 和 index hash 共同支撑。
+pip resolver 面对版本约束、environment marker、extras、Requires-Python、多索引和平台特定 wheel。uv 提供 universal resolution 和 `uv.lock`，可以在同一 lock 中记录跨平台或跨 Python 版本的不同选择。`pylock.toml` 是 PyPA 定义的可复现安装锁文件格式；uv 的原生锁文件仍是 `uv.lock`，并可导出为 `pylock.toml`、requirements 或 SBOM 等格式。Python 的可复现性可以由 pinned requirements、hash-checking、lockfile 和 index hash 共同支撑。参见 xref:uv-resolution[uv resolution]、xref:uv-sync[uv locking and syncing] 与 xref:pypa-pylock[pylock.toml specification]。
 
 Python 可进入统一模型的变量包括 normalized project name、distribution/import mapping、Requires-Python、Requires-Dist、extras、wheel tags、sdist availability、hashes、yanked state、trusted publishing、attestations、known vulnerabilities、index priority 和 dependency confusion 风险。
 
@@ -20,7 +20,7 @@ Go 的复用对象是 module 与 package path。`go.mod` 声明 module path、go
 
 Go 使用 Minimal Version Selection。`require` 声明最低所需版本，MVS 计算 build list。Go 不把 build list 保存为传统 lockfile；`go.mod` 与 `go.sum` 共同支撑可重复构建。`go.sum` 记录模块内容 hash，checksum database 提供公开模块版本的全局可验证来源。
 
-Go 的 Discovery Surface 主要来自 pkg.go.dev。它从 module proxy 和源码生成文档、符号、版本、packages、imported-by 和 vulnerability 投影。Go 的描述性 Manifest 字段少，因为 module path、源码文档、semantic import versioning、checksum database 和 pkg.go.dev 共同承担身份、获取、兼容和发现职责。参见 xref:pkg-go-dev-about[pkg.go.dev about] 与 xref:go-vuln[Go vulnerability management]。
+Go 的 Discovery Surface 主要来自 pkg.go.dev。它从 module proxy 和源码生成文档、符号、版本、packages、imported-by 和 vulnerability 投影。pkg.go.dev 在 2026 年发布的官方 API 仍处于 `v1beta` 路径，提供 package、module、versions、packages、search、symbols、imported-by 和 vulns 等 GET-only 端点；书中把它作为结构化发现数据表面，而不是 Go module 解析规则本身。Go 的描述性 Manifest 字段少，因为 module path、源码文档、semantic import versioning、checksum database 和 pkg.go.dev 共同承担身份、获取、兼容和发现职责。参见 xref:pkg-go-dev-about[pkg.go.dev about]、xref:pkg-go-dev-api[pkg.go.dev API] 与 xref:go-vuln[Go vulnerability management]。
 
 Go 可进入统一模型的变量包括 module path、package path、go directive、require graph、direct/indirect dependency、replace/exclude/retract、major version suffix、go.sum entries、checksum database verification、pkg.go.dev documentation、imported-by 和 Go vulnerability data。
 

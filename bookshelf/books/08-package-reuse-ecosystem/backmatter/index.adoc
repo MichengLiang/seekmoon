@@ -1,5 +1,3 @@
 = 索引
 
-本索引汇集正文中的核心对象、机制、证据源、变量层级、生态名称和安全治理术语。
-
-本书索引词覆盖 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance、Attestation、Package Discovery、Package Management、Evidence、Metric、Score、Compatibility、Vulnerability Advisory、Trusted Publishing、SLSA、Sigstore 和各主流语言生态。
+索引词覆盖 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance、Attestation、Package Discovery、Package Management、Evidence、Metric、Score、Compatibility、Vulnerability Advisory、Trusted Publishing、SLSA、Sigstore 和各主流语言生态。

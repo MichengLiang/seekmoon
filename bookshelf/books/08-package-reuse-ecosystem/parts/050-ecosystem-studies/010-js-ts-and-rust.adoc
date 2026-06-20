@@ -1,6 +1,6 @@
 == JS/TS 与 Rust
 
-JS/TS 和 Rust 都有清楚的 Manifest、Registry、Resolver 和 Lockfile 表面，但二者生态形态不同。JS/TS 的规模、工具分叉和供应链风险更突出；Rust 的 Cargo、crates.io、Cargo.lock 和 docs.rs 链路更集中。
+JS/TS 和 Rust 都有可识别的 Manifest、Registry、Resolver 和 Lockfile 表面，但二者生态形态不同。JS/TS 的规模、工具分叉和供应链风险更突出；Rust 的 Cargo、crates.io、Cargo.lock 和 docs.rs 链路更集中。
 
 === JS/TS
 
@@ -8,9 +8,9 @@ JS/TS 的核心 Manifest 是 `package.json`。它承载 name、version、descrip
 
 JS/TS 的 Discovery Surface 包括 npmjs.com、npm search、README、keywords、download counts、dependents、last published date、deprecated state、provenance badge、JSR package page、JSR score 和第三方图谱。JSR 与 npm 相邻，但它强调 TypeScript、ESM、自动文档、score、scope 权限和 npm compatibility。JSR score 是 JSR 自身的发现和质量投影，不能直接等同 npm 下载量。参见 xref:jsr-docs[JSR Docs] 与 xref:jsr-scoring[JSR package scoring]。
 
-JS/TS 的 Management 不能被单个工具代表。npm 使用 `package-lock.json` 和传统 `node_modules` tree；pnpm 使用 content-addressable store、hard link 和 symlink 结构；Yarn 可使用 Plug'n'Play、immutable install、hardened mode 和 cache 校验。统一模型需要记录 resolver family、install layout、lockfile source、checksum、postinstall policy、peer dependency 处理和 script 风险。参见 xref:npm-package-lock[npm package-lock]、xref:pnpm-store[pnpm store]、xref:yarn-pnp[Yarn Plug'n'Play] 与 xref:yarn-security[Yarn security]。
+JS/TS 的 Management 不能被单个工具代表。npm 使用 `package-lock.json` 和传统 `node_modules` tree；pnpm 使用 content-addressable store、hard link 和 symlink 结构；Yarn 可使用 Plug'n'Play、immutable install、hardened mode 和 cache 校验。Yarn security 文档还给出几个会影响风险建模的工具行为：`yarn install` 默认不运行 audit，Yarn 4.14 起默认不运行 postinstall，Yarn 4.12 引入的 `npmMinimalAgeGate` 默认要求新包发布至少 1 天后再安装，hardened mode 在公开 GitHub 仓库 pull request 场景中默认启用并检查 lockfile 解析。统一模型需要记录 resolver family、install layout、lockfile source、checksum、postinstall policy、peer dependency 处理和 script 风险。参见 xref:npm-package-lock[npm package-lock]、xref:pnpm-store[pnpm store]、xref:yarn-pnp[Yarn Plug'n'Play] 与 xref:yarn-security[Yarn security]。
 
-JS/TS 可进入统一模型的变量包括 package identity、scope、exports、dependencies 类型、peer dependency 状态、lockfile integrity、tarball integrity、trusted publishing、provenance、postinstall 行为、age gate、hardened mode、download windows、dependents 和 score badges。
+JS/TS 可进入统一模型的变量包括 package identity、scope、exports、dependencies 类型、peer dependency 状态、lockfile integrity、tarball integrity、trusted publishing、provenance、postinstall 策略、age gate、hardened mode、download windows、dependents 和 score badges。
 
 不可直接比较的字段包括不同工具的安装布局、不同 registry 的 score 口径、npm download count 与 JSR score、peer dependency 风险和 postinstall 风险。它们需要保留工具和来源。
 
@@ -20,7 +20,7 @@ Rust 的核心 Manifest 是 `Cargo.toml`。它声明 package metadata、dependen
 
 crates.io 是默认 Registry。Cargo registry index 为解析器提供可用 crate 版本、checksum 和下载信息；`.crate` 文件是主要 Artifact。docs.rs 为发布到 crates.io 的库构建文档，形成重要 Discovery 和 API projection。lib.rs、RustSec 和 cargo-audit 是生态补充表面，不是 Cargo 内建机制。参见 xref:cargo-registries[Cargo registries]、xref:cargo-index[Cargo registry index] 与 xref:docs-rs-about[docs.rs about]。
 
-Rust 的强项是 Manifest、Registry、Resolver、Lockfile、Artifact 和 Documentation 的对象边界清楚。Cargo Book 明确区分 `Cargo.toml` 与 `Cargo.lock`：前者表达 broad dependencies，后者记录 exact dependency information。
+Rust 的 Manifest、Registry、Resolver、Lockfile、Artifact 和 Documentation 边界较集中。Cargo Book 明确区分 `Cargo.toml` 与 `Cargo.lock`：前者表达 broad dependencies，后者记录 exact dependency information。
 
 Rust 可进入统一模型的变量包括 crate name、version、features、dependencies、target-specific dependencies、Cargo.lock exact graph、checksum、docs.rs build status、repository、license、RustSec advisory、reverse dependencies 和 yanked version。
 
@@ -52,5 +52,5 @@ Rust 可进入统一模型的变量包括 crate name、version、features、depe
 
 |Security
 |npm audit、provenance、trusted publishing、Yarn hardened mode
-|RustSec、cargo-audit、trusted publishing 相关机制
+|RustSec、cargo-audit、crates.io trusted publishing
 |===

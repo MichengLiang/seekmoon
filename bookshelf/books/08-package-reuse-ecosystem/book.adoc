@@ -1,6 +1,6 @@
 = 包复用生态：发现、管理与评价尺度
 作者 <author@example.com>
-v0.1, 2026-06
+v1.0, 2026-06
 :doctype: book
 :toc: left
 :toclevels: 3
@@ -131,4 +131,3 @@ include::backmatter/bibliography.adoc[]
 
 [index]
 include::backmatter/index.adoc[]
-
