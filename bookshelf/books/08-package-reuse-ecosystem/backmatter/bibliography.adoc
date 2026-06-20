@@ -8,6 +8,7 @@
 * [[[jsr-scoring]]] JSR Docs, Package scoring, https://jsr.io/docs/scoring
 * [[[pnpm-store]]] pnpm Docs, Symlinked node_modules structure, https://pnpm.io/symlinked-node-modules-structure
 * [[[yarn-pnp]]] Yarn Docs, Plug'n'Play, https://yarnpkg.com/features/pnp
+* [[[yarn-security]]] Yarn Docs, Security, https://yarnpkg.com/features/security
 * [[[cargo-manifest]]] Cargo Book, Manifest Format, https://doc.rust-lang.org/cargo/reference/manifest.html
 * [[[cargo-resolver]]] Cargo Book, Dependency Resolution, https://doc.rust-lang.org/cargo/reference/resolver.html
 * [[[cargo-registries]]] Cargo Book, Registries, https://doc.rust-lang.org/cargo/reference/registries.html
@@ -19,6 +20,7 @@
 * [[[pypa-wheel]]] Python Packaging User Guide, Binary distribution format, https://packaging.python.org/en/latest/specifications/binary-distribution-format/
 * [[[uv-resolution]]] uv Docs, Resolution, https://docs.astral.sh/uv/concepts/resolution/
 * [[[pypi-trusted-publishing]]] PyPI Docs, Trusted Publishers, https://docs.pypi.org/trusted-publishers/
+* [[[pypi-digital-attestations]]] PyPI Docs, Digital attestations, https://docs.pypi.org/attestations/
 * [[[go-mod-ref]]] Go Modules Reference, https://go.dev/ref/mod
 * [[[go-vuln]]] Go Docs, Vulnerability management, https://go.dev/doc/security/vuln/
 * [[[pkg-go-dev-about]]] pkg.go.dev About, https://pkg.go.dev/about

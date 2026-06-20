@@ -1,6 +1,6 @@
 = 附录 B：生态矩阵
 
-本附录横向比较主流生态的 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Compatibility 和 Security Surface。
+本附录横向比较主流生态的 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Compatibility 和 Security Surface。矩阵只提供查阅入口；具体边界以正文生态章节为准。
 
 [cols="1,1,1,1,1,1,1", options="header"]
 |===
@@ -69,4 +69,57 @@
 |`Package.resolved`
 |source archive、library/executable product、binary target
 |platforms、tools version、products、targets
+|===
+
+[cols="1,1,1,1,1", options="header"]
+|===
+|生态 |Discovery Surface |Security / Governance |第三方或增强面 |不可直接比较字段
+
+|JS/TS
+|npmjs.com、npm search、JSR package page、README、downloads、dependents
+|npm audit、trusted publishing、provenance、2FA、deprecation、unpublish policy
+|JSR scoring（JSR 官方增强发现信号）、Libraries.io、deps.dev、GitHub Dependency Graph
+|npm downloads、JSR score、peer dependency risk、postinstall risk
+
+|Rust
+|crates.io、docs.rs、README、reverse dependencies
+|RustSec、cargo-audit、yanked versions、checksum in registry index
+|lib.rs、deps.dev
+|docs.rs build status、lib.rs rank、feature-expanded dependency weight
+
+|Python
+|PyPI project page、classifiers、README、Simple API file metadata
+|PyPI trusted publishing、digital attestations、yanked files、OSV/GHSA
+|deps.dev、Libraries.io、GitHub Dependency Graph
+|distribution/import mapping、wheel coverage、dynamic metadata、multi-index priority
+
+|Go
+|pkg.go.dev search、documentation、symbols、imported-by
+|checksum database、Go vulnerability database、retract directive
+|deps.dev、GitHub Dependency Graph
+|pkg.go.dev imported-by、MVS build list、module path stability
+
+|JVM/Kotlin
+|Maven Central search、Gradle Plugin Portal、artifact pages
+|signatures、repository policies、dependency verification、advisory surfaces
+|MvnRepository、deps.dev、Libraries.io
+|MvnRepository Used By、Gradle attributes、KMP target layout
+
+|.NET
+|NuGet.org、Visual Studio/Rider package UI、README and metadata
+|NuGet audit、verified prefix、deprecation, contentHash
+|FuGet、deps.dev、Libraries.io
+|TFM compatibility、verified owner、NuGet downloads、FuGet API view
+
+|C/C++
+|ConanCenter pages、vcpkg package pages、registry metadata
+|source checksum、lockfiles、binary package identity、registry baseline
+|GitHub Dependency Graph、ecosyste.ms
+|ABI compatibility、triplet coverage、binary cache hit, feature/options graph
+
+|Swift
+|Swift Package Index、registry endpoints、DocC documentation
+|source archive checksum、binary target checksum、Package.resolved
+|Swift Package Index compatibility matrix
+|SPI build matrix、Apple platform target, branch/revision dependency
 |===

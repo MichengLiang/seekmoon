@@ -1,5 +1,5 @@
 = 索引
 
-本索引由正文索引词提供入口。
+本索引汇集正文中的核心对象、机制、证据源、变量层级、生态名称和安全治理术语。
 
-正文应优先使用可见索引词标记核心术语，例如 `indexterm2:[Package]`、`indexterm2:[Manifest]`、`indexterm2:[Resolver]` 和 `indexterm2:[Provenance]`。隐藏索引词只贴近相关段落使用。
+本书索引词覆盖 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance、Attestation、Package Discovery、Package Management、Evidence、Metric、Score、Compatibility、Vulnerability Advisory、Trusted Publishing、SLSA、Sigstore 和各主流语言生态。

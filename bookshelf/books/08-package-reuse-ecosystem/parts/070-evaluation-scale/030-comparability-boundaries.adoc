@@ -4,7 +4,7 @@
 
 === 兼容性边界
 
-Compatibility 是共同维度，但各生态指标不同。Python 的 compatibility 关心 `Requires-Python`、wheel tag、ABI 和 platform；.NET 关心 TFM、RID 和 package assets；C/C++ 关心 ABI、compiler、runtime、settings、options 和 triplet；Swift 关心 platforms、tools version、products、targets 和 binary checksum；JVM/Kotlin 关心 bytecode、scope、Gradle attributes 和 KMP target；Go 关心 module path、major suffix、toolchain 和 source build constraints。
+indexterm2:[Compatibility]Compatibility 是共同维度，但各生态指标不同。Python 的 compatibility 关心 `Requires-Python`、wheel tag、ABI 和 platform；.NET 关心 TFM、RID 和 package assets；C/C++ 关心 ABI、compiler、runtime、settings、options 和 triplet；Swift 关心 platforms、tools version、products、targets 和 binary checksum；JVM/Kotlin 关心 bytecode、scope、Gradle attributes 和 KMP target；Go 关心 module path、major suffix、toolchain 和 source build constraints。
 
 这些指标都服务“目标环境可成立”这一判断，但不能合并为同一测量口径。
 

@@ -1,148 +1,845 @@
 = 附录 A：变量字典
 
-本附录收录包复用生态评价使用的变量。每个变量记录评价层级、变量组、数据来源、指标口径和失真风险。
+本附录收录包复用生态评价使用的变量。变量不是结论；变量是评价函数可以观察、记录、归一化和解释的对象。每个变量都保留评价层级、变量组、数据来源、指标口径、单位或取值、缺失值处理和失真风险。
 
-[cols="1,1,1,2,2,2", options="header"]
+[cols="1,1,1,2,2,1,2,2", options="header"]
 |===
-|变量 |层级 |变量组 |数据来源 |指标口径 |失真风险
+|变量 |层级 |变量组 |数据来源 |指标口径 |单位/取值 |缺失值处理 |失真风险
 
-|identity_tuple
-|package
-|身份
-|registry 或 manifest
-|生态定义的包身份组合。
-|不同生态身份结构不同。
-
-|namespace
+|ecosystem_id
 |package/ecosystem
 |身份
-|registry、manifest
-|scope、groupId、prefix、module path owner 等。
-|命名空间不等于安全证明。
+|registry、official docs
+|包所属语言或构建生态。
+|枚举
+|unknown
+|同一包可能跨多个生态发布。
 
-|owner_count
+|registry_id
+|package/version
+|身份
+|registry metadata、source map
+|发布事实源或主要索引源。
+|枚举/URL
+|unknown
+|镜像、私有源和第三方索引可能混淆事实源。
+
+|package_identity_tuple
 |package
-|安全
-|registry
-|有维护或发布权限的 owner 数量。
-|权限细节可能不可见。
+|身份
+|manifest、registry metadata
+|生态定义的包身份组合。
+|结构值
+|missing
+|不同生态身份结构不同，不能只保留 name。
+
+|identity_space_type
+|package/ecosystem
+|身份
+|manifest、registry policy
+|scope、groupId、project name、module path、registry scope、verified prefix 等身份空间或身份辅助信号类型。
+|枚举
+|not_applicable
+|这些对象不全是真命名空间；verified prefix 等字段是身份辅助信号，不是安全证明。
+
+|identity_space_value
+|package
+|身份
+|manifest、registry metadata
+|包所在 scope、groupId、project name、module path root、registry scope、verified prefix 等具体值。
+|字符串
+|missing
+|组织名、域名和源码仓库所有权可能不一致。
+
+|version_identifier
+|package/version
+|身份
+|registry metadata、manifest、VCS tag
+|版本号、release tag、revision 或生态等价版本状态。
+|字符串
+|missing
+|SemVer、calendar version、revision pin 和 port-version 语义不同。
+
+|source_repository_linked
+|package
+|声明
+|manifest、registry metadata
+|是否声明源码仓库位置。
+|布尔/URL
+|missing
+|链接可能过期、迁移或被接管。
+
+|issue_tracker_linked
+|package
+|声明
+|manifest、registry metadata
+|是否声明 issue、bugs 或支持入口。
+|布尔/URL
+|missing
+|入口存在不说明响应能力。
 
 |manifest_present
 |package
 |声明
 |source repository、registry metadata
 |是否存在生态认可的 Manifest。
-|动态生成 metadata 可能隐藏来源。
+|布尔
+|missing
+|动态构建可能隐藏真实 metadata 来源。
+
+|manifest_staticness
+|package/ecosystem
+|声明
+|official docs、build backend、manifest
+|Manifest metadata 是否可静态读取。
+|static/dynamic/mixed
+|unknown
+|动态 metadata 会延迟索引和解析判断。
+
+|description_present
+|package
+|声明/发现
+|manifest、registry metadata
+|是否有机器可读 description。
+|布尔
+|missing
+|描述可能过期、营销化或与 API 不一致。
+
+|keyword_or_classifier_count
+|package
+|声明/发现
+|manifest、registry metadata
+|关键词、classifier、category、topic 数量。
+|计数
+|0
+|不同生态标签受控程度不同。
 
 |declared_license
-|package
+|package/version
 |声明
 |manifest、registry metadata
-|包声明的许可证字段。
-|与源码 LICENSE 或聚合器识别冲突。
+|包声明的许可证表达。
+|SPDX/文本
+|missing
+|可能与源码 LICENSE、构件内容或聚合器识别冲突。
+
+|license_source_type
+|package/version
+|声明/治理
+|registry、repository、aggregator、compliance DB
+|许可证字段来源层级。
+|枚举
+|unknown
+|自动归一化可能改变法律语义。
+
+|license_conflict_present
+|package/version
+|治理
+|多个许可证来源
+|不同来源是否给出冲突许可证。
+|布尔
+|unknown
+|冲突本身需要人工合规判断。
+
+|dependency_classes_declared
+|package
+|声明/图谱
+|manifest
+|声明了哪些依赖类别。
+|集合
+|missing
+|dependencies、dev、peer、optional、extras、features、tool_requires 等语义不同。
 
 |direct_dependency_count
-|package
+|package/version/context
 |图谱
 |manifest、registry metadata、resolver output
-|直接依赖数量。
-|不同 dependency class 不能无差别合并。
+|当前上下文的直接依赖数量。
+|计数
+|unknown
+|dependency class 和 feature/platform 条件不能无差别合并。
 
 |transitive_dependency_count
-|package
+|package/version/context
 |图谱
 |resolved graph
 |解析后的传递依赖数量。
-|依赖于 resolver、platform、feature。
+|计数
+|unknown
+|依赖于 resolver、platform、feature、extras、target。
+
+|dependency_depth
+|package/version/context
+|图谱
+|resolved graph
+|解析依赖图最大深度。
+|计数
+|unknown
+|深度受 optional、dev、test、feature 边界影响。
+
+|duplicate_version_count
+|project/context
+|图谱
+|resolved graph、lockfile
+|同一 logical package 的多版本重复数量。
+|计数
+|unknown
+|部分生态允许多版本共存，风险语义不同。
 
 |reverse_dependency_signal
 |package
 |图谱
 |registry、GitHub、third-party aggregator
 |按来源记录被依赖信号。
-|覆盖范围差异大。
+|结构值
+|aggregator_gap
+|GitHub dependents、Used By、imported-by、dependent repositories 覆盖不同。
 
-|lockfile_present
-|package/project
-|解析
-|consumer project
-|消费者项目是否存在 lockfile。
-|Go 等生态不使用传统 lockfile。
+|important_dependent_present
+|package
+|图谱
+|deps.dev、registry、manual curation
+|按显式策展规则记录是否被高影响项目依赖。
+|布尔/列表
+|unknown
+|必须同时记录 curation policy；不能作为未说明来源的客观事实字段。
 
 |resolver_family
-|ecosystem
+|ecosystem/tool
 |解析
 |official docs
-|生态使用的解析规则类型。
-|同一生态可能有多个工具。
+|解析算法或规则族。
+|枚举
+|unknown
+|同一生态可能有多个工具和配置。
 
-|artifact_hash_present
+|conflict_resolution_rule
+|ecosystem/tool
+|解析
+|official docs
+|版本冲突、nearest-wins、MVS、highest/lowest、variant 选择等规则。
+|文本/枚举
+|unknown
+|实现细节和错误消息可能随工具版本变化。
+
+|version_range_semantics
+|ecosystem/tool
+|解析
+|official docs、manifest spec
+|版本范围语法和默认解释。
+|文本/枚举
+|unknown
+|同一符号在生态间语义不同。
+
+|feature_resolution_model
+|ecosystem/tool
+|解析
+|official docs、manifest
+|feature、extra、optional、target-specific dependency 如何影响解。
+|文本/枚举
+|not_applicable
+|feature-expanded graph 可能与默认 graph 差异很大。
+
+|variant_selection_model
+|ecosystem/tool
+|解析/兼容
+|official docs、metadata
+|Gradle variants、NuGet assets、Swift targets、Conan package_id 等如何选择。
+|文本/枚举
+|not_applicable
+|变体选择失败常被误读为包质量问题。
+
+|lockfile_present
+|project
+|解析
+|consumer project
+|消费者项目是否存在 lockfile 或等价锁定材料。
+|布尔
+|not_applicable
+|Go 等生态不使用传统 lockfile。
+
+|lockfile_granularity
+|project/tool
+|解析/构件
+|lockfile、official docs
+|锁定对象粒度：版本、hash、source、artifact、variant、platform。
+|集合
+|unknown
+|锁定粒度不足会削弱审计和复现。
+
+|lockfile_platform_scope
+|project/tool
+|解析/兼容
+|lockfile、official docs
+|锁文件是否覆盖单平台、多平台或 universal resolution。
+|枚举
+|unknown
+|跨平台锁可能隐藏平台条件差异。
+
+|artifact_type
 |package/version
 |构件
+|registry、index、file metadata
+|tarball、wheel、crate、JAR、nupkg、module zip、binary package 等。
+|枚举
+|unknown
+|源码构件和二进制构件风险不同。
+
+|artifact_hash_present
+|package/version/artifact
+|构件/安全
 |registry、lockfile、index
-|构件是否有 hash 或 checksum。
+|构件是否有 hash、checksum 或 contentHash。
+|布尔
+|missing
 |hash 说明字节一致，不说明良性。
 
-|provenance_available
+|artifact_signature_present
 |package/version/artifact
-|安全
-|registry、attestation endpoint
-|是否存在 provenance 或 attestation。
-|证明粒度可能是包、版本或文件。
+|构件/安全
+|registry、signature endpoint、transparency log
+|构件是否有签名材料。
+|布尔
+|unknown
+|签名身份、信任根和验证策略不同。
 
-|known_vulnerability_count
+|checksum_authority
+|package/version/artifact
+|构件/安全
+|registry、checksum database、lockfile
+|checksum 来源：registry、lockfile、global DB、attestation subject。
+|枚举
+|unknown
+|不同来源的篡改模型不同。
+
+|binary_artifact_available
+|package/version/context
+|构件/兼容
+|registry、package manager cache、artifact listing
+|目标环境是否有可用二进制构件。
+|布尔
+|unknown
+|构建矩阵只能说明实测构建状态；无二进制不等于不可用，可能需本地构建。
+
+|binary_cache_key
+|package/version/context
+|构件
+|Conan、vcpkg、CI cache
+|二进制缓存命中所需 key 或配置组合。
+|结构值
+|not_applicable
+|缓存命中受配置、远端和构建选项影响。
+
+|python_requires
 |package/version
-|安全
-|OSV、GHSA、ecosystem DB
-|当前版本被公告覆盖的漏洞数量。
-|没有公告不等于没有漏洞。
+|兼容
+|Core Metadata、Simple API
+|Requires-Python 范围。
+|版本范围
+|missing
+|只说明 Python 版本，不说明 ABI/platform wheel 可用。
 
-|malware_advisory_present
+|python_wheel_tag_coverage
 |package/version
-|安全
-|GHSA、registry advisory
-|是否存在恶意包公告。
-|恶意状态不能被其他分量抵消。
+|兼容
+|PyPI files、Simple API
+|该 release 覆盖的 Python tag、ABI tag、platform tag。
+|集合
+|unknown
+|覆盖目标平台之外的 wheel 不产生可用性。
 
-|days_since_last_release
-|package
-|维护
-|registry、source repository
-|当前日期减最新 release 日期。
-|稳定小包可能长期无需 release。
+|python_sdist_available
+|package/version
+|构件/兼容
+|PyPI files、Simple API
+|是否提供 source distribution。
+|布尔
+|unknown
+|sdist 存在不说明目标环境可构建。
 
-|maintainer_count
-|package
-|维护
-|registry、source repository
-|可观察维护者数量。
-|权限和实际维护劳动不一致。
+|go_major_suffix_consistent
+|package/module
+|兼容/身份
+|go.mod、module path
+|module path 与 v2+ major version 后缀是否一致。
+|布尔
+|not_applicable
+|只适用于 Go module 语义。
+
+|go_checksum_verified
+|package/version
+|构件/安全
+|go.sum、checksum database
+|模块内容是否可由 checksum database 或 go.sum 验证。
+|布尔
+|unknown
+|私有模块和 GOPRIVATE 改变验证路径。
+
+|jvm_bytecode_target
+|package/version/artifact
+|兼容
+|POM、Gradle metadata、class files
+|JVM bytecode 或 target compatibility。
+|版本
+|unknown
+|字节码版本不覆盖所有运行时依赖。
+
+|gradle_variant_attribute_set
+|package/version
+|兼容/解析
+|Gradle Module Metadata
+|发布 variants 的 attribute 集合。
+|集合
+|not_applicable
+|消费者属性匹配规则需要同时记录。
+
+|kmp_target_set
+|package/version
+|兼容
+|Kotlin metadata、Gradle metadata
+|Kotlin Multiplatform targets 覆盖范围。
+|集合
+|not_applicable
+|target 存在不说明每个 target 构建质量一致。
+
+|nuget_tfm_coverage
+|package/version
+|兼容
+|nuspec、nupkg assets、NuGet metadata
+|包覆盖的 Target Framework Moniker 集合。
+|集合
+|unknown
+|TFM 兼容还受 asset selection 和 dependency group 影响。
+
+|nuget_rid_asset_present
+|package/version/context
+|兼容/构件
+|nupkg runtimes assets
+|目标 Runtime Identifier 是否有资产。
+|布尔
+|not_applicable
+|RID fallback 规则可能改变结果。
+
+|conan_package_id_inputs
+|package/version/context
+|兼容/构件
+|Conan recipe、profile、lockfile
+|参与 package_id 的 settings、options、requires。
+|集合
+|not_applicable
+|配置缺失会导致二进制身份不可复现。
+
+|vcpkg_triplet
+|package/version/context
+|兼容
+|vcpkg triplet、manifest
+|目标 CPU、OS、compiler、runtime、linkage 等组合。
+|结构值
+|not_applicable
+|自定义 triplet 会降低跨项目可比性。
+
+|swift_tools_version
+|package/version
+|兼容
+|Package.swift
+|`swift-tools-version` 声明。
+|版本
+|unknown
+|tools version 不等同于所有平台支持。
+
+|swift_platforms_declared
+|package/version
+|兼容
+|Package.swift
+|声明的 platforms 与最低 deployment version。
+|集合
+|missing
+|未声明时 SwiftPM 使用默认规则。
+
+|swift_binary_target_checksum
+|package/version/artifact
+|构件/安全
+|Package.swift、binary target metadata
+|binary target checksum 是否存在并匹配。
+|布尔
+|not_applicable
+|checksum 不说明二进制良性。
 
 |documentation_surface_present
 |package
 |发现
 |docs site、registry、source docs
 |是否存在可读文档或 API 投影。
-|文档存在不等于准确。
+|布尔
+|missing
+|文档存在不等于准确或覆盖当前版本。
 
-|compatibility_signal
+|api_symbol_index_present
 |package/version
-|兼容
-|manifest、artifact metadata、build matrix
-|生态特定兼容信号。
-|不同生态不可合并为同一物理量。
+|发现/结构
+|docs.rs、pkg.go.dev、FuGet、DocC、IDE index
+|是否有可查询 API 符号索引。
+|布尔
+|unknown
+|生成失败或条件编译会造成缺口。
+
+|example_coverage_signal
+|package/version
+|发现/结构
+|README、docs、tests、examples directory
+|示例是否覆盖主要入口或常见用法。
+|布尔/计数
+|unknown
+|示例可读不说明可运行。
+
+|docs_build_status
+|package/version
+|发现/运行
+|docs.rs、Swift Package Index、CI
+|文档构建是否成功。
+|pass/fail/unknown
+|unknown
+|文档构建成功不说明运行构建成功。
 
 |download_signal
 |package
-|发现
+|发现/社会
 |registry、aggregator
 |下载量及统计窗口。
-|受 CI、镜像、间接依赖污染。
+|计数+窗口
+|unknown
+|受 CI、镜像、传递依赖和历史包袱污染。
 
-|source_repository_linked
+|star_signal
+|package/repository
+|社会
+|source repository
+|仓库 Star 数及采集时间。
+|计数
+|unknown
+|Star 是注意力，不是适配、安全或维护证明。
+
+|fork_signal
+|package/repository
+|社会
+|source repository
+|仓库 fork 数及采集时间。
+|计数
+|unknown
+|fork 可能是镜像、实验或废弃分叉。
+
+|issue_response_median
+|package/repository
+|维护
+|source repository issue tracker
+|repository-derived metric；指定时间窗内 issue 首次响应时间中位数。
+|时长
+|unknown
+|关闭策略、机器人和外部支持渠道会影响口径。
+
+|pr_merge_rate
+|package/repository
+|维护
+|source repository PRs
+|repository-derived metric；指定时间窗内 PR 合并比例。
+|比例
+|unknown
+|项目可能不接受外部 PR 或使用邮件列表。
+
+|days_since_last_release
 |package
-|声明
+|维护
+|registry、source repository
+|当前日期减最新 release 日期。
+|天
+|unknown
+|稳定小包可能长期无需 release。
+
+|release_cadence
+|package
+|维护
+|registry、source repository
+|指定时间窗内 release 频率。
+|次数/时间窗
+|unknown
+|高频 release 不一定代表质量更高。
+
+|maintainer_count
+|package
+|维护/治理
+|registry、source repository
+|可观察维护者数量。
+|计数
+|unknown
+|权限和实际维护劳动不一致。
+
+|bus_factor_signal
+|package
+|维护
+|repository contribution data
+|repository-derived metric；贡献集中度或关键维护者数量。
+|计数/比例
+|unknown
+|只看 commit 不能覆盖发布权限和安全响应。
+
+|owner_count
+|package
+|治理
+|registry、source repository permissions
+|有维护或发布权限的可观察账号数量。
+|计数
+|unknown
+|权限细节可能不可见；账号数量不等于实际维护能力。
+
+|publisher_identity_visible
+|package/version
+|安全/治理
+|registry metadata、attestation、publish log
+|发布身份是否对消费者或审计者可见。
+|布尔
+|unknown
+|身份可见不说明发布内容良性。
+
+|security_policy_present
+|package/repository
+|安全/治理
+|source repository、registry metadata
+|是否有 SECURITY policy 或漏洞报告入口。
+|布尔
+|missing
+|政策存在不说明响应质量。
+
+|known_vulnerability_count
+|package/version
+|安全
+|OSV、GHSA、ecosystem DB
+|当前包版本本身被公告覆盖的漏洞数量。
+|计数
+|unknown
+|没有公告不等于没有漏洞。
+
+|highest_vulnerability_severity
+|package/version
+|安全
+|OSV、GHSA、NVD、ecosystem DB
+|当前包版本本身已知漏洞的最高严重度。
+|枚举
+|unknown
+|严重度不等同于当前项目可达性。
+
+|resolved_graph_vulnerability_count
+|project/context
+|安全
+|resolved graph、OSV、GHSA、ecosystem DB
+|解析依赖图中被公告覆盖的漏洞数量。
+|计数
+|unknown
+|传递依赖风险受 resolver、platform、feature 和 lockfile 影响。
+
+|resolved_graph_highest_vulnerability_severity
+|project/context
+|安全
+|resolved graph、OSV、GHSA、NVD、ecosystem DB
+|解析依赖图中已知漏洞的最高严重度。
+|枚举
+|unknown
+|严重度不等同于当前项目可达性。
+
+|vulnerability_scope
+|package/version/project
+|安全
+|advisory DB、resolved graph、source map
+|漏洞变量作用域：package-version、resolved-graph、source commit 或 repository。
+|枚举
+|unknown
+|不同作用域不能合并为同一风险计数。
+
+|malware_advisory_present
+|package/version
+|安全
+|registry advisory、GHSA、OSV
+|是否存在恶意包公告。
+|布尔
+|unknown
+|恶意状态不能被其他分量抵消。
+
+|fixed_version_available
+|package/version
+|安全/维护
+|advisory DB、registry
+|已知漏洞是否存在修复版本。
+|布尔/版本
+|unknown
+|修复版本可能不兼容当前约束。
+
+|trusted_publishing_enabled
+|package
+|安全/治理
+|registry metadata、trusted publisher config
+|发布是否绑定 OIDC trusted publisher。
+|布尔
+|unknown
+|只降低长期 token 风险，不说明代码良性。
+
+|two_factor_required
+|package/registry
+|安全/治理
+|registry policy、package settings
+|发布或高风险操作是否要求 2FA。
+|布尔
+|unknown
+|2FA 不审查源码或构建输入。
+
+|token_publishing_allowed
+|package/registry
+|安全/治理
+|registry policy、package settings
+|是否仍允许传统 token 发布。
+|布尔
+|unknown
+|token 权限粒度和轮换策略也影响风险。
+
+|provenance_available
+|package/version/artifact
+|安全
+|registry、attestation endpoint
+|是否存在 provenance 或 attestation。
+|布尔
+|unknown
+|证明粒度可能是包、版本、文件或构建。
+
+|slsa_claimed_level
+|package/version/artifact
+|安全
+|attestation、project docs
+|项目、构件或 attestation 声称的 SLSA level。
+|枚举
+|unknown
+|声明不等于消费者已验证满足。
+
+|slsa_verified_level
+|package/version/artifact
+|安全
+|consumer verification、attestation verification log
+|消费者验证后接受的 SLSA level。
+|枚举
+|unknown
+|验证策略、信任根和构建身份匹配规则会影响结果。
+
+|sigstore_material_present
+|package/version/artifact
+|安全
+|signature、certificate、Rekor log
+|是否存在 Sigstore 签名、证书或透明日志材料。
+|布尔
+|unknown
+|验证策略和身份匹配仍需定义。
+
+|scorecard_check_values
+|package/repository
+|安全/治理
+|OpenSSF Scorecard
+|各项 check 的原始值或分数。
+|结构值
+|unknown
+|总分不能替代具体安全结论。
+
+|release_yanked
+|package/version
+|治理
+|registry metadata
+|release 是否被 yanked。
+|布尔
+|not_applicable
+|yank 不等于删除，显式 pin 语义不同。
+
+|package_deprecated
+|package/version
+|治理
+|registry metadata
+|包或版本是否被维护者弃用。
+|布尔/消息
+|unknown
+|弃用原因和替代建议质量不一。
+
+|version_retracted
+|package/version
+|治理
 |manifest、registry metadata
-|是否有源码仓库链接。
-|链接可能过期、迁移或被接管。
+|版本是否被生态机制标记不推荐。
+|布尔
+|not_applicable
+|不同生态支持程度不同。
+
+|unpublish_or_delete_policy
+|ecosystem/registry
+|治理
+|registry policy
+|registry 对删除历史版本的规则。
+|文本/枚举
+|unknown
+|政策受时间、依赖量和恶意状态影响。
+
+|name_transfer_policy
+|ecosystem/registry
+|治理
+|registry policy
+|包名或所有权如何转移。
+|文本/枚举
+|unknown
+|执行个案可能偏离政策文本。
+
+|search_field_set
+|ecosystem/surface
+|发现
+|registry search docs、surface observation
+|搜索使用哪些字段：name、description、keywords、README、API symbols。
+|集合
+|unknown
+|搜索排序细节通常不公开。
+
+|surface_badge_set
+|package/surface
+|发现
+|registry page、third-party surface
+|页面显示的 score、badge、build、docs、安全或 provenance 标签集合。
+|集合
+|none
+|badge 来源和计算口径必须分开。
+
+|third_party_surface_count
+|package/ecosystem
+|发现
+|source map、known surfaces
+|可观察第三方发现表面数量。
+|计数
+|0
+|数量不说明准确性或覆盖率。
+
+|source_coverage_scope
+|variable/source
+|证据
+|source documentation
+|数据源覆盖范围：registry、repository、package import、artifact、public GitHub 等。
+|文本/枚举
+|unknown
+|覆盖范围不明时变量不得进入强排序。
+
+|data_freshness_age
+|variable/source
+|证据
+|API metadata、crawl timestamp
+|数据从采集或更新时间到评价时点的时间差。
+|时长
+|unknown
+|旧数据可能误导维护、安全和下载判断。
+
+|source_conflict_present
+|variable/source-set
+|证据
+|多个来源
+|同一字段是否存在来源冲突。
+|布尔
+|false/unknown
+|冲突需要暴露，不应自动吞掉。
 |===

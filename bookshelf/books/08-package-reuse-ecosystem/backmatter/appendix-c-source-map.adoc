@@ -1,34 +1,77 @@
 = 附录 C：资料来源图
 
-本附录区分官方规范、官方注册表、第三方聚合面、观察性页面和安全公告数据库。
+本附录区分官方规范、官方注册表、第三方聚合面、观察性页面和安全公告数据库。资料来源图的作用是控制证据权重：同一字段来自不同来源时，不能自动合并为一个事实。
 
-[cols="1,2,2", options="header"]
+[cols="1,2,2,2", options="header"]
 |===
-|来源层级 |用途 |例子
+|来源层级 |用途 |例子 |可支撑的判断
 
 |官方规范或官方文档
 |定义生态对象、文件格式、解析规则和工具行为。
 |npm docs、Cargo Book、PyPA specs、Go ref/mod、Maven docs、Gradle docs、NuGet docs、Conan docs、vcpkg docs、Swift PackageDescription。
+|Manifest 字段语义、resolver 规则、lockfile 语义、artifact 格式、兼容性模型。
 
 |官方注册表或官方服务
 |保存发布事实、元数据、构件、文档或漏洞投影。
 |npm registry、crates.io、PyPI、Maven Central、NuGet.org、pkg.go.dev、docs.rs。
+|包身份、版本状态、发布物、文档构建、下载或官方页面可见事实。
 
 |安全基础设施
 |提供漏洞、来源证明、签名、透明日志或项目治理 checks。
 |OSV、GitHub Advisory Database、OpenSSF Scorecard、SLSA、Sigstore。
+|已知漏洞、advisory 版本范围、构建来源证明、签名和治理检查。
 
 |第三方聚合器
 |聚合跨生态包元数据、图谱、许可证和维护信号。
 |deps.dev、Libraries.io、ecosyste.ms。
+|跨生态图谱、聚合许可证、反向依赖提示、安全公告汇总、仓库信号。
 
 |第三方发现增强面
 |提供单生态搜索、API 检视、构建矩阵或聚合页面。
 |lib.rs、Swift Package Index、MvnRepository、FuGet。
+|发现排序、兼容性矩阵、API 浏览、第三方 Used By 或 ranking。
 
 |观察性页面
 |缺少正式接口文档时的公开页面观察。
 |具体包页面、搜索结果页面、排行榜页面。
+|页面上对消费者可见的投影事实；不能单独支撑规范语义。
+|===
+
+[cols="1,2,2", options="header"]
+|===
+|字段类型 |优先来源 |冲突处理
+
+|Manifest 字段语义
+|官方规范或官方文档
+|第三方解释只能作为辅助，不替代规范语义。
+
+|包发布事实
+|官方注册表或官方服务
+|镜像、聚合器和观察性页面必须标明来源层级。
+
+|依赖解析规则
+|官方工具文档、规范、实现文档
+|第三方文章不能替代 resolver 规则来源。
+
+|反向依赖
+|生态官方 graph 或明确覆盖范围的聚合器
+|保留 `source_coverage_scope`，不合并为单一 `dependency_count`。
+
+|许可证
+|registry declared、repository file、aggregator normalized、compliance override 分开记录
+|冲突时标为 conflict，不自动选择一个字段。
+
+|漏洞公告
+|OSV、GHSA、生态官方漏洞数据库、registry audit 数据
+|保留 affected range、fixed range、withdrawn state 和 source。
+
+|来源证明
+|registry attestation、SLSA provenance、Sigstore/Rekor material
+|证明来源关系，不替代漏洞、安全和许可证判断。
+
+|下载、Star、Fork
+|registry、repository 或聚合器原始字段
+|保留统计窗口、采集时间和数据源。
 |===
 
 正文引用第三方来源时，应说明它是聚合或观察表面。第三方字段不能自动替代官方发布事实。

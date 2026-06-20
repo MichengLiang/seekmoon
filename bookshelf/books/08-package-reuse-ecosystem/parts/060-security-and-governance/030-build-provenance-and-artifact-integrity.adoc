@@ -4,9 +4,9 @@
 
 === 构建来源证明
 
-构建来源证明记录源码位置、构建定义、外部参数、resolved dependencies、builder identity、run details 和 subject digest。SLSA provenance predicate 提供这类事实的结构化语言。SLSA Build levels 进一步区分是否有 provenance、provenance 是否由 hosted build platform 生成并签名、构建平台是否具备更强防篡改保证。
+构建来源证明记录源码位置、构建定义、外部参数、resolved dependencies、builder identity、run details 和 subject digest。indexterm2:[SLSA]SLSA provenance predicate 提供这类事实的结构化语言。SLSA Build levels 进一步区分是否有 provenance、provenance 是否由 hosted build platform 生成并签名、构建平台是否具备更强防篡改保证。参见 xref:slsa-spec[SLSA specification]。
 
-Sigstore 提供 keyless signing、Fulcio certificate、Rekor transparency log 和 cosign 等机制。它把身份、签名事件和透明日志连接起来，使消费者可以验证某个 Artifact 的签名和身份材料。
+indexterm2:[Sigstore]Sigstore 提供 keyless signing、Fulcio certificate、Rekor transparency log 和 cosign 等机制。它把身份、签名事件和透明日志连接起来，使消费者可以验证某个 Artifact 的签名和身份材料。参见 xref:sigstore-overview[Sigstore overview]。
 
 npm provenance 和 PyPI attestations 把 Registry 发布、CI 身份、构件摘要和 attestation 材料连接到包发布流程中。它们增强可审计性，但不替代漏洞状态、代码审计和许可证判断。
 
