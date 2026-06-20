@@ -1,0 +1,72 @@
+= 附录 B：生态矩阵
+
+本附录横向比较主流生态的 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Compatibility 和 Security Surface。
+
+[cols="1,1,1,1,1,1,1", options="header"]
+|===
+|生态 |Manifest |Registry / Index |Resolver |Lock / Reproducibility |Artifact |Compatibility
+
+|JS/TS
+|`package.json`
+|npm registry、JSR
+|npm、pnpm、Yarn 等工具
+|`package-lock.json`、`pnpm-lock.yaml`、`yarn.lock`
+|tarball、JSR module files
+|engines、os/cpu、exports、peer dependencies
+
+|Rust
+|`Cargo.toml`
+|crates.io、Cargo registry index
+|Cargo resolver
+|`Cargo.lock`
+|`.crate`
+|target、features、rust-version
+
+|Python
+|`pyproject.toml`、Core Metadata
+|PyPI、Simple Repository API
+|pip、uv
+|`uv.lock`、requirements pins/hashes、pylock.toml
+|sdist、wheel
+|Requires-Python、wheel tag、ABI、platform
+
+|Go
+|`go.mod`
+|module proxy、checksum database、pkg.go.dev
+|Minimal Version Selection
+|`go.mod`、`go.sum`
+|module zip、source
+|module path、major suffix、build tags、toolchain
+
+|JVM/Kotlin
+|POM、Gradle Module Metadata
+|Maven Central、Gradle Plugin Portal
+|Maven mediation、Gradle variant-aware resolution
+|Gradle dependency locking、explicit versions
+|JAR、POM、metadata、sources、javadoc
+|bytecode、scope、attributes、KMP target
+
+|.NET
+|`.nuspec`、SDK project properties
+|NuGet.org、NuGet V3 API
+|NuGet dependency resolution
+|`packages.lock.json`
+|`.nupkg`
+|TFM、RID、asset selection
+
+|C/C++
+|`conanfile.py`、`vcpkg.json`
+|Conan remotes、vcpkg registries
+|Conan、vcpkg versioning
+|Conan lockfile、vcpkg baseline/overrides
+|source package、binary package、binary cache
+|ABI、compiler、runtime、settings/options、triplet
+
+|Swift
+|`Package.swift`
+|VCS、Swift Package Registry Service
+|SwiftPM
+|`Package.resolved`
+|source archive、library/executable product、binary target
+|platforms、tools version、products、targets
+|===

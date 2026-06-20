@@ -1,0 +1,9 @@
+== 前言
+
+现代软件开发依赖大量外部软件包。依赖引入不只是找到一个可安装名称；它要求消费者识别包身份、理解包功能、判断许可证、求解依赖图、校验构件、固定版本状态，并在后续维护中处理漏洞、弃用、迁移和来源证明。
+
+不同语言生态已经形成各自的 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Documentation 和 Security Metadata。本书把这些机制放在同一套对象模型下，给出面向包级判断和生态级判断的评价尺度。
+
+本书面对技术选型工程师、包作者、工具平台设计者和研究者。正文建立概念和关系；后置部分提供术语表、变量字典、生态矩阵和资料来源图。
+
+本书不把工具名称当作机制本身。npm、Cargo、PyPI、Maven Central、NuGet.org、ConanCenter、vcpkg registry、SwiftPM、deps.dev 和 Swift Package Index 都是对象模型中的实例或表面。它们的价值在于呈现不同生态如何处理身份、元数据、求解、构件、兼容性、安全和治理。

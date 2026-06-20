@@ -1,0 +1,46 @@
+== 变量组
+
+本书使用九组变量。变量组是评价维度下的组织方式，不是最终分数。
+
+[cols="1,2,2", options="header"]
+|===
+|变量组 |对象 |典型变量
+
+|身份变量
+|包如何被唯一定位和追溯。
+|ecosystem、registry、namespace、scope、groupId、package ID、module path、version、owner、publisher。
+
+|声明变量
+|Manifest 和作者声明提供什么机器可读事实。
+|description、keywords、license、dependencies、extras、features、targets、platforms、engines、repository URL。
+
+|解析变量
+|依赖图如何被求解。
+|version range、resolver family、conflict rule、MVS、backtracking、variant selection、target framework selection、lockfile presence。
+
+|构件变量
+|消费者实际获取或生成什么 Artifact。
+|tarball、wheel、crate、JAR、`.nupkg`、source zip、binary package、hash、signature、checksum、binary cache key。
+
+|兼容变量
+|包是否能在目标环境成立。
+|Python tag、ABI、platform、TFM、RID、triplet、settings/options、Swift platforms、KMP target、Go major suffix。
+
+|图谱变量
+|包在依赖网络中的位置。
+|direct dependencies、transitive dependencies、dependency depth、duplicate versions、reverse dependencies、source importers、important dependents。
+
+|维护变量
+|项目是否能响应环境变化。
+|last release age、release cadence、issue response、PR merge、maintainer count、bus factor、security policy。
+
+|安全变量
+|漏洞、发布身份、来源证明、完整性和治理状态。
+|known vulnerabilities、malware advisory、fixed version、trusted publishing、2FA policy、SLSA level、attestation、artifact integrity。
+
+|发现变量
+|消费者如何找到和理解候选包。
+|search fields、README、API docs、examples、type signatures、categories、downloads、stars、score badges、docs build status。
+|===
+
+变量组之间不能互相抵消。许可证禁止、平台不兼容、恶意包公告、组织策略禁止等硬约束，不应被下载量、Star、文档质量或反向依赖数量抵消。

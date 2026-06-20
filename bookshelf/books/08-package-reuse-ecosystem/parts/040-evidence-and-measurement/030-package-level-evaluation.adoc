@@ -1,0 +1,89 @@
+== 包级评价
+
+包级评价回答一个问题：某个候选包在给定查询和消费者上下文中是否适合引入。它不回答世界上哪个包绝对最好。
+
+包级评价函数可写作：
+
+[source,text]
+----
+Score_package(package, query, consumer_context) -> ranked suitability
+----
+
+`package` 是候选包。`query` 是消费者功能意图。`consumer_context` 包括语言、运行时、目标平台、许可证策略、安全阈值、生产或原型场景、组织规则、性能要求和维护约束。输出是可解释排序或适配度画像。
+
+包级评价至少包含三层。
+
+=== 硬约束
+
+硬约束决定候选包是否进入主排序。许可证禁止、目标平台不支持、被注册表或公告标记为恶意、组织策略禁止来源、目标运行时不兼容，都不能被下载量、Star 或文档质量抵消。
+
+[source,text]
+----
+Feasible(package, context)
+  = license_allowed
+  * platform_supported
+  * runtime_supported
+  * security_floor_passed
+  * registry_policy_allowed
+----
+
+这个表达式只说明硬约束的门控关系。它不要求所有实现都使用乘法；它要求不可抵消风险保持不可抵消。
+
+=== 相关性
+
+相关性衡量候选包是否回应查询意图。相关性绑定 query，不是包的全局质量。
+
+相关性证据可以来自 description、README、keywords、classifiers、API symbols、examples、documentation headings、package categories 和 ecosystem-specific tags。一个高质量 JSON parser 不应因为下载量高而出现在 OAuth client 查询前列。
+
+=== 质量与信任画像
+
+进入主排序后，包级评价可以组合文档、依赖图、维护、兼容、安全、采用度和可复现信号。
+
+[source,text]
+----
+Suitability(package, query, context)
+  = relevance(query, package)
+  + documentation_fit(package, context)
+  + dependency_health(package, context)
+  + compatibility_fit(package, context)
+  + maintenance_state(package, context)
+  + security_governance_state(package, context)
+  + adoption_signal(package, context)
+----
+
+这个表达式表示需要保留多个解释分量。具体实现可以使用加权、门控、分段函数或规则系统，但输出必须说明排序原因。
+
+[cols="1,2,2", options="header"]
+|===
+|分量 |回答的问题 |不能推出
+
+|相关性
+|包是否回应当前查询意图。
+|包适合所有场景。
+
+|文档/API
+|消费者能否理解包的公共表面。
+|代码无漏洞。
+
+|依赖图
+|依赖重量、深度和风险面如何。
+|功能更好。
+
+|兼容性
+|包是否适合目标运行环境。
+|许可证可用。
+
+|维护状态
+|包是否仍能响应环境变化。
+|当前版本无漏洞。
+
+|安全治理
+|漏洞、发布身份、完整性和治理状态是否可观察。
+|包一定无恶意。
+
+|采用信号
+|生态中是否有使用和经验反馈。
+|生产可信。
+|===
+
+包级评价的输出应是可解释排序。消费者需要知道候选包为什么进入或退出结果，而不是只看到一个无来源总分。

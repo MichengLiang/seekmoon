@@ -1,0 +1,27 @@
+== 可比性边界
+
+跨生态比较的目标是发现共同结构和差异边界，不是把所有字段压成同一个物理量。
+
+=== 兼容性边界
+
+Compatibility 是共同维度，但各生态指标不同。Python 的 compatibility 关心 `Requires-Python`、wheel tag、ABI 和 platform；.NET 关心 TFM、RID 和 package assets；C/C++ 关心 ABI、compiler、runtime、settings、options 和 triplet；Swift 关心 platforms、tools version、products、targets 和 binary checksum；JVM/Kotlin 关心 bytecode、scope、Gradle attributes 和 KMP target；Go 关心 module path、major suffix、toolchain 和 source build constraints。
+
+这些指标都服务“目标环境可成立”这一判断，但不能合并为同一测量口径。
+
+=== 反向依赖边界
+
+Reverse dependency 的来源不同。GitHub dependents 覆盖 GitHub 可见仓库；MvnRepository Used By 覆盖 Maven artifact 层观察；pkg.go.dev imported-by 观察 Go package import；Libraries.io dependent repositories 来自聚合器抓取；crates.io reverse dependencies 是 crates.io 生态内信号。
+
+统一模型可以保留 `reverse_signal_type` 和 `coverage_scope`，不能只保存 `dependency_count`。
+
+=== 许可证边界
+
+许可证字段至少有四类来源：registry_declared、repository_detected、aggregator_normalized、compliance_override。它们可能冲突。合规判断应保留冲突，不应自动采用第三方归一化值。
+
+=== 安全边界
+
+安全分量不能互相抵消。provenance 不抵消 malware advisory；Scorecard 高分不抵消当前版本 critical vulnerability；没有公告不等于没有漏洞；2FA 不说明构建输入可审计。
+
+=== 采用度边界
+
+下载量、Star、fork、issue、dependent count 和企业案例都是采用或注意力信号。它们不直接证明功能适配、安全或维护可靠。采用度可以提升复核优先级，不能替代硬约束。

@@ -1,0 +1,55 @@
+= 参考文献
+
+* [[[npm-package-json]]] npm Docs, package.json, https://docs.npmjs.com/cli/v10/configuring-npm/package-json/
+* [[[npm-package-lock]]] npm Docs, package-lock.json, https://docs.npmjs.com/cli/v10/configuring-npm/package-lock-json/
+* [[[npm-provenance]]] npm Docs, Generating provenance statements, https://docs.npmjs.com/generating-provenance-statements/
+* [[[npm-trusted-publishing]]] npm Docs, Trusted publishing, https://docs.npmjs.com/trusted-publishers/
+* [[[jsr-docs]]] JSR Docs, https://jsr.io/docs
+* [[[jsr-scoring]]] JSR Docs, Package scoring, https://jsr.io/docs/scoring
+* [[[pnpm-store]]] pnpm Docs, Symlinked node_modules structure, https://pnpm.io/symlinked-node-modules-structure
+* [[[yarn-pnp]]] Yarn Docs, Plug'n'Play, https://yarnpkg.com/features/pnp
+* [[[cargo-manifest]]] Cargo Book, Manifest Format, https://doc.rust-lang.org/cargo/reference/manifest.html
+* [[[cargo-resolver]]] Cargo Book, Dependency Resolution, https://doc.rust-lang.org/cargo/reference/resolver.html
+* [[[cargo-registries]]] Cargo Book, Registries, https://doc.rust-lang.org/cargo/reference/registries.html
+* [[[cargo-index]]] Cargo Book, Registry Index, https://doc.rust-lang.org/cargo/reference/registry-index.html
+* [[[docs-rs-about]]] docs.rs, About, https://docs.rs/about
+* [[[pypa-pyproject]]] Python Packaging User Guide, pyproject.toml specification, https://packaging.python.org/en/latest/specifications/pyproject-toml/
+* [[[pypa-core-metadata]]] Python Packaging User Guide, Core Metadata, https://packaging.python.org/specifications/core-metadata/
+* [[[pypa-simple-api]]] Python Packaging User Guide, Simple Repository API, https://packaging.python.org/en/latest/specifications/simple-repository-api/
+* [[[pypa-wheel]]] Python Packaging User Guide, Binary distribution format, https://packaging.python.org/en/latest/specifications/binary-distribution-format/
+* [[[uv-resolution]]] uv Docs, Resolution, https://docs.astral.sh/uv/concepts/resolution/
+* [[[pypi-trusted-publishing]]] PyPI Docs, Trusted Publishers, https://docs.pypi.org/trusted-publishers/
+* [[[go-mod-ref]]] Go Modules Reference, https://go.dev/ref/mod
+* [[[go-vuln]]] Go Docs, Vulnerability management, https://go.dev/doc/security/vuln/
+* [[[pkg-go-dev-about]]] pkg.go.dev About, https://pkg.go.dev/about
+* [[[maven-pom]]] Apache Maven, POM Reference, https://maven.apache.org/pom.html
+* [[[maven-dependency]]] Apache Maven, Dependency Mechanism, https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html
+* [[[maven-central-upload]]] Apache Maven, Central Repository Upload Guide, https://maven.apache.org/repository/guide-central-repository-upload.html
+* [[[gradle-metadata]]] Gradle Docs, Publishing Gradle Module Metadata, https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html
+* [[[gradle-variant-resolution]]] Gradle Docs, Variant-Aware Resolution, https://docs.gradle.org/current/userguide/variant_aware_resolution.html
+* [[[kotlin-mpp-publish]]] Kotlin Docs, Multiplatform library publishing setup, https://kotlinlang.org/docs/multiplatform/multiplatform-publish-lib-setup.html
+* [[[nuget-overview]]] Microsoft Learn, What is NuGet?, https://learn.microsoft.com/en-us/nuget/what-is-nuget
+* [[[nuget-nuspec]]] Microsoft Learn, .nuspec reference, https://learn.microsoft.com/en-us/nuget/reference/nuspec
+* [[[nuget-package-reference]]] Microsoft Learn, PackageReference in project files, https://learn.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files
+* [[[nuget-resolution]]] Microsoft Learn, Dependency resolution, https://learn.microsoft.com/en-us/nuget/concepts/dependency-resolution
+* [[[nuget-tfm]]] Microsoft Learn, Target frameworks, https://learn.microsoft.com/en-us/nuget/reference/target-frameworks
+* [[[nuget-audit]]] Microsoft Learn, Auditing packages, https://learn.microsoft.com/en-us/nuget/concepts/auditing-packages
+* [[[conan-binary-model]]] Conan 2 Docs, Binary model, https://docs.conan.io/2/reference/binary_model.html
+* [[[conanfile-attributes]]] Conan 2 Docs, conanfile attributes, https://docs.conan.io/2/reference/conanfile/attributes.html
+* [[[conan-lockfiles]]] Conan 2 Docs, Lockfiles, https://docs.conan.io/2/tutorial/versioning/lockfiles.html
+* [[[vcpkg-manifest]]] Microsoft Learn, vcpkg manifest mode, https://learn.microsoft.com/en-us/vcpkg/concepts/manifest-mode
+* [[[vcpkg-json]]] Microsoft Learn, vcpkg.json reference, https://learn.microsoft.com/en-us/vcpkg/reference/vcpkg-json
+* [[[vcpkg-triplets]]] Microsoft Learn, Triplets, https://learn.microsoft.com/en-us/vcpkg/concepts/triplets
+* [[[swift-package-description]]] Swift Docs, PackageDescription, https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html
+* [[[swift-registry-se0292]]] Swift Evolution, SE-0292 Package Registry Service, https://github.com/swiftlang/swift-evolution/blob/main/proposals/0292-package-registry-service.md
+* [[[swift-package-index-faq]]] Swift Package Index FAQ, https://swiftpackageindex.com/faq
+* [[[osv-schema]]] OSV Schema, https://ossf.github.io/osv-schema/
+* [[[github-advisory-db]]] GitHub Docs, GitHub Advisory Database, https://docs.github.com/en/code-security/concepts/vulnerability-reporting-and-management/github-advisory-database
+* [[[scorecard-checks]]] OpenSSF Scorecard checks, https://github.com/ossf/scorecard/blob/main/docs/checks.md
+* [[[slsa-spec]]] SLSA v1.2 specification, https://slsa.dev/spec/v1.2/
+* [[[sigstore-overview]]] Sigstore Docs, Keyless signing overview, https://docs.sigstore.dev/cosign/signing/overview/
+* [[[deps-dev-docs]]] deps.dev Docs, https://docs.deps.dev/
+* [[[libraries-io-api]]] Libraries.io API, https://libraries.io/api
+* [[[libraries-io-data]]] Libraries.io Data, https://libraries.io/data
+* [[[ecosystems-packages]]] ecosyste.ms packages, https://github.com/ecosyste-ms/packages
+* [[[github-dependency-graph]]] GitHub Docs, Dependency graph, https://docs.github.com/en/code-security/concepts/supply-chain-security/dependency-graph

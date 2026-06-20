@@ -1,0 +1,1 @@
+本部用同一对象模型对照主流语言生态。生态章节不是排行榜，而是事实表和边界说明。每章都区分 Manifest、Registry / Index、Discovery Surface、Resolver、Lockfile / Reproducibility、Artifact / Compatibility、Security / Governance 和不可直接比较的字段。

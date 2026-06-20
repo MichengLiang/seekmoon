@@ -1,0 +1,5 @@
+= 索引
+
+本索引由正文索引词提供入口。
+
+正文应优先使用可见索引词标记核心术语，例如 `indexterm2:[Package]`、`indexterm2:[Manifest]`、`indexterm2:[Resolver]` 和 `indexterm2:[Provenance]`。隐藏索引词只贴近相关段落使用。

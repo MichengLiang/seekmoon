@@ -1,0 +1,19 @@
+== 生态反馈回路
+
+包复用生态不是单向管道。消费者项目可以成为新的作者项目；一次依赖引入可以产生下载、反向依赖、漏洞报告、文档反馈、issue、patch、deprecation、fork、替代包和安全公告。这些反馈会回流到 Indexing、Discovery、Assessment 和 Maintenance。
+
+反馈至少有五类。
+
+**使用反馈**包括下载量、被依赖数量、source importers、dependent repositories 和重要项目采用。它说明包进入了哪些依赖图，但不直接证明质量或安全。
+
+**维护反馈**包括 release cadence、issue response、PR merge、maintainer count、bus factor、security policy 和 archived/deprecated 状态。它说明项目是否仍能响应环境变化。
+
+**安全反馈**包括 CVE、GHSA、OSV、RustSec、Go vulnerability database、NuGet audit、npm audit 和 malware advisory。它说明某些版本范围、提交范围或包状态被公告覆盖。
+
+**治理反馈**包括 yanking、retraction、deprecation、unpublish、name transfer、owner change、trusted publishing 配置和 token policy。它说明注册表或维护者如何改变包的公共状态和消费者默认选择。
+
+**文档与兼容反馈**包括 docs build status、platform build matrix、target framework coverage、wheel availability、binary cache availability、API diff 和 deprecation annotation。它说明包是否仍能被理解、构建和使用。
+
+反馈必须保留来源和口径。GitHub dependents、MvnRepository Used By、pkg.go.dev imported-by、Libraries.io dependent repositories 和 crates.io reverse dependencies 不共享同一覆盖范围。把它们合并为无来源的 dependency_count 会破坏评价函数。
+
+生态反馈的作用不是给包贴一个永久标签。它给 Discovery 和 Maintenance 提供新的证据，使消费者可以重新判断候选包、当前依赖和替代路径。

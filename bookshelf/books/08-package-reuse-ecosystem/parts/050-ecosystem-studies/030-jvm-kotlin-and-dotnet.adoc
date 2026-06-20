@@ -1,0 +1,56 @@
+== JVM/Kotlin 与 .NET
+
+JVM/Kotlin 与 .NET 都面向成熟构件生态和企业工具链，但它们使用不同身份结构、解析规则和兼容性模型。JVM/Kotlin 以 Maven coordinates、POM、Gradle variants 和 Kotlin targets 为核心；.NET 以 NuGet package ID、`.nuspec`、PackageReference 和 target framework 为核心。
+
+=== JVM/Kotlin
+
+JVM 包身份通常由 Maven coordinates 表达：groupId、artifactId、version。POM 是 Maven 的 Project Object Model，既保存构建配置，也保存消费者解析传递依赖所需 metadata。Maven repository layout 把 groupId、artifactId 和 version 投影为仓库路径。
+
+Maven 的 Resolution 处理 transitive dependencies、scope、dependencyManagement、exclusion、optional 和 nearest definition。Gradle 在 Maven/Ivy metadata 之外引入 configuration、attributes、capabilities、variants 和 Gradle Module Metadata。Gradle variant-aware resolution 使同一 component 可以按 usage、category、library elements、JVM version、Kotlin platform type 等属性提供不同 variants。
+
+Kotlin Multiplatform 把 variant 问题推到核心位置。同一 library 可能发布 JVM、JS、Native、Android、metadata publication 和 target publication。消费者在 commonMain、jvmMain、iosArm64Main 等源集中的请求不同；单一 Maven POM 难以充分表达这些 target-aware 关系。
+
+JVM/Kotlin 可进入统一模型的变量包括 groupId、artifactId、version、type、classifier、POM dependencies、scope、dependencyManagement、Gradle attributes、capabilities、variants、Kotlin target、bytecode level、plugin portal id、Maven Central namespace 和 signing state。
+
+不可直接比较的字段包括 MvnRepository Used By、Gradle variant attributes、KMP target layout、Maven Central 搜索信号、IDE dependency analyzer 输出。artifactId 不能脱离 groupId 当作全局包名。
+
+=== .NET
+
+.NET 的中心包生态是 NuGet。NuGet package 由 package ID 和 exact version 指称具体包；`.nupkg` 是 ZIP 格式构件，包含代码、资源和 `.nuspec` manifest。SDK-style 项目也可以通过 MSBuild project properties 生成 NuGet metadata。
+
+PackageReference 把 NuGet 依赖直接写入项目文件。NuGet restore 根据 package sources、项目 target framework、dependency groups、version ranges、floating versions 和 lock file 求解 dependency graph。`packages.lock.json` 记录 exact packages 和 content hash；locked mode 使 restore 在锁文件不匹配时失败。
+
+.NET 的兼容性核心变量是 target framework。一个 NuGet package 是否兼容当前项目，取决于包内 lib/ref/runtimes assets、dependency groups、TFM 和 RID 等规则。NuGet audit 在 restore 阶段暴露漏洞信息，使安全判断进入包管理链路。
+
+.NET 可进入统一模型的变量包括 package ID、version、owners、verified prefix、`.nuspec` metadata、PackageReference、dependency groups、TFM、RID、contentHash、packages.lock.json、vulnerability info、deprecation state、license expression 和 repository metadata。
+
+不可直接比较的字段包括 NuGet downloads、Visual Studio package manager 展示、TFM compatibility、verified owner 和 NuGet audit severity。TFM 是 .NET 生态内的兼容性对象，不能直接等同于 Python wheel tag 或 C++ triplet。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |JVM/Kotlin |.NET
+
+|身份
+|groupId、artifactId、version
+|package ID、version
+
+|Manifest
+|POM、Gradle Module Metadata
+|`.nuspec`、SDK project package properties
+
+|Resolver
+|Maven mediation、Gradle conflict and variant resolution
+|NuGet dependency resolution
+
+|Compatibility
+|bytecode、scope、Gradle attributes、KMP target
+|TFM、RID、asset selection
+
+|Lock / Reproducibility
+|Gradle dependency locking、Maven explicit versions and reproducible build settings
+|`packages.lock.json`、contentHash、locked mode
+
+|Security
+|Maven Central signatures、SCA/IDE surfaces、Gradle verification
+|NuGet audit、vulnerability info API
+|===

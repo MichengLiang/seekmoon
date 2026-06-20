@@ -1,0 +1,47 @@
+== Resolution、Realization 与 Maintenance
+
+Assessment 形成引入判断后，包复用进入工程执行阶段。Resolution、Realization 和 Maintenance 决定依赖是否能在消费者项目中稳定成立。
+
+=== Resolution
+
+Resolution 是 Package Manager 根据消费者项目声明、目标平台、版本约束、feature、extras、target framework、lockfile 和 Registry metadata 求出一致依赖图的阶段。输入是 Manifest、既有 Lockfile、目标环境、索引数据和命令参数。输出是一组具体包版本、变体和依赖边。
+
+Resolution 的核心是约束求解。npm、Cargo、pip、uv、Maven、Gradle、NuGet、Conan、vcpkg、SwiftPM 和 Go modules 使用不同规则；模型必须记录 resolver family 和 conflict rule。不同 resolver 可能对同一依赖图选择不同版本。
+
+Resolution 阶段的失败包括版本冲突、平台不匹配、variant 无匹配、peer dependency 不满足、target framework 不兼容、source replacement 不合法、lockfile 与 manifest 不同步。
+
+=== Realization
+
+Realization 是依赖解变成本地实际构件的阶段。输入是 Resolution 输出、Artifact 来源、checksum、cache/store、构建工具、目标平台和文件系统。输出是项目可使用的依赖构件、本地安装状态、构建产物或 loader，并可能更新 Lockfile。
+
+Realization 处理下载、校验、解包、缓存、构建、链接、安装和记录。这个阶段会暴露 Artifact 层风险：tarball integrity mismatch、wheel 不兼容、native build 失败、JAR 或 `.nupkg` 下载失败、Conan binary 不存在、vcpkg binary cache 未命中、Swift binary target checksum 不匹配。
+
+Realization 阶段的失败说明求解结果不能在目标环境中落地。它不必然否定 Discovery 和 Assessment 的判断，但会产生新的事实，要求回到约束、平台或构件层重新判断。
+
+=== Maintenance
+
+Maintenance 是依赖进入项目后的持续处理阶段。输入是当前依赖图、Lockfile、漏洞公告、deprecation/yank/retract/unpublish 状态、许可证变化、版本发布、组织策略和运行反馈。输出是升级、保留、替换、移除、补丁、审计记录或迁移计划。
+
+Maintenance 使包复用成为长期关系。漏洞公告需要映射到具体版本范围；许可证变化需要判断适用 release；deprecation 和 yanking 改变消费者默认选择；新版本发布可能改变依赖图；Lockfile 刷新会改变构件和审计基线。
+
+Maintenance 阶段的失败包括漏洞长期未处理、锁文件漂移、替代包判断缺少证据、弃用状态被忽略、许可证冲突进入发布产物、发布来源证明缺失导致审计失败。
+
+[cols="1,2,2,2", options="header"]
+|===
+|阶段 |输入 |输出 |主要失败影响
+
+|Resolution
+|Manifest、Lockfile、目标环境、索引数据、版本约束。
+|一致依赖图、具体版本和变体选择。
+|冲突、无解、不兼容、lock 与 manifest 不同步。
+
+|Realization
+|依赖解、Artifact、checksum、cache、构建工具。
+|本地可使用构件、安装状态、构建产物。
+|下载、校验、构建、链接或安装失败。
+
+|Maintenance
+|依赖图、Lockfile、安全公告、弃用状态、版本变化。
+|升级、替换、保留、审计或迁移判断。
+|风险积累、合规失败、不可复现状态。
+|===

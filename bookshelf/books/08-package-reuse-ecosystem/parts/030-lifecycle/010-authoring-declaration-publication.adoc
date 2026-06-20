@@ -1,0 +1,47 @@
+== Authoring、Declaration 与 Publication
+
+包复用生命周期从作者构造开始。源码、测试、文档、示例、构建脚本和许可证材料形成潜在复用对象；它们还没有自动成为生态中的 Package。
+
+=== Authoring
+
+Authoring 是作者构造源码项目的阶段。输入是问题、设计、源码、测试、文档和构建脚本。输出是可以被声明和发布的项目材料。
+
+Authoring 阶段产生结构性证据。API、类型签名、导出符号、文档注释、测试布局、示例和弃用标记都来自这个阶段。它们可以被 docs.rs、pkg.go.dev、FuGet、Swift Package Index 或其他文档表面提取。
+
+Authoring 阶段的失败会进入后续阶段。源码结构混乱、公共 API 不稳定、测试缺失、许可证材料不清楚、构建脚本依赖隐含环境，都会降低后续声明、索引、发现、求解和维护的可靠性。
+
+=== Declaration
+
+Declaration 是项目通过 Manifest 声明身份、版本、依赖、许可证、平台、入口、构建后端、特性开关或目标环境的阶段。输入是 Authoring 阶段形成的项目材料。输出是机器可读取的声明表面。
+
+Manifest 是 Declaration 阶段的核心对象。`package.json`、`Cargo.toml`、`pyproject.toml`、`go.mod`、`pom.xml`、`.nuspec`、`Package.swift`、`conanfile.py` 和 `vcpkg.json` 都把项目投影为生态可处理对象。
+
+Declaration 阶段的失败会破坏后续机制。包名不稳定会破坏发现和依赖声明；依赖声明不完整会破坏 resolver；许可证缺失会破坏合规判断；平台约束不清楚会破坏兼容性判断；构建后端不明确会破坏 realization。
+
+=== Publication
+
+Publication 是作者把源码包、二进制构件或索引记录发布到 Registry、Repository 或 VCS-backed index 的阶段。输入是 Manifest、Artifact、源码仓库、发布身份和注册表规则。输出是可被消费者或工具链获取的版本状态。
+
+Publication 阶段建立包的公共可见性和可获取性。npm registry、crates.io、PyPI、Maven Central、NuGet.org、ConanCenter、vcpkg registry 和 Swift Package Registry Service 都承担发布或分发职责。Go 的发布路径通过 module path、VCS tag、module proxy 和 checksum database 共同形成。
+
+Publication 阶段的失败包括错误版本、错误构件、错误许可证、错误依赖、错误发布身份和不可撤回的不良 release。发布后状态会被后续 Indexing、Discovery、Resolution 和 Maintenance 使用，因此发布不是单纯上传文件。
+
+[cols="1,2,2,2", options="header"]
+|===
+|阶段 |输入 |输出 |主要失败影响
+
+|Authoring
+|源码、测试、文档、构建脚本。
+|可被声明和发布的项目材料。
+|公共 API、构建和许可证状态不稳定。
+
+|Declaration
+|项目材料和 Manifest 规则。
+|机器可读取的身份、依赖、平台和构建约束。
+|索引、求解、合规和兼容判断失真。
+
+|Publication
+|Manifest、Artifact、发布身份、注册表规则。
+|可获取的包版本或发布记录。
+|错误 release 进入公共依赖图和维护流程。
+|===

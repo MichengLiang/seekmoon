@@ -1,0 +1,32 @@
+== 本书研究什么
+
+软件包复用生态把作者发布的软件构件转化为消费者可依赖的工程对象。这个转化过程需要身份、声明、发布、索引、发现、评估、求解、获取、校验、锁定、维护和治理共同成立。
+
+本书研究这个转化过程中的两个核心机制：Package Discovery 和 Package Management。
+
+Package Discovery 是消费者在引入依赖之前识别候选包、理解候选包、比较候选包并形成引入判断的机制。搜索只是 Discovery 的入口之一。分类浏览、标签、相似包、文档阅读、API 检查、依赖图观察、安全状态、维护状态、生态采用度和社区策展都属于 Discovery 的可见表面。
+
+Package Management 是消费者项目声明、解析、获取、校验、安装、构建、锁定、升级、审计和移除依赖的机制。Package Manager 是这个机制的工具投影。npm、pnpm、Yarn、Cargo、pip、uv、Maven、Gradle、NuGet、Conan、vcpkg 和 SwiftPM 是工具实例，不是 Management 机制本身。
+
+Discovery 和 Management 共享同一条包复用生命周期，但二者承担不同责任。Discovery 处理引入前的判断；Management 处理引入后的工程成立。
+
+本书不比较哪个工具“最好”。本书建立一套对象模型和评价尺度，用于说明不同语言生态如何让包成为可发现、可比较、可求解、可获取、可复现、可审计、可维护的依赖对象。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |处理的问题 |典型投影
+
+|Package Discovery
+|消费者如何识别、理解、比较候选包并形成引入判断。
+|搜索页、分类页、文档站、API 浏览器、依赖图、质量信号、安全提示。
+
+|Package Management
+|消费者项目如何声明、求解、获取、校验、安装、构建、锁定、升级和审计依赖。
+|CLI、构建工具、resolver、lockfile、cache、audit report、install tree。
+
+|Registry / Index
+|包身份、版本、元数据、构件和解析数据如何进入公共或组织内部可见空间。
+|npm registry、crates.io、PyPI、Maven Central、NuGet.org、Go module proxy、Conan remotes、vcpkg registries。
+|===
+
+本书正文只使用公开资料和公开规范支撑事实判断。聊天记录、内部调查过程和写作过程不作为正文证据。

@@ -1,0 +1,69 @@
+== 跨生态数据表面
+
+跨生态数据表面聚合多个生态的包元数据、依赖图、许可证、安全公告、仓库信号和文档入口。它们能提高发现和比较能力，但不能替代各生态的发布事实源。
+
+=== 官方事实源与第三方聚合面
+
+官方事实源包括 npm registry、crates.io、PyPI、Go module proxy/checksum/pkg.go.dev、Maven Central、NuGet.org、ConanCenter、vcpkg registries 和 Swift Package Registry Service。它们保存或发布包身份、版本、构件、metadata、解析所需索引或官方文档投影。
+
+第三方或增强发现面包括 deps.dev、Libraries.io、ecosyste.ms、lib.rs、Swift Package Index、MvnRepository 和 FuGet。它们提供搜索、分类、依赖图、反向依赖、许可证、安全公告、维护信号、API 检视和兼容性矩阵，但其字段需要保留来源和覆盖范围。
+
+=== 典型数据表面
+
+deps.dev / Open Source Insights 提供跨 npm、Maven、PyPI、Cargo、NuGet、Go、RubyGems 等生态的包、版本、依赖图、许可证、项目映射和 OSV advisory 数据。它适合作为图谱和 advisory 聚合层，不是各注册表的写入事实源。
+
+Libraries.io 覆盖多个 package manager 和源码仓库，提供 package metadata、dependencies、dependents、dependent repositories、contributors、SourceRank、stars 和 forks 等字段。其公开说明标注数据来自互联网抓取且不保证准确，因此应作为发现提示和人工复核入口。
+
+ecosyste.ms 提供 packages、resolve、archives、licenses、repos、advisories、SBOM 等开放 API 族。它适合作为开放数据基础设施，但每个端点的字段和覆盖范围需要单独审查。
+
+Swift Package Index、lib.rs、MvnRepository 和 FuGet 是单生态增强面。SPI 提供 Swift 构建矩阵和 DocC 文档；lib.rs 增强 Rust 包发现；MvnRepository 聚合 Maven 坐标、版本、依赖片段和漏洞提示；FuGet 解析 NuGet 包内 XML docs 和程序集 metadata，提供 API 浏览。
+
+pkg.go.dev 是 Go 官方包发现和文档表面。它不是第三方聚合器，但它与传统上传式 registry 不同；它从 module proxy、source 和 Go documentation pipeline 生成模块、包、符号、版本、imported-by 和漏洞投影。
+
+GitHub Dependency Graph 是仓库视角的依赖图和 SBOM 表面。它从 manifest、lockfile 和 Dependency Submission API 构造图，显示依赖、dependents、许可证和已知漏洞。它不是各 package registry 的全量反向依赖事实源。
+
+=== 字段可靠性边界
+
+跨生态字段必须保留 `source` 和 `coverage_scope`。反向依赖尤其需要来源：GitHub dependents 是 GitHub 可见公共仓库引用；MvnRepository Used By 是 Maven artifact 层观察；pkg.go.dev imported-by 是 Go package import 层；Libraries.io dependent repositories 是聚合器观察结果；deps.dev dependency graph 是解析和聚合结果。
+
+许可证字段也需要来源。registry_declared、repository_detected、aggregator_normalized 和 advisory_or_compliance_override 可能冲突。合规判断不能自动采用第三方归一化值；冲突应显式标记。
+
+[cols="1,2,2,2", options="header"]
+|===
+|表面 |层级 |主要能力 |边界
+
+|deps.dev
+|第三方聚合与图谱
+|跨生态 package、version、dependencies、licenses、advisories。
+|不是注册表写入事实源。
+
+|Libraries.io
+|第三方聚合
+|搜索、依赖、反向依赖、SourceRank、仓库信号。
+|数据未验证，适合提示。
+
+|ecosyste.ms
+|开放 API 套件
+|packages、resolve、archives、licenses、SBOM、repos。
+|端点能力需逐项验证。
+
+|Swift Package Index
+|单生态发现增强
+|Swift 搜索、构建矩阵、DocC 文档。
+|不是 SwiftPM resolver。
+
+|MvnRepository
+|单生态第三方发现
+|坐标、版本、依赖片段、Used By、漏洞提示。
+|不是 Maven Central 官方事实源。
+
+|FuGet
+|单生态 API 浏览
+|NuGet package 和 API surface 浏览。
+|不是 NuGet.org 发布事实源。
+
+|GitHub Dependency Graph
+|仓库图谱
+|manifest/lockfile dependency graph、SBOM、alerts。
+|覆盖 GitHub 可见仓库语境。
+|===

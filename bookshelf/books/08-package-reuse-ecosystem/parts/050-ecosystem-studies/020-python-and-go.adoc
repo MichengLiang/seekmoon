@@ -1,0 +1,56 @@
+== Python 与 Go
+
+Python 和 Go 展示两种差异很大的复用模型。Python 围绕 distribution package、wheel、metadata、index 和 resolver 工作；Go 围绕 module path、VCS、module proxy、checksum database 和 Minimal Version Selection 工作。
+
+=== Python
+
+Python 的复用对象是 distribution package，不等于 import package。`pyproject.toml` 的 `[build-system]` 和 `[project]` 声明构建后端、name、version、description、readme、requires-python、dependencies、optional-dependencies、classifiers、keywords、URLs 和 license 等字段。构建后形成 sdist 或 wheel，并上传到 PyPI 或兼容 Simple Repository API 的索引。
+
+Python 的 Index 需要处理文件级事实。Simple Repository API 暴露 project files、download URLs、hashes、requires-python、yanked state、metadata availability、upload time、size 和 provenance links。Wheel tag 表达 Python implementation、ABI 和 platform 兼容性。同一 package release 可以有多个 wheel 服务不同环境。
+
+pip resolver 面对版本约束、environment marker、extras、Requires-Python、多索引和平台特定 wheel。uv 提供 universal resolution 和 `uv.lock`，可以在同一 lock 中记录跨平台或跨 Python 版本的不同选择。Python 的可复现性可以由 pinned requirements、hash-checking、lockfile 和 index hash 共同支撑。
+
+Python 可进入统一模型的变量包括 normalized project name、distribution/import mapping、Requires-Python、Requires-Dist、extras、wheel tags、sdist availability、hashes、yanked state、trusted publishing、attestations、known vulnerabilities、index priority 和 dependency confusion 风险。
+
+不可直接比较的字段包括 PyPI classifiers、wheel coverage、download counts、import name 与 distribution name 差异、动态 metadata 和多索引策略。Python 的 compatibility 不能与 Go module compatibility 合并为同一个指标。
+
+=== Go
+
+Go 的复用对象是 module 与 package path。`go.mod` 声明 module path、go version、require、replace、exclude 和 retract。开发者 import package path；Go toolchain 根据 module path、版本和 proxy/VCS 找到模块版本。
+
+Go 使用 Minimal Version Selection。`require` 声明最低所需版本，MVS 计算 build list。Go 不把 build list 保存为传统 lockfile；`go.mod` 与 `go.sum` 共同支撑可重复构建。`go.sum` 记录模块内容 hash，checksum database 提供公开模块版本的全局可验证来源。
+
+Go 的 Discovery Surface 主要来自 pkg.go.dev。它从 module proxy 和源码生成文档、符号、版本、packages、imported-by 和 vulnerability 投影。Go 的描述性 Manifest 字段少，因为 module path、源码文档、semantic import versioning、checksum database 和 pkg.go.dev 共同承担身份、获取、兼容和发现职责。
+
+Go 可进入统一模型的变量包括 module path、package path、go directive、require graph、direct/indirect dependency、replace/exclude/retract、major version suffix、go.sum entries、checksum database verification、pkg.go.dev documentation、imported-by 和 Go vulnerability data。
+
+不可直接比较的字段包括 pkg.go.dev imported-by、module path 稳定性、MVS build list、checksum database 状态和源码注释质量。Go 缺少传统 classifiers 不应被直接解释为发现能力缺失。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |Python |Go
+
+|身份
+|规范化 project name；distribution package
+|module path；package path
+
+|Manifest
+|`pyproject.toml`、Core Metadata
+|`go.mod`
+
+|Resolver
+|pip backtracking、uv universal resolution
+|Minimal Version Selection
+
+|Reproducibility
+|lockfile、pinned requirements、hash-checking
+|`go.mod`、`go.sum`、checksum database
+
+|Compatibility
+|wheel tag、ABI、platform、Requires-Python
+|module major suffix、source compatibility、toolchain
+
+|Discovery
+|PyPI、README、classifiers、third-party indexes
+|pkg.go.dev、module path、source docs
+|===

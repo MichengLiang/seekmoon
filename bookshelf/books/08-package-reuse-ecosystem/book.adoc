@@ -1,0 +1,134 @@
+= 包复用生态：发现、管理与评价尺度
+作者 <author@example.com>
+v0.1, 2026-06
+:doctype: book
+:toc: left
+:toclevels: 3
+:sectnums:
+:partnums:
+:part-signifier: Part
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+
+include::../../shared/attributes.adoc[]
+
+[abstract]
+include::frontmatter/abstract.adoc[]
+
+[colophon]
+include::frontmatter/colophon.adoc[]
+
+[preface]
+include::frontmatter/preface.adoc[]
+
+= 进入包复用生态
+
+[partintro]
+include::parts/010-orientation/_partintro.adoc[]
+
+include::parts/010-orientation/010-what-this-book-studies.adoc[]
+
+include::parts/010-orientation/020-reader-paths.adoc[]
+
+include::parts/010-orientation/030-basic-thesis.adoc[]
+
+= 对象模型
+
+[partintro]
+include::parts/020-object-model/_partintro.adoc[]
+
+include::parts/020-object-model/010-package-and-artifact.adoc[]
+
+include::parts/020-object-model/020-manifest-registry-index.adoc[]
+
+include::parts/020-object-model/030-resolver-lockfile-realization.adoc[]
+
+include::parts/020-object-model/040-provenance-and-attestation.adoc[]
+
+= 生命周期
+
+[partintro]
+include::parts/030-lifecycle/_partintro.adoc[]
+
+include::parts/030-lifecycle/010-authoring-declaration-publication.adoc[]
+
+include::parts/030-lifecycle/020-indexing-discovery-assessment.adoc[]
+
+include::parts/030-lifecycle/030-resolution-realization-maintenance.adoc[]
+
+include::parts/030-lifecycle/040-feedback-loop.adoc[]
+
+= 证据与度量
+
+[partintro]
+include::parts/040-evidence-and-measurement/_partintro.adoc[]
+
+include::parts/040-evidence-and-measurement/010-evidence-sources.adoc[]
+
+include::parts/040-evidence-and-measurement/020-dimensions-variables-metrics.adoc[]
+
+include::parts/040-evidence-and-measurement/030-package-level-evaluation.adoc[]
+
+include::parts/040-evidence-and-measurement/040-ecosystem-level-evaluation.adoc[]
+
+= 主流生态对照
+
+[partintro]
+include::parts/050-ecosystem-studies/_partintro.adoc[]
+
+include::parts/050-ecosystem-studies/010-js-ts-and-rust.adoc[]
+
+include::parts/050-ecosystem-studies/020-python-and-go.adoc[]
+
+include::parts/050-ecosystem-studies/030-jvm-kotlin-and-dotnet.adoc[]
+
+include::parts/050-ecosystem-studies/040-cpp-and-swift.adoc[]
+
+include::parts/050-ecosystem-studies/050-cross-ecosystem-data-surfaces.adoc[]
+
+= 安全与治理
+
+[partintro]
+include::parts/060-security-and-governance/_partintro.adoc[]
+
+include::parts/060-security-and-governance/010-vulnerability-status.adoc[]
+
+include::parts/060-security-and-governance/020-publisher-identity.adoc[]
+
+include::parts/060-security-and-governance/030-build-provenance-and-artifact-integrity.adoc[]
+
+include::parts/060-security-and-governance/040-registry-governance.adoc[]
+
+= 评价尺度
+
+[partintro]
+include::parts/070-evaluation-scale/_partintro.adoc[]
+
+include::parts/070-evaluation-scale/010-variable-groups.adoc[]
+
+include::parts/070-evaluation-scale/020-scope-and-normalization.adoc[]
+
+include::parts/070-evaluation-scale/030-comparability-boundaries.adoc[]
+
+include::parts/070-evaluation-scale/040-reading-the-score.adoc[]
+
+[glossary]
+include::backmatter/glossary.adoc[]
+
+[appendix]
+include::backmatter/appendix-a-variable-dictionary.adoc[]
+
+[appendix]
+include::backmatter/appendix-b-ecosystem-matrix.adoc[]
+
+[appendix]
+include::backmatter/appendix-c-source-map.adoc[]
+
+[bibliography]
+include::backmatter/bibliography.adoc[]
+
+[index]
+include::backmatter/index.adoc[]
+

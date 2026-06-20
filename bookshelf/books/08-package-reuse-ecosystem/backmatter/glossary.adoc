@@ -1,0 +1,26 @@
+= 术语表
+
+[glossary]
+Package:: 在某个语言或构建生态中被命名、版本化、可获取、可声明为依赖的软件复用单元。
+Artifact:: 可下载、可缓存、可校验、可构建或可链接的具体构件。
+Manifest:: 项目或包对机器声明自身身份、依赖、版本、平台、许可证、入口和构建约束的结构化表面。
+Registry:: 接收、保存、分发和索引 package metadata 与 artifact 的基础设施。
+Repository:: 保存源码或构件内容的仓库；它不必然承担注册表职责。
+Index:: 可搜索、可解析、可用于发现或依赖求解的数据视图。
+Package Discovery:: 消费者在引入依赖之前识别候选包、理解候选包、比较候选包并形成引入判断的机制。
+Package Management:: 消费者项目声明、解析、获取、校验、安装、构建、锁定、升级、审计和移除依赖的机制。
+Resolver:: 把版本范围、依赖关系、平台约束、feature、extra、target framework、variant、lockfile 和 registry metadata 合成一致依赖图的求解器。
+Lockfile:: 一次依赖求解结果的固化记录。
+Realization:: 依赖解变成本地实际构件的过程。
+Provenance:: Artifact 从源码、构建过程、构建平台、发布身份和输入产生的来源事实。
+Attestation:: 对 Artifact、构建过程、发布身份或安全事实的可验证声明。
+Variant:: 同一组件在不同消费属性、平台、目标或构建条件下提供的可选构件表面。
+Feature:: 包暴露的可选能力开关，通常会改变依赖、编译条件或公共 API。
+Extra:: Python 生态中用于声明可选依赖集合的机制。
+Target Framework:: .NET 中用于表达项目或包资产兼容范围的目标框架标识。
+Triplet:: vcpkg 中用于捕捉目标环境的 CPU、OS、compiler、runtime 等变量组合。
+MVS:: Go 的 Minimal Version Selection 依赖解析策略。
+Yank:: release 被标记为不应默认选择，但不必然从历史中删除。
+Deprecation:: 维护者对包或版本给出的不推荐使用状态或消息。
+Retraction:: 生态机制对版本不再推荐或不应使用的声明。
+Unpublish:: 从注册表中删除已发布包或版本的治理动作。

@@ -1,0 +1,44 @@
+== 构建来源与制品完整性
+
+构建来源证明和制品完整性处理两个相邻对象。构建来源证明描述 Artifact 如何产生；制品完整性描述获取到的字节是否匹配预期。
+
+=== 构建来源证明
+
+构建来源证明记录源码位置、构建定义、外部参数、resolved dependencies、builder identity、run details 和 subject digest。SLSA provenance predicate 提供这类事实的结构化语言。SLSA Build levels 进一步区分是否有 provenance、provenance 是否由 hosted build platform 生成并签名、构建平台是否具备更强防篡改保证。
+
+Sigstore 提供 keyless signing、Fulcio certificate、Rekor transparency log 和 cosign 等机制。它把身份、签名事件和透明日志连接起来，使消费者可以验证某个 Artifact 的签名和身份材料。
+
+npm provenance 和 PyPI attestations 把 Registry 发布、CI 身份、构件摘要和 attestation 材料连接到包发布流程中。它们增强可审计性，但不替代漏洞状态、代码审计和许可证判断。
+
+=== 制品完整性
+
+制品完整性处理下载内容与预期摘要、签名、checksum database 或 attestation subject digest 之间的关系。npm lockfile integrity、pnpm tarball integrity、Yarn checksum、Cargo registry index checksum、Go checksum database、NuGet contentHash、Python Simple API hashes、wheel RECORD 和 Swift binary target checksum 都属于完整性材料。
+
+完整性证明的是字节一致性。它不能说明字节内容良性，也不能说明 API 稳定、许可证合规或目标平台可用。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |可说明 |不可说明
+
+|Provenance
+|构件由什么源码、构建过程、构建平台和发布身份产生。
+|构件没有漏洞或恶意。
+
+|Attestation
+|某个主体对构件或构建事实作出的可验证声明。
+|声明范围之外的安全属性。
+
+|Signature
+|签名者或身份材料与对象之间的绑定。
+|签名者做出的内容判断一定正确。
+
+|Checksum
+|下载字节是否匹配预期摘要。
+|字节内容可维护或可安全执行。
+
+|Transparency log
+|签名事件或证明材料是否可公开审计。
+|事件本身代表良性行为。
+|===
+
+评价函数应把构建来源和制品完整性列为不同变量。一个包可以有完整 checksum 但没有 provenance；也可以有 provenance 但当前版本被漏洞公告覆盖。

@@ -1,0 +1,42 @@
+== 维度、变量、指标、权重与分数
+
+评价尺度需要区分五个层级：Dimension、Variable、Metric、Weight 和 Score。层级混淆会把模型降为印象打分。
+
+indexterm2:[Dimension]Dimension 是评价空间中的抽象方向。它回答从哪一类性质观察包或生态，例如身份、元数据、相关性、文档、依赖图、兼容性、可复现性、维护、安全、采用度和治理。
+
+indexterm2:[Variable]Variable 是某个维度下可取值的观察对象。它回答具体观察什么，例如最近 release 距今天数、直接依赖数量、critical 漏洞数量、是否存在 Lockfile、是否支持目标平台。
+
+indexterm2:[Metric]Metric 是变量的测量口径。它回答如何测量变量，例如 `days_since_last_release`、`direct_dependency_count`、`critical_vulnerability_count`、`reverse_dependency_count_log`。Metric 必须有数据来源、单位、采集范围、缺失值处理和失真风险。
+
+indexterm2:[Weight]Weight 是某个维度、变量或指标在给定消费者上下文中的重要程度。权重不是包事实；权重表达评价目标。企业生产、个人原型、科研脚本、移动端、嵌入式和基础设施库使用不同权重。
+
+indexterm2:[Score]Score 是指标归一化和加权后的模型投影。Score 不是事实本身。它只能在明确查询、上下文、硬约束、变量口径和权重之后出现。
+
+[cols="1,2,2", options="header"]
+|===
+|层级 |定义 |例子
+
+|Dimension
+|评价空间中的抽象方向。
+|兼容性、安全、维护、文档、依赖图。
+
+|Variable
+|维度下可取值的观察对象。
+|支持的 target framework、已知漏洞数量、最近 release 年龄。
+
+|Metric
+|变量的具体测量口径。
+|`target_framework_count`、`critical_vulnerability_count`、`days_since_last_release`。
+
+|Weight
+|给定场景中某项指标的重要程度。
+|生产环境提高安全和可复现权重；原型环境提高相关性和文档权重。
+
+|Score
+|归一化和加权后的评价输出。
+|包级适配度排序；生态阶段能力画像。
+|===
+
+维度可以跨生态共享，指标未必可以跨生态共享。Compatibility 可以作为共同维度；Python 的 wheel tag、.NET 的 TFM、C/C++ 的 ABI/triplet、Swift 的 platform/tools version、JVM/Kotlin 的 variant attributes 和 Go 的 module major suffix 不能合并为同一个物理量。
+
+一个变量进入评价函数之前，需要满足四个条件：数据来源可说明，测量口径可重复，缺失值含义可解释，失真风险可标注。不能满足这些条件的信号只能作为提示或人工复核入口。

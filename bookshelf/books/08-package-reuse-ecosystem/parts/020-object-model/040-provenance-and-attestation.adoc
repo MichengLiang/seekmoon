@@ -1,0 +1,32 @@
+== Provenance 与 Attestation
+
+indexterm2:[Provenance]Provenance 描述 Artifact 从什么源码、什么构建过程、什么构建平台、什么发布身份和哪些输入产生。它把构件和构建事实绑定起来，使消费者可以审查来源链条。
+
+indexterm2:[Attestation]Attestation 是对某个 Artifact、构建过程、发布身份或安全事实的可验证声明。Attestation 通常绑定 subject digest、predicate type、builder identity、publisher identity、时间、输入和签名材料。
+
+Provenance 和 Attestation 不等同于“安全”。它们说明构件来自哪里、如何构建、由谁或哪个自动化环境发布；它们不说明构件没有恶意行为，也不替代漏洞公告、代码审计、许可证判断或运行时隔离。
+
+SLSA 提供供应链来源证明的结构化语言。Sigstore 提供基于身份的签名、短生命周期证书和透明日志材料。npm provenance 和 PyPI digital attestations 把注册表发布、CI 身份、构件摘要和证明材料连接到包发布流程中。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |可说明 |不可说明
+
+|Provenance
+|构件与源码、构建过程、构建平台和发布身份之间的来源关系。
+|构件无漏洞、无恶意、适合当前项目。
+
+|Attestation
+|某个主体对构件、构建或发布事实作出的可验证声明。
+|声明内容之外的安全性质。
+
+|Checksum / Digest
+|下载内容是否匹配预期字节内容。
+|字节内容是否良性或可维护。
+
+|Vulnerability Advisory
+|某个版本范围是否被已知漏洞公告覆盖。
+|没有公告时包一定安全。
+|===
+
+评价系统必须把来源证明、制品完整性、漏洞状态和项目治理分开。一个包存在 provenance 但被公告为恶意时，provenance 只能说明恶意构件的来源，不能抵消恶意状态。

@@ -1,0 +1,32 @@
+== Resolver、Lockfile 与 Realization
+
+indexterm2:[Resolver]Resolver 是把版本范围、依赖关系、平台约束、feature、extra、target framework、variant、lockfile 和 registry metadata 合成一致依赖图的求解器。Resolver 的输出是依赖图选择结果，不是下载动作本身。
+
+Resolver 的输入来自多个位置：消费者项目的 Manifest、既有 Lockfile、Registry 或 Index metadata、目标运行时、目标平台、工具链配置、组织策略和命令参数。不同生态使用不同求解规则。Go 使用 Minimal Version Selection；Maven 使用 dependency mediation；Gradle 使用 variant-aware resolution 和 conflict resolution；pip 使用回溯解析；Cargo 处理 version requirement 和 feature resolution；NuGet 处理 target framework、direct dependency wins 和 lowest applicable version 等规则。
+
+indexterm2:[Lockfile]Lockfile 是一次依赖求解结果的固化记录。它服务协作一致性、可复现安装、审计和后续升级比较。Lockfile 记录的对象通常包括具体版本、来源、checksum、transitive graph、package identity 和工具特定 metadata。
+
+Manifest 与 Lockfile 的职责不同。Manifest 表达项目意图和约束；Lockfile 保存一次求解结果。Manifest 中的版本范围可以允许多个解，Lockfile 把当前解固定为后续安装、审计和升级的基线。
+
+indexterm2:[Realization]Realization 是依赖从求解结果变成消费者项目中实际构件的过程。它包括下载、校验、缓存、解包、构建、链接、安装、生成 loader、写入 lock、更新本地环境等动作。
+
+Realization 不是单一安装命令。npm 可能写出 `node_modules` tree；Yarn 可能生成 Plug'n'Play loader；Cargo 会下载 `.crate` 并构建；Python 安装器会选择 wheel 或 sdist；NuGet restore 会写入资产文件并校验 package content hash；Conan 和 vcpkg 会在配置矩阵下取得或构建二进制构件。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |回答的问题 |失败形态
+
+|Resolver
+|哪些版本和变体共同满足当前约束。
+|版本冲突、平台不兼容、peer dependency 不满足、variant 无匹配。
+
+|Lockfile
+|当前解如何被协作、审计和未来安装复用。
+|lock 与 manifest 不同步、checksum 不匹配、来源变化、锁定粒度不足。
+
+|Realization
+|求解结果如何成为本地实际构件。
+|下载失败、hash mismatch、构建失败、二进制不可用、链接失败、安装脚本失败。
+|===
+
+评价包管理机制时不能把 Resolver、Lockfile 和 Realization 合并为“安装”。一个生态可以有清楚的 resolver 但较弱的 lock 语义，也可以有强构件完整性但发现信号不足。模型必须保留这些对象的独立责任。

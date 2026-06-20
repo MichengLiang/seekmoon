@@ -1,0 +1,38 @@
+== 作用域与归一化
+
+评价作用域决定分数能回答什么问题。包级评价和生态级评价使用同一对象模型，但评价对象不同。
+
+包级作用域绑定 package、query 和 consumer_context。没有 query，相关性变量没有意义；没有 consumer_context，许可证、平台、安全阈值和权重没有确定值。
+
+生态级作用域绑定 ecosystem、lifecycle_stage 和 criterion_set。它评价某个生态在声明、索引、发现、求解、落地、安全或维护阶段的机制能力，不评价单个包。
+
+归一化把不同尺度的指标投影到可组合范围。归一化必须保留来源、单位和失真风险。下载量可以取对数，但不同 registry 的统计窗口和去重规则不同；Star 可以时间衰减，但 Star 仍是注意力信号；Scorecard 可以拆分 checks，但总分不能替代安全结论。
+
+缺失值需要分类处理。
+
+[cols="1,2,2", options="header"]
+|===
+|缺失类型 |含义 |处理方式
+
+|生态不支持
+|该生态没有对应机制。
+|标为 not_applicable，不计为包事实缺失。
+
+|数据未公开
+|机制可能存在，但公开表面不可读。
+|标为 unknown，降低可观察性。
+
+|包未声明
+|Manifest 或发布元数据缺少字段。
+|标为 missing，进入声明完整性或治理变量。
+
+|聚合器未覆盖
+|第三方数据源没有该包或字段。
+|标为 aggregator_gap，不得当作官方缺失。
+
+|冲突数据
+|多个来源给出不同值。
+|标为 conflict，并保留各来源。
+|===
+
+归一化不能删除语义差异。TFM、wheel tag、triplet、Swift platform 和 Gradle attributes 可以同属兼容维度，但不能归一为一个无生态语义的 platform_supported 布尔值。

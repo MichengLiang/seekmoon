@@ -1,0 +1,148 @@
+= 附录 A：变量字典
+
+本附录收录包复用生态评价使用的变量。每个变量记录评价层级、变量组、数据来源、指标口径和失真风险。
+
+[cols="1,1,1,2,2,2", options="header"]
+|===
+|变量 |层级 |变量组 |数据来源 |指标口径 |失真风险
+
+|identity_tuple
+|package
+|身份
+|registry 或 manifest
+|生态定义的包身份组合。
+|不同生态身份结构不同。
+
+|namespace
+|package/ecosystem
+|身份
+|registry、manifest
+|scope、groupId、prefix、module path owner 等。
+|命名空间不等于安全证明。
+
+|owner_count
+|package
+|安全
+|registry
+|有维护或发布权限的 owner 数量。
+|权限细节可能不可见。
+
+|manifest_present
+|package
+|声明
+|source repository、registry metadata
+|是否存在生态认可的 Manifest。
+|动态生成 metadata 可能隐藏来源。
+
+|declared_license
+|package
+|声明
+|manifest、registry metadata
+|包声明的许可证字段。
+|与源码 LICENSE 或聚合器识别冲突。
+
+|direct_dependency_count
+|package
+|图谱
+|manifest、registry metadata、resolver output
+|直接依赖数量。
+|不同 dependency class 不能无差别合并。
+
+|transitive_dependency_count
+|package
+|图谱
+|resolved graph
+|解析后的传递依赖数量。
+|依赖于 resolver、platform、feature。
+
+|reverse_dependency_signal
+|package
+|图谱
+|registry、GitHub、third-party aggregator
+|按来源记录被依赖信号。
+|覆盖范围差异大。
+
+|lockfile_present
+|package/project
+|解析
+|consumer project
+|消费者项目是否存在 lockfile。
+|Go 等生态不使用传统 lockfile。
+
+|resolver_family
+|ecosystem
+|解析
+|official docs
+|生态使用的解析规则类型。
+|同一生态可能有多个工具。
+
+|artifact_hash_present
+|package/version
+|构件
+|registry、lockfile、index
+|构件是否有 hash 或 checksum。
+|hash 说明字节一致，不说明良性。
+
+|provenance_available
+|package/version/artifact
+|安全
+|registry、attestation endpoint
+|是否存在 provenance 或 attestation。
+|证明粒度可能是包、版本或文件。
+
+|known_vulnerability_count
+|package/version
+|安全
+|OSV、GHSA、ecosystem DB
+|当前版本被公告覆盖的漏洞数量。
+|没有公告不等于没有漏洞。
+
+|malware_advisory_present
+|package/version
+|安全
+|GHSA、registry advisory
+|是否存在恶意包公告。
+|恶意状态不能被其他分量抵消。
+
+|days_since_last_release
+|package
+|维护
+|registry、source repository
+|当前日期减最新 release 日期。
+|稳定小包可能长期无需 release。
+
+|maintainer_count
+|package
+|维护
+|registry、source repository
+|可观察维护者数量。
+|权限和实际维护劳动不一致。
+
+|documentation_surface_present
+|package
+|发现
+|docs site、registry、source docs
+|是否存在可读文档或 API 投影。
+|文档存在不等于准确。
+
+|compatibility_signal
+|package/version
+|兼容
+|manifest、artifact metadata、build matrix
+|生态特定兼容信号。
+|不同生态不可合并为同一物理量。
+
+|download_signal
+|package
+|发现
+|registry、aggregator
+|下载量及统计窗口。
+|受 CI、镜像、间接依赖污染。
+
+|source_repository_linked
+|package
+|声明
+|manifest、registry metadata
+|是否有源码仓库链接。
+|链接可能过期、迁移或被接管。
+|===

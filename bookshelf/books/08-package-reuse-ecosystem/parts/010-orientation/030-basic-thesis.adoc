@@ -1,0 +1,24 @@
+== 基本命题
+
+包复用不是复制代码。包复用是把一个陌生软件构件放入新的软件系统，并让这个构件在明确身份、明确约束、明确来源、明确依赖图、明确兼容性和明确维护状态的条件下被使用。
+
+一个开发者需要 HTTP client 时，行动通常从发现开始。开发者可能在搜索引擎、npm、crates.io、PyPI、pkg.go.dev、Maven Central、NuGet.org、Swift Package Index 或 GitHub 中寻找候选包。候选包进入视野后，开发者会阅读 README、API 文档、示例、许可证、更新时间、维护者、依赖数量、漏洞提示和安装命令。
+
+选定候选包之后，行动进入管理阶段。消费者项目把依赖写入 Manifest；Package Manager 根据版本约束、平台约束、feature、extras、target framework、lockfile 和 registry metadata 求解依赖图；系统下载或构建 Artifact，校验哈希或签名，写入 Lockfile。后续维护阶段继续处理升级、漏洞、弃用、许可证变化和依赖图变化。
+
+这个行动轨迹说明同一个包复用事件至少涉及八类对象：
+
+* Manifest 让项目和包可被机器读取。
+* Registry 和 Index 让包进入可发现、可获取、可解析的空间。
+* Discovery Surface 让消费者形成候选集合和比较依据。
+* Resolver 把版本和环境约束合成为一致依赖图。
+* Lockfile 固化一次求解结果。
+* Artifact 承载实际被下载、构建、链接或安装的构件。
+* Security Metadata 让漏洞、发布身份、来源证明和完整性状态可观察。
+* Ecosystem Feedback 把使用、维护、弃用、漏洞和反向依赖回流到发现与管理机制。
+
+本书的基本命题是：**软件包复用生态通过这些对象和机制，把作者发布的软件构件转化为消费者可发现、可比较、可求解、可获取、可复现、可审计、可维护的依赖对象。**
+
+这条命题要求本书同时处理共同结构和生态差异。共同结构包括 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Documentation、Security Metadata 和 Feedback。生态差异来自语言、构建系统、平台、ABI、目标框架、版本策略、注册表治理和供应链基础设施。
+
+因此，本书的评价尺度不输出无条件总榜。包级评价回答“某个包在给定查询和消费者上下文中是否适合引入”。生态级评价回答“某个生态在给定生命周期阶段是否提供足够机制”。二者使用同一对象模型，但评价对象不同。

@@ -1,0 +1,40 @@
+== Package 与 Artifact
+
+indexterm2:[Package]Package 是在某个语言或构建生态中被命名、版本化、可获取、可声明为依赖的软件复用单元。Package 可以是库、框架、CLI 工具、插件、类型声明、源码集合、二进制构件集合或系统库绑定。
+
+Package 的构成性条件包括身份、版本或版本等价状态、可获取位置、依赖声明能力和消费者可引用表面。缺少这些条件时，一个源码仓库仍然可以存在，但它还没有成为该生态中可管理的包对象。
+
+indexterm2:[Artifact]Artifact 是可下载、可缓存、可校验、可构建或可链接的具体构件。Artifact 承载消费者实际获得或生成的内容，例如 npm tarball、Cargo `.crate` 文件、Python wheel、Maven JAR、NuGet `.nupkg`、Swift source archive、Conan binary package 或 vcpkg binary cache entry。
+
+Package 不等于 Artifact。Package 是复用生态中的身份和声明对象；Artifact 是某个版本、平台、构建配置或变体下的具体构件。一个 Package 可以对应多个 Artifact。
+
+[cols="1,2,2", options="header"]
+|===
+|生态 |Package 身份表面 |Artifact 表面
+
+|JS/TS
+|`package.json` 中的 name 与 version。
+|发布到 npm registry 的 tarball，或工具缓存中的包内容。
+
+|Rust
+|`Cargo.toml` 中的 package name 与 version。
+|crates.io 下载的 `.crate` 文件。
+
+|Python
+|规范化 project name 与 release version。
+|sdist、wheel，以及带 Python tag、ABI tag、platform tag 的 wheel 文件。
+
+|JVM
+|Maven 坐标中的 groupId、artifactId、version。
+|JAR、POM、sources、javadoc、Gradle Module Metadata 等仓库文件。
+
+|.NET
+|NuGet package ID 与 exact version。
+|`.nupkg` 文件及其中按 target framework 组织的 assets。
+
+|C/C++
+|Conan reference 或 vcpkg port/version/baseline。
+|由 settings、options、triplet、compiler、runtime、build type 等变量约束的源码或二进制构件。
+|===
+
+评价包时必须保留 Package 与 Artifact 的层位差异。包名和版本能定位复用对象，但不能总是定位可用构件。Python、.NET、C/C++、Kotlin Multiplatform 和 Swift binary target 都要求模型继续观察平台、ABI、target framework、variant、toolchain 或 checksum。

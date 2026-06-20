@@ -1,0 +1,56 @@
+== C/C++ 与 Swift
+
+C/C++ 与 Swift 都暴露平台和工具链约束，但二者的复用对象不同。C/C++ 包评价必须把 ABI、compiler、runtime、build type、link mode、settings/options 和 triplet 当作一等变量；SwiftPM 以 `Package.swift`、products、targets、platforms、tools version 和 `Package.resolved` 为核心。
+
+=== C/C++
+
+C/C++ 包身份不能只用名称和版本描述。Conan 2 的 binary model 把 package_id 作为二进制包标识，并由 settings、options 和依赖版本等配置参与计算。settings 包括 OS、arch、compiler、compiler.version、compiler.libcxx、compiler.cppstd、compiler.runtime、compiler.runtime_type、build_type 等 ABI 相关条件。
+
+Conan 的 recipe 通过 `conanfile.py` 声明 name、version、requires、tool_requires、settings、options、generators、layout 和 package_info。Profiles 聚合 settings、options、环境变量和工具依赖。Conan lockfile 捕获依赖解析结果和 revision，用于在后续版本出现后仍保持 reproducible dependencies。
+
+vcpkg manifest mode 使用 `vcpkg.json` 声明 dependencies、features、default-features、builtin-baseline、overrides、supports、version 和 port-version。vcpkg registries 提供 port 和 version database；triplet 捕捉 target environment，例如 CPU、OS、compiler、runtime 和 linkage。Binary caching 影响同一解析结果是否需要本地构建。
+
+C/C++ 可进入统一模型的变量包括 package reference、recipe revision、port-version、registry baseline、settings、options、profile、triplet、host/target dependency、compiler family/version、standard library、runtime linkage、build type、shared/static、feature set、binary cache key 和 source checksum。
+
+不可直接比较的字段包括“是否有二进制包”、构建缓存命中率、ABI 兼容、triplet coverage、feature-expanded dependency graph 和系统包依赖。C/C++ 的复杂性来自领域事实，不是单纯管理工具缺陷。
+
+=== Swift
+
+SwiftPM 的 Manifest 是 `Package.swift`。它以 `PackageDescription` API 声明 package name、products、targets、dependencies、platforms、Swift language versions、C/C++ language standard 和 linker settings。`// swift-tools-version:` 指定处理 Manifest 所需的最低 Swift tools 版本和 PackageDescription API 版本。
+
+Swift package 的核心对象包括 package、product、target、dependency 和 supported platform。Product 是对外可见构建产物；Target 是源码和构建设置的基本单元；dependency 通常由 Git URL 或 registry scoped identity 与 version requirement 表达。`Package.resolved` 记录 dependency resolution 的 pin。
+
+Swift Package Registry Service 提供 registry protocol，使 SwiftPM 可以通过 scoped identifier 获取 releases、manifest 和 source archive，并使用 checksum 校验 source archive。Swift Package Index 是第三方发现和兼容性评估表面，它从源码、Git 历史、GitHub metadata 和真实构建矩阵生成搜索、文档和兼容性信号。
+
+Swift 可进入统一模型的变量包括 package identity、repository URL、registry scope/name、SemVer release、tools version、products、product type、targets、target dependency graph、platform minimum deployment versions、Swift language version、binary target checksum、Package.resolved pin 和 SPI build compatibility。
+
+不可直接比较的字段包括 Swift Package Index compatibility matrix、DocC build status、Apple platform deployment target、binary target availability 和 branch/revision dependency。SPI 是重要 Discovery Surface，不是 SwiftPM 的 resolver。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |C/C++ |Swift
+
+|Manifest
+|`conanfile.py`、`vcpkg.json`
+|`Package.swift`
+
+|Identity
+|recipe/port plus version and variant variables
+|package identity、URL or registry scope/name
+
+|Compatibility
+|ABI、compiler、runtime、triplet、settings/options
+|platforms、tools version、products/targets
+
+|Lock / Reproducibility
+|Conan lockfile、vcpkg baseline/overrides
+|`Package.resolved`
+
+|Artifact
+|source package、binary package、binary cache entry
+|source archive、library/executable product、binary target
+
+|Discovery
+|ConanCenter、vcpkg.io、registries
+|Swift Package Index、registry service
+|===

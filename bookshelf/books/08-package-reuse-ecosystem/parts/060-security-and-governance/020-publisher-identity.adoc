@@ -1,0 +1,41 @@
+== 发布者身份
+
+发布者身份描述 Registry 接受谁或哪个自动化环境作为发布主体。它回答“这个版本由什么身份发布”，不回答“这个版本无漏洞”。
+
+传统 token publishing 使用长期或较长期 token 让 CI 或人类账号发布包。token 泄漏会扩大攻击面。2FA、scoped token、granular token、organization permissions 和 publish access policy 可以降低风险，但不能消除构建脚本、源码审查和依赖替换风险。
+
+Trusted publishing 使用 OIDC 在 Registry 和受信 CI/CD provider 之间建立短期身份交换。npm trusted publishing 和 PyPI Trusted Publishing 都把发布能力绑定到受信自动化环境，减少在 CI 中保存长期 registry token 的需求。
+
+发布者身份有三个层级。
+
+**账号身份**说明 registry 中哪个用户、组织、owner、maintainer 或 publisher 有权限发布。\n+
+**自动化身份**说明哪个 CI workflow、repository、environment 或 provider 获得短期发布能力。
+
+**发布策略**说明包是否要求 2FA、是否允许 token publishing、是否要求 trusted publisher、是否限制传统 token。
+
+[cols="1,2,2", options="header"]
+|===
+|变量 |说明 |评价位置
+
+|owner_count
+|有发布或维护权限的账号数量。
+|项目治理和接管风险。
+
+|publisher_identity_visible
+|发布身份是否对消费者可见。
+|Discovery 与审计。
+
+|trusted_publishing_enabled
+|发布是否绑定 OIDC trusted publisher。
+|发布身份风险。
+
+|token_publishing_allowed
+|传统 token 发布是否仍被允许。
+|凭据泄漏风险。
+
+|two_factor_required
+|发布或设置修改是否要求 2FA。
+|账号治理基线。
+|===
+
+发布身份只能降低身份不确定性。一个包由正确身份发布，不说明代码没有漏洞；一个包有 provenance，不说明维护者没有误发布恶意或脆弱代码。

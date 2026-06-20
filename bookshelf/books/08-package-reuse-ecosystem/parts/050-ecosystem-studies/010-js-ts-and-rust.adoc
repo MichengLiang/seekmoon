@@ -1,0 +1,56 @@
+== JS/TS 与 Rust
+
+JS/TS 和 Rust 都有清楚的 Manifest、Registry、Resolver 和 Lockfile 表面，但二者生态形态不同。JS/TS 的规模、工具分叉和供应链风险更突出；Rust 的 Cargo、crates.io、Cargo.lock 和 docs.rs 链路更集中。
+
+=== JS/TS
+
+JS/TS 的核心 Manifest 是 `package.json`。它承载 name、version、description、keywords、files、main、exports、bin、scripts、dependencies、devDependencies、peerDependencies、optionalDependencies、engines、os、cpu 等字段。npm registry 保存包 metadata 和 tarball；npm CLI、pnpm、Yarn、Bun 和 Deno/npm compatibility 层会以不同方式消费同一 Manifest。
+
+JS/TS 的 Discovery Surface 包括 npmjs.com、npm search、README、keywords、download counts、dependents、last published date、deprecated state、provenance badge、JSR package page、JSR score 和第三方图谱。JSR 与 npm 相邻，但它强调 TypeScript、ESM、自动文档、score、scope 权限和 npm compatibility。
+
+JS/TS 的 Management 不能被单个工具代表。npm 使用 `package-lock.json` 和传统 `node_modules` tree；pnpm 使用 content-addressable store、hard link 和 symlink 结构；Yarn 可使用 Plug'n'Play、immutable install、hardened mode 和 cache 校验。统一模型需要记录 resolver family、install layout、lockfile source、checksum、postinstall policy、peer dependency 处理和 script 风险。
+
+JS/TS 可进入统一模型的变量包括 package identity、scope、exports、dependencies 类型、peer dependency 状态、lockfile integrity、tarball integrity、trusted publishing、provenance、postinstall 行为、age gate、hardened mode、download windows、dependents 和 score badges。
+
+不可直接比较的字段包括不同工具的安装布局、不同 registry 的 score 口径、npm download count 与 JSR score、peer dependency 风险和 postinstall 风险。它们需要保留工具和来源。
+
+=== Rust
+
+Rust 的核心 Manifest 是 `Cargo.toml`。它声明 package metadata、dependencies、dev-dependencies、build-dependencies、features、targets、workspace 和 registry 相关字段。Cargo resolver 根据版本 requirement 和特性约束选择版本，并把结果写入 `Cargo.lock`。
+
+crates.io 是默认 Registry。Cargo registry index 为解析器提供可用 crate 版本、checksum 和下载信息；`.crate` 文件是主要 Artifact。docs.rs 为发布到 crates.io 的库构建文档，形成重要 Discovery 和 API projection。lib.rs、RustSec、cargo-audit 和 cargo-vet 是生态补充表面，不是 Cargo 内建机制。
+
+Rust 的强项是 Manifest、Registry、Resolver、Lockfile、Artifact 和 Documentation 的对象边界清楚。Cargo Book 明确区分 `Cargo.toml` 与 `Cargo.lock`：前者表达 broad dependencies，后者记录 exact dependency information。
+
+Rust 可进入统一模型的变量包括 crate name、version、features、dependencies、target-specific dependencies、Cargo.lock exact graph、checksum、docs.rs build status、repository、license、RustSec advisory、reverse dependencies 和 yanked version。
+
+不可直接比较的字段包括 crates.io download count、docs.rs build status、lib.rs ranking、RustSec 覆盖范围和 feature-expanded dependency weight。Rust feature 使“依赖重量”必须按 feature 配置计算。
+
+[cols="1,2,2", options="header"]
+|===
+|对象 |JS/TS |Rust
+
+|Manifest
+|`package.json`
+|`Cargo.toml`
+
+|Registry / Index
+|npm registry、JSR
+|crates.io、Cargo registry index
+
+|Resolver / Lock
+|npm、pnpm、Yarn lockfile 与工具特定 resolver
+|Cargo resolver、`Cargo.lock`
+
+|Artifact
+|npm tarball、JSR modules
+|`.crate`
+
+|Discovery
+|npmjs.com、JSR score、README、downloads
+|crates.io、docs.rs、lib.rs
+
+|Security
+|npm audit、provenance、trusted publishing、Yarn hardened mode
+|RustSec、cargo-audit、trusted publishing 相关机制
+|===

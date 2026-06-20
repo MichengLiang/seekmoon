@@ -1,0 +1,50 @@
+== 注册表治理
+
+注册表治理描述谁能声明名字、谁能发布版本、谁能转移所有权、谁能撤回或删除发布物，以及消费者如何观察这些状态。治理信号不是密码学证明，但会改变包的发现、求解和维护语义。
+
+=== 命名空间与所有权
+
+命名空间决定包名是否可追溯。npm scope、Maven groupId、NuGet verified prefix、PyPI project name、Conan user/channel、vcpkg registry 和 Swift registry scope/name 都以不同方式承担身份边界。命名空间可以降低混淆风险，但不自动证明包安全。
+
+所有权变量包括 owner、maintainer、publisher、organization、team permission、name transfer policy 和 abandoned project policy。所有权变化会影响接管风险、维护连续性和消费者信任。
+
+=== 撤回、弃用、删除和保留
+
+yank、deprecate、retract、unpublish 和 delete 是不同对象。
+
+Yanking 通常表示某个 release 不应被默认选择，但在显式 pin 或唯一匹配时可能仍可安装。Deprecation 是维护者对包或版本给出的使用警告。Retraction 是生态对版本不再推荐或不应使用的声明。Unpublish 或 delete 改变历史可用性和名称复用风险。
+
+这些状态会影响 Discovery、Resolution 和 Maintenance。发现页应显示弃用或撤回；resolver 可能跳过 yanked release；维护流程可能触发替换或锁文件更新。
+
+=== 治理变量
+
+[cols="1,2,2", options="header"]
+|===
+|变量 |说明 |失真风险
+
+|namespace_type
+|scope、groupId、prefix、project name、module path 等身份空间类型。
+|不同生态语义不一致。
+
+|owner_transfer_policy
+|名称或包所有权如何转移。
+|政策文本与执行个案可能不同。
+
+|release_yanked
+|release 是否被 yanked。
+|并不等于 release 被删除。
+
+|package_deprecated
+|包或版本是否被维护者弃用。
+|弃用原因和替代建议质量不一。
+
+|version_retracted
+|版本是否被生态机制标记不推荐。
+|生态支持程度不同。
+
+|unpublish_allowed
+|registry 是否允许删除历史版本。
+|删除政策受时间、依赖量和恶意状态影响。
+|===
+
+注册表治理进入评价模型时，需要保留原生态语义。把 PyPI yanking、npm deprecation、Go retract、Cargo yanked、NuGet deprecation 和 npm unpublish 合并为一个布尔值，会破坏消费者判断。

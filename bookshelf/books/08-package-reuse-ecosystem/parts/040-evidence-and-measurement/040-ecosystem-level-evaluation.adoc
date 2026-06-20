@@ -1,0 +1,47 @@
+== 生态级评价
+
+生态级评价回答另一个问题：某个语言或构建生态在某个生命周期阶段是否提供足够机制。它不评价单个包是否适合当前项目。
+
+生态级评价函数可写作：
+
+[source,text]
+----
+Score_ecosystem(ecosystem, lifecycle_stage, criterion_set) -> capability profile
+----
+
+`ecosystem` 是语言或构建生态，例如 JS/TS、Rust、Python、Go、JVM/Kotlin、.NET、C/C++ 或 Swift。`lifecycle_stage` 是 Authoring、Declaration、Publication、Indexing、Discovery、Assessment、Resolution、Realization 或 Maintenance。`criterion_set` 是评价标准集合，例如元数据能力、解析能力、可复现能力、安全治理、文档投影或跨平台兼容。
+
+生态级评价输出 capability profile，而不是单一排名。一个生态可能在 resolver 和 lockfile 上强，在 discovery metadata 上弱；也可能在 provenance 上强，在二进制兼容矩阵上复杂。
+
+[cols="1,2,2", options="header"]
+|===
+|生命周期阶段 |生态级评价问题 |示例机制
+
+|Declaration
+|生态是否提供足够 Manifest 表达身份、依赖、平台和构建约束。
+|`package.json`、`Cargo.toml`、`pyproject.toml`、`go.mod`、POM、`.nuspec`。
+
+|Indexing
+|生态是否提供可解析、可搜索、可审计的数据视图。
+|Cargo index、PyPI Simple API、NuGet V3 API、Maven metadata、Go proxy。
+
+|Discovery
+|生态是否提供文档、分类、API、图谱、安全和维护信号。
+|docs.rs、pkg.go.dev、Swift Package Index、NuGet.org、Maven Central Search。
+
+|Resolution
+|生态是否提供明确 resolver 规则和冲突解释。
+|Go MVS、Cargo resolver、Gradle variant-aware resolution、NuGet dependency resolution。
+
+|Realization
+|生态是否支持构件获取、校验、缓存、构建和目标环境落地。
+|pnpm store、Cargo build、wheel selection、Conan package_id、vcpkg binary caching。
+
+|Maintenance
+|生态是否支持升级、安全公告、弃用、撤回、锁更新和治理状态。
+|npm audit、NuGet audit、OSV、yanking、deprecation、trusted publishing。
+|===
+
+生态级评价必须保留领域事实。Go 的 Manifest 描述性字段少，不等于 Go 缺少发现机制；pkg.go.dev、module path、checksum database 和 MVS 构成另一套机制。C/C++ 的复杂性不等于机制落后；ABI、compiler、runtime、triplet、build type 和 linking 是该生态的领域事实。
+
+生态级评价的目标是能力画像：某生态在哪些生命周期阶段提供了强机制，在哪些阶段依赖第三方表面，在哪些变量上缺少可比较口径。

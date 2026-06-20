@@ -1,0 +1,34 @@
+= 附录 C：资料来源图
+
+本附录区分官方规范、官方注册表、第三方聚合面、观察性页面和安全公告数据库。
+
+[cols="1,2,2", options="header"]
+|===
+|来源层级 |用途 |例子
+
+|官方规范或官方文档
+|定义生态对象、文件格式、解析规则和工具行为。
+|npm docs、Cargo Book、PyPA specs、Go ref/mod、Maven docs、Gradle docs、NuGet docs、Conan docs、vcpkg docs、Swift PackageDescription。
+
+|官方注册表或官方服务
+|保存发布事实、元数据、构件、文档或漏洞投影。
+|npm registry、crates.io、PyPI、Maven Central、NuGet.org、pkg.go.dev、docs.rs。
+
+|安全基础设施
+|提供漏洞、来源证明、签名、透明日志或项目治理 checks。
+|OSV、GitHub Advisory Database、OpenSSF Scorecard、SLSA、Sigstore。
+
+|第三方聚合器
+|聚合跨生态包元数据、图谱、许可证和维护信号。
+|deps.dev、Libraries.io、ecosyste.ms。
+
+|第三方发现增强面
+|提供单生态搜索、API 检视、构建矩阵或聚合页面。
+|lib.rs、Swift Package Index、MvnRepository、FuGet。
+
+|观察性页面
+|缺少正式接口文档时的公开页面观察。
+|具体包页面、搜索结果页面、排行榜页面。
+|===
+
+正文引用第三方来源时，应说明它是聚合或观察表面。第三方字段不能自动替代官方发布事实。
