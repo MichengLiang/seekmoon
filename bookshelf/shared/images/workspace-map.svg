@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-labelledby="title desc">
+  <title id="title">包复用生态书架结构</title>
+  <desc id="desc">书架以 08 包复用生态为主书，07 结构化书写约定为维护参考，catalog.adoc 提供导航入口。</desc>
+  <rect width="760" height="300" fill="#f8fafc"/>
+  <rect x="28" y="28" width="704" height="244" rx="6" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="52" y="64" font-family="sans-serif" font-size="22" fill="#0f172a">bookshelf</text>
+  <rect x="52" y="92" width="160" height="104" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="82" y="128" font-family="sans-serif" font-size="16" fill="#1e3a8a">catalog.adoc</text>
+  <text x="76" y="154" font-family="sans-serif" font-size="13" fill="#1e40af">阅读入口与导航</text>
+  <rect x="300" y="78" width="190" height="132" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="330" y="118" font-family="sans-serif" font-size="16" fill="#14532d">08 包复用生态</text>
+  <text x="326" y="146" font-family="sans-serif" font-size="13" fill="#166534">主书：对象模型、生命周期、</text>
+  <text x="326" y="168" font-family="sans-serif" font-size="13" fill="#166534">证据源、变量体系与评价尺度</text>
+  <rect x="558" y="92" width="140" height="104" rx="4" fill="#fef3c7" stroke="#d97706"/>
+  <text x="588" y="128" font-family="sans-serif" font-size="16" fill="#78350f">07 规范</text>
+  <text x="578" y="154" font-family="sans-serif" font-size="13" fill="#92400e">结构化写作参考</text>
+  <path d="M212 144 H300" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M490 144 H558" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

@@ -4,39 +4,39 @@
 
 === 声明性证据
 
-indexterm2:[Declared Evidence]Declared Evidence 来自 Manifest 和作者声明。它表达作者对包的主张。
+indexterm2:[Declared Evidence] 来自 Manifest 和作者声明。它表达作者对包的主张。
 
-声明性证据包括 name、version、description、keywords、license、dependencies、repository、homepage、engines、platforms、targets、features、extras、exports、build backend 和 workspace 信息。它的优势是结构化、可索引、可由工具直接消费；它的风险是缺失、过期、夸大或与构件内部事实不一致。
+声明性证据包括 name、version、description、keywords、license、dependencies、repository、homepage、engines、platforms、targets、features、extras、exports、build backend 和 workspace 信息。它的主要来源是 xref:manifest-registry-index-model[Manifest 与 Registry metadata, rel=depends-on]；它的优势是结构化、可索引、可由工具直接消费；它的风险是缺失、过期、夸大或与构件内部事实不一致。
 
 === 结构性证据
 
-indexterm2:[Structural Evidence]Structural Evidence 来自源码、AST、类型签名、导出符号、文档注释、测试结构、示例、deprecated 标记和 API diff。它表达包本体结构。
+indexterm2:[Structural Evidence] 来自源码、AST、类型签名、导出符号、文档注释、测试结构、示例、deprecated 标记和 API diff。它表达包本体结构。
 
 结构性证据比 README 更接近对象本体。Go 的 pkg.go.dev、Rust 的 docs.rs、.NET 的 FuGet、Swift Package Index 的 DocC 构建都在不同程度上把源码结构投影为可读证据。
 
 === 图谱证据
 
-indexterm2:[Graph Evidence]Graph Evidence 来自依赖图和被依赖图。它表达包在生态网络中的位置。
+indexterm2:[Graph Evidence] 来自依赖图和被依赖图。它表达包在生态网络中的位置。
 
 图谱证据包括 direct dependencies、transitive dependencies、dependency depth、duplicate versions、reverse dependencies、source importers、repository dependents 和 important dependents。它的风险是覆盖范围不一致：GitHub dependents、pkg.go.dev imported-by、MvnRepository Used By、Libraries.io dependent repositories 和 deps.dev graph data 不是同一口径。
 
 === 运行与构建证据
 
-indexterm2:[Operational Evidence]Operational Evidence 来自 CI、构建矩阵、平台二进制、wheel tag、target framework、ABI、triplet、checksum、lockfile、binary cache 和构建结果。它表达包能否在目标环境中成立。
+indexterm2:[Operational Evidence] 来自 CI、构建矩阵、平台二进制、wheel tag、target framework、ABI、triplet、checksum、lockfile、binary cache 和构建结果。它表达包能否在目标环境中成立。
 
-运行与构建证据在 Python、.NET、C/C++、Swift 和 Kotlin Multiplatform 中尤其重要。名称和版本不能单独推出目标环境可用性；可用性需要观察 Artifact、平台、ABI、toolchain、target framework 或 variant。
+运行与构建证据在 Python、.NET、C/C++、Swift 和 Kotlin Multiplatform 中尤其重要。名称和版本不能单独推出目标环境可用性；可用性需要观察 xref:package-artifact-model[Artifact, rel=depends-on]、平台、ABI、toolchain、target framework 或 variant。
 
 === 社会证据
 
-indexterm2:[Social Evidence]Social Evidence 来自下载量、Star、Fork、issue、PR、讨论、Awesome list、企业案例和社区教程。它表达注意力、经验和采用情况。
+indexterm2:[Social Evidence] 来自下载量、Star、Fork、issue、PR、讨论、Awesome list、企业案例和社区教程。它表达注意力、经验和采用情况。
 
 社会证据不能直接变成质量、安全或适配度。下载量会被 CI、镜像、传递依赖和历史包袱污染；Star 是注意力，不是生产可信；issue 数量既可能表示问题多，也可能表示使用者多。
 
 === 安全与治理证据
 
-indexterm2:[Security and Governance Evidence]Security and Governance Evidence 来自 CVE、GHSA、OSV、RustSec、Go vulnerability database、NuGet audit、OpenSSF Scorecard、SLSA、Sigstore、trusted publishing、provenance、2FA、owner policy、yank、deprecation、retraction、unpublish 和 name transfer。
+indexterm2:[Security and Governance Evidence] 来自 CVE、GHSA、OSV、RustSec、Go vulnerability database、NuGet audit、OpenSSF Scorecard、SLSA、Sigstore、trusted publishing、provenance、2FA、owner policy、yank、deprecation、retraction、unpublish 和 name transfer。
 
-安全与治理证据需要拆分为漏洞状态、发布者身份、构建来源证明、制品完整性和项目治理。provenance 不能说明无恶意；没有漏洞公告不说明没有漏洞；Scorecard 是项目治理和开发流程证据，不是安全保证。
+安全与治理证据需要拆分为漏洞状态、发布者身份、xref:provenance-attestation-model[构建来源证明, rel=depends-on]、制品完整性和项目治理。provenance 不能说明无恶意；没有漏洞公告不说明没有漏洞；Scorecard 是项目治理和开发流程证据，不是安全保证。
 
 [cols="1,2,2,2", options="header"]
 |===

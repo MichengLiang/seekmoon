@@ -1,0 +1,39 @@
+= 索引
+
+索引 section 位于书籍后置区域。正文中的索引词宏是索引词来源。
+
+AsciiDoc 区分正文可见索引词和正文隐藏索引词：
+
+[cols="1,2", options="header"]
+|===
+|写法 |含义
+
+|`indexterm2:[<primary>]`
+|正文可见，同时作为一级索引项。
+
+|`indexterm:[<primary>]`
+|正文不可见，作为一级索引项。
+
+|`indexterm:[<primary>, <secondary>]`
+|正文不可见，作为二级索引项。
+
+|`indexterm:[<primary>, <secondary>, <tertiary>]`
+|正文不可见，作为三级索引项。
+|===
+
+正文中已经出现该词时，优先使用正文可见索引词。需要补充未出现在正文里的索引入口时，使用正文隐藏索引词。
+
+隐藏索引词应贴近它标记的段落内容。本书把隐藏索引词放在相关句子末尾。
+
+Asciidoctor 的内置 HTML5 转换器不会自动生成索引目录。`[index]` section 是 PDF 和 DocBook 工具链自动填充索引目录的种子位置；在本 HTML 样本中，它展示后置索引章节的位置和索引词写法。
+
+本书正文中的索引词示例：
+
+[source,asciidoc]
+----
+indexterm2:[role]
+indexterm:[relation predicate]
+indexterm:[源文件编排号]
+indexterm:[中间值插入]
+indexterm:[描述列表]
+----

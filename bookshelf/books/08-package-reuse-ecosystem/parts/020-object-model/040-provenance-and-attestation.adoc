@@ -1,8 +1,9 @@
+[#provenance-attestation-model]
 == Provenance 与 Attestation
 
-indexterm2:[Provenance]Provenance 描述 Artifact 从什么源码、什么构建过程、什么构建平台、什么发布身份和哪些输入产生。它把构件和构建事实绑定起来，使消费者可以审查来源链条。
+indexterm2:[Provenance] 描述 Artifact 从什么源码、什么构建过程、什么构建平台、什么发布身份和哪些输入产生。它把构件和构建事实绑定起来，使消费者可以审查来源链条。
 
-indexterm2:[Attestation]Attestation 是对某个 Artifact、构建过程、发布身份或安全事实的可验证声明。Attestation 通常绑定 subject digest、predicate type、builder identity、publisher identity、时间、输入和签名材料。
+indexterm2:[Attestation] 是对某个 Artifact、构建过程、发布身份或安全事实的可验证声明。Attestation 通常绑定 subject digest、predicate type、builder identity、publisher identity、时间、输入和签名材料。
 
 Provenance 和 Attestation 不等同于“安全”。它们说明构件来自哪里、如何构建、由谁或哪个自动化环境发布；它们不说明构件没有恶意行为，也不替代漏洞公告、代码审计、许可证判断或运行时隔离。
 

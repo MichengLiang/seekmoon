@@ -1,0 +1,35 @@
+[#surface-fields]
+== 附加字段
+
+附加字段是写在源文档表面的键值信息。标题字段可以写在标题 attrlist 或标题下描述列表中；xref 边证据字段写在 xref named attributes 中。
+
+[source,asciidoc]
+----
+[#example.example, owner=writing-team]
+== 示例
+
+示例说明 xref:regular-heading[常规标题, rel=illustrates, weight=strong]。
+----
+
+`.example` 是 role。`owner=writing-team` 是标题附加字段。`weight=strong` 是 xref 边证据上的附加字段。
+
+`owner=writing-team` 写在标题 attrlist 中，投影时成为标题字段。`weight=strong` 写在 xref 中，投影时成为边证据字段。
+
+标题字段较少且值较短时，写在标题 attrlist 中。标题字段较多，或字段值需要换行时，写在标题下的第一个连续描述列表中。indexterm:[描述列表]
+
+[source,asciidoc]
+----
+[#rule.example, status=active]
+== 示例规则
+
+priority:: normal
+summary::
+示例规则说明标题字段的描述列表写法。
+多行说明保留为同一个标题字段。
+
+示例规则正文从这里开始。
+----
+
+`priority:: normal` 和 `summary::` 属于 `示例规则` 标题的附加字段。投影时它们成为标题字段，例如 `aat:priority` 和 `aat:summary`。
+
+字段名和字段值来自本书自己的约定。同一本书使用附加字段时，应保持字段写法和字段含义稳定。

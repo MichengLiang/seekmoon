@@ -1,1 +1,1 @@
-对象、证据和变量共同形成评价尺度。分数是模型投影，不是事实本身；评价尺度的职责是解释判断来源，不是制造无条件榜单。
+xref:part-object-model[对象, rel=depends-on]、xref:part-evidence-measurement[证据, rel=depends-on] 和变量共同形成评价尺度。分数是模型投影，不是事实本身；评价尺度的职责是解释判断来源，不是制造无条件榜单。

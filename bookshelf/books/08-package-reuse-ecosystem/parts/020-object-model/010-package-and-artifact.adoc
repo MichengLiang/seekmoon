@@ -1,10 +1,11 @@
+[#package-artifact-model]
 == Package 与 Artifact
 
-indexterm2:[Package]Package 是在某个语言或构建生态中被命名、版本化、可获取、可声明为依赖的软件复用单元。Package 可以是库、框架、CLI 工具、插件、类型声明、源码集合、二进制构件集合或系统库绑定。
+indexterm2:[Package] 是在某个语言或构建生态中被命名、版本化、可获取、可声明为依赖的软件复用单元。Package 可以是库、框架、CLI 工具、插件、类型声明、源码集合、二进制构件集合或系统库绑定。
 
 Package 的构成性条件包括身份、版本或版本等价状态、可获取位置、依赖声明能力和消费者可引用表面。缺少这些条件时，一个源码仓库仍然可以存在，但它还没有成为该生态中可管理的包对象。
 
-indexterm2:[Artifact]Artifact 是可下载、可缓存、可校验、可构建或可链接的具体构件。Artifact 承载消费者实际获得或生成的内容，例如 npm tarball、Cargo `.crate` 文件、Python wheel、Maven JAR、NuGet `.nupkg`、Swift source archive、Conan binary package 或 vcpkg binary cache entry。
+indexterm2:[Artifact] 是可下载、可缓存、可校验、可构建或可链接的具体构件。Artifact 承载消费者实际获得或生成的内容，例如 npm tarball、Cargo `.crate` 文件、Python wheel、Maven JAR、NuGet `.nupkg`、Swift source archive、Conan binary package 或 vcpkg binary cache entry。
 
 Package 不等于 Artifact。Package 是复用生态中的身份和声明对象；Artifact 是某个版本、平台、构建配置或变体下的具体构件。一个 Package 可以对应多个 Artifact。
 

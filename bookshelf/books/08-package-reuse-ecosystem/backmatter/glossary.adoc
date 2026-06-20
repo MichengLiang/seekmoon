@@ -1,4 +1,7 @@
+[#book-glossary]
 = 术语表
+
+索引入口见 xref:book-index[索引]；变量字段见 xref:appendix-variable-dictionary[附录 A：变量字典]。
 
 [glossary]
 Package:: 在某个语言或构建生态中被命名、版本化、可获取、可声明为依赖的软件复用单元。

@@ -1,6 +1,6 @@
 == 变量组
 
-评价尺度使用九组变量。变量组是评价维度下的组织方式，不是最终分数。
+评价尺度使用九组变量。变量组是评价维度下的组织方式，不是最终分数；完整字段口径见 xref:appendix-variable-dictionary[附录 A：变量字典, rel=depends-on]。
 
 [cols="1,2,2", options="header"]
 |===

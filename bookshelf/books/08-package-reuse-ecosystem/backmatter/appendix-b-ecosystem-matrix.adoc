@@ -1,3 +1,4 @@
+[#appendix-ecosystem-matrix]
 = 附录 B：生态矩阵
 
 生态矩阵横向呈现主流生态的 Manifest、Registry、Index、Resolver、Lockfile、Artifact、Compatibility 和 Security Surface。矩阵提供查阅入口；具体边界以生态章节为准。

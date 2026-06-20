@@ -1,5 +1,5 @@
 = 包复用生态：发现、管理与评价尺度
-作者 <author@example.com>
+弥澄亮 <t103ooooo@stu.mju.edu.cn>
 v1.0, 2026-06
 :doctype: book
 :toc: left
@@ -23,6 +23,7 @@ include::frontmatter/colophon.adoc[]
 [preface]
 include::frontmatter/preface.adoc[]
 
+[#part-orientation]
 = 进入包复用生态
 
 [partintro]
@@ -34,6 +35,7 @@ include::parts/010-orientation/020-reader-paths.adoc[]
 
 include::parts/010-orientation/030-basic-thesis.adoc[]
 
+[#part-object-model]
 = 对象模型
 
 [partintro]
@@ -47,6 +49,7 @@ include::parts/020-object-model/030-resolver-lockfile-realization.adoc[]
 
 include::parts/020-object-model/040-provenance-and-attestation.adoc[]
 
+[#part-lifecycle]
 = 生命周期
 
 [partintro]
@@ -60,6 +63,7 @@ include::parts/030-lifecycle/030-resolution-realization-maintenance.adoc[]
 
 include::parts/030-lifecycle/040-feedback-loop.adoc[]
 
+[#part-evidence-measurement]
 = 证据与度量
 
 [partintro]
@@ -73,6 +77,7 @@ include::parts/040-evidence-and-measurement/030-package-level-evaluation.adoc[]
 
 include::parts/040-evidence-and-measurement/040-ecosystem-level-evaluation.adoc[]
 
+[#part-ecosystem-studies]
 = 主流生态对照
 
 [partintro]
@@ -88,6 +93,7 @@ include::parts/050-ecosystem-studies/040-cpp-and-swift.adoc[]
 
 include::parts/050-ecosystem-studies/050-cross-ecosystem-data-surfaces.adoc[]
 
+[#part-security-governance]
 = 安全与治理
 
 [partintro]
@@ -101,6 +107,7 @@ include::parts/060-security-and-governance/030-build-provenance-and-artifact-int
 
 include::parts/060-security-and-governance/040-registry-governance.adoc[]
 
+[#part-evaluation-scale]
 = 评价尺度
 
 [partintro]
@@ -125,6 +132,9 @@ include::backmatter/appendix-b-ecosystem-matrix.adoc[]
 
 [appendix]
 include::backmatter/appendix-c-source-map.adoc[]
+
+[appendix]
+include::backmatter/appendix-d-structure-vocabulary.adoc[]
 
 [bibliography]
 include::backmatter/bibliography.adoc[]

@@ -1,0 +1,19 @@
+{
+  "name": "bookshelf",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "build": "node tools/adoc-books.mjs build",
+    "check": "node tools/adoc-books.mjs check",
+    "clean": "node tools/adoc-books.mjs clean"
+  },
+  "devDependencies": {
+    "@asciidoctor/core": "^3.0.4",
+    "asciidoc-abundant-tree": "^0.1.18",
+    "asciidoctor-kroki": "^0.18.1"
+  }
+}

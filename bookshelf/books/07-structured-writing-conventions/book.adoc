@@ -1,0 +1,74 @@
+= 结构化书写约定标本
+弥澄亮 <t103ooooo@stu.mju.edu.cn>
+v0.1, 2026-05
+:doctype: book
+:toc: left
+:toclevels: 3
+:sectnums:
+:partnums:
+:part-signifier: Part
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+
+include::../../shared/attributes.adoc[]
+
+[abstract]
+include::frontmatter/abstract.adoc[]
+
+[colophon]
+include::frontmatter/colophon.adoc[]
+
+[dedication]
+include::frontmatter/dedication.adoc[]
+
+[preface]
+include::frontmatter/preface.adoc[]
+
+[acknowledgments]
+include::frontmatter/acknowledgments.adoc[]
+
+= 从源文档看结构
+
+[partintro]
+include::parts/010-source-surface/_partintro.adoc[]
+
+include::parts/010-source-surface/010-source-and-projection.adoc[]
+
+include::parts/010-source-surface/020-default-semantics.adoc[]
+
+include::parts/010-source-surface/030-source-order-notation.adoc[]
+
+= 给标题和引用加意图
+
+[partintro]
+include::parts/020-identity-and-relation/_partintro.adoc[]
+
+include::parts/020-identity-and-relation/010-role-identity.adoc[]
+
+include::parts/020-identity-and-relation/020-relation-predicate.adoc[]
+
+= 字段、索引与术语
+
+[partintro]
+include::parts/030-fields-and-lookup/_partintro.adoc[]
+
+include::parts/030-fields-and-lookup/010-surface-fields.adoc[]
+
+include::parts/030-fields-and-lookup/020-index-and-glossary.adoc[]
+
+[appendix]
+include::backmatter/appendix-a.adoc[]
+
+[appendix]
+include::backmatter/appendix-b-decision-trees.adoc[]
+
+[glossary]
+include::backmatter/glossary.adoc[]
+
+[bibliography]
+include::backmatter/bibliography.adoc[]
+
+[index]
+include::backmatter/index.adoc[]

@@ -1,1 +1,1 @@
-软件包复用生态中的基础对象包括 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance 和 Attestation。生命周期、证据源、生态对照和评价尺度都依赖这些对象边界。
+软件包复用生态中的基础对象包括 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance 和 Attestation。xref:part-lifecycle[生命周期, rel=depends-on]、xref:part-evidence-measurement[证据源, rel=depends-on]、xref:part-ecosystem-studies[生态对照, rel=depends-on] 和 xref:part-evaluation-scale[评价尺度, rel=depends-on] 都依赖这些对象边界。

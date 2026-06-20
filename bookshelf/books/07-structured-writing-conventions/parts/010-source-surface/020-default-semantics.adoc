@@ -1,0 +1,47 @@
+[#heading-and-xref]
+== 标题与引用
+
+等号行声明标题和层级。标题前的 attrlist 承载地址、role 和字段。
+
+[source,asciidoc]
+----
+[#regular-heading.concept]
+== 常规标题
+----
+
+`[#regular-heading]` 声明一个稳定地址。 `.concept` 标明标题身份。 `常规标题` 是标题文本。
+
+[source,asciidoc]
+----
+引用规则参见 xref:regular-heading[常规标题]。
+----
+
+该 xref 投影为 `aat:references`，即默认引用谓词。
+
+[source,asciidoc]
+----
+引用规则依赖 xref:regular-heading[常规标题, rel=depends-on]。
+----
+
+`rel=depends-on` 声明从当前标题到目标标题的依赖关系，投影为 `rel:depends-on`。
+
+[TIP]
+====
+1. 全书中手工声明的稳定地址至少需要一个 `xref` 消费。写法速查见 xref:structured-writing-quick-reference[附录 A：结构化写法速查]；完整判断流程见 xref:structured-writing-decision-trees[附录 B：结构化写法决策树]。
+2. 按照书籍结构，跨越 `= 书名`、`= 卷/部`、`== 章` 这些大跨度的指代均需要使用 `xref` 手动标注，平衡隐式上下文的阅读压力。
+====
+
+标题声明角色后，其下级标题默认属于同一角色范围。下级标题可声明不同角色以切换语境。
+
+例如:
+
+[source,asciidoc]
+----
+[.rule]
+== 引用规则
+
+=== 基本语法
+
+[.example]
+=== 一个完整示例
+----

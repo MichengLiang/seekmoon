@@ -1,0 +1,8 @@
+node_modules/
+build/
+coverage/
+dist/
+playwright-report/
+test-results/
+tmp/
+*.log

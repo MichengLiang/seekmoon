@@ -1,16 +1,17 @@
+[#manifest-registry-index-model]
 == Manifest、Registry 与 Index
 
-indexterm2:[Manifest]Manifest 是项目或包对机器声明自身身份、依赖、版本、平台、许可证、入口和构建约束的结构化表面。Manifest 让包成为可索引、可求解、可审计、可复现的对象。
+indexterm2:[Manifest] 是项目或包对机器声明自身身份、依赖、版本、平台、许可证、入口和构建约束的结构化表面。Manifest 让包成为可索引、可求解、可审计、可复现的对象。
 
 Manifest 的职责不是展示项目故事。它向工具链和消费者提供可读取约束：包是谁、依赖谁、支持什么环境、暴露什么入口、如何构建、如何发布、哪些文件进入构件、哪些能力由 feature、extra、target 或 platform 控制。npm `package.json`、Cargo manifest、PyPA project metadata、Go `go.mod`、Maven POM、NuGet `.nuspec`、Swift `Package.swift`、Conan recipe 和 vcpkg manifest 分别给出这些约束在各生态中的公共表面。参见 xref:npm-package-json[npm package.json]、xref:cargo-manifest[Cargo manifest]、xref:pypa-pyproject[PyPA pyproject.toml]、xref:go-mod-ref[Go Modules Reference]、xref:maven-pom[Maven POM]、xref:nuget-nuspec[NuGet .nuspec]、xref:swift-package-description[Swift PackageDescription]、xref:conanfile-attributes[Conan conanfile attributes] 与 xref:vcpkg-json[vcpkg.json reference]。
 
 典型 Manifest 包括 `package.json`、`Cargo.toml`、`pyproject.toml`、`go.mod`、`pom.xml`、`.nuspec`、`Package.swift`、`conanfile.py` 和 `vcpkg.json`。这些文件的语法不同，但它们都把源码项目投影为生态可处理对象。
 
-indexterm2:[Registry]Registry 是接收、保存、分发和索引 package metadata 与 Artifact 的基础设施。Registry 可以提供发布权限、命名空间、版本记录、下载地址、元数据 API、撤回或弃用状态、安全提示和 provenance 材料。
+indexterm2:[Registry] 是接收、保存、分发和索引 package metadata 与 Artifact 的基础设施。Registry 可以提供发布权限、命名空间、版本记录、下载地址、元数据 API、撤回或弃用状态、安全提示和 provenance 材料。
 
 Registry 不等于源码仓库。源码仓库保存开发历史和源文件；Registry 保存生态消费所需的发布对象、版本状态和分发表面。Go 的模块体系把源码仓库、module proxy、checksum database 和 pkg.go.dev 分布到多个基础设施上，但模型中仍需区分源码位置、分发缓存、完整性证明和文档索引。
 
-indexterm2:[Index]Index 是可搜索、可解析、可用于发现或依赖求解的数据视图。Index 可以由 Registry 提供，也可以由第三方聚合器构造。
+indexterm2:[Index] 是可搜索、可解析、可用于发现或依赖求解的数据视图。Index 可以由 Registry 提供，也可以由第三方聚合器构造。
 
 Index 至少有两类用途。Resolver 使用解析型 Index 获取版本、依赖、checksum、artifact URL 或 metadata。Discovery Surface 使用发现型 Index 提供搜索、分类、文档、下载量、反向依赖、安全状态、维护信号和兼容性信号。Cargo registry index、PyPI Simple Repository API 和 NuGet V3 registration 体现了解析型数据视图在不同生态中的形式。参见 xref:cargo-index[Cargo registry index]、xref:pypa-simple-api[PyPI Simple Repository API] 与 xref:nuget-overview[NuGet overview]。
 

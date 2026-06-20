@@ -1,0 +1,24 @@
+[#relation-predicate]
+== rel 关系谓词
+
+indexterm:[relation predicate] `rel` 是 xref 边上的关系谓词。包含 xref 的标题是关系起点，xref 指向的标题是关系终点。本书把这两个位置称为 source heading 和 target heading。
+
+[source,asciidoc]
+----
+引用规则参见 xref:regular-heading[常规标题]。
+引用规则依赖 xref:regular-heading[常规标题, rel=depends-on]。
+----
+
+第一行投影为 `aat:references`，即默认引用谓词。第二行声明 `rel=depends-on`，投影为 `rel:depends-on`。
+
+`rel` 可以被读者和工具当作关系谓词，所以在全书范围内，每种 `rel` 谓词的语义需要保持唯一且不变。
+
+[horizontal]
+depends-on:: 当前标题的判断、规则或操作以目标标题为依据。阅读顺序和先读建议使用普通 xref 表达。
+illustrates:: 当前标题提供目标标题的示例。
+defines:: 当前标题给出目标标题所代表对象的定义。
+constrains:: 当前标题对目标标题的合法写法或范围施加约束。
+
+关系谓词描述标题之间的边。标题自身的身份使用 role 表达。
+
+标题之间的阅读顺序和先读建议，使用普通 xref（默认 `aat:references`）表达。

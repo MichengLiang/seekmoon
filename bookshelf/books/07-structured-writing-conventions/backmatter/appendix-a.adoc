@@ -1,0 +1,80 @@
+[#structured-writing-quick-reference]
+= 附录 A：结构化写法速查
+
+[cols="1,2", options="header"]
+|===
+|写法 |含义
+
+|`= 书名`
+|文档大标题（Document Title）。作为整本书的根节点，只能位于文档首行。
+
+|`= 卷/部`
+|0级章节（Level 0）。位于大标题之后的正文中，代表书籍的“卷/部”（Part）。
+
+|`== 章`
+|1级章节（Level 1）。代表书籍的“章”（Chapter）。
+
+|`=== 节`
+|2级章节（Level 2）。代表章内部的“节”（Section）。
+
+|`==== 小节`
+|3级章节（Level 3）。代表“小节”（Subsection）。
+
+|`===== 次小节`
+|4级章节（Level 4）。代表“次小节”。
+
+|`====== 最底层标题`
+|5级章节（Level 5）。AsciiDoc 引擎支持的最深物理层级。
+
+|`parts/010-topic/`
+|Part 目录的源文件编排号。使用统一的三位数 `0X0` 格式。`X` 为顺序号，首个 `0` 为前导零，末尾 `0` 为插入预留。
+
+|`010-opening.adoc`
+|Chapter 文件的源文件编排号。规则与 Part 目录编排号一致。
+
+|`[#stable-id]`
+|为标题声明一个稳定的引用地址。稳定 ID 仅当以下两个条件同时满足时才需显式声明：
+(1) 该标题被至少一个 `xref` 交叉引用；
+(2) 标题文本本身可能变更或在全书范围内可能重复。
+若标题本身已是领域内唯一且稳定的标识符（如专有名词、唯一实体名、标准化编号），即使被交叉引用，也无需额外声明稳定 ID——标题文本即地址。
+
+|`[#stable-id.concept]`
+|声明稳定 ID，并用 role 标明标题身份。
+需要能够回答： “这个标题在整本书的知识体系中扮演什么认知功能”
+
+|`[#example.example, owner=writing-team]`
+|role 声明标题身份；named attributes 保留附加字段。
+
+|`summary::` + 下一行说明文本
+|标题下描述列表字段。用于较多字段或多行字段值。
+
+|`xref:stable-id[显示文本]`
+|显示为链接，投影为 references。
+
+|`xref:stable-id[显示文本, rel=depends-on]`
+|显示为链接，同时声明 depends-on 关系。
+
+|`indexterm2:[role]`
+|正文可见索引词。
+
+|`indexterm:[relation predicate]`
+|正文隐藏索引词。
+|===
+
+全书标题需要保持 `标题层级连续`。
+
+role 描述标题身份。rel 描述 xref 边上的关系谓词。附加字段可以写在标题 attrlist、标题下描述列表或 xref named attributes 中。
+
+`[appendix]`、`[glossary]`、`[bibliography]` 和 `[index]` 是 section style。它们改变紧随其后 section 的语义；标题层级仍由 `=` 数量决定。
+
+对于跨文件的交叉引用，为了避免重复编写相对路径，你可以在文档的头部（Header）定义一个文档属性（Document Attribute）来存储这个基础路径。
+
+你可以在主文档的开头定义一个变量（比如 `:book-b-dir:`），后续引用时通过 `{book-b-dir}` 来调用它。
+
+如果你的建模中存在需要对一段区域精准指向、提及的情况，可以考虑使用 **更小一级/更小一节** 的标题把这段区域划分出来，之后就可以继续使用 `xref` 进行交叉引用。
+
+如果文章中出现 Asciidoc 自己的语法，通过反引号包裹依然会被解析，必须使用 pass:[] 宏才可以表达透传，不会被解析，使用反引号包裹可以获得字体样式。
+
+如果遇到“代码/日志”与其“文字解释”需要分离的场景，可以考虑使用 Asciidoc 的 Callouts。
+
+结构化写法的选择由当前对象、引用需求、投影需求和维护成本共同决定。具体判定流程见 xref:structured-writing-decision-trees[附录 B：结构化写法决策树]。

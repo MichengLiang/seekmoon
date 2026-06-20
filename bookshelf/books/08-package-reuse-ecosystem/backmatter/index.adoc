@@ -1,3 +1,38 @@
+[#book-index]
 = 索引
 
-索引词覆盖 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance、Attestation、Package Discovery、Package Management、Evidence、Metric、Score、Compatibility、Vulnerability Advisory、Trusted Publishing、SLSA、Sigstore 和各主流语言生态。
+本索引列出正文中的核心索引入口。HTML 构建可直接阅读本节；支持自动索引的后续工具链可消费正文中的 indexterm 宏。
+
+术语定义见 xref:book-glossary[术语表]；结构化关系谓词见 xref:appendix-structure-vocabulary[附录 D：结构词表]。
+
+[cols="1,2", options="header"]
+|===
+|索引入口 |主要阅读位置
+
+|Package、Artifact
+|xref:package-artifact-model[对象模型中的 Package 与 Artifact 章节]。
+
+|Manifest、Registry、Index
+|xref:manifest-registry-index-model[对象模型中的 Manifest、Registry 与 Index 章节]。
+
+|Resolver、Lockfile、Realization
+|xref:resolver-lockfile-realization-model[对象模型中的 Resolver、Lockfile 与 Realization 章节]。
+
+|Provenance、Attestation
+|xref:provenance-attestation-model[对象模型中的来源证明章节] 与 xref:part-security-governance[安全治理]。
+
+|Package Discovery、Package Management
+|xref:research-object[第一部研究对象] 与 xref:reader-paths[读者路径] 章节。
+
+|Declared Evidence、Structural Evidence、Graph Evidence、Operational Evidence、Social Evidence、Security and Governance Evidence
+|xref:part-evidence-measurement[证据与度量] 中的证据源章节。
+
+|Dimension、Variable、Metric、Weight、Score
+|xref:part-evidence-measurement[证据与度量] 中的维度、变量、指标、权重与分数章节。
+
+|Compatibility
+|xref:part-evaluation-scale[评价尺度] 中的可比性边界章节。
+
+|Vulnerability Advisory、Trusted Publishing、SLSA、Sigstore
+|xref:part-security-governance[安全与治理] 各章。
+|===

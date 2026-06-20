@@ -1,0 +1,14 @@
+[#index-and-glossary]
+== 索引词与术语表
+
+索引词帮助读者在书后找到词。术语表解释本书采用的词。role 标明标题身份，rel 标明引用关系。
+
+正文里已经自然出现该词时，使用可见索引词标记。需要补充未出现在正文里的索引入口时，使用隐藏索引词。
+
+[source,asciidoc]
+----
+indexterm2:[role]
+indexterm:[relation predicate]
+----
+
+稳定术语帮助作者、读者和维护者使用同一组词理解源文档。

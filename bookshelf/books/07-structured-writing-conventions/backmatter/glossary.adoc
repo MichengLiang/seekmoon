@@ -1,0 +1,18 @@
+= 术语表
+
+本术语表记录结构化书写约定中的核心术语。
+
+[glossary]
+heading:: 使用等号标题创建的书稿结构单位。
+stable ID:: 作者为标题显式声明的稳定引用地址，语法为 `[#id]`。
+仅当标题被交叉引用、且标题文本自身不能保证全局唯一和不变时才需使用。
+若标题文本已是领域内唯一的稳定标识符（如实体名称、标准化编号），
+标题文本本身即承担 stable ID 的寻址功能，无需额外声明。
+source-order notation:: 写在源文件路径表面的排序符号。
+role:: 标题身份标记，例如 `.concept` 或 `.rule`。
+ordinary reference:: 普通 xref。投影时使用默认谓词 `aat:references`。
+relation predicate:: xref `rel` 字段选择的边谓词。
+source heading:: xref 所在的标题。
+target heading:: xref selector 指向的标题。
+surface field:: 源文档表面的附加字段。标题字段可来自标题 attrlist 或标题下描述列表；xref 边字段来自 xref named attributes。
+index term:: 服务书后索引和读者检索的索引入口。

@@ -4,7 +4,7 @@
 
 传统 token publishing 使用长期或较长期 token 让 CI 或人类账号发布包。token 泄漏会扩大攻击面。2FA、scoped token、granular token、organization permissions 和 publish access policy 可以降低风险，但不能消除构建脚本、源码审查和依赖替换风险。
 
-indexterm2:[Trusted Publishing]Trusted publishing 使用 OIDC 在 Registry 和受信 CI/CD provider 之间建立短期身份交换。npm trusted publishing 和 PyPI Trusted Publishing 都把发布能力绑定到受信自动化环境，减少在 CI 中保存长期 registry token 的需求。参见 xref:npm-trusted-publishing[npm trusted publishing] 与 xref:pypi-trusted-publishing[PyPI Trusted Publishers]。
+indexterm2:[Trusted Publishing] 使用 OIDC 在 Registry 和受信 CI/CD provider 之间建立短期身份交换。npm trusted publishing 和 PyPI Trusted Publishing 都把发布能力绑定到受信自动化环境，减少在 CI 中保存长期 registry token 的需求。参见 xref:npm-trusted-publishing[npm trusted publishing] 与 xref:pypi-trusted-publishing[PyPI Trusted Publishers]。
 
 发布者身份有三个层级。
 

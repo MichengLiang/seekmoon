@@ -1,0 +1,2 @@
+:series-name: AsciiDoc 多本书工作区示例
+:source-format: AsciiDoc

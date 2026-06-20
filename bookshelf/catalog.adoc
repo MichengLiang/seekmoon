@@ -1,0 +1,73 @@
+= 包复用生态书架
+弥澄亮 <t103ooooo@stu.mju.edu.cn>
+v1.0, 2026-06
+:toc: left
+:toclevels: 2
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+
+本书架的主书是 xref:books/08-package-reuse-ecosystem/book.adoc[《包复用生态：发现、管理与评价尺度》]。
+
+07 号书提供结构化写作规范，服务 8 号书的结构维护。
+
+== 主入口
+
+[cols="1,3", options="header"]
+|===
+|入口 |说明
+
+|xref:books/08-package-reuse-ecosystem/book.adoc[08 包复用生态]
+|定义 Package Discovery 与 Package Management 的对象模型、生命周期、证据源、变量体系、安全治理和评价尺度；这是本书架的主要阅读对象。
+
+|xref:books/07-structured-writing-conventions/book.adoc[07 结构化书写约定]
+|说明标题层级、stable ID、xref、rel、字段、索引词和附录等结构规则；这是维护 8 号书时使用的写作纪律参考。
+|===
+
+== 如何阅读 08
+
+[cols="1,2,2", options="header"]
+|===
+|读者 |先读 |获得的判断
+
+|技术选型工程师
+|xref:books/08-package-reuse-ecosystem/book.adoc#reader-paths[读者路径]、xref:books/08-package-reuse-ecosystem/book.adoc#package-level-evaluation[包级评价]
+|候选包是否适合当前项目，以及哪些硬约束不能被下载量、Star 或文档质量抵消。
+
+|包作者与库维护者
+|xref:books/08-package-reuse-ecosystem/book.adoc#manifest-registry-index-model[Manifest、Registry 与 Index]、xref:books/08-package-reuse-ecosystem/book.adoc#part-lifecycle[生命周期]
+|源码项目如何成为别人能发现、理解、信任、安装和维护的包。
+
+|工具、平台与 registry 设计者
+|xref:books/08-package-reuse-ecosystem/book.adoc#part-object-model[对象模型]、xref:books/08-package-reuse-ecosystem/book.adoc#part-evidence-measurement[证据与度量]、xref:books/08-package-reuse-ecosystem/book.adoc#appendix-structure-vocabulary[结构词表]
+|Registry、Index、Resolver、Discovery Surface、Audit Surface 和评价输出的职责边界。
+
+|研究者与评价模型构造者
+|xref:books/08-package-reuse-ecosystem/book.adoc#appendix-variable-dictionary[变量字典]、xref:books/08-package-reuse-ecosystem/book.adoc#appendix-ecosystem-matrix[生态矩阵]、xref:books/08-package-reuse-ecosystem/book.adoc#appendix-source-map[资料来源图]
+|哪些变量可跨生态比较，哪些变量必须保留生态语义和来源口径。
+|===
+
+== 08 的知识结构
+
+* xref:books/08-package-reuse-ecosystem/book.adoc#part-orientation[进入包复用生态]：定义研究对象、读者路径和基本命题。
+* xref:books/08-package-reuse-ecosystem/book.adoc#part-object-model[对象模型]：定义 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance 和 Attestation。
+* xref:books/08-package-reuse-ecosystem/book.adoc#part-lifecycle[生命周期]：描述 Authoring、Declaration、Publication、Indexing、Discovery、Assessment、Resolution、Realization、Maintenance 和反馈回路。
+* xref:books/08-package-reuse-ecosystem/book.adoc#part-evidence-measurement[证据与度量]：区分证据源、维度、变量、指标、权重和分数。
+* xref:books/08-package-reuse-ecosystem/book.adoc#part-ecosystem-studies[主流生态对照]：对照 JS/TS、Rust、Python、Go、JVM/Kotlin、.NET、C/C++、Swift 和跨生态数据表面。
+* xref:books/08-package-reuse-ecosystem/book.adoc#part-security-governance[安全与治理]：拆分漏洞状态、发布者身份、构建来源、制品完整性和注册表治理。
+* xref:books/08-package-reuse-ecosystem/book.adoc#part-evaluation-scale[评价尺度]：说明变量组、作用域、归一化、可比性边界和分数读取方式。
+
+== 维护参考
+
+编辑 8 号书时，使用 xref:books/07-structured-writing-conventions/book.adoc[07 结构化书写约定] 检查以下规则：
+
+* 标题层级必须连续。
+* 被交叉引用且标题文本不稳定或不唯一的节点需要 stable ID。
+* 跨越书名、部、章等大跨度的显式指代需要 xref。
+* 关系谓词必须同时进入正文和结构词表。
+* 后置附录、术语表、参考文献和索引需要承担查阅功能。
+
+== 工作区地图
+
+image::shared/images/workspace-map.svg[包复用生态书架结构]
