@@ -184,7 +184,7 @@ value/method entry 观察到：
 
 `signature` 可能是带 HTML link 的签名字符串。SeekMoon 可以保留 raw signature，也可以派生 plain text signature，但 plain text 是 SeekMoon 派生投影，不是上游字段。
 
-资源 asset 存在一个重要漂移点：前端源码当前请求 singular `resource.json`，旧 SPA 注释和本轮 Task 02 检查的是 plural `resources.json`。Task 02 对 297 个 plural `resources.json` 请求没有发现 200，代表样本全部 404。结论是：资源 asset 当前不能作为可靠输入。对于 v0，`resources/resource` 只能作为 optional source：200 才解析，404 只表示 resource asset unavailable，不表示 package 不存在，也不表示没有 API 文档，更不表示没有 README，因为 source zip 里可能有 README。这个点后续实现前建议单独验证 singular `resource.json` live 行为。
+资源 asset 存在一个重要漂移点：前端源码当前请求 singular `resource.json`，旧 SPA 注释和本轮 Task 02 检查的是 plural `resources.json`。Task 02 对 297 个 plural `resources.json` 请求没有发现 200，代表样本全部 404；后续补充抽样又确认 singular `resource.json` 在很多模块上 live 可用。结论是：plural `resources.json` 不能作为可靠输入，而 singular `resource.json` 可以作为当前前端一致使用的可选输入，但仍然不是全覆盖来源。对于 v0，README/文档正文应优先 `resource.json`，404 时再回退到 source zip / `moon fetch` / 本地 cache / local core source / GitHub。这个点已经不再是“是否存在”，而是“如何分层 fallback”。
 
 source zip 当前可用但不普遍。`mizchi/markdown`、`moonbit-community/cmark`、`jaredzhou/pony` 可下载，zip 内含 module config、package config、`.mbt`、README、LICENSE、tests/examples/benches 等不同组合。`moonbitlang/core` 最新版本 source zip 按同样 URL 404。结论：source zip 是“可用时的发布版源码证据”，不是全模块稳定来源。失败时应回退到 `moon fetch`、本地 cache、`~/.moon/lib/core` 或 GitHub repository；GitHub 是维护/协作/未发布状态证据，不是发布版源码的唯一事实源。
 
@@ -327,7 +327,7 @@ skill marketplace 是单独页面，消费 `/api/v0/skills`，并展示 `moon ru
 - repository 空字符串：`missing`。
 - license 空字符串：`missing`。
 - 用户指定 `--target js`，manifest 没 target metadata，也没 probe：`target unknown`。
-- `resources.json` 404：`resources unavailable`，不是 package missing。
+- `resource.json` 404：`resource unavailable`，不是 package missing。
 - symbols cache 查不到 markdown：`unknown`，不是 no package。
 - source zip 404：`source_zip unavailable`，不是 module missing。
 - `quality_score`：unsupported，不显示。
