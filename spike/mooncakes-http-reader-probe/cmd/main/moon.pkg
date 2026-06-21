@@ -1,0 +1,11 @@
+import {
+  "seekmoon/mooncakes_http_reader_probe" @probe,
+  "moonbitlang/async",
+  "moonbitlang/core/env",
+}
+
+options(
+  "is-main": true,
+)
+
+supported_targets = "native"
