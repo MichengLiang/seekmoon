@@ -1,0 +1,43 @@
+[#project-context.source]
+== Project Context
+
+Project context 是 SeekMoon 当前运行目录中的 MoonBit 项目事实。它为 search、probe、record 和 report 提供消费者上下文。
+
+[source,text]
+----
+moon.mod
+moon.mod.json
+moon.pkg
+moon.pkg.json
+----
+
+SeekMoon 从项目上下文读取 module identity、dependency declarations、package configuration、target hints 和 workspace boundary。读取失败不阻止全局 search，但会影响 contextual probe 和 report。
+
+[cols="1,2,2", options="header"]
+|===
+|上下文 |用途 |边界
+
+|Project root
+|确定命令工作目录和本地记录位置。
+|不能跨出明确项目边界修改文件。
+
+|Module config
+|读取当前项目身份和依赖声明。
+|格式差异由 parser 层处理。
+
+|Package config
+|读取 package 与 target 相关上下文。
+|不能替代候选包 target 证据。
+
+|Declared target
+|作为 search display 或 probe 参数。
+|没有 evidence 时不能推出候选支持该 target。
+
+|Existing dependencies
+|报告当前项目已引入状态。
+|不替代 `moon tree` 或 resolver 结果。
+|===
+
+Probe mutation 必须有明确边界。默认 probe 使用 SeekMoon 创建的隔离目录，例如 `.seekmoon/probes/<id>`。在当前项目中直接执行 `moon add` 或修改 manifest 需要明确命令表面表达。Probe result 是 local derived evidence；它不修改 Mooncakes、repository 或 module metadata。
+
+Project context 也决定 record storage。`.seekmoon/records` 和 `.seekmoon/reports` 属于当前项目的调查记录空间。跨项目复用 record 时必须保留原 project identity 和 snapshot id。

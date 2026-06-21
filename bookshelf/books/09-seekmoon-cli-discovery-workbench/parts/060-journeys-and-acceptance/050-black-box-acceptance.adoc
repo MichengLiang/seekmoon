@@ -1,0 +1,75 @@
+[#black-box-acceptance.acceptance]
+== Black-box Acceptance
+
+SeekMoon satisfies its public object when the following behaviors hold from the command surface.
+
+[cols="1,2,2", options="header"]
+|===
+|编号 |验收行为 |检查方式
+
+|A1
+|消费者不手写 Mooncakes API URL 即可生成候选集合。
+|Run `seekmoon search markdown` and inspect candidates。
+
+|A2
+|Search result can be referenced by session-local number。
+|Run `seekmoon view 1` after search。
+
+|A3
+|Library module and skill entry use separate command surfaces。
+|Run `seekmoon search markdown` and `seekmoon skill search cowsay`。
+
+|A4
+|Single module profile includes manifest evidence and package index state。
+|Run `seekmoon view <module>`。
+
+|A5
+|Package API profile comes from module index and package data。
+|Run `seekmoon api <module> --package <path>`。
+
+|A6
+|Published source can be fetched or located with source resolution。
+|Run `seekmoon source <module@version>`。
+
+|A7
+|Target support without evidence is `unknown`。
+|Run `seekmoon search <query> --target <target>` before probe。
+
+|A8
+|Probe produces local derived evidence without modifying upstream facts。
+|Run `seekmoon probe 1 --target js`。
+
+|A9
+|Adoption decision is saved as record with evidence refs。
+|Run `seekmoon record 1 --conclusion continue-verification`。
+
+|A10
+|Report lists only actually used sources。
+|Run `seekmoon report --format markdown` and inspect Data sources。
+
+|A11
+|Pretty text remains low-noise and does not require parsing by scripts。
+|Inspect default command output。
+
+|A12
+|JSON output contains schema id and evidence states。
+|Run `seekmoon search markdown --json`。
+
+|A13
+|Built-in jq evaluates against command JSON output。
+|Run `seekmoon search markdown --jq '.results[].module'`。
+
+|A14
+|Shape explains JSON fields without a real query result。
+|Run `seekmoon search --shape`。
+
+|A15
+|Schema provides JSON Schema for strict consumers。
+|Run `seekmoon search --schema`。
+
+|A16
+|Error surface gives source, state, meaning and recovery when failure interrupts a command。
+|Request a missing package path with `seekmoon api`。
+|===
+
+These behaviors are independent of implementation language. They define the public workbench.

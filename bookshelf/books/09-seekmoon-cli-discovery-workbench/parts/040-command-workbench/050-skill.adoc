@@ -1,0 +1,49 @@
+[#skill-command.command]
+== `seekmoon skill`
+
+`skill` 处理 executable Wasm / runwasm entries。它依赖 xref:skill-entry-model[SkillEntry, rel=depends-on]。
+
+[source,bash]
+----
+seekmoon skill search cowsay
+seekmoon skill view Yoorkin/cowsay
+----
+
+`skill search` 读取 Skills API，按 name、module、package 和 metadata description 搜索。`skill view` 读取 skill detail、SKILL.md、wasm URL、checksum URL，并派生 pinned runwasm coordinate。
+
+[cols="1,2", options="header"]
+|===
+|字段 |用途
+
+|`module`
+|所属 module。
+
+|`package`
+|executable package path。
+
+|`version`
+|可复查版本。
+
+|`wasm_url`
+|Wasm artifact。
+
+|`checksum_url`
+|Checksum asset。
+
+|`runwasm_coordinate`
+|可执行命令坐标。
+|===
+
+默认输出示例：
+
+[source,text]
+----
+skill   Yoorkin/cowsay
+version 0.1.0
+package cowsay
+wasm    available
+sha256  available
+run     moon runwasm Yoorkin/cowsay/cowsay@0.1.0
+----
+
+Skill execution verification 与 library dependency probe 分开记录。Skill entry 可以进入 report，但不进入 library adoption conclusion。

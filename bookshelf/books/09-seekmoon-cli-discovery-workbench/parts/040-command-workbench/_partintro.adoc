@@ -1,0 +1,1 @@
+本部定义 SeekMoon 的 CLI 命令表面。每个命令对应一个消费者动作，并产生一个可投影的 canonical object。

@@ -1,0 +1,169 @@
+[#public-http-sources.source]
+== Public HTTP Sources
+
+indexterm2:[Evidence Source] SeekMoon 的 public HTTP sources 来自 Mooncakes 公开 API。它们提供 registry 可见数据、单 module 详情、统计快照和 skill entry 列表。HTTP source 的读取结果进入 snapshot，并带有 fetch time、URL、status 和 parse state。
+
+[#modules-api.source]
+=== Modules API
+
+[source,text]
+----
+GET https://mooncakes.io/api/v0/modules
+----
+
+Modules API 是 library module search 的基础 input surface。它返回 module summary array。SeekMoon 从该数组读取 module coordinate、version、description、keywords、repository、license、created_at 和 newness flag。
+
+[cols="1,2,2", options="header"]
+|===
+|字段 |SeekMoon 解释 |状态规则
+
+|`name`
+|完整 module coordinate。
+|非空值为 `present`；缺失或空值使该 record 不进入普通候选集合。
+
+|`version`
+|列表层当前版本。
+|非空值为 `present`。
+
+|`description`
+|作者声明的用途摘要。
+|空字符串为 `missing`。
+
+|`keywords`
+|作者声明的检索词。
+|空数组为 `missing`。
+
+|`repository`
+|源码仓库或维护入口声明。
+|空字符串为 `missing`。
+
+|`license`
+|作者声明的 license 字符串。
+|空字符串为 `missing`。
+|===
+
+Modules API 不提供 downloads、build status、package tree、API details、target proof、source files、repository activity 或 vulnerability status。`search` 可以把 modules array 本地过滤和排序；它不能把 list-level fields 解释为完整 package assessment。
+
+[#statistics-api.source]
+=== Statistics API
+
+[source,text]
+----
+GET https://mooncakes.io/api/v0/modules/statistics
+----
+
+Statistics API 给出 registry 快照规模。SeekMoon 在 `sync` 和 report 中记录这些计数，用于说明调查时的数据口径。
+
+[cols="1,2", options="header"]
+|===
+|字段 |含义
+
+|`total_modules`
+|统计口径下的 module 数。
+
+|`total_packages`
+|统计口径下的 package 数。
+
+|`total_lines`
+|统计口径下的代码行数。
+
+|`total_downloads`
+|统计口径下的下载次数。
+|===
+
+这些计数是 snapshot value。它们随时间变化，不参与单个候选的质量判断。
+
+[#manifest-api.source]
+=== Manifest API
+
+[source,text]
+----
+GET https://mooncakes.io/api/v0/manifest/<owner>/<module>
+----
+
+Manifest API 是 `view`、`compare`、`source` 和 asset URL construction 的核心来源。它把单个 module 的 registry profile 暴露为 manifest object。
+
+[cols="1,2,2", options="header"]
+|===
+|字段 |SeekMoon 用途 |边界
+
+|`module` / `name`
+|确认 module coordinate。
+|二者不一致时进入 failure surface。
+
+|`version`
+|构造 asset URL 和 source resolution。
+|不是用户项目中的 locked version。
+
+|`latest_version`
+|显示 latest state。
+|不替代当前查询指定版本。
+
+|`downloads`
+|社会使用信号。
+|不是质量、安全或适配证明。
+
+|`has_package`
+|Mooncakes package/docs asset 相关状态。
+|不等于本地可采用。
+
+|`build_status`
+|Mooncakes 构建或文档相关状态。
+|不证明所有 target 构建成功。
+
+|`metadata`
+|开放 metadata object。
+|不能按闭合 schema 解释。
+
+|`versions`
+|版本列表和 yanked state。
+|版本数量由 SeekMoon 派生。
+|===
+
+Manifest metadata 是开放对象。当前已知字段拼写包括 repository、license、description、keywords、checksum、readme、deps、source、preferred target 和 supported targets。SeekMoon 只规范化已知字段，并保留 raw metadata 供 JSON 和 raw surface 使用。
+
+[#skills-api.source]
+=== Skills API
+
+[source,text]
+----
+GET https://mooncakes.io/api/v0/skills
+GET https://mooncakes.io/api/v0/skills/<entry>
+----
+
+Skills API 提供 executable Wasm 或 `moon runwasm` 条目。Skill entry 属于 execution object，不属于 library dependency candidate。`skill search` 和 `skill view` 消费该来源。
+
+[cols="1,2,2", options="header"]
+|===
+|字段 |SeekMoon 用途 |边界
+
+|`module`
+|所属 module coordinate。
+|不说明该 module 适合作为 library dependency。
+
+|`version`
+|skill 发布版本。
+|未 pin 的 runwasm input 必须解析出版本后记录。
+
+|`package`
+|executable package path。
+|空字符串可表示 root/default package marker。
+
+|`name`
+|skill entry 名称。
+|可用于 skill search 和 display。
+
+|`wasm_url`
+|Wasm artifact asset。
+|不证明 library API 可用。
+
+|`checksum_url`
+|Wasm checksum asset。
+|checksum 不等于 provenance。
+
+|`metadata`
+|skill metadata。
+|内部字段稀疏，空字符串为 `missing`。
+|===
+
+Skill source 的输出进入 `SkillEntry` 和 `SkillProfile`，见 xref:skill-entry-model[SkillEntry, rel=depends-on]。

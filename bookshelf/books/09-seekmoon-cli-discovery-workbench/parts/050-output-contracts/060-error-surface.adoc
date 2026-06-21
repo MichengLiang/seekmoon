@@ -1,0 +1,47 @@
+[#error-surface.projection]
+== Error Surface
+
+Error surface is the failure projection for commands. It serves failure recovery consumers and constrains how source failures are reported.
+
+An error surface contains:
+
+* command
+* object
+* attempted source
+* state
+* meaning
+* recovery action
+* log path when a local command ran
+
+Example: resource asset unavailable.
+
+[source,text]
+----
+command  seekmoon view
+object   mizchi/markdown@0.6.2 src/api
+source   resource.json
+state    unavailable
+meaning  optional resource asset is absent; package_data may still exist
+recover  seekmoon api mizchi/markdown --package src/api
+----
+
+Example: package path not found.
+
+[source,text]
+----
+command  seekmoon api
+object   mizchi/markdown src/apix
+source   module_index.json
+state    failed
+meaning  package path is not present in module index
+
+known packages
+  src
+  src/api
+  src/toc
+  src/slug
+----
+
+Error recovery text appears only in failure projection. Normal pretty text remains a result surface.
+
+Status terms in error surface are defined by xref:evidence-state-values[Evidence State Values, rel=depends-on]。

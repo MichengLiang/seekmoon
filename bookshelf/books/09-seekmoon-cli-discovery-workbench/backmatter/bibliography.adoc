@@ -1,0 +1,16 @@
+[#book-bibliography.reference]
+= 参考文献
+
+* [[[moonbit-docs]]] MoonBit Documentation, https://docs.moonbitlang.com/
+* [[[moonbit-release-010]]] MoonBit v0.10.0 Release, https://www.moonbitlang.com/updates/2026/06/08/moonbit-0-10-0-release
+* [[[mooncakes]]] Mooncakes Registry, https://mooncakes.io/
+* [[[mooncakes-modules-api]]] Mooncakes Modules API, https://mooncakes.io/api/v0/modules
+* [[[mooncakes-statistics-api]]] Mooncakes Statistics API, https://mooncakes.io/api/v0/modules/statistics
+* [[[json-schema]]] JSON Schema, https://json-schema.org/
+* [[[jq-manual]]] jq Manual, https://jqlang.github.io/jq/manual/
+* [[[github-cli-formatting]]] GitHub CLI Manual: Formatting JSON output, https://cli.github.com/manual/gh_help_formatting
+* [[[gibson-affordance]]] Gibson, J. J. (1979). _The Ecological Approach to Visual Perception_. Houghton Mifflin.
+* [[[norman-design]]] Norman, D. A. (1988). _The Psychology of Everyday Things_. Basic Books.
+* [[[barker-behavior-settings]]] Barker, R. G. (1968). _Ecological Psychology: Concepts and Methods for Studying the Environment of Human Behavior_. Stanford University Press.
+* [[[mcluhan-media]]] McLuhan, M. (1964). _Understanding Media: The Extensions of Man_. McGraw-Hill.
+* [[[postman-media]]] Postman, N. (1985). _Amusing Ourselves to Death_. Viking Penguin.

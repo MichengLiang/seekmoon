@@ -1,0 +1,74 @@
+[#appendix-public-source-map.reference]
+= 附录 A：公共来源图
+
+[cols="1,2,2,2", options="header"]
+|===
+|Source |Surface |SeekMoon object |Used by
+
+|Mooncakes Modules API
+|`GET https://mooncakes.io/api/v0/modules`
+|`ModuleSummary`
+|`sync`、`search`
+
+|Mooncakes Statistics API
+|`GET https://mooncakes.io/api/v0/modules/statistics`
+|Snapshot counters
+|`sync`、`report`
+
+|Mooncakes Manifest API
+|`GET https://mooncakes.io/api/v0/manifest/<owner>/<module>`
+|`ManifestProfile`
+|`view`、`compare`、`source`
+
+|Mooncakes Skills API
+|`GET https://mooncakes.io/api/v0/skills`
+|`SkillEntry`
+|`skill search`、`skill view`
+
+|Module index asset
+|`GET https://mooncakes.io/assets/<module>@<version>/module_index.json`
+|`ModuleIndexTree`
+|`view`、`api`
+
+|Package data asset
+|`GET https://mooncakes.io/assets/<module>@<version>/<package-relpath>/package_data.json`
+|`PackageData`
+|`api`
+
+|Resource asset
+|`GET https://mooncakes.io/assets/<module>@<version>/<package-relpath>/resource.json`
+|Optional resource evidence
+|`view`、`api`、`report`
+
+|Source zip
+|`GET https://download.mooncakes.io/user/<owner>/<module>/<version>.zip`
+|Published source attempt
+|`source`
+
+|Skill assets
+|`SKILL.md`、`wasm_url`、`checksum_url`
+|`SkillProfile`
+|`skill view`
+
+|Moon CLI
+|`moon update`、`moon fetch`、`moon ide doc`、`moon add`、`moon check`、`moon test`、`moon build`
+|Local toolchain evidence
+|`sync`、`api`、`source`、`probe`
+
+|Local registry index
+|`~/.moon/registry/index/user/**/*.index`
+|`LocalModuleVersionRecord`
+|`search`、`view`、`raw`
+
+|Local symbols cache
+|`~/.moon/registry/symbols/**/*.symbols`
+|`SymbolRecord`
+|`api`、`raw`
+
+|Repository
+|GitHub or declared repository URL
+|Repository signal
+|`view`、`compare`、`report`
+|===
+
+Each source is read with source label, fetch time and status. Report output lists only sources used by the recorded investigation.

@@ -1,0 +1,75 @@
+[#search-command.command]
+== `seekmoon search`
+
+`search` 从 query 和 snapshot 生成 library module candidates。它依赖 xref:module-summary-model[ModuleSummary, rel=depends-on] 和 xref:search-result-model[SearchResult, rel=depends-on]。
+
+[source,bash]
+----
+seekmoon search markdown
+seekmoon search markdown --target js
+----
+
+`search` 默认读取最新 snapshot 中的 Modules API array。没有可用 snapshot 时，它可以读取 Modules API 并创建 transient snapshot。Query 匹配 module name、description、keywords 和 repository declaration。
+
+[cols="1,2", options="header"]
+|===
+|输入 |含义
+
+|`query`
+|功能词、格式名、包名或相邻关键词。
+
+|`--target <target>`
+|把 target 放入候选显示和 JSON context。
+
+|`--limit <n>`
+|限制候选数量。
+
+|candidate number
+|后续 `view`、`api`、`compare`、`probe`、`record` 的 session-local 引用。
+|===
+
+默认输出只显示候选判断所需字段：
+
+[source,text]
+----
+Search: markdown    target: js    kind: library    snapshot: 2026-06-21T22:35
+
+#  module                         version   license   build    downloads   target
+1  mizchi/markdown                 0.6.2     MIT       success  7567        unknown
+2  moonbit-community/cmark         0.4.4     Apache-2  success  3120        unknown
+3  shiguri-01/markdown             0.1.1     MIT       success  91          unknown
+----
+
+`target` 列只在 target context 存在时显示。Target unknown 不表示 unsupported；它表示当前读取来源不能回答 target support。
+
+[#view-command.command]
+== `seekmoon view`
+
+`view` 展示单个 library module evidence profile。它依赖 xref:manifest-profile-model[ManifestProfile, rel=depends-on] 和 xref:module-index-tree[ModuleIndexTree, rel=depends-on]。
+
+[source,bash]
+----
+seekmoon view mizchi/markdown
+seekmoon view 1
+----
+
+`view` 读取 Manifest API，并用 manifest version 构造 module index asset URL。它显示 description、license、repository、downloads、build status、docs URL、package count、API index state、source state 和 target state。
+
+[source,text]
+----
+mizchi/markdown 0.6.2
+
+description  Incremental Markdown parser and compiler
+license      MIT
+repository   https://github.com/mizchi/markdown.mbt
+downloads    7567
+build        success
+docs         https://mooncakes.io/docs/mizchi/markdown
+
+packages     18
+api index    available
+source       not fetched
+target js    unknown
+----
+
+`view` 不展开所有 API symbols。API details 属于 xref:api-command[`seekmoon api`, rel=depends-on]。Repository activity 只在 enrichment 被请求或 report 需要时进入 output。

@@ -1,0 +1,146 @@
+= SeekMoon：MoonBit 包发现工作台
+弥澄亮 <t103ooooo@stu.mju.edu.cn>
+v1.0, 2026-06
+:doctype: book
+:toc: left
+:toclevels: 3
+:sectnums:
+:partnums:
+:part-signifier: Part
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+
+include::../../shared/attributes.adoc[]
+
+[abstract]
+include::frontmatter/abstract.adoc[]
+
+[colophon]
+include::frontmatter/colophon.adoc[]
+
+[preface]
+include::frontmatter/preface.adoc[]
+
+= 工具对象与行为场景
+
+[partintro]
+include::parts/010-artifact-and-workbench/_partintro.adoc[]
+
+include::parts/010-artifact-and-workbench/010-moonbit-package-discovery-situation.adoc[]
+
+include::parts/010-artifact-and-workbench/020-seekmoon-object-definition.adoc[]
+
+include::parts/010-artifact-and-workbench/030-consumer-actions.adoc[]
+
+include::parts/010-artifact-and-workbench/040-cli-workbench-environment.adoc[]
+
+= 证据来源边界
+
+[partintro]
+include::parts/020-evidence-boundary/_partintro.adoc[]
+
+include::parts/020-evidence-boundary/010-public-http-sources.adoc[]
+
+include::parts/020-evidence-boundary/020-static-assets.adoc[]
+
+include::parts/020-evidence-boundary/030-local-toolchain-and-cache.adoc[]
+
+include::parts/020-evidence-boundary/040-project-context.adoc[]
+
+include::parts/020-evidence-boundary/050-repository-signals.adoc[]
+
+= Canonical 数据模型
+
+[partintro]
+include::parts/030-canonical-model/_partintro.adoc[]
+
+include::parts/030-canonical-model/010-evidence-state.adoc[]
+
+include::parts/030-canonical-model/020-module-summary-and-search-result.adoc[]
+
+include::parts/030-canonical-model/030-manifest-profile.adoc[]
+
+include::parts/030-canonical-model/040-api-profile.adoc[]
+
+include::parts/030-canonical-model/050-skill-profile.adoc[]
+
+include::parts/030-canonical-model/060-source-resolution-and-probe-result.adoc[]
+
+include::parts/030-canonical-model/070-record-and-report.adoc[]
+
+= 命令工作台
+
+[partintro]
+include::parts/040-command-workbench/_partintro.adoc[]
+
+include::parts/040-command-workbench/010-command-map.adoc[]
+
+include::parts/040-command-workbench/020-doctor-and-sync.adoc[]
+
+include::parts/040-command-workbench/030-search-and-view.adoc[]
+
+include::parts/040-command-workbench/040-api-and-source.adoc[]
+
+include::parts/040-command-workbench/050-skill.adoc[]
+
+include::parts/040-command-workbench/060-compare-and-probe.adoc[]
+
+include::parts/040-command-workbench/070-record-report-and-raw.adoc[]
+
+= 输出契约
+
+[partintro]
+include::parts/050-output-contracts/_partintro.adoc[]
+
+include::parts/050-output-contracts/010-pretty-text.adoc[]
+
+include::parts/050-output-contracts/020-json-output.adoc[]
+
+include::parts/050-output-contracts/030-built-in-jq.adoc[]
+
+include::parts/050-output-contracts/040-shape.adoc[]
+
+include::parts/050-output-contracts/050-schema.adoc[]
+
+include::parts/050-output-contracts/060-error-surface.adoc[]
+
+= 行动轨迹与验收
+
+[partintro]
+include::parts/060-journeys-and-acceptance/_partintro.adoc[]
+
+include::parts/060-journeys-and-acceptance/010-library-discovery-journey.adoc[]
+
+include::parts/060-journeys-and-acceptance/020-skill-discovery-journey.adoc[]
+
+include::parts/060-journeys-and-acceptance/030-pipeline-journey.adoc[]
+
+include::parts/060-journeys-and-acceptance/040-failure-recovery-journey.adoc[]
+
+include::parts/060-journeys-and-acceptance/050-black-box-acceptance.adoc[]
+
+[glossary]
+include::backmatter/glossary.adoc[]
+
+[appendix]
+include::backmatter/appendix-a-public-source-map.adoc[]
+
+[appendix]
+include::backmatter/appendix-b-data-dictionary.adoc[]
+
+[appendix]
+include::backmatter/appendix-c-command-reference.adoc[]
+
+[appendix]
+include::backmatter/appendix-d-output-shapes.adoc[]
+
+[appendix]
+include::backmatter/appendix-e-status-and-error-matrix.adoc[]
+
+[bibliography]
+include::backmatter/bibliography.adoc[]
+
+[index]
+include::backmatter/index.adoc[]

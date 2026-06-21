@@ -1,0 +1,91 @@
+[#failure-recovery-journey.workflow]
+== Failure Recovery Journey
+
+Failure recovery journey defines how failures remain actionable without turning normal output into tutorial text.
+
+=== Resource Asset Unavailable
+
+[source,bash]
+----
+seekmoon view mizchi/markdown --readme
+----
+
+[source,text]
+----
+command  seekmoon view
+object   mizchi/markdown@0.6.2 src/api
+source   resource.json
+state    unavailable
+meaning  optional resource asset is absent; package_data may still exist
+recover  seekmoon api mizchi/markdown --package src/api
+----
+
+State change:
+
+[source,text]
+----
+resource.state = unavailable
+api.recovery = available
+----
+
+=== Package Path Not Found
+
+[source,bash]
+----
+seekmoon api mizchi/markdown --package src/apix
+----
+
+[source,text]
+----
+command  seekmoon api
+object   mizchi/markdown src/apix
+source   module_index.json
+state    failed
+meaning  package path is not present in module index
+
+known packages
+  src
+  src/api
+  src/toc
+  src/slug
+----
+
+State change:
+
+[source,text]
+----
+api.request = failed
+module_index = present
+----
+
+=== Probe Target Failed
+
+[source,bash]
+----
+seekmoon probe 1 --target wasm-gc
+----
+
+[source,text]
+----
+probe   mizchi/markdown@0.6.2
+target  wasm-gc
+path    .seekmoon/probes/mizchi-markdown-0.6.2-wasm-gc
+
+moon new                         ok
+moon add                         ok
+moon check                       ok
+moon check --target wasm-gc      failed
+
+status  failed
+log     .seekmoon/probes/mizchi-markdown-0.6.2-wasm-gc/logs/moon-check-target.log
+----
+
+State change:
+
+[source,text]
+----
+candidate[1].probe[wasm-gc].status = failed
+candidate[1].target[wasm-gc].evidence = local-probe-failed
+----
+
+Probe failure remains local evidence. It does not change module metadata.

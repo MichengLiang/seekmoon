@@ -1,0 +1,34 @@
+[#built-in-jq.projection]
+== Built-in jq
+
+Built-in jq executes a jq expression against the current command's JSON output.
+
+[source,bash]
+----
+seekmoon search markdown --jq '.results[].module'
+seekmoon api 1 --package src/api --jq '.types[].name'
+seekmoon source 1 --jq '.selected_source.path'
+----
+
+The evaluation order is fixed:
+
+[source,text]
+----
+command input -> canonical object -> JSON output -> jq expression -> jq result
+----
+
+`--jq` does not read pretty text. It does not change evidence loading rules unless the command itself has options that change loading. It only transforms the JSON projection.
+
+Examples:
+
+[source,bash]
+----
+seekmoon search markdown --json --jq '.results[] | select(.license.value == "MIT") | .module'
+----
+
+[source,text]
+----
+mizchi/markdown
+----
+
+For strict automation, consumers can combine xref:schema-output[Schema Output, rel=depends-on] with jq expressions. Shape provides a human-readable field tree before writing jq.

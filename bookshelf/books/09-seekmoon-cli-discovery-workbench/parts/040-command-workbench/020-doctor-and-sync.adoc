@@ -1,0 +1,88 @@
+[#doctor-command.command]
+== `seekmoon doctor`
+
+`doctor` 检查 SeekMoon 所需本地环境。它服务 failure recovery consumer 和第一次使用工具的 contract reader。
+
+[source,bash]
+----
+seekmoon doctor
+----
+
+`doctor` 读取本地 MoonBit 工具链、registry 路径、symbols cache、network reachability、GitHub CLI 可用性和当前项目上下文。它不创建 snapshot，不更新 registry，不写 record。
+
+[cols="1,2", options="header"]
+|===
+|检查项 |输出
+
+|Toolchain
+|`moon`、`moonc`、`moonrun`、`mooncake` version。
+
+|Commands
+|`moon fetch`、`moon ide doc`、`moon runwasm` 是否可用。
+
+|Paths
+|registry index、symbols cache、registry cache、assets cache、core source。
+
+|Network
+|Mooncakes API 和 assets reachability。
+
+|Project
+|当前目录是否包含 MoonBit project context。
+|===
+
+默认 pretty text 示例：
+
+[source,text]
+----
+moon        0.1.20260608
+moonc       v0.10.0
+registry    present
+symbols     present
+network     mooncakes.io ok
+project     MoonBit module detected
+----
+
+[#sync-command.command]
+== `seekmoon sync`
+
+`sync` 创建 dated evidence snapshot。Snapshot 固定当前 API、statistics、本地 index 和 symbols 口径。
+
+[source,bash]
+----
+seekmoon sync
+----
+
+`sync` 可以执行 `moon update`，读取 Modules API、Statistics API，统计 local index 和 symbols cache，并保存 snapshot file。
+
+[cols="1,2", options="header"]
+|===
+|读取来源 |写入 snapshot 的信息
+
+|Statistics API
+|module、package、line、download counters。
+
+|Modules API
+|module summary array fetch status 和 length。
+
+|Local registry index
+|index HEAD、file count、record count。
+
+|Symbols cache
+|symbols file count、record count。
+
+|Toolchain
+|MoonBit toolchain versions。
+|===
+
+默认 pretty text 示例：
+
+[source,text]
+----
+snapshot  2026-06-21T22:35:10+08:00
+modules   1350
+packages  12008
+index     1363 files
+symbols   3 modules
+----
+
+`sync` 失败时，error surface 指出失败来源。部分来源失败时，snapshot state 记录 partial result；依赖该来源的后续命令必须读取状态。

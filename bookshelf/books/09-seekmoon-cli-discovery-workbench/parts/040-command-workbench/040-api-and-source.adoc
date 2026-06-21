@@ -1,0 +1,78 @@
+[#api-command.command]
+== `seekmoon api`
+
+`api` 展示 package API profile。它依赖 xref:api-profile-model[API Profile, rel=depends-on]。
+
+[source,bash]
+----
+seekmoon api mizchi/markdown --package src/api
+seekmoon api 1 --package src/api
+----
+
+`api` 先读取 or reuse module index，解析 package path 和 package relpath，再读取 `package_data.json`。可用时，它可以附加 `moon ide doc` 输出，并把该输出标记为 local toolchain evidence。
+
+[source,text]
+----
+API: mizchi/markdown src/api
+
+types
+  Document
+  Node
+  ParseOptions
+  RenderOptions
+
+functions
+  parse(input : String) -> Document
+  render(doc : Document) -> String
+  to_json(doc : Document) -> Json
+
+source loc  available
+----
+
+Package path 不存在时，error surface 列出 module index 中可见 package paths。`resource.json` 不可用不阻止 `package_data.json` API profile。
+
+[#source-command.command]
+== `seekmoon source`
+
+`source` 定位 published source。它依赖 xref:source-resolution-model[SourceResolution, rel=depends-on]。
+
+[source,bash]
+----
+seekmoon source mizchi/markdown@0.6.2
+seekmoon source 1
+----
+
+`source` 按 source resolution 规则尝试获取或定位源码。默认优先使用本地工具链可表达的发布源码入口，并记录每个 attempt。
+
+[cols="1,2", options="header"]
+|===
+|Attempt |用途
+
+|`moon fetch`
+|通过 Moon 工具链获取 registry 发布源码。
+
+|Source zip
+|通过 Mooncakes download URL 下载发布源码。
+
+|Local registry cache
+|使用已有本地缓存。
+
+|Core local source
+|对 core 包读取本地工具链源码。
+
+|Repository signal
+|作为维护仓库或 fallback source 标记。
+|===
+
+默认输出：
+
+[source,text]
+----
+source  mizchi/markdown@0.6.2
+status  fetched
+method  moon fetch
+path    .repos/mizchi/markdown/0.6.2
+files   moon.mod.json, README.md, LICENSE, src/, benches/
+----
+
+`moon fetch` 修改文件系统。默认 mutation boundary 是 SeekMoon 控制的 probe 或 source directory；在当前项目执行可变更命令时，命令表面必须显式表达目标。

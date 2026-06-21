@@ -1,0 +1,58 @@
+[#json-output.projection]
+== JSON Output
+
+JSON output 是当前命令 canonical object 的机器投影。它服务 pipeline consumer、record/report generator 和外部自动化。
+
+[source,bash]
+----
+seekmoon search markdown --json
+----
+
+JSON output 包含 schema id、input、snapshot、result object、evidence states 和 source labels。它不是 pretty text 的 JSON 化。
+
+`search` JSON shape 示例：
+
+[source,json]
+----
+{
+  "schema": "seekmoon.search-results.v1",
+  "snapshot": {
+    "id": "2026-06-21T22:35:10+08:00",
+    "sources": ["modules_api", "statistics_api"]
+  },
+  "query": {
+    "text": "markdown",
+    "kind": "library",
+    "target": "js"
+  },
+  "results": [
+    {
+      "rank": 1,
+      "module": "mizchi/markdown",
+      "version": "0.6.2",
+      "description": {
+        "status": "present",
+        "value": "Incremental Markdown parser and compiler",
+        "source": "modules_api"
+      },
+      "license": {
+        "status": "present",
+        "value": "MIT",
+        "source": "modules_api"
+      },
+      "target": {
+        "status": "unknown",
+        "value": null,
+        "source": null
+      },
+      "match": {
+        "fields": ["module", "description", "keywords"]
+      }
+    }
+  ]
+}
+----
+
+JSON output keeps evidence wrappers where field absence or source matters. A scalar field may remain scalar when the command model requires a value and absence is a command failure, such as `schema` or `results[].rank`.
+
+Every JSON output has a schema id. Schema id changes when the output contract changes incompatibly.

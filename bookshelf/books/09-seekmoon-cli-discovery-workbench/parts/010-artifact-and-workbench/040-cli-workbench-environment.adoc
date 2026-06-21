@@ -1,0 +1,57 @@
+[#cli-workbench-environment.concept]
+== CLI Workbench Environment
+
+indexterm2:[Package discovery workbench] 是行为场景，不是提示文本集合。SeekMoon 的环境由命令名、参数、默认输出列、编号引用、snapshot、record、help、shape、schema、error surface 和本地文件边界共同构成。
+
+媒介环境理论说明，工具不是中立管道。命令行工具改变消费者观察对象、形成动作顺序、定义哪些事实容易被看见。生态心理学中的 affordance 说明，人工制品通过形状和标记提供行动条件。HCI 中的 signifier 说明，设计表面可以在无需反复解释的情况下指示动作。CLI 中的 signifier 是命令名、参数名、输出列和状态词。
+
+SeekMoon 的命令结构与消费者动作同形：
+
+[cols="1,2,2", options="header"]
+|===
+|消费者动作 |命令表面 |环境作用
+
+|生成候选集合
+|`seekmoon search`
+|把查询词转成 candidate list。
+
+|查看单候选证据
+|`seekmoon view`
+|把 module 坐标转成 module profile。
+
+|阅读 API
+|`seekmoon api`
+|把 package path 转成 API profile。
+
+|定位发布源码
+|`seekmoon source`
+|把 module version 转成 source resolution。
+
+|识别 executable skill
+|`seekmoon skill`
+|把 skill query 或 entry 转成 skill profile。
+
+|比较候选
+|`seekmoon compare`
+|把多个候选放入同一证据表面。
+
+|本地验证
+|`seekmoon probe`
+|把候选放入本地工具链验证场景。
+
+|保存判断
+|`seekmoon record`
+|把判断写成 adoption record。
+
+|输出报告
+|`seekmoon report`
+|把调查轨迹投影为 report。
+|===
+
+正常命令输出只投影当前动作需要的事实。学习动作由 README、top-level help、subcommand help、shape 和 schema 承担。失败恢复动作由 error surface 承担。这个分工让工作台保持低噪声，同时保留完整契约。
+
+编号引用也是环境的一部分。一次 `search` 产生的候选可以在同一 session 中被 `view 1`、`api 1`、`compare 1 2 3`、`probe 1` 和 `record 1` 消费。编号引用减少复制 module coordinate 的局部摩擦，但编号只在 snapshot 和 session 边界内有效。
+
+Snapshot 和 record 让行为场景跨命令保持连续。Snapshot 固定数据口径；record 固定采纳判断；report 把二者组合为可复查文档。没有 snapshot，搜索结果只是瞬时屏幕文本；没有 record，调查结论无法进入长期维护。
+
+CLI 工作台的质量由行动轨迹检查。xref:library-discovery-journey[Library Discovery Journey, rel=verifies]、xref:skill-discovery-journey[Skill Discovery Journey, rel=verifies] 和 xref:black-box-acceptance[Black-box Acceptance, rel=verifies] 给出可检查行为。

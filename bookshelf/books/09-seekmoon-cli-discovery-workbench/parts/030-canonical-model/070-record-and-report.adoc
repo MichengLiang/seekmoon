@@ -1,0 +1,97 @@
+[#adoption-record-model.model]
+== AdoptionRecord and Report
+
+`AdoptionRecord` 保存消费者判断。它把候选、版本、证据引用和结论写入项目调查记录。
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`record_id`
+|string
+|本地记录 ID。
+
+|`created_at`
+|datetime
+|记录创建时间。
+
+|`project`
+|object
+|项目 identity 和 path。
+
+|`snapshot_id`
+|string
+|关联 snapshot。
+
+|`candidate`
+|object
+|候选 module 或 skill entry。
+
+|`version`
+|string
+|记录版本。
+
+|`conclusion`
+|enum
+|采纳结论。
+
+|`evidence_refs`
+|array
+|manifest、API、source、probe、repository 等证据引用。
+
+|`not_confirmed`
+|array
+|未确认事项。
+
+|`note`
+|string
+|消费者备注。
+|===
+
+Conclusion enum：
+
+[source,text]
+----
+adopt
+adopt-with-adapter
+continue-verification
+contribute-upstream
+fork
+build-own
+reject-for-now
+----
+
+Pretty text 可以渲染中文标签；JSON output 使用稳定英文枚举。
+
+[#report-model.model]
+=== Report
+
+`Report` 是调查记录的文档 projection。它汇集 goal、date、toolchain、data sources、query、candidates、local validation、cannot-confirm items 和 conclusion。
+
+[cols="1,2", options="header"]
+|===
+|章节 |内容
+
+|Goal
+|调查目标。
+
+|Environment
+|工具链版本、snapshot、项目上下文。
+
+|Data sources
+|实际读取的来源。
+
+|Candidates
+|候选集合和关键证据。
+
+|Inspection
+|API、source、skill 或 repository 下钻结果。
+
+|Validation
+|probe 或执行验证结果。
+
+|Decision
+|AdoptionRecord 的结论和未确认事项。
+|===
+
+Report 不添加未读取来源。没有执行 repository enrichment，就不写 repository activity。没有执行 probe，就不写 local validation 成功或失败。

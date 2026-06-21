@@ -1,0 +1,110 @@
+[#local-toolchain-cache.source]
+== Local Toolchain and Cache
+
+SeekMoon 是本地工作台。它读取 MoonBit 工具链、本地 registry index、symbols cache、registry cache 和 core source。Local sources 让 SeekMoon 能执行验证、离线交叉检查和发布源码定位。
+
+[#moon-commands.source]
+=== Moon Commands
+
+[cols="1,2,2", options="header"]
+|===
+|命令 |SeekMoon 用途 |边界
+
+|`moon --version`
+|记录工具链版本。
+|版本信息不是功能完整性证明。
+
+|`moon update`
+|更新 registry index 与 symbols cache。
+|网络失败或部分失败进入 sync error surface。
+
+|`moon ide doc <query>`
+|查询本地可见 API 文档。
+|不是通用 registry package search。
+
+|`moon fetch <module[@version]>`
+|获取 registry 发布源码到 `.repos`。
+|该动作修改当前项目或 probe 边界。
+
+|`moon add <module>`
+|验证依赖引入。
+|安装成功不等于采纳成功。
+
+|`moon check` / `moon test`
+|验证当前工具链下的检查和测试。
+|验证结果受本地工具链和项目上下文影响。
+
+|`moon build --target <target>`
+|验证目标 target 构建。
+|只证明该环境、该版本、该 target 下的结果。
+
+|`moon runwasm <coordinate>`
+|运行本地或 Mooncakes Wasm asset。
+|属于 skill/executable 路径。
+|===
+
+SeekMoon 调用本地命令时必须记录 command、cwd、environment summary、exit status 和 log path。命令失败不改写上游事实。
+
+[#local-registry-index.source]
+=== Local Registry Index
+
+[source,text]
+----
+~/.moon/registry/index/user/**/*.index
+----
+
+Local registry index 是 JSON Lines。每一行是一个 module version record。它比 Modules API 更接近原始发布记录，也更松散。SeekMoon 用它做 offline search、cross-check 和 raw audit surface。
+
+Local index 可包含 name、version、checksum、license、created_at、repository、readme、keywords、description、deps、source、preferred target、supported targets、include/exclude、authors 等字段。SeekMoon 只规范化当前模型字段，并保留 raw line。
+
+[#symbols-cache.source]
+=== Symbols Cache
+
+[source,text]
+----
+~/.moon/registry/symbols/**/*.symbols
+----
+
+Symbols cache 是 JSON Lines。它包含 meta record 和 symbol record。SeekMoon 可用它补充 API/symbol search。
+
+[cols="1,2", options="header"]
+|===
+|字段 |用途
+
+|`module`
+|symbol 所属 module。
+
+|`version`
+|symbols cache 对应版本。
+
+|`pkg`
+|symbol 所属 package。
+
+|`name`
+|symbol 名称。
+
+|`kind`
+|function、type、method 等 symbol kind。
+
+|`sig_`
+|签名。
+
+|`doc`
+|文档。
+|===
+
+Symbols cache 不是全 registry 覆盖。未命中是 `unknown`，不能推导 registry 没有相关包。
+
+[#local-cache.source]
+=== Registry Cache and Core Source
+
+[source,text]
+----
+~/.moon/registry/cache/**
+~/.moon/registry/cache/assets/**
+~/.moon/lib/core/**
+----
+
+Registry cache 保存已下载的 source zip、registry payload 或 assets。Assets cache 可保存 `moon runwasm` 下载的 Wasm artifact。Core source 提供本地标准库源码。
+
+`source` 命令在 HTTP source 或 `moon fetch` 失败后可检查 local cache。Local cache 命中是当前机器事实，不代表其他机器具备同一缓存。

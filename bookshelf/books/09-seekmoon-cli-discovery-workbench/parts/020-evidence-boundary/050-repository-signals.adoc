@@ -1,0 +1,46 @@
+[#repository-signals.source]
+== Repository Signals
+
+Repository signal 是来自 GitHub 或其他源码仓库的维护与协作证据。SeekMoon 只在 Mooncakes metadata 或 module summary 给出 repository，并且命令实际请求 repository 后，才把这些字段写入输出对象。
+
+Repository signal 回答维护问题：
+
+* repository 是否可访问。
+* repository 是否 archived。
+* 默认分支最近更新时间。
+* release、issue、PR、CI workflow 是否存在。
+* README、tests、examples、license 文件是否可见。
+* main branch 是否包含未发布变化。
+
+Repository signal 不回答发布事实问题。Registry 发布版本的 published source 优先来自 `moon fetch`、source zip、local cache 或 core local source。Repository main branch 与 registry 发布版本可以处在不同提交、不同文件集合或不同发布节奏中。
+
+[cols="1,2,2", options="header"]
+|===
+|字段 |用途 |边界
+
+|`is_archived`
+|维护风险信号。
+|archived 不解释 registry 包是否仍可安装。
+
+|`pushed_at`
+|近期维护活动信号。
+|不是 release timestamp。
+
+|`licenseInfo`
+|仓库 license 信号。
+|registry metadata license 仍需单独保留。
+
+|CI workflows
+|工程实践信号。
+|CI 存在不证明当前 release 通过所有 target。
+
+|issues / PRs
+|协作和问题活动信号。
+|数量不能直接解释为质量。
+
+|README / tests / examples
+|结构性和使用证据。
+|repository 文件不必然包含在发布源码中。
+|===
+
+Repository enrichment 失败不使 module profile 失败。它只使 repository signal state 变为 `failed` 或 `unknown`。默认 `search` 不请求 repository enrichment；`view`、`compare` 或 report 可以显式加载这些信号。

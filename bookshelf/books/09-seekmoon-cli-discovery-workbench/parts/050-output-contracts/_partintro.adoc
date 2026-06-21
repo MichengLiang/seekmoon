@@ -1,0 +1,1 @@
+本部定义 SeekMoon 的输出投影。Pretty text、JSON、jq、shape、schema 和 error surface 服务不同消费者动作，并来自同一 canonical object。

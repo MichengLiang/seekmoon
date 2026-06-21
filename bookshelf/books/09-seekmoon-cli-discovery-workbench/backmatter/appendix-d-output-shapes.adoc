@@ -1,0 +1,100 @@
+[#appendix-output-shapes.projection]
+= 附录 D：Output Shapes
+
+== `seekmoon search --shape`
+
+[source,text]
+----
+seekmoon.search-results.v1
+
+schema: string
+snapshot:
+  id: string
+  sources: string[]
+query:
+  text: string
+  kind: library|skill
+  target: string|null
+results[]:
+  rank: int
+  module: string
+  version: string
+  description: evidence<string>
+  license: evidence<string>
+  repository: evidence<string>
+  target: evidence<string[]>
+  match:
+    fields: string[]
+----
+
+== `seekmoon view --shape`
+
+[source,text]
+----
+seekmoon.module-profile.v1
+
+schema: string
+module: string
+version: string
+manifest:
+  latest_version: string
+  downloads: int
+  build_status: evidence<string>
+  metadata: object
+docs_url: string
+packages:
+  count: int
+  items[]:
+    path: string
+    relpath: string
+source:
+  state: not-fetched|present|failed|unavailable
+target:
+  status: present|unknown|failed
+----
+
+== `seekmoon api --shape`
+
+[source,text]
+----
+seekmoon.api-profile.v1
+
+schema: string
+module: string
+version: string
+package_path: string
+package_relpath: string
+types[]:
+  name: string
+  docstring: evidence<string>
+  signature: string
+  loc: evidence<object>
+  methods[]: api-entry
+values[]: api-entry
+traits[]: api-entry
+errors[]: api-entry
+----
+
+== `seekmoon probe --shape`
+
+[source,text]
+----
+seekmoon.probe-result.v1
+
+schema: string
+module: string
+version: string
+target: string|null
+probe_path: string
+steps:
+  moon_new: command-result
+  moon_add: command-result
+  moon_check: command-result
+  moon_test: command-result
+  moon_check_target: command-result
+  moon_build_target: command-result
+result:
+  status: verifiable|failed|incomplete
+logs:
+  path: string
+----

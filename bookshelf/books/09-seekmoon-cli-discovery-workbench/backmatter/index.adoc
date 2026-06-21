@@ -1,0 +1,41 @@
+[#book-index.reference]
+= 索引
+
+本索引 section 为书籍索引生成保留位置。正文中的可见索引词和隐藏索引词是索引入口来源。
+
+核心索引入口包括：
+
+[source,text]
+----
+SeekMoon
+MoonBit
+Mooncakes
+Package Discovery
+Package discovery workbench
+Evidence Source
+Input Surface
+Snapshot
+ModuleSummary
+SearchResult
+ManifestProfile
+ModuleIndexTree
+PackageData
+SkillEntry
+SourceResolution
+ProbeResult
+AdoptionRecord
+Pretty Text
+JSON Output
+jq
+Shape
+Schema
+Error Surface
+published source
+repository signal
+resource.json
+module_index.json
+package_data.json
+moon fetch
+moon ide doc
+moon runwasm
+----

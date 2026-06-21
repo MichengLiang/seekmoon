@@ -1,0 +1,62 @@
+[#evidence-state-values.model]
+== Evidence State Values
+
+Evidence state 描述字段值和来源动作的当前状态。状态词用于 JSON output、shape、error surface、record 和 report。Pretty text 只在状态影响当前动作时显示。
+
+[cols="1,2,2", options="header"]
+|===
+|状态 |定义 |例子
+
+|`present`
+|来源成功给出有效值。
+|Manifest `license` 为 `MIT`。
+
+|`missing`
+|来源存在字段位置，但值为空字符串、空数组、null 或字段缺失。
+|Modules API `description` 为空字符串。
+
+|`unknown`
+|当前问题需要判断，但已读取来源不能回答。
+|用户请求 `--target js`，manifest 和 local index 都没有 target metadata，probe 也未运行。
+
+|`failed`
+|请求、命令或解析动作已经执行并失败。
+|Manifest API 返回非 2xx；`moon fetch` 退出非零；JSON parse 失败。
+
+|`unavailable`
+|可选来源不存在，或当前对象没有该可选资产。
+|`resource.json` 返回 404。
+
+|`derived`
+|SeekMoon 从当前事实计算得到。
+|`versions_count`、search rank、package relpath、runwasm coordinate。
+|===
+
+`missing` 与 `unknown` 分别回答不同问题。`missing` 表示某个来源给出的对象里没有值；`unknown` 表示当前判断没有证据来源可以回答。空 license 是 `missing`；没有 target evidence 是 `unknown`。
+
+`unavailable` 与 `failed` 也不能混用。可选资源 404 是 `unavailable`；网络请求超时是 `failed`。`unavailable` 不必然中断命令；`failed` 是否中断由命令契约规定。
+
+没有进入当前命令模型的对象不写入输出对象。状态词只用于命令模型中的字段和已执行来源动作。
+
+[cols="1,2,2", options="header"]
+|===
+|字段类别 |状态处理 |输出行为
+
+|当前命令核心字段
+|必须有 state 或有效值。
+|Pretty text 显示影响判断的状态；JSON 保留完整 state。
+
+|可选 enrichment 字段
+|只在请求或加载后出现。
+|加载失败时 JSON 保留 failure；pretty text 视命令而定。
+
+|派生字段
+|标记为 `derived` 或带 source expression。
+|JSON 保留派生来源；pretty text 显示结果。
+
+|命令模型外对象
+|无状态。
+|不进入 pretty text、JSON、shape 或 schema。
+|===
+
+Error surface 使用同一组状态词。错误输出见 xref:error-surface[Error Surface, rel=constrains]。

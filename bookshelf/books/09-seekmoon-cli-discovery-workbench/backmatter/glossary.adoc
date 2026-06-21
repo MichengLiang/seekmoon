@@ -1,0 +1,48 @@
+[#book-glossary.glossary]
+= 术语表
+
+本术语表定义 SeekMoon 书中使用的核心词。命令字段见 xref:appendix-command-reference[附录 C：命令速查]；数据字段见 xref:appendix-data-dictionary[附录 B：数据字典]。
+
+[glossary]
+SeekMoon:: 面向 MoonBit 消费者的本地包发现工作台。它把公开 API、静态资产、本地工具链、本地缓存、项目上下文、repository 信号和本地记录投影为 CLI 动作。
+MoonBit:: 一门通用编程语言及其工具链生态。SeekMoon 把 MoonBit 包和 skill 作为消费对象处理。
+Mooncakes:: MoonBit 包注册表和文档表面。SeekMoon 读取 Mooncakes 的公开 API 与静态资产。
+Package discovery workbench:: 把候选发现、证据下钻、API 阅读、源码定位、比较、本地验证、记录和报告组织为 CLI 动作的工具环境。
+Package discovery:: 消费者在引入依赖之前识别候选包、理解候选包、比较候选包并形成判断的机制。
+Consumer:: 消费 SeekMoon 输出并执行下一步动作的行动者。它可以是开发者、脚本、CI 作业或 Code Agent。
+Terminal reader:: 读取默认 pretty text 并作出判断的消费者。
+Pipeline consumer:: 通过 JSON 或 jq 处理 SeekMoon 输出的消费者。
+Contract reader:: 通过 help、shape 或 schema 理解输出契约的消费者。
+Failure recovery consumer:: 命令失败后读取错误表面并执行恢复动作的消费者。
+Evidence source:: SeekMoon 读取的事实来源，包括 HTTP API、静态资产、本地工具链、本地缓存、项目上下文、repository enrichment 和本地记录。
+Input surface:: 某个 evidence source 暴露给 SeekMoon 的具体读取表面，例如 `/api/v0/modules`、`module_index.json`、`package_data.json`、registry index JSONL 和 symbols JSONL。
+Snapshot:: 一次带时间戳的数据读取结果。Snapshot 让搜索、比较、记录和报告可以回到同一数据口径。
+Candidate:: 由 `search` 或 `skill search` 产生的候选对象。
+Library module:: 可作为 MoonBit 依赖引入的包模块。
+Skill entry:: Mooncakes Skills API 中的可执行 Wasm 或 `moon runwasm` 对象。Skill entry 不是 library dependency candidate。
+Module profile:: 单个 library module 的证据画像，由 manifest、module index、metadata、docs URL、source state 和可选 enrichment 组成。
+API profile:: 某个 package 的类型、函数、trait、docstring、signature 和 source location 的结构化投影。
+Published source:: 与 registry 发布版本对应的源码材料。SeekMoon 优先从 `moon fetch`、source zip、本地 registry cache 或 core 本地源码定位 published source。
+Repository signal:: GitHub 等源码仓库提供的维护、协作、CI、issue、release 和未发布状态信号。Repository signal 不自动等同于 published source。
+Probe:: SeekMoon 在隔离目录或明确项目上下文中执行 `moon add`、`moon check`、`moon test` 和 target build/check 的本地验证动作。
+Adoption record:: 一次采纳判断的本地记录。它包含候选、版本、结论、证据引用和未确认事项。
+Report:: 面向人和审查流程的调查输出。Report 从 snapshot、candidate、profile、probe result 和 adoption record 生成。
+Projection:: 同一内部对象面向不同消费者的输出表面，包括 pretty text、JSON output、shape、schema 和 report。
+Pretty text:: 默认终端阅读输出。
+JSON output:: 当前命令的机器处理输出。它不是 pretty text 的 JSON 化。
+jq expression:: 对当前命令 JSON output 执行的 jq 查询表达式。
+Shape:: 人可读字段树。Shape 说明当前命令 JSON output 的字段、类型和状态枚举。
+Schema:: 当前命令 JSON output 的 JSON Schema。
+Error surface:: 命令失败时的输出表面。它包含失败对象、尝试来源、状态含义和恢复动作。
+present:: 来源成功给出有效值。
+missing:: 来源存在字段位置，但值为空字符串、空数组、null 或字段缺失。
+unknown:: 当前问题需要判断，但已读取来源不能回答。
+failed:: HTTP 请求、命令或解析动作已经执行并失败。
+unavailable:: 可选来源不存在，或当前对象没有该可选资产。
+derived:: SeekMoon 从当前事实计算得到的值。
+ManifestProfile:: 单个 module 的 manifest 证据对象，包含版本、下载量、build status、metadata、versions 和规范化字段。
+ModuleIndexTree:: `module_index.json` 中的 module package tree 与紧凑 API index。
+PackageData:: `package_data.json` 中的单 package API 详情对象。
+SourceResolution:: SeekMoon 定位 published source 的结果对象。
+ProbeResult:: 本地验证动作的结果对象。
+SearchResult:: `search` 产生的候选结果对象。

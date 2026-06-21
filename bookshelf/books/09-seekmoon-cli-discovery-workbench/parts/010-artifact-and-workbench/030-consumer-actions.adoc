@@ -1,0 +1,41 @@
+[#consumer-actions.concept]
+== Consumer Actions
+
+SeekMoon 按动作区分 consumer。一个人、脚本、CI 作业或 Code Agent 都可以在不同动作中成为不同 consumer。这个划分避免把“人类”和“机器”误解为固定输出对象。
+
+indexterm2:[Terminal reader] 读取默认 pretty text。它需要低噪声、稳定列和足以支持下一步判断的事实。Terminal reader 可以是开发者，也可以是正在观察终端输出的 Code Agent。
+
+indexterm2:[Pipeline consumer] 处理 JSON output 或 jq result。它需要字段稳定、状态词明确、来源可追溯。Pipeline consumer 可以是 shell pipeline、脚本、CI job、report generator，也可以是人工编写的一次性 jq 表达式。
+
+indexterm2:[Contract reader] 读取 help、shape 或 schema。它需要知道当前命令输出哪些字段、字段类型是什么、状态枚举是什么、JSON Schema 如何校验。Contract reader 的动作发生在写自动化、第一次使用命令或审查输出契约时。
+
+indexterm2:[Failure recovery consumer] 读取 error surface。它需要知道失败发生在哪个来源、失败状态是什么、该失败是否表示对象不存在、可执行的恢复动作是什么。
+
+[cols="1,2,2,2", options="header"]
+|===
+|Consumer action |读取表面 |需要的信息 |不需要的信息
+
+|终端判断
+|Pretty text
+|候选、关键字段、状态、短路径。
+|完整 raw payload、字段树、重复教程。
+
+|机械处理
+|JSON output、jq result
+|稳定字段、状态、来源、错误对象。
+|屏幕排版、宽表对齐。
+
+|契约学习
+|Help、shape、schema
+|命令语义、字段树、类型、枚举、JSON Schema。
+|具体调查结果。
+
+|失败恢复
+|Error surface
+|失败来源、状态含义、恢复动作。
+|正常工作流说明。
+|===
+
+默认 pretty text 和 JSON output 是同一内部对象的不同 projection。Pretty text 不承担机器解析职责；JSON output 不承担终端排版职责。Shape 和 schema 不是业务结果，它们是输出契约表面。
+
+这个动作划分约束命令设计。`search` 不展开 API 详情，因为终端判断动作只需要候选集合。`api` 不重新执行搜索，因为 API 阅读动作已经有确定候选。`probe` 不修改上游事实，因为本地验证只产生 local derived evidence。

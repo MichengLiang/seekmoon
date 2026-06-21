@@ -1,0 +1,32 @@
+[#schema-output.projection]
+== Schema Output
+
+Schema output is the JSON Schema for one command's JSON output. It serves code generation, validation and strict automation.
+
+[source,bash]
+----
+seekmoon search --schema
+----
+
+Schema output uses JSON Schema. It contains `$schema`, `$id`, `type`, required fields, property definitions and `$defs` for reusable evidence wrappers.
+
+[source,json]
+----
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "seekmoon.search-results.v1",
+  "type": "object",
+  "required": ["schema", "snapshot", "query", "results"],
+  "properties": {
+    "schema": { "const": "seekmoon.search-results.v1" },
+    "snapshot": { "$ref": "#/$defs/snapshot" },
+    "query": { "$ref": "#/$defs/searchQuery" },
+    "results": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/searchResult" }
+    }
+  }
+}
+----
+
+Schema is stricter than shape. Shape explains fields to readers; schema validates JSON output for tools. A command's schema id is the compatibility boundary for downstream consumers.

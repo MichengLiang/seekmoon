@@ -1,0 +1,100 @@
+[#manifest-profile-model.model]
+== ManifestProfile
+
+`ManifestProfile` 是 Manifest API object 的 canonical projection。它服务 `view`、`compare`、`source`、`record` 和 `report`。
+
+[cols="1,1,2,2", options="header"]
+|===
+|字段 |类型 |来源 |含义
+
+|`module`
+|string
+|Manifest `module` / `name`
+|完整 module coordinate。
+
+|`version`
+|string
+|Manifest `version`
+|当前 manifest 版本。
+
+|`latest_version`
+|string
+|Manifest `latest_version`
+|上游声明的 latest version。
+
+|`downloads`
+|integer
+|Manifest `downloads`
+|下载量信号。
+
+|`has_package`
+|boolean
+|Manifest `has_package`
+|Mooncakes package/docs asset 相关状态。
+
+|`build_status`
+|evidence string
+|Manifest `build_status`
+|Mooncakes build status；null 为 `missing`。
+
+|`metadata`
+|object
+|Manifest `metadata`
+|开放 metadata object。
+
+|`versions`
+|array
+|Manifest `versions`
+|版本列表。
+
+|`versions_count`
+|derived integer
+|`versions.length`
+|版本数量。
+
+|`docs_url`
+|derived string
+|module coordinate
+|Mooncakes docs URL。
+|===
+
+Manifest metadata 是开放对象。SeekMoon 规范化以下字段，并保留 raw metadata：
+
+[cols="1,2,2", options="header"]
+|===
+|Canonical 字段 |来源拼写 |规则
+
+|`description`
+|`description`
+|空字符串为 `missing`。
+
+|`keywords`
+|`keywords`
+|空数组为 `missing`。
+
+|`repository`
+|`repository`
+|空字符串为 `missing`。
+
+|`license`
+|`license`
+|空字符串为 `missing`。
+
+|`checksum`
+|`checksum`
+|checksum 字符串不等于 provenance。
+
+|`deps`
+|`deps`
+|object map 形态进入 canonical field。
+
+|`preferred_target`
+|`preferred-target`、`preferred_target`、`preferred-backend`
+|保留 source spelling。
+
+|`supported_targets`
+|`supported-targets`、`supported_targets`、`targets`
+|接受 string 或 array，并派生 array projection。
+|===
+
+Target metadata 只说明上游声明或 index 记录。Target support 没有证据时是 `unknown`；probe 成功后才有 local derived target evidence。

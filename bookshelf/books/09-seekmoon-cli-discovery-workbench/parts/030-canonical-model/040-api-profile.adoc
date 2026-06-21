@@ -1,0 +1,135 @@
+[#api-profile-model.model]
+== API Profile
+
+API profile 由 `ModuleIndexTree` 和 `PackageData` 组成。`view` 使用 module index 生成 package summary；`api` 使用 package data 生成 API details。
+
+[#module-index-tree.model]
+=== ModuleIndexTree
+
+`ModuleIndexTree` 来自 `module_index.json`。它是 package tree 和紧凑 API index。
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`name`
+|string
+|Tree node 名称。
+
+|`package`
+|object/null
+|Package summary object。
+
+|`childs`
+|array
+|子节点数组。
+
+|`package.path`
+|string
+|完整 package path。
+
+|`package.relpath`
+|derived string
+|相对 module root 的 package path。
+
+|`traits`
+|array
+|Trait summary。
+
+|`errors`
+|array
+|Error summary。
+
+|`types`
+|array
+|Type summary。
+
+|`typealias`
+|array
+|Type alias summary。
+
+|`values`
+|array
+|Value/function summary。
+
+|`misc`
+|array
+|Misc summary。
+|===
+
+Package relpath 由 `package.path` 和 module coordinate 派生。`package_data.json` URL 必须使用 module index 派生出的 relpath。
+
+[#package-data-model.model]
+=== PackageData
+
+`PackageData` 来自 `package_data.json`。它是单 package API 详情来源。
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`name`
+|string
+|Package name。
+
+|`traits`
+|array
+|Trait entries。
+
+|`errors`
+|array
+|Error entries。
+
+|`types`
+|array
+|Type entries。
+
+|`typealias`
+|array
+|Type alias entries。
+
+|`values`
+|array
+|Function/value entries。
+
+|`misc`
+|array
+|Misc entries。
+|===
+
+Type、value 和 method entry 使用共同字段：
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`name`
+|string
+|Symbol name。
+
+|`docstring`
+|evidence string
+|Docstring；空字符串为 `missing`。
+
+|`signature`
+|string
+|Raw upstream signature。
+
+|`plain_signature`
+|derived string
+|SeekMoon 派生的 plain text signature。
+
+|`loc`
+|evidence object
+|Source location，包括 path、file、line、column。
+
+|`methods`
+|array
+|Type methods。
+
+|`impls`
+|array
+|Type implementations。
+|===
+
+`moon ide doc` 可为 API profile 提供补充输出。该输出必须标记为 local toolchain evidence，不替代 `package_data.json`。

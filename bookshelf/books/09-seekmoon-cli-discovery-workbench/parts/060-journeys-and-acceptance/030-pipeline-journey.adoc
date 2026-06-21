@@ -1,0 +1,98 @@
+[#pipeline-journey.workflow]
+== Pipeline Journey
+
+Pipeline journey shows a consumer inspecting output contract, extracting fields and using JSON without parsing pretty text.
+
+=== E1: Inspect Shape
+
+[source,bash]
+----
+seekmoon search --shape
+----
+
+[source,text]
+----
+seekmoon.search-results.v1
+
+schema: string
+snapshot:
+  id: string
+  sources: string[]
+query:
+  text: string
+  kind: library|skill
+  target: string|null
+results[]:
+  rank: int
+  module: string
+  version: string
+  license:
+    status: present|missing
+    value: string|null
+    source: string
+----
+
+State change:
+
+[source,text]
+----
+consumer.field_path = results[].module
+consumer.license_path = results[].license.value
+----
+
+=== E2: Extract Modules
+
+[source,bash]
+----
+seekmoon search markdown --jq '.results[].module'
+----
+
+[source,text]
+----
+mizchi/markdown
+moonbit-community/cmark
+shiguri-01/markdown
+----
+
+State change:
+
+[source,text]
+----
+pipeline.output = module-list
+----
+
+=== E3: Filter JSON
+
+[source,bash]
+----
+seekmoon search markdown --json --jq '.results[] | select(.license.value == "MIT") | .module'
+----
+
+[source,text]
+----
+mizchi/markdown
+shiguri-01/markdown
+----
+
+State change:
+
+[source,text]
+----
+pipeline.output = mit-module-list
+----
+
+=== E4: Validate Schema
+
+[source,bash]
+----
+seekmoon search --schema
+----
+
+State change:
+
+[source,text]
+----
+consumer.schema = seekmoon.search-results.v1
+----
+
+The schema result can be saved by automation and used to validate later JSON output.

@@ -1,0 +1,50 @@
+[#moonbit-package-discovery-situation.boundary]
+== MoonBit 包发现处境
+
+MoonBit 包消费者面对的对象不是空白生态。MoonBit 工具链、Mooncakes registry、Mooncakes documentation surface、Mooncakes public API、本地 registry index、symbols cache、`moon add`、`moon fetch`、`moon ide doc`、`moon runwasm` 和 Skills API 已经提供多个事实表面。indexterm2:[Mooncakes] indexterm2:[MoonBit]
+
+这些事实表面分别回答不同问题。Modules API 给出 module 列表和声明性摘要。Manifest API 给出单个 module 的版本、下载量、build status 和 metadata。`module_index.json` 给出 module 内 package tree 和紧凑 API index。`package_data.json` 给出单 package 的类型、函数、trait、docstring、signature 和 source location。`moon fetch` 获取发布版源码。`moon ide doc` 查询本地可见 API 文档。Skills API 给出可执行 Wasm 或 `moon runwasm` 条目。
+
+消费者的摩擦来自行动链路，而不是单个事实源缺席。一个开发者寻找 Markdown parser、JSON parser、CLI argument parser 或 terminal output library 时，需要连续完成以下动作：
+
+* 从功能词生成候选集合。
+* 区分 library module 和 executable skill。
+* 查看候选的 description、license、repository、downloads、build status 和版本。
+* 读取 module 内 package 与 API 结构。
+* 定位发布版源码、测试和示例。
+* 比较多个候选的功能范围、证据完整度和本地可验证性。
+* 在当前 target 或隔离 probe 项目中执行 `moon add`、`moon check`、`moon test` 和 target build。
+* 保存引入、拒绝或继续验证的判断。
+
+这些动作如果散落在 Web 页面、`curl`、`jq`、临时 shell 脚本、GitHub 页面、本地 cache 和 probe 项目之间，消费者的主要工作会从“判断包”滑向“拼接调查环境”。包发现工作台的职责，是把这些事实表面组织成稳定动作，使消费者把注意力放回候选判断。
+
+[cols="1,2,2", options="header"]
+|===
+|事实表面 |回答的问题 |不能替代的对象
+
+|Modules API
+|有哪些可见 module，module 的声明性摘要是什么。
+|不能替代单 module manifest、API 结构、本地 target 验证。
+
+|Manifest API
+|某个 module 的版本、下载量、build status、metadata 和 versions 是什么。
+|不能证明任意 target 可构建，不能替代源码阅读和 probe。
+
+|Module index asset
+|module 内有哪些 package、类型、函数、trait 和方法摘要。
+|不能替代单 package 的完整 docstring、signature 和 source location。
+
+|Package data asset
+|某个 package 的 API 详情是什么。
+|不能替代本地编译验证，也不能替代维护状态判断。
+
+|`moon fetch`
+|如何按发布坐标获取 published source。
+|不能替代依赖采纳，也不能证明包适合当前项目。
+
+|Skills API
+|有哪些 executable Wasm / skill entry。
+|不能替代 library dependency discovery。
+|===
+
+SeekMoon 处理的是引入依赖之前的消费者侧 discovery 工作。它不把安装成功等同于采纳成功，也不把下载量、build status 或 repository presence 解释为质量证明。采纳判断必须回到消费者上下文、证据来源和本地验证。

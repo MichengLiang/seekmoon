@@ -1,0 +1,272 @@
+[#library-discovery-journey.workflow]
+== Library Discovery Journey
+
+本旅程描述一个 MoonBit 项目寻找 Markdown parser 的完整动作链。目标 target 是 `js`。初始状态没有 fresh snapshot，也没有已选候选。
+
+=== E1: Inspect Environment
+
+[source,bash]
+----
+seekmoon doctor
+----
+
+[source,text]
+----
+moon        0.1.20260608
+moonc       v0.10.0
+registry    present
+symbols     present
+network     mooncakes.io ok
+project     MoonBit module detected
+----
+
+State change:
+
+[source,text]
+----
+environment.checked = true
+project.context = present
+----
+
+=== E2: Create Snapshot
+
+[source,bash]
+----
+seekmoon sync
+----
+
+[source,text]
+----
+snapshot  2026-06-21T22:35:10+08:00
+modules   1350
+packages  12008
+index     1363 files
+symbols   3 modules
+----
+
+State change:
+
+[source,text]
+----
+snapshot.id = 2026-06-21T22:35:10+08:00
+modules.snapshot = present
+statistics.snapshot = present
+local_index.summary = present
+----
+
+=== E3: Search Candidates
+
+[source,bash]
+----
+seekmoon search markdown --target js
+----
+
+[source,text]
+----
+Search: markdown    target: js    kind: library    snapshot: 2026-06-21T22:35
+
+#  module                         version   license   build    downloads   target
+1  mizchi/markdown                 0.6.2     MIT       success  7567        unknown
+2  moonbit-community/cmark         0.4.4     Apache-2  success  3120        unknown
+3  shiguri-01/markdown             0.1.1     MIT       success  91          unknown
+----
+
+State change:
+
+[source,text]
+----
+session.candidates[1] = mizchi/markdown@0.6.2
+session.candidates[2] = moonbit-community/cmark@0.4.4
+session.candidates[3] = shiguri-01/markdown@0.1.1
+target.js.evidence = unknown
+----
+
+=== E4: View Candidate
+
+[source,bash]
+----
+seekmoon view 1
+----
+
+[source,text]
+----
+mizchi/markdown 0.6.2
+
+description  Incremental Markdown parser and compiler
+license      MIT
+repository   https://github.com/mizchi/markdown.mbt
+downloads    7567
+build        success
+docs         https://mooncakes.io/docs/mizchi/markdown
+
+packages     18
+api index    available
+source       not fetched
+target js    unknown
+----
+
+State change:
+
+[source,text]
+----
+candidate[1].manifest = present
+candidate[1].module_index = present
+candidate[1].source = not-fetched
+----
+
+=== E5: Inspect API
+
+[source,bash]
+----
+seekmoon api 1 --package src/api
+----
+
+[source,text]
+----
+API: mizchi/markdown src/api
+
+types
+  Document
+  Node
+  ParseOptions
+  RenderOptions
+
+functions
+  parse(input : String) -> Document
+  render(doc : Document) -> String
+  to_json(doc : Document) -> Json
+
+source loc  available
+----
+
+State change:
+
+[source,text]
+----
+candidate[1].package[src/api].package_data = present
+candidate[1].package[src/api].api_profile = present
+----
+
+=== E6: Resolve Source
+
+[source,bash]
+----
+seekmoon source 1
+----
+
+[source,text]
+----
+source  mizchi/markdown@0.6.2
+status  fetched
+method  moon fetch
+path    .repos/mizchi/markdown/0.6.2
+files   moon.mod.json, README.md, LICENSE, src/, benches/
+----
+
+State change:
+
+[source,text]
+----
+candidate[1].source.selected = moon_fetch
+candidate[1].source.path = .repos/mizchi/markdown/0.6.2
+----
+
+=== E7: Compare Candidates
+
+[source,bash]
+----
+seekmoon compare 1 2 3
+----
+
+[source,text]
+----
+field       mizchi/markdown   moonbit-community/cmark   shiguri-01/markdown
+version     0.6.2             0.4.4                     0.1.1
+license     MIT               Apache-2                  MIT
+build       success           success                   success
+repo        present           present                   present
+packages    18                4                         3
+api         loaded            indexed                   indexed
+source      fetched           not fetched               not fetched
+target js   unverified        unverified                unverified
+----
+
+State change:
+
+[source,text]
+----
+comparison.current = [1, 2, 3]
+candidate[1].target[js] = unverified
+----
+
+=== E8: Probe Candidate
+
+[source,bash]
+----
+seekmoon probe 1 --target js
+----
+
+[source,text]
+----
+probe   mizchi/markdown@0.6.2
+target  js
+path    .seekmoon/probes/mizchi-markdown-0.6.2-js
+
+moon new                 ok
+moon add                 ok
+moon check               ok
+moon test                ok
+moon check --target js   ok
+moon build --target js   ok
+
+status  verifiable
+----
+
+State change:
+
+[source,text]
+----
+candidate[1].probe[js].status = verifiable
+candidate[1].target[js].evidence = local-probe
+----
+
+=== E9: Record Decision
+
+[source,bash]
+----
+seekmoon record 1 --conclusion continue-verification --note "Need GFM coverage check."
+----
+
+[source,text]
+----
+recorded  mizchi/markdown@0.6.2
+status    continue-verification
+file      .seekmoon/records/mizchi-markdown-0.6.2.json
+----
+
+State change:
+
+[source,text]
+----
+record.created = mizchi-markdown-0.6.2
+record.conclusion = continue-verification
+----
+
+=== E10: Render Report
+
+[source,bash]
+----
+seekmoon report --format markdown
+----
+
+[source,text]
+----
+report  .seekmoon/reports/markdown-2026-06-21.md
+----
+
+State change:
+
+[source,text]
+----
+report.created = markdown-2026-06-21.md
+----

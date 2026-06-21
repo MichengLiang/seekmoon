@@ -1,0 +1,1 @@
+本部定义 SeekMoon 的 canonical objects。Evidence sources 提供原始事实；canonical objects 规定 SeekMoon 如何保存、规范化、派生和投影这些事实。

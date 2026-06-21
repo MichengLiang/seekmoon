@@ -1,0 +1,249 @@
+[#appendix-data-dictionary.model]
+= 附录 B：数据字典
+
+== Evidence Wrapper
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`status`
+|state value
+|`present`、`missing`、`unknown`、`failed`、`unavailable` 或 `derived`。
+
+|`value`
+|any/null
+|字段值。
+
+|`source`
+|string/null
+|来源 label。
+
+|`error`
+|string/null
+|失败信息。
+|===
+
+== ModuleSummary
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`module`
+|string
+|完整 owner/module coordinate。
+
+|`version`
+|string
+|列表层当前版本。
+
+|`description`
+|evidence string
+|用途摘要。
+
+|`keywords`
+|evidence string array
+|检索词。
+
+|`repository`
+|evidence string
+|repository declaration。
+
+|`license`
+|evidence string
+|license declaration。
+
+|`is_new`
+|boolean
+|list-level newness flag。
+
+|`created_at`
+|string
+|上游时间字符串。
+
+|`raw`
+|object
+|原始 item。
+|===
+
+== SearchResult
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`rank`
+|integer
+|排序位置。
+
+|`module`
+|string
+|候选 module。
+
+|`version`
+|string
+|候选版本。
+
+|`description`
+|evidence string
+|用途摘要。
+
+|`license`
+|evidence string
+|license declaration。
+
+|`repository`
+|evidence string
+|repository declaration。
+
+|`target`
+|evidence object
+|target context 存在时显示。
+
+|`match`
+|object
+|命中字段与排序证据。
+
+|`snapshot_id`
+|string
+|snapshot ID。
+|===
+
+== ManifestProfile
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`module`
+|string
+|module coordinate。
+
+|`version`
+|string
+|manifest version。
+
+|`latest_version`
+|string
+|latest version。
+
+|`downloads`
+|integer
+|下载量。
+
+|`has_package`
+|boolean
+|package/docs asset status。
+
+|`build_status`
+|evidence string
+|Mooncakes build status。
+
+|`metadata`
+|object
+|raw metadata and normalized projection。
+
+|`versions`
+|array
+|版本列表。
+
+|`versions_count`
+|derived integer
+|版本数量。
+
+|`docs_url`
+|derived string
+|Mooncakes docs URL。
+|===
+
+== PackageData Entry
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`name`
+|string
+|symbol name。
+
+|`docstring`
+|evidence string
+|docstring。
+
+|`signature`
+|string
+|raw signature。
+
+|`plain_signature`
+|derived string
+|plain text signature。
+
+|`loc`
+|evidence object
+|source location。
+
+|`methods`
+|array
+|type methods。
+
+|`impls`
+|array
+|implementations。
+|===
+
+== SkillEntry
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`module`
+|string
+|所属 module。
+
+|`author`
+|string
+|作者或 owner。
+
+|`version`
+|string
+|版本。
+
+|`package`
+|string/root marker
+|executable package path。
+
+|`name`
+|string
+|entry 名称。
+
+|`wasm_url`
+|string
+|Wasm URL。
+
+|`checksum_url`
+|string
+|checksum URL。
+
+|`repository`
+|evidence string
+|repository declaration。
+
+|`runwasm_coordinate`
+|derived string
+|pinned runwasm coordinate。
+|===
+
+== AdoptionRecord Conclusion
+
+[source,text]
+----
+adopt
+adopt-with-adapter
+continue-verification
+contribute-upstream
+fork
+build-own
+reject-for-now
+----

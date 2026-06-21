@@ -1,0 +1,45 @@
+[#pretty-text-output.projection]
+== Pretty Text
+
+Pretty text 是默认终端输出。它服务 xref:consumer-actions[Terminal reader, rel=depends-on]，目标是让消费者直接读取当前动作需要的事实。
+
+Pretty text 规则：
+
+* 使用稳定列和短标签。
+* 只显示当前命令模型中的行动相关字段。
+* 不把 raw payload 展开到终端表面。
+* 不把 JSON 字段树放入业务结果。
+* 不重复工作流教学。
+* 状态只在影响当前动作时显示。
+
+`search` 的 pretty text 是候选表：
+
+[source,text]
+----
+Search: markdown    target: js    kind: library    snapshot: 2026-06-21T22:35
+
+#  module                         version   license   build    downloads   target
+1  mizchi/markdown                 0.6.2     MIT       success  7567        unknown
+2  moonbit-community/cmark         0.4.4     Apache-2  success  3120        unknown
+----
+
+`view` 的 pretty text 是 module profile 摘要：
+
+[source,text]
+----
+mizchi/markdown 0.6.2
+
+description  Incremental Markdown parser and compiler
+license      MIT
+repository   https://github.com/mizchi/markdown.mbt
+downloads    7567
+build        success
+docs         https://mooncakes.io/docs/mizchi/markdown
+
+packages     18
+api index    available
+source       not fetched
+target js    unknown
+----
+
+Pretty text 不是解析接口。Pipeline consumer 使用 xref:json-output[JSON Output, rel=projects-to] 或 xref:built-in-jq[Built-in jq, rel=projects-to]。

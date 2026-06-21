@@ -1,0 +1,132 @@
+[#source-resolution-model.model]
+== SourceResolution and ProbeResult
+
+`SourceResolution` 记录 SeekMoon 如何定位 published source。`ProbeResult` 记录 SeekMoon 如何在本地验证候选。
+
+=== SourceResolution
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`module`
+|string
+|Module coordinate。
+
+|`version`
+|string
+|目标版本。
+
+|`moon_fetch`
+|source attempt
+|`moon fetch` 状态、path、error。
+
+|`source_zip`
+|source attempt
+|Source zip 状态、path、final URL、error。
+
+|`local_cache`
+|source attempt
+|Local registry cache 状态和 path。
+
+|`core_local_source`
+|source attempt
+|Core 本地源码状态和 path。
+
+|`repository_source`
+|source attempt
+|Repository fallback 状态、URL 或 path。
+
+|`selected_source`
+|object
+|当前选中的 source method 和 path。
+
+|`files_summary`
+|object
+|文件类别摘要。
+|===
+
+Source attempt 使用共同字段：
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`status`
+|state value
+|present、failed、unavailable 或 unknown。
+
+|`path`
+|string/null
+|本地路径。
+
+|`url`
+|string/null
+|远程 URL。
+
+|`error`
+|string/null
+|失败信息。
+|===
+
+Repository fallback 必须标记为 repository signal，不标记为 registry published source。
+
+[#probe-result-model.model]
+=== ProbeResult
+
+`ProbeResult` 是 local derived evidence。它由 `probe` 命令产生。
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`module`
+|string
+|候选 module。
+
+|`version`
+|string
+|候选版本。
+
+|`target`
+|string/null
+|验证 target。
+
+|`probe_path`
+|string
+|隔离 probe 目录。
+
+|`moon_new`
+|command result
+|创建 probe 项目状态。
+
+|`moon_add`
+|command result
+|引入依赖状态。
+
+|`moon_check`
+|command result
+|默认 check 状态。
+
+|`moon_test`
+|command result
+|默认 test 状态。
+
+|`moon_check_target`
+|command result
+|target check 状态。
+
+|`moon_build_target`
+|command result
+|target build 状态。
+
+|`logs`
+|object
+|日志路径。
+
+|`result`
+|string
+|`verifiable`、`failed` 或 `incomplete`。
+|===
+
+Command result 包含 command、cwd、exit code、status、stdout/stderr log path。Probe 成功只证明当前环境、当前版本、当前 target 和当前命令序列下可验证。

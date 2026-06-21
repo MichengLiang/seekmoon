@@ -1,0 +1,82 @@
+[#appendix-command-reference.reference]
+= 附录 C：命令速查
+
+[cols="1,2,2,2", options="header"]
+|===
+|命令 |Usage |Reads |Output
+
+|`doctor`
+|`seekmoon doctor`
+|Toolchain、paths、network、project context。
+|Environment status。
+
+|`sync`
+|`seekmoon sync`
+|Statistics API、Modules API、local index、symbols、toolchain。
+|Snapshot。
+
+|`search`
+|`seekmoon search <query> [--target <target>]`
+|Modules snapshot、optional local index。
+|SearchResult array。
+
+|`view`
+|`seekmoon view <module-or-number>`
+|Manifest API、module index asset。
+|Module profile。
+
+|`api`
+|`seekmoon api <module-or-number> --package <path>`
+|Module index、package data、optional `moon ide doc`。
+|API profile。
+
+|`source`
+|`seekmoon source <module-or-number[@version]>`
+|`moon fetch`、source zip、local cache、core source、repository signal。
+|SourceResolution。
+
+|`skill search`
+|`seekmoon skill search <query>`
+|Skills API。
+|SkillEntry candidates。
+
+|`skill view`
+|`seekmoon skill view <entry-or-number>`
+|Skills API、SKILL.md、wasm/checksum assets。
+|SkillProfile。
+
+|`compare`
+|`seekmoon compare <candidate>...`
+|Loaded evidence and requested enrichment。
+|Comparison output。
+
+|`probe`
+|`seekmoon probe <candidate> [--target <target>]`
+|Moon CLI、project/probe context。
+|ProbeResult。
+
+|`record`
+|`seekmoon record <candidate> --conclusion <value>`
+|Candidate, loaded evidence, probe results。
+|AdoptionRecord。
+
+|`report`
+|`seekmoon report --format markdown\|json`
+|Records、snapshot、evidence refs。
+|Report。
+
+|`raw`
+|`seekmoon raw <source> ...`
+|Requested raw source。
+|Raw payload。
+|===
+
+Output mode options for output commands:
+
+[source,text]
+----
+--json
+--jq <expr>
+--shape
+--schema
+----

@@ -1,0 +1,94 @@
+[#skill-entry-model.model]
+== SkillEntry
+
+`SkillEntry` 是 Skills API item 的 canonical projection。它服务 `skill search`、`skill view`、runwasm coordinate 生成和 skill report。
+
+[cols="1,1,2,2", options="header"]
+|===
+|字段 |类型 |来源 |含义
+
+|`module`
+|string
+|Skills API `module`
+|所属 module coordinate。
+
+|`author`
+|string
+|Skills API `author`
+|作者或 owner。
+
+|`author_avatar`
+|evidence string
+|Skills API `author_avatar`
+|空字符串为 `missing`。
+
+|`version`
+|string
+|Skills API `version`
+|skill entry 版本。
+
+|`package`
+|string/root marker
+|Skills API `package`
+|executable package path；空字符串表示 root/default marker。
+
+|`name`
+|string
+|Skills API `name`
+|entry 名称。
+
+|`detail_url`
+|string
+|Skills API `detail_url`
+|skill detail relative URL。
+
+|`wasm_url`
+|string
+|Skills API `wasm_url`
+|Wasm artifact URL。
+
+|`checksum_url`
+|string
+|Skills API `checksum_url`
+|Checksum URL。
+
+|`metadata`
+|object
+|Skills API `metadata`
+|开放 metadata object。
+
+|`repository`
+|evidence string
+|Skills API `repository`
+|repository declaration。
+
+|`created_at`
+|string
+|Skills API `created_at`
+|上游时间字符串。
+|===
+
+`SkillProfile` 在 `SkillEntry` 上增加 `SKILL.md`、asset fetch states 和 `runwasm_coordinate`。
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`skill_md`
+|evidence string
+|SKILL.md 内容；缺失或请求失败按状态词记录。
+
+|`wasm_asset`
+|evidence object
+|Wasm asset fetch state。
+
+|`checksum_asset`
+|evidence object
+|Checksum fetch state。
+
+|`runwasm_coordinate`
+|derived string
+|Pinned `moon runwasm` coordinate。
+|===
+
+SkillEntry 与 library module 使用不同采纳路径。Skill 可记录执行验证；library module 记录依赖引入验证。

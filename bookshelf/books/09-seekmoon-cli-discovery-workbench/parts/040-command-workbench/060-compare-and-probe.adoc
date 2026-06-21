@@ -1,0 +1,58 @@
+[#compare-command.command]
+== `seekmoon compare`
+
+`compare` 把多个候选放入同一证据表面。它读取 search session、ManifestProfile、module index summary、source state、probe state 和可选 repository signal。
+
+[source,bash]
+----
+seekmoon compare 1 2 3
+seekmoon compare mizchi/markdown moonbit-community/cmark
+----
+
+默认输出：
+
+[source,text]
+----
+field       mizchi/markdown   moonbit-community/cmark   shiguri-01/markdown
+version     0.6.2             0.4.4                     0.1.1
+license     MIT               Apache-2                  MIT
+build       success           success                   success
+repo        present           present                   present
+packages    18                4                         3
+api         loaded            indexed                   indexed
+source      fetched           not fetched               not fetched
+target js   unverified        unverified                unverified
+----
+
+`compare` 不生成 quality score。它展示证据差异，消费者根据上下文作出判断。
+
+[#probe-command.command]
+== `seekmoon probe`
+
+`probe` 在本地验证候选。它依赖 xref:probe-result-model[ProbeResult, rel=depends-on]。
+
+[source,bash]
+----
+seekmoon probe 1 --target js
+seekmoon probe mizchi/markdown@0.6.2 --target wasm-gc
+----
+
+默认 probe 在隔离目录中创建 MoonBit 项目，执行 `moon add`、`moon check`、`moon test` 和 target check/build。Probe result 是 local derived evidence。
+
+[source,text]
+----
+probe   mizchi/markdown@0.6.2
+target  js
+path    .seekmoon/probes/mizchi-markdown-0.6.2-js
+
+moon new                 ok
+moon add                 ok
+moon check               ok
+moon test                ok
+moon check --target js   ok
+moon build --target js   ok
+
+status  verifiable
+----
+
+Probe failure 不证明上游 metadata 错误。它证明当前环境、当前命令序列、当前版本和当前 target 下未通过验证。

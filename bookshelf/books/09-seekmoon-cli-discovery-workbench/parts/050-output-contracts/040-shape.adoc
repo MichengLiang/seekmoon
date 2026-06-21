@@ -1,0 +1,47 @@
+[#shape-output.projection]
+== Shape Output
+
+Shape output is a human-readable field tree for one command's JSON output. It serves contract readers who need to write jq, inspect fields, or understand status placement without running a real query.
+
+[source,bash]
+----
+seekmoon search --shape
+----
+
+`search` shape:
+
+[source,text]
+----
+seekmoon.search-results.v1
+
+schema: string
+snapshot:
+  id: string
+  sources: string[]
+query:
+  text: string
+  kind: library|skill
+  target: string|null
+results[]:
+  rank: int
+  module: string
+  version: string
+  description:
+    status: present|missing
+    value: string|null
+    source: string
+  license:
+    status: present|missing
+    value: string|null
+    source: string
+  target:
+    status: present|unknown
+    value: string[]|null
+    source: string|null
+  match:
+    fields: string[]
+----
+
+Shape is not a sample result. It describes the output contract. Shape may omit raw payload fields that are only available through `raw`.
+
+Shape belongs to the command that owns the output. `seekmoon search --shape` describes `search`; `seekmoon api --shape` describes `api`.

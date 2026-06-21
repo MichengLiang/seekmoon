@@ -1,0 +1,73 @@
+[#command-map.command]
+== Command Map
+
+Command map 是 SeekMoon 工作台的工具布局。命令按消费者动作分组。
+
+[cols="1,1,2,2", options="header"]
+|===
+|分组 |命令 |消费者动作 |主要输出对象
+
+|Data
+|`doctor`
+|检查本地环境。
+|Environment status。
+
+|Data
+|`sync`
+|创建数据 snapshot。
+|Snapshot。
+
+|Discovery
+|`search`
+|从 query 生成 library module candidates。
+|SearchResult array。
+
+|Discovery
+|`skill`
+|搜索或查看 executable skill entries。
+|SkillEntry / SkillProfile。
+
+|Inspection
+|`view`
+|查看单个 library module profile。
+|ManifestProfile with index summary。
+
+|Inspection
+|`api`
+|查看 package API profile。
+|API profile。
+
+|Inspection
+|`source`
+|定位 published source。
+|SourceResolution。
+
+|Assessment
+|`compare`
+|比较多个候选的证据。
+|Comparison table / JSON object。
+
+|Assessment
+|`probe`
+|执行本地工具链验证。
+|ProbeResult。
+
+|Recording
+|`record`
+|保存采纳判断。
+|AdoptionRecord。
+
+|Recording
+|`report`
+|输出调查报告。
+|Report。
+
+|Audit
+|`raw`
+|读取原始来源 payload。
+|Raw payload with source status。
+|===
+
+所有输出型命令支持 xref:json-output[JSON Output, rel=projects-to]。需要字段树时使用 xref:shape-output[Shape Output, rel=projects-to]；需要 JSON Schema 时使用 xref:schema-output[Schema Output, rel=projects-to]。
+
+命令参数使用对象名，而不是底层 URL。消费者输入 query、module coordinate、package path、candidate number、target、record conclusion；SeekMoon 内部解析 API endpoint、asset URL、本地 path 和 cache。

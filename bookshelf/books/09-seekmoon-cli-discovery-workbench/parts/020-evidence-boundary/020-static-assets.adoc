@@ -1,0 +1,127 @@
+[#static-assets.source]
+== Static Assets
+
+Mooncakes static assets 把 documentation surface 和 executable surface 暴露为 JSON、Markdown、Wasm 和 checksum 文件。SeekMoon 不抓取 rendered SPA 页面；它读取 asset URL 和 public API payload。
+
+[#module-index-asset.source]
+=== Module Index Asset
+
+[source,text]
+----
+GET https://mooncakes.io/assets/<owner>/<module>@<version>/module_index.json
+----
+
+`module_index.json` 是 module package tree 与紧凑 API index。`view` 使用它生成 package count、package list 和 API summary；`api` 使用它解析 package path 和 package relpath。
+
+当前 asset node 使用 `childs` 表示子节点。SeekMoon 读取 `childs`，并可在解析层兼容 `children`，但书中当前事实表面以 `childs` 为准。
+
+[cols="1,2", options="header"]
+|===
+|对象 |用途
+
+|node `name`
+|tree node 名称。
+
+|node `package`
+|package summary object 或 null。
+
+|node `childs`
+|子节点数组。
+
+|package `path`
+|完整 package path。
+
+|package `types` / `values` / `traits`
+|紧凑 API summary。
+
+|package `methods`
+|type summary 内的方法摘要。
+|===
+
+Package relpath 必须从 package path 派生。`moonbitlang/core/argparse` 相对 `moonbitlang/core` 的 relpath 是 `argparse`。Root package 的 relpath 为空。
+
+[#package-data-asset.source]
+=== Package Data Asset
+
+[source,text]
+----
+GET https://mooncakes.io/assets/<owner>/<module>@<version>/<package-relpath>/package_data.json
+----
+
+`package_data.json` 是单 package API 详情来源。它提供 type、value、trait、error、typealias、misc、docstring、signature 和 source location。
+
+[cols="1,2,2", options="header"]
+|===
+|字段 |用途 |状态规则
+
+|`name`
+|package 名称。
+|非空为 `present`。
+
+|`types`
+|类型 entry 数组。
+|空数组表示该类别没有 symbol。
+
+|`values`
+|函数或 value entry 数组。
+|空数组表示该类别没有 symbol。
+
+|`docstring`
+|文档注释。
+|空字符串为 `missing`。
+
+|`signature`
+|上游签名字符串。
+|raw signature 必须保留。
+
+|`loc`
+|源码位置。
+|缺失为 `missing`。
+|===
+
+`signature` 可包含 HTML link。Plain text signature 是 SeekMoon 派生 projection，不替代 raw signature。
+
+[#resource-asset.source]
+=== Resource Asset
+
+[source,text]
+----
+GET https://mooncakes.io/assets/<owner>/<module>@<version>/<package-relpath>/resource.json
+----
+
+`resource.json` 是可选资源资产。它可提供 README content 和 source file links。`resource.json` 404 的状态是 `unavailable`，不表示 package 缺失，不表示 API data 缺失，也不表示 module 不存在。
+
+`resource.json` 的状态进入 `view`、`api` 或 report 时必须带 source label。`package_data.json`、module index、published source 和 `moon ide doc` 仍可提供 API 与源码证据。
+
+[#source-zip.source]
+=== Source Zip
+
+[source,text]
+----
+GET https://download.mooncakes.io/user/<owner>/<module>/<version>.zip
+----
+
+Source zip 是 published source 的一种来源。请求需要跟随重定向。下载成功时，SeekMoon 可读取 module config、package config、README、LICENSE、`.mbt` 源码、tests、examples 和 benches 等材料。
+
+Source zip 失败不表示 module 不存在。`source` 命令继续检查 `moon fetch`、local registry cache、core local source 或 repository signal。Source resolution 见 xref:source-resolution-model[SourceResolution, rel=depends-on]。
+
+[#skill-assets.source]
+=== Skill Assets
+
+Skills API 给出 `wasm_url` 和 `checksum_url`。Skill detail surface 可读取 `SKILL.md`。
+
+[cols="1,2", options="header"]
+|===
+|资产 |用途
+
+|`SKILL.md`
+|skill 的人类可读说明。
+
+|`wasm_url`
+|可执行 Wasm artifact。
+
+|`checksum_url`
+|Wasm artifact checksum。
+|===
+
+Wasm checksum 只说明 artifact 内容可校验，不说明发布身份、构建来源或无漏洞状态。

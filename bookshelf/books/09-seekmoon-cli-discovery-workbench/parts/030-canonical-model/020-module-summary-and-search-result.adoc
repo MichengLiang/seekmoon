@@ -1,0 +1,108 @@
+[#module-summary-model.model]
+== ModuleSummary and SearchResult
+
+`ModuleSummary` 是 Modules API item 的 canonical projection。它服务 `search`、`sync`、`compare` 的候选入口。
+
+[cols="1,1,2,2", options="header"]
+|===
+|字段 |类型 |来源 |含义
+
+|`module`
+|string
+|Modules API `name`
+|完整 owner/module coordinate。
+
+|`version`
+|string
+|Modules API `version`
+|列表层当前版本。
+
+|`description`
+|evidence string
+|Modules API `description`
+|用途摘要；空字符串为 `missing`。
+
+|`keywords`
+|evidence string array
+|Modules API `keywords`
+|检索词；空数组为 `missing`。
+
+|`repository`
+|evidence string
+|Modules API `repository`
+|repository declaration；空字符串为 `missing`。
+
+|`license`
+|evidence string
+|Modules API `license`
+|license declaration；空字符串为 `missing`。
+
+|`is_new`
+|boolean
+|Modules API `is_new`
+|Mooncakes list-level newness flag。
+
+|`created_at`
+|string
+|Modules API `created_at`
+|上游时间字符串。
+
+|`raw`
+|object
+|Modules API item
+|原始 item，JSON/raw surface 保留。
+|===
+
+[#search-result-model.model]
+=== SearchResult
+
+`SearchResult` 是 `search` 命令的候选输出对象。它把 `ModuleSummary`、query、rank 和 match evidence 组合为候选结果。
+
+[cols="1,1,2", options="header"]
+|===
+|字段 |类型 |含义
+
+|`rank`
+|integer
+|SeekMoon 派生排序位置。
+
+|`module`
+|string
+|候选 module coordinate。
+
+|`version`
+|string
+|候选版本。
+
+|`description`
+|evidence string
+|用途摘要。
+
+|`keywords`
+|evidence string array
+|检索词。
+
+|`license`
+|evidence string
+|license declaration。
+
+|`repository`
+|evidence string
+|repository declaration。
+
+|`target`
+|evidence object
+|只在 query 请求 target 上下文时进入结果。
+
+|`match`
+|object
+|命中字段、token、score component 或 explainable rank evidence。
+
+|`snapshot_id`
+|string
+|产生该结果的 snapshot。
+|===
+
+Pretty text 的 `search` 表只展示终端判断需要的摘要列。JSON output 保留 `match`，用于复查和 pipeline processing。`match` 是搜索对象的一部分，不是质量评分。
+
+Skill search 使用 `SkillEntry`，不复用 `ModuleSummary`。Skill model 见 xref:skill-entry-model[SkillEntry, rel=depends-on]。
