@@ -42,4 +42,4 @@ source       not fetched
 target js    unknown
 ----
 
-Pretty text 不是解析接口。Pipeline consumer 使用 xref:json-output[JSON Output, rel=projects-to] 或 xref:built-in-jq[Built-in jq, rel=projects-to]。
+Pretty text 不是解析接口。Pipeline consumer 使用 xref:json-output[JSON Output] 或 xref:built-in-jq[Built-in jq]。

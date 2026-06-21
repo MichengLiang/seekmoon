@@ -1,4 +1,4 @@
-[#record-command.command]
+[.command]
 == `seekmoon record`
 
 `record` 保存采纳判断。它依赖 xref:adoption-record-model[AdoptionRecord, rel=depends-on]。
@@ -17,7 +17,7 @@ status    continue-verification
 file      .seekmoon/records/mizchi-markdown-0.6.2.json
 ----
 
-[#report-command.command]
+[.command]
 == `seekmoon report`
 
 `report` 输出调查报告。它依赖 xref:report-model[Report, rel=depends-on]。
@@ -35,10 +35,10 @@ Report 只列实际使用的来源。没有运行 probe，就不写 local valida
 report  .seekmoon/reports/markdown-2026-06-21.md
 ----
 
-[#raw-command.command]
+[.command]
 == `seekmoon raw`
 
-`raw` 暴露原始 payload。它服务 audit 和 implementation debugging，不属于普通 discovery path。
+`raw` 暴露原始 payload。它服务来源审计、字段复查和故障复现，不属于普通 discovery path。
 
 [source,bash]
 ----
@@ -49,4 +49,4 @@ seekmoon raw package-data mizchi/markdown@0.6.2 src/api
 seekmoon raw skills
 ----
 
-Raw output 保留上游字段名，不规范化字段，不隐藏原始 shape。Raw output 可以附带 source URL、fetch status 和 timestamp。
+Raw output 保留上游字段名，不规范化字段，不隐藏原始 shape。Raw output 附带 source URL、fetch status 和 timestamp。

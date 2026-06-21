@@ -1,5 +1,5 @@
 == 摘要
 
-SeekMoon 是一个面向 MoonBit 消费者的本地包发现工作台。它读取 Mooncakes 公开 API、Mooncakes 静态资产、本地 MoonBit 工具链、本地 registry/cache、当前项目上下文、可选 repository 信号和本地调查记录，把候选发现、证据下钻、API 阅读、源码定位、skill 识别、本地验证、采纳记录和报告输出组织为一组低噪声 CLI 动作。
+SeekMoon 是一个面向 MoonBit 消费者的本地包发现工作台。它读取 Mooncakes 公开 API、Mooncakes 静态资产、本地 MoonBit 工具链、本地 registry/cache、当前项目上下文、repository 信号和本地调查记录，把候选发现、证据下钻、API 阅读、源码定位、skill 识别、本地验证、采纳记录和报告输出组织为一组低噪声 CLI 动作。
 
 本书定义 SeekMoon 的证据来源边界、canonical 数据模型、命令契约、输出契约、行动轨迹和验收条件。默认 pretty text 服务终端阅读，JSON 和内置 jq 服务机械处理，shape 和 schema 服务输出契约学习。

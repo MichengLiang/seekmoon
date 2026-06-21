@@ -9,7 +9,7 @@ seekmoon api mizchi/markdown --package src/api
 seekmoon api 1 --package src/api
 ----
 
-`api` 先读取 or reuse module index，解析 package path 和 package relpath，再读取 `package_data.json`。可用时，它可以附加 `moon ide doc` 输出，并把该输出标记为 local toolchain evidence。
+`api` 先读取已缓存的 module index；没有缓存时读取 module index asset。随后，`api` 解析 package path 和 package relpath，再读取 `package_data.json`。`moon ide doc` 的输出只作为 local toolchain evidence 进入 JSON、raw 或 report；默认 pretty text 不依赖该补充来源。
 
 [source,text]
 ----
@@ -31,7 +31,7 @@ source loc  available
 
 Package path 不存在时，error surface 列出 module index 中可见 package paths。`resource.json` 不可用不阻止 `package_data.json` API profile。
 
-[#source-command.command]
+[.command]
 == `seekmoon source`
 
 `source` 定位 published source。它依赖 xref:source-resolution-model[SourceResolution, rel=depends-on]。

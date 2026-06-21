@@ -23,6 +23,9 @@ v1.0, 2026-06
 
 |xref:books/07-structured-writing-conventions/book.adoc[07 结构化书写约定]
 |说明标题层级、stable ID、xref、rel、字段、索引词和附录等结构规则；这是维护 8 号书时使用的写作纪律参考。
+
+|xref:books/09-seekmoon-cli-discovery-workbench/book.adoc[09 SeekMoon：MoonBit 包发现工作台]
+|定义消费者侧 MoonBit 包发现 CLI 的证据来源边界、canonical 数据模型、命令契约、输出契约、行动轨迹和验收条件。
 |===
 
 == 如何阅读 08

@@ -1,9 +1,9 @@
 [#library-discovery-journey.workflow]
 == Library Discovery Journey
 
-本旅程描述一个 MoonBit 项目寻找 Markdown parser 的完整动作链。目标 target 是 `js`。初始状态没有 fresh snapshot，也没有已选候选。
+一个 MoonBit 项目寻找 Markdown parser 的完整动作链包含环境检查、快照创建、候选搜索、证据下钻、本地验证、记录和报告。目标 target 是 `js`。初始状态没有 fresh snapshot，也没有已选候选。
 
-=== E1: Inspect Environment
+=== E1：检查环境
 
 [source,bash]
 ----
@@ -20,7 +20,7 @@ network     mooncakes.io ok
 project     MoonBit module detected
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -28,7 +28,7 @@ environment.checked = true
 project.context = present
 ----
 
-=== E2: Create Snapshot
+=== E2：创建快照
 
 [source,bash]
 ----
@@ -44,7 +44,7 @@ index     1363 files
 symbols   3 modules
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -54,7 +54,7 @@ statistics.snapshot = present
 local_index.summary = present
 ----
 
-=== E3: Search Candidates
+=== E3：搜索候选
 
 [source,bash]
 ----
@@ -71,7 +71,7 @@ Search: markdown    target: js    kind: library    snapshot: 2026-06-21T22:35
 3  shiguri-01/markdown             0.1.1     MIT       success  91          unknown
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -81,7 +81,7 @@ session.candidates[3] = shiguri-01/markdown@0.1.1
 target.js.evidence = unknown
 ----
 
-=== E4: View Candidate
+=== E4：查看候选
 
 [source,bash]
 ----
@@ -105,7 +105,7 @@ source       not fetched
 target js    unknown
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -114,7 +114,7 @@ candidate[1].module_index = present
 candidate[1].source = not-fetched
 ----
 
-=== E5: Inspect API
+=== E5：检查 API
 
 [source,bash]
 ----
@@ -139,7 +139,7 @@ functions
 source loc  available
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -147,7 +147,7 @@ candidate[1].package[src/api].package_data = present
 candidate[1].package[src/api].api_profile = present
 ----
 
-=== E6: Resolve Source
+=== E6：定位源码
 
 [source,bash]
 ----
@@ -163,7 +163,7 @@ path    .repos/mizchi/markdown/0.6.2
 files   moon.mod.json, README.md, LICENSE, src/, benches/
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -171,7 +171,7 @@ candidate[1].source.selected = moon_fetch
 candidate[1].source.path = .repos/mizchi/markdown/0.6.2
 ----
 
-=== E7: Compare Candidates
+=== E7：比较候选
 
 [source,bash]
 ----
@@ -191,7 +191,7 @@ source      fetched           not fetched               not fetched
 target js   unverified        unverified                unverified
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -199,7 +199,7 @@ comparison.current = [1, 2, 3]
 candidate[1].target[js] = unverified
 ----
 
-=== E8: Probe Candidate
+=== E8：验证候选
 
 [source,bash]
 ----
@@ -222,7 +222,7 @@ moon build --target js   ok
 status  verifiable
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -230,7 +230,7 @@ candidate[1].probe[js].status = verifiable
 candidate[1].target[js].evidence = local-probe
 ----
 
-=== E9: Record Decision
+=== E9：记录判断
 
 [source,bash]
 ----
@@ -244,7 +244,7 @@ status    continue-verification
 file      .seekmoon/records/mizchi-markdown-0.6.2.json
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -252,7 +252,7 @@ record.created = mizchi-markdown-0.6.2
 record.conclusion = continue-verification
 ----
 
-=== E10: Render Report
+=== E10：输出报告
 
 [source,bash]
 ----
@@ -264,7 +264,7 @@ seekmoon report --format markdown
 report  .seekmoon/reports/markdown-2026-06-21.md
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----

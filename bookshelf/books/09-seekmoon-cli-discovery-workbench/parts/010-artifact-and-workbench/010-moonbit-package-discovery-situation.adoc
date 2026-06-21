@@ -1,4 +1,4 @@
-[#moonbit-package-discovery-situation.boundary]
+[.boundary]
 == MoonBit 包发现处境
 
 MoonBit 包消费者面对的对象不是空白生态。MoonBit 工具链、Mooncakes registry、Mooncakes documentation surface、Mooncakes public API、本地 registry index、symbols cache、`moon add`、`moon fetch`、`moon ide doc`、`moon runwasm` 和 Skills API 已经提供多个事实表面。indexterm2:[Mooncakes] indexterm2:[MoonBit]

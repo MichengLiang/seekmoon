@@ -1,4 +1,4 @@
-[#appendix-public-source-map.reference]
+[.reference]
 = 附录 A：公共来源图
 
 [cols="1,2,2,2", options="header"]
@@ -71,4 +71,4 @@
 |`view`、`compare`、`report`
 |===
 
-Each source is read with source label, fetch time and status. Report output lists only sources used by the recorded investigation.
+每个来源都带 source label、fetch time 和 status。Report output 只列记录的调查实际使用过的来源。

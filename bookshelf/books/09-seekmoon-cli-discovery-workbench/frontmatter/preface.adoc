@@ -2,6 +2,6 @@
 
 MoonBit 包消费者在引入依赖之前，需要识别候选包、理解候选包、比较候选包，并把判断保留为可复查记录。Mooncakes 和 MoonBit 工具链已经提供多个事实表面；消费者侧仍需要一个本地工作台把这些事实表面组织成稳定行动。
 
-依赖消费者可以沿 xref:library-discovery-journey[Library Discovery Journey] 阅读一次完整调查。工具实现者应先读 xref:public-http-sources[Public HTTP Sources, rel=depends-on]、xref:static-assets[Static Assets, rel=depends-on]、xref:local-toolchain-cache[Local Toolchain and Cache, rel=depends-on]、xref:evidence-state-values[Evidence State Values, rel=depends-on] 和 xref:command-map[Command Map, rel=depends-on]。自动化消费者应重点阅读 xref:json-output[JSON Output, rel=depends-on]、xref:built-in-jq[Built-in jq, rel=depends-on]、xref:shape-output[Shape Output, rel=depends-on] 和 xref:schema-output[Schema Output, rel=depends-on]。工具设计者可以从 xref:cli-workbench-environment[CLI Workbench Environment] 进入，观察命令结构、输出契约和状态记录如何形成工作台环境。
+依赖消费者沿 xref:library-discovery-journey[Library Discovery Journey] 阅读一次完整调查。工具实现者从 xref:public-http-sources[Public HTTP Sources]、xref:static-assets[Static Assets]、xref:local-toolchain-cache[Local Toolchain and Cache]、xref:evidence-state-values[Evidence State Values] 和 xref:command-map[Command Map] 进入公共契约。自动化消费者重点阅读 xref:json-output[JSON Output]、xref:built-in-jq[Built-in jq]、xref:shape-output[Shape Output] 和 xref:schema-output[Schema Output]。工具设计者从 xref:cli-workbench-environment[CLI Workbench Environment] 进入，观察命令结构、输出契约和状态记录如何形成工作台环境。
 
 本书中的命令、字段和状态词构成 SeekMoon 的公共对象。公共对象之外的实现细节不参与读者对工具行为的依赖。

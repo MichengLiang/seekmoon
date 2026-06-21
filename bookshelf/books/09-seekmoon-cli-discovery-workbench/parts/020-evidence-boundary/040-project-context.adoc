@@ -1,4 +1,4 @@
-[#project-context.source]
+[.source]
 == Project Context
 
 Project context 是 SeekMoon 当前运行目录中的 MoonBit 项目事实。它为 search、probe、record 和 report 提供消费者上下文。

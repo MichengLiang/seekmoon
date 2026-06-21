@@ -1,4 +1,4 @@
-[#doctor-command.command]
+[.command]
 == `seekmoon doctor`
 
 `doctor` 检查 SeekMoon 所需本地环境。它服务 failure recovery consumer 和第一次使用工具的 contract reader。
@@ -42,7 +42,7 @@ network     mooncakes.io ok
 project     MoonBit module detected
 ----
 
-[#sync-command.command]
+[.command]
 == `seekmoon sync`
 
 `sync` 创建 dated evidence snapshot。Snapshot 固定当前 API、statistics、本地 index 和 symbols 口径。
@@ -52,7 +52,7 @@ project     MoonBit module detected
 seekmoon sync
 ----
 
-`sync` 可以执行 `moon update`，读取 Modules API、Statistics API，统计 local index 和 symbols cache，并保存 snapshot file。
+`sync` 执行 `moon update`，读取 Modules API、Statistics API，统计 local index 和 symbols cache，并保存 snapshot file。
 
 [cols="1,2", options="header"]
 |===

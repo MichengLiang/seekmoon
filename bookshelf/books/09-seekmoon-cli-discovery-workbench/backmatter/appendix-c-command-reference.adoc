@@ -17,7 +17,7 @@
 
 |`search`
 |`seekmoon search <query> [--target <target>]`
-|Modules snapshot、optional local index。
+Modules snapshot、visible-result manifest enrichment。
 |SearchResult array。
 
 |`view`
@@ -27,7 +27,7 @@
 
 |`api`
 |`seekmoon api <module-or-number> --package <path>`
-|Module index、package data、optional `moon ide doc`。
+Module index、package data、local toolchain evidence when requested by output mode。
 |API profile。
 
 |`source`
@@ -47,7 +47,7 @@
 
 |`compare`
 |`seekmoon compare <candidate>...`
-|Loaded evidence and requested enrichment。
+|已加载 evidence 和请求的 enrichment。
 |Comparison output。
 
 |`probe`
@@ -71,7 +71,7 @@
 |Raw payload。
 |===
 
-Output mode options for output commands:
+输出型命令的 output mode options：
 
 [source,text]
 ----

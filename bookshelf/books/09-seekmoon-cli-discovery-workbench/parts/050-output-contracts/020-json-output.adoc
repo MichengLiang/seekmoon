@@ -53,6 +53,6 @@ JSON output 包含 schema id、input、snapshot、result object、evidence state
 }
 ----
 
-JSON output keeps evidence wrappers where field absence or source matters. A scalar field may remain scalar when the command model requires a value and absence is a command failure, such as `schema` or `results[].rank`.
+字段缺失或来源差异会影响解释时，JSON output 使用 evidence wrapper。命令模型要求必有的字段保持标量；这类字段缺失时，命令结果进入 failure surface，例如 `schema` 和 `results[].rank`。
 
-Every JSON output has a schema id. Schema id changes when the output contract changes incompatibly.
+每个 JSON output 都包含 schema id。输出契约发生不兼容变化时，schema id 随之变化。

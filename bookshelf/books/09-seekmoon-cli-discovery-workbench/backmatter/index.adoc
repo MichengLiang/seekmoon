@@ -1,4 +1,4 @@
-[#book-index.reference]
+[.reference]
 = 索引
 
 本索引 section 为书籍索引生成保留位置。正文中的可见索引词和隐藏索引词是索引入口来源。

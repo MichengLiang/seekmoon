@@ -1,14 +1,14 @@
 [#schema-output.projection]
 == Schema Output
 
-Schema output is the JSON Schema for one command's JSON output. It serves code generation, validation and strict automation.
+Schema output 是单个命令 JSON output 的 JSON Schema。它服务代码生成、校验和严格自动化。
 
 [source,bash]
 ----
 seekmoon search --schema
 ----
 
-Schema output uses JSON Schema. It contains `$schema`, `$id`, `type`, required fields, property definitions and `$defs` for reusable evidence wrappers.
+Schema output 使用 JSON Schema。它包含 `$schema`、`$id`、`type`、required fields、property definitions，以及复用 evidence wrapper 的 `$defs`。
 
 [source,json]
 ----
@@ -29,4 +29,4 @@ Schema output uses JSON Schema. It contains `$schema`, `$id`, `type`, required f
 }
 ----
 
-Schema is stricter than shape. Shape explains fields to readers; schema validates JSON output for tools. A command's schema id is the compatibility boundary for downstream consumers.
+Schema 比 shape 更严格。Shape 向读者解释字段；schema 为工具校验 JSON output。命令的 schema id 是下游消费者的兼容性边界。

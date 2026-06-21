@@ -3,7 +3,7 @@
 
 Mooncakes static assets 把 documentation surface 和 executable surface 暴露为 JSON、Markdown、Wasm 和 checksum 文件。SeekMoon 不抓取 rendered SPA 页面；它读取 asset URL 和 public API payload。
 
-[#module-index-asset.source]
+[.source]
 === Module Index Asset
 
 [source,text]
@@ -40,7 +40,7 @@ GET https://mooncakes.io/assets/<owner>/<module>@<version>/module_index.json
 
 Package relpath 必须从 package path 派生。`moonbitlang/core/argparse` 相对 `moonbitlang/core` 的 relpath 是 `argparse`。Root package 的 relpath 为空。
 
-[#package-data-asset.source]
+[.source]
 === Package Data Asset
 
 [source,text]
@@ -81,7 +81,7 @@ GET https://mooncakes.io/assets/<owner>/<module>@<version>/<package-relpath>/pac
 
 `signature` 可包含 HTML link。Plain text signature 是 SeekMoon 派生 projection，不替代 raw signature。
 
-[#resource-asset.source]
+[.source]
 === Resource Asset
 
 [source,text]
@@ -93,7 +93,7 @@ GET https://mooncakes.io/assets/<owner>/<module>@<version>/<package-relpath>/res
 
 `resource.json` 的状态进入 `view`、`api` 或 report 时必须带 source label。`package_data.json`、module index、published source 和 `moon ide doc` 仍可提供 API 与源码证据。
 
-[#source-zip.source]
+[.source]
 === Source Zip
 
 [source,text]
@@ -105,7 +105,7 @@ Source zip 是 published source 的一种来源。请求需要跟随重定向。
 
 Source zip 失败不表示 module 不存在。`source` 命令继续检查 `moon fetch`、local registry cache、core local source 或 repository signal。Source resolution 见 xref:source-resolution-model[SourceResolution, rel=depends-on]。
 
-[#skill-assets.source]
+[.source]
 === Skill Assets
 
 Skills API 给出 `wasm_url` 和 `checksum_url`。Skill detail surface 可读取 `SKILL.md`。

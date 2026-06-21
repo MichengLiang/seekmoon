@@ -3,7 +3,7 @@
 
 indexterm2:[Evidence Source] SeekMoon 的 public HTTP sources 来自 Mooncakes 公开 API。它们提供 registry 可见数据、单 module 详情、统计快照和 skill entry 列表。HTTP source 的读取结果进入 snapshot，并带有 fetch time、URL、status 和 parse state。
 
-[#modules-api.source]
+[.source]
 === Modules API
 
 [source,text]
@@ -44,7 +44,7 @@ Modules API 是 library module search 的基础 input surface。它返回 module
 
 Modules API 不提供 downloads、build status、package tree、API details、target proof、source files、repository activity 或 vulnerability status。`search` 可以把 modules array 本地过滤和排序；它不能把 list-level fields 解释为完整 package assessment。
 
-[#statistics-api.source]
+[.source]
 === Statistics API
 
 [source,text]
@@ -73,7 +73,7 @@ Statistics API 给出 registry 快照规模。SeekMoon 在 `sync` 和 report 中
 
 这些计数是 snapshot value。它们随时间变化，不参与单个候选的质量判断。
 
-[#manifest-api.source]
+[.source]
 === Manifest API
 
 [source,text]
@@ -122,7 +122,7 @@ Manifest API 是 `view`、`compare`、`source` 和 asset URL construction 的核
 
 Manifest metadata 是开放对象。当前已知字段拼写包括 repository、license、description、keywords、checksum、readme、deps、source、preferred target 和 supported targets。SeekMoon 只规范化已知字段，并保留 raw metadata 供 JSON 和 raw surface 使用。
 
-[#skills-api.source]
+[.source]
 === Skills API
 
 [source,text]

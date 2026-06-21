@@ -1,7 +1,7 @@
-[#failure-recovery-journey.workflow]
+[.workflow]
 == Failure Recovery Journey
 
-Failure recovery journey defines how failures remain actionable without turning normal output into tutorial text.
+Failure recovery journey 定义失败如何保持可行动，同时不把正常输出变成教程文本。
 
 === Resource Asset Unavailable
 
@@ -16,11 +16,11 @@ command  seekmoon view
 object   mizchi/markdown@0.6.2 src/api
 source   resource.json
 state    unavailable
-meaning  optional resource asset is absent; package_data may still exist
+meaning  resource asset is unavailable; package_data is a separate source
 recover  seekmoon api mizchi/markdown --package src/api
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -50,7 +50,7 @@ known packages
   src/slug
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -80,7 +80,7 @@ status  failed
 log     .seekmoon/probes/mizchi-markdown-0.6.2-wasm-gc/logs/moon-check-target.log
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -88,4 +88,4 @@ candidate[1].probe[wasm-gc].status = failed
 candidate[1].target[wasm-gc].evidence = local-probe-failed
 ----
 
-Probe failure remains local evidence. It does not change module metadata.
+Probe failure 是 local evidence。它不改变 module metadata。

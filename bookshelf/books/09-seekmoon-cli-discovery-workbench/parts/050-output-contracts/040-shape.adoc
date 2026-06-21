@@ -1,7 +1,7 @@
 [#shape-output.projection]
 == Shape Output
 
-Shape output is a human-readable field tree for one command's JSON output. It serves contract readers who need to write jq, inspect fields, or understand status placement without running a real query.
+Shape output 是单个命令 JSON output 的人可读字段树。它服务需要编写 jq、检查字段或理解状态位置的 contract reader；读取 shape 不需要执行真实查询。
 
 [source,bash]
 ----
@@ -42,6 +42,6 @@ results[]:
     fields: string[]
 ----
 
-Shape is not a sample result. It describes the output contract. Shape may omit raw payload fields that are only available through `raw`.
+Shape 不是样例结果。它描述输出契约。只通过 `raw` 暴露的原始 payload 字段不进入普通 shape。
 
-Shape belongs to the command that owns the output. `seekmoon search --shape` describes `search`; `seekmoon api --shape` describes `api`.
+Shape 属于拥有该输出的命令。`seekmoon search --shape` 描述 `search`；`seekmoon api --shape` 描述 `api`。

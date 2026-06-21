@@ -1,7 +1,7 @@
-[#compare-command.command]
+[.command]
 == `seekmoon compare`
 
-`compare` 把多个候选放入同一证据表面。它读取 search session、ManifestProfile、module index summary、source state、probe state 和可选 repository signal。
+`compare` 把多个候选放入同一证据表面。它读取 search session、ManifestProfile、module index summary、source state、probe state 和已加载 repository signal。
 
 [source,bash]
 ----
@@ -26,7 +26,7 @@ target js   unverified        unverified                unverified
 
 `compare` 不生成 quality score。它展示证据差异，消费者根据上下文作出判断。
 
-[#probe-command.command]
+[.command]
 == `seekmoon probe`
 
 `probe` 在本地验证候选。它依赖 xref:probe-result-model[ProbeResult, rel=depends-on]。

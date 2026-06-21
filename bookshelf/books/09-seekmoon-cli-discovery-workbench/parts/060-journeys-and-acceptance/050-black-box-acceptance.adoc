@@ -1,7 +1,7 @@
 [#black-box-acceptance.acceptance]
 == Black-box Acceptance
 
-SeekMoon satisfies its public object when the following behaviors hold from the command surface.
+以下行为从命令表面成立时，SeekMoon 的公共对象成立。
 
 [cols="1,2,2", options="header"]
 |===
@@ -9,67 +9,67 @@ SeekMoon satisfies its public object when the following behaviors hold from the 
 
 |A1
 |消费者不手写 Mooncakes API URL 即可生成候选集合。
-|Run `seekmoon search markdown` and inspect candidates。
+|执行 `seekmoon search markdown` 并检查候选。
 
 |A2
-|Search result can be referenced by session-local number。
-|Run `seekmoon view 1` after search。
+|搜索结果可被 session-local number 引用。
+|搜索后执行 `seekmoon view 1`。
 
 |A3
-|Library module and skill entry use separate command surfaces。
-|Run `seekmoon search markdown` and `seekmoon skill search cowsay`。
+|Library module 与 skill entry 使用不同命令表面。
+|分别执行 `seekmoon search markdown` 和 `seekmoon skill search cowsay`。
 
 |A4
-|Single module profile includes manifest evidence and package index state。
-|Run `seekmoon view <module>`。
+|单个 module profile 包含 manifest evidence 和 package index state。
+|执行 `seekmoon view <module>`。
 
 |A5
-|Package API profile comes from module index and package data。
-|Run `seekmoon api <module> --package <path>`。
+|Package API profile 来自 module index 和 package data。
+|执行 `seekmoon api <module> --package <path>`。
 
 |A6
-|Published source can be fetched or located with source resolution。
-|Run `seekmoon source <module@version>`。
+|Published source 可通过 source resolution 获取或定位。
+|执行 `seekmoon source <module@version>`。
 
 |A7
-|Target support without evidence is `unknown`。
-|Run `seekmoon search <query> --target <target>` before probe。
+|没有 evidence 的 target support 是 `unknown`。
+|probe 前执行 `seekmoon search <query> --target <target>`。
 
 |A8
-|Probe produces local derived evidence without modifying upstream facts。
-|Run `seekmoon probe 1 --target js`。
+|Probe 产生 local derived evidence，不修改上游事实。
+|执行 `seekmoon probe 1 --target js`。
 
 |A9
-|Adoption decision is saved as record with evidence refs。
-|Run `seekmoon record 1 --conclusion continue-verification`。
+|Adoption decision 保存为带 evidence refs 的 record。
+|执行 `seekmoon record 1 --conclusion continue-verification`。
 
 |A10
-|Report lists only actually used sources。
-|Run `seekmoon report --format markdown` and inspect Data sources。
+|Report 只列实际使用的来源。
+|执行 `seekmoon report --format markdown` 并检查 Data sources。
 
 |A11
-|Pretty text remains low-noise and does not require parsing by scripts。
-|Inspect default command output。
+|Pretty text 保持低噪声，脚本不解析 pretty text。
+|检查默认命令输出。
 
 |A12
-|JSON output contains schema id and evidence states。
-|Run `seekmoon search markdown --json`。
+|JSON output 包含 schema id 和 evidence states。
+|执行 `seekmoon search markdown --json`。
 
 |A13
-|Built-in jq evaluates against command JSON output。
-|Run `seekmoon search markdown --jq '.results[].module'`。
+|Built-in jq 对命令 JSON output 求值。
+|执行 `seekmoon search markdown --jq '.results[].module'`。
 
 |A14
-|Shape explains JSON fields without a real query result。
-|Run `seekmoon search --shape`。
+|Shape 在没有真实查询结果时解释 JSON 字段。
+|执行 `seekmoon search --shape`。
 
 |A15
-|Schema provides JSON Schema for strict consumers。
-|Run `seekmoon search --schema`。
+|Schema 为严格消费者提供 JSON Schema。
+|执行 `seekmoon search --schema`。
 
 |A16
-|Error surface gives source, state, meaning and recovery when failure interrupts a command。
-|Request a missing package path with `seekmoon api`。
+|命令失败时，error surface 给出 source、state、meaning 和 recovery。
+|用 `seekmoon api` 请求不存在的 package path。
 |===
 
-These behaviors are independent of implementation language. They define the public workbench.
+这些行为不依赖实现语言。它们定义 SeekMoon 的公共工作台表面。

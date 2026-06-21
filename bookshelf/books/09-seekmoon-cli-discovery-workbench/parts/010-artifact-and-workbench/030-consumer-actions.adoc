@@ -1,11 +1,11 @@
 [#consumer-actions.concept]
 == Consumer Actions
 
-SeekMoon 按动作区分 consumer。一个人、脚本、CI 作业或 Code Agent 都可以在不同动作中成为不同 consumer。这个划分避免把“人类”和“机器”误解为固定输出对象。
+SeekMoon 按动作区分 consumer。开发者、脚本、CI 作业和 Code Agent 都按当前动作消费对应输出表面；consumer 类型不由主体身份固定。
 
-indexterm2:[Terminal reader] 读取默认 pretty text。它需要低噪声、稳定列和足以支持下一步判断的事实。Terminal reader 可以是开发者，也可以是正在观察终端输出的 Code Agent。
+indexterm2:[Terminal reader] 读取默认 pretty text。它需要低噪声、稳定列和足以支持下一步判断的事实。开发者和正在观察终端输出的 Code Agent 都可以承担 terminal reader 动作。
 
-indexterm2:[Pipeline consumer] 处理 JSON output 或 jq result。它需要字段稳定、状态词明确、来源可追溯。Pipeline consumer 可以是 shell pipeline、脚本、CI job、report generator，也可以是人工编写的一次性 jq 表达式。
+indexterm2:[Pipeline consumer] 处理 JSON output 或 jq result。它需要字段稳定、状态词明确、来源可追溯。Shell pipeline、脚本、CI job、report generator 和一次性 jq 表达式都可以承担 pipeline consumer 动作。
 
 indexterm2:[Contract reader] 读取 help、shape 或 schema。它需要知道当前命令输出哪些字段、字段类型是什么、状态枚举是什么、JSON Schema 如何校验。Contract reader 的动作发生在写自动化、第一次使用命令或审查输出契约时。
 

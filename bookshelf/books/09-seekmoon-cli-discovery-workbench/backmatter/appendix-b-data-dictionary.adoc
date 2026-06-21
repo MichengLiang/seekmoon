@@ -3,6 +3,8 @@
 
 == Evidence Wrapper
 
+Evidence wrapper 是带状态的字段对象。`evidence string`、`evidence string array`、`evidence integer` 和 `evidence object` 分别表示 `value` 的类型；它们共享以下字段。
+
 [cols="1,1,2", options="header"]
 |===
 |字段 |类型 |含义
@@ -22,6 +24,29 @@
 |`error`
 |string/null
 |失败信息。
+|===
+
+== Common Structured Types
+
+[cols="1,1,2", options="header"]
+|===
+|类型 |字段 |含义
+
+|`source attempt`
+|`status`、`path`、`url`、`error`
+|一次 source resolution 尝试。
+
+|`command result`
+|`command`、`cwd`、`exit_code`、`status`、`log_path`
+|一次本地命令执行结果。
+
+|`api-entry`
+|`name`、`docstring`、`signature`、`loc`
+|API symbol entry 的公共字段。
+
+|`root marker`
+|空字符串
+|Skills API 中的 root/default executable package marker。
 |===
 
 == ModuleSummary
@@ -96,6 +121,14 @@
 |`repository`
 |evidence string
 |repository declaration。
+
+|`downloads`
+|evidence integer
+|Manifest enrichment 下载量。
+
+|`build_status`
+|evidence string
+|Manifest enrichment 提供的 build status。
 
 |`target`
 |evidence object

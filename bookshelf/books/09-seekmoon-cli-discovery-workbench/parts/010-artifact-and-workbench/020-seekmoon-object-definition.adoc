@@ -1,4 +1,4 @@
-[#seekmoon-object.concept]
+[.concept]
 == SeekMoon
 
 indexterm2:[SeekMoon] 是面向 MoonBit 消费者的本地 package discovery workbench。它读取公开 API、静态资产、本地工具链、本地缓存、当前项目上下文、repository signal 和本地记录，把分散的包发现事实投影为可执行的 CLI 动作。
@@ -14,7 +14,7 @@ SeekMoon 的对象边界由六类输出对象构成：
 
 这些输出对象共同支撑消费者在引入依赖之前的判断。`search` 产生候选集合；`view` 展示 module profile；`api` 展示 API profile；`source` 定位 published source；`skill` 处理 executable Wasm 条目；`compare` 放置多个候选；`probe` 生成本地验证证据；`record` 保存采纳判断；`report` 输出调查记录。
 
-SeekMoon 不接收没有来源的生态愿望字段。命令模型只包含当前 evidence sources 能产生或 SeekMoon 能从当前事实派生的字段。没有进入命令模型的对象不出现在 pretty text、JSON output、shape 或 schema 中。
+SeekMoon 的命令模型只包含 evidence sources 能产生的字段，以及 SeekMoon 能从已读取事实派生的字段。没有进入命令模型的对象不出现在 pretty text、JSON output、shape 或 schema 中。
 
 [cols="1,2,2", options="header"]
 |===

@@ -1,6 +1,6 @@
 == 版本说明
 
-本文档属于 SeekMoon 书架系列中的独立书籍。
+本文档是 SeekMoon 的独立书籍。
 
 书名：SeekMoon：MoonBit 包发现工作台。
 

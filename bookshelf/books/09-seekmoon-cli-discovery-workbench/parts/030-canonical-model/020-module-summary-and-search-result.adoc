@@ -90,6 +90,14 @@
 |evidence string
 |repository declaration。
 
+|`downloads`
+|evidence integer
+|Manifest enrichment 提供的下载量；未加载时不进入默认 pretty text。
+
+|`build_status`
+|evidence string
+|Manifest enrichment 提供的 Mooncakes build status。
+
 |`target`
 |evidence object
 |只在 query 请求 target 上下文时进入结果。
@@ -104,5 +112,7 @@
 |===
 
 Pretty text 的 `search` 表只展示终端判断需要的摘要列。JSON output 保留 `match`，用于复查和 pipeline processing。`match` 是搜索对象的一部分，不是质量评分。
+
+`search` 先使用 modules snapshot 生成候选集合，再为默认可见结果窗口读取 Manifest API enrichment。`downloads` 和 `build_status` 来自该 enrichment；enrichment 失败时对应字段带 `failed` state。
 
 Skill search 使用 `SkillEntry`，不复用 `ModuleSummary`。Skill model 见 xref:skill-entry-model[SkillEntry, rel=depends-on]。

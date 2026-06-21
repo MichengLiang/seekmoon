@@ -1,5 +1,7 @@
-[#appendix-output-shapes.projection]
+[.projection]
 = 附录 D：Output Shapes
+
+本附录中的 `evidence<T>` 表示 `value` 类型为 `T` 的 evidence wrapper。`api-entry` 和 `command-result` 的字段见 xref:appendix-data-dictionary[附录 B：数据字典]。
 
 == `seekmoon search --shape`
 
@@ -22,6 +24,8 @@ results[]:
   description: evidence<string>
   license: evidence<string>
   repository: evidence<string>
+  downloads: evidence<int>
+  build_status: evidence<string>
   target: evidence<string[]>
   match:
     fields: string[]

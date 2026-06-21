@@ -80,7 +80,7 @@
 
 |`wasm_asset`
 |evidence object
-|Wasm asset fetch state。
+|Wasm asset 的 fetch state。
 
 |`checksum_asset`
 |evidence object

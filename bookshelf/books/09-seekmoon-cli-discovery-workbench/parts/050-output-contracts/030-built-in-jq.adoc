@@ -1,7 +1,7 @@
 [#built-in-jq.projection]
 == Built-in jq
 
-Built-in jq executes a jq expression against the current command's JSON output.
+Built-in jq 对当前命令的 JSON output 执行 jq 表达式。
 
 [source,bash]
 ----
@@ -10,20 +10,20 @@ seekmoon api 1 --package src/api --jq '.types[].name'
 seekmoon source 1 --jq '.selected_source.path'
 ----
 
-The evaluation order is fixed:
+求值顺序固定：
 
 [source,text]
 ----
 command input -> canonical object -> JSON output -> jq expression -> jq result
 ----
 
-`--jq` does not read pretty text. It does not change evidence loading rules unless the command itself has options that change loading. It only transforms the JSON projection.
+`--jq` 不读取 pretty text。除非命令选项改变来源加载规则，`--jq` 不改变 evidence loading；它只转换 JSON projection。
 
-Examples:
+示例：
 
 [source,bash]
 ----
-seekmoon search markdown --json --jq '.results[] | select(.license.value == "MIT") | .module'
+seekmoon search markdown --jq '.results[] | select(.license.value == "MIT") | .module'
 ----
 
 [source,text]
@@ -31,4 +31,4 @@ seekmoon search markdown --json --jq '.results[] | select(.license.value == "MIT
 mizchi/markdown
 ----
 
-For strict automation, consumers can combine xref:schema-output[Schema Output, rel=depends-on] with jq expressions. Shape provides a human-readable field tree before writing jq.
+严格自动化把 xref:schema-output[Schema Output] 与 jq 表达式组合使用。xref:shape-output[Shape Output] 在编写 jq 前提供人可读字段树。

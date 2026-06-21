@@ -1,4 +1,4 @@
-[#search-command.command]
+[.command]
 == `seekmoon search`
 
 `search` 从 query 和 snapshot 生成 library module candidates。它依赖 xref:module-summary-model[ModuleSummary, rel=depends-on] 和 xref:search-result-model[SearchResult, rel=depends-on]。
@@ -9,7 +9,7 @@ seekmoon search markdown
 seekmoon search markdown --target js
 ----
 
-`search` 默认读取最新 snapshot 中的 Modules API array。没有可用 snapshot 时，它可以读取 Modules API 并创建 transient snapshot。Query 匹配 module name、description、keywords 和 repository declaration。
+`search` 默认读取最新 snapshot 中的 Modules API array。没有可用 snapshot 时，它读取 Modules API 并创建 transient snapshot。Query 匹配 module name、description、keywords 和 repository declaration。候选排序完成后，`search` 为默认可见结果窗口读取 Manifest API enrichment，以填充 `downloads` 和 `build_status`。
 
 [cols="1,2", options="header"]
 |===
@@ -42,7 +42,7 @@ Search: markdown    target: js    kind: library    snapshot: 2026-06-21T22:35
 
 `target` 列只在 target context 存在时显示。Target unknown 不表示 unsupported；它表示当前读取来源不能回答 target support。
 
-[#view-command.command]
+[.command]
 == `seekmoon view`
 
 `view` 展示单个 library module evidence profile。它依赖 xref:manifest-profile-model[ManifestProfile, rel=depends-on] 和 xref:module-index-tree[ModuleIndexTree, rel=depends-on]。

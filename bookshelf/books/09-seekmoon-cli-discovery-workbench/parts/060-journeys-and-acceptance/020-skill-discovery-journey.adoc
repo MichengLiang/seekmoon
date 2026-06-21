@@ -1,9 +1,9 @@
 [#skill-discovery-journey.workflow]
 == Skill Discovery Journey
 
-Skill discovery handles executable Wasm entries. It does not produce a library adoption record.
+Skill discovery 处理 executable Wasm entries。它不产生 library adoption record。
 
-=== E1: Search Skill
+=== E1：搜索 Skill
 
 [source,bash]
 ----
@@ -18,14 +18,14 @@ Search: cowsay    kind: skill    snapshot: 2026-06-21T22:35
 1  Yoorkin/cowsay    0.1.0     cowsay    present    present
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
 skill_candidates[1] = Yoorkin/cowsay@0.1.0/cowsay
 ----
 
-=== E2: View Skill
+=== E2：查看 Skill
 
 [source,bash]
 ----
@@ -42,7 +42,7 @@ sha256  available
 run     moon runwasm Yoorkin/cowsay/cowsay@0.1.0
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -50,11 +50,11 @@ skill[1].profile = present
 skill[1].runwasm_coordinate = derived
 ----
 
-=== E3: Record Skill Result
+=== E3：记录 Skill 结果
 
 [source,bash]
 ----
-seekmoon record 1 --kind skill --conclusion continue-verification --note "Run behavior not validated in project context."
+seekmoon record 1 --kind skill --conclusion continue-verification --note "Project-context execution still needs verification."
 ----
 
 [source,text]
@@ -64,7 +64,7 @@ status    continue-verification
 file      .seekmoon/records/Yoorkin-cowsay-0.1.0-cowsay.json
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----

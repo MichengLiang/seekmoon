@@ -1,4 +1,4 @@
-[#repository-signals.source]
+[.source]
 == Repository Signals
 
 Repository signal 是来自 GitHub 或其他源码仓库的维护与协作证据。SeekMoon 只在 Mooncakes metadata 或 module summary 给出 repository，并且命令实际请求 repository 后，才把这些字段写入输出对象。

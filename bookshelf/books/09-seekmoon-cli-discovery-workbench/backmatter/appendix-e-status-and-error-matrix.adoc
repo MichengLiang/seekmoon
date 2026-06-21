@@ -1,4 +1,4 @@
-[#appendix-status-error-matrix.boundary]
+[.boundary]
 = 附录 E：状态与错误矩阵
 
 == State Matrix
@@ -9,28 +9,28 @@
 
 |`present`
 |来源给出有效值。
-|Manifest license is `MIT`。
+|Manifest license 为 `MIT`。
 |不需要恢复。
 
 |`missing`
 |字段位置存在但无值。
-|Description is empty string。
+|Description 是空字符串。
 |读取其他来源或记录缺失。
 
 |`unknown`
 |问题需要判断但已读来源不能回答。
-|Target support without metadata or probe。
+|Target support 没有 metadata 或 probe evidence。
 |执行 probe 或读取更多 evidence。
 
 |`failed`
 |请求、命令或解析动作失败。
-|Manifest API timeout；`moon fetch` exits non-zero。
+|Manifest API timeout；`moon fetch` 退出非零。
 |查看 error surface 和 log。
 
 |`unavailable`
 |可选来源不存在。
 |`resource.json` 404。
-|改读 package data、source 或 other source。
+|改读 package data、source 或其他来源。
 
 |`derived`
 |SeekMoon 从事实计算。
@@ -46,33 +46,33 @@
 
 |Manifest 404
 |`failed`
-|Check module coordinate or search again。
+|检查 module coordinate 或重新 search。
 
 |Module index 404
 |`unavailable` or `failed`
-|Use manifest profile and source inspection; API index unavailable。
+|使用 manifest profile 和 source inspection；API index unavailable。
 
 |Package path absent
 |`failed`
-|List known package paths from module index。
+|列出 module index 中的已知 package paths。
 
 |Resource asset 404
 |`unavailable`
-|Continue with package data or source inspection。
+|继续读取 package data 或 source inspection。
 
 |Source zip 404
 |`unavailable`
-|Try `moon fetch` or local cache。
+|尝试 `moon fetch` 或 local cache。
 
 |`moon fetch` non-zero
 |`failed`
-|Use log path; try source zip or repository fallback。
+|读取 log path；尝试 source zip 或 repository fallback。
 
-|Probe target build fails
+|Probe target build 失败
 |`failed`
-|Record local target failure; inspect probe logs。
+|记录 local target failure；检查 probe logs。
 
 |Repository API unreachable
 |`failed`
-|Proceed without repository enrichment and record source failure。
+|不加载 repository enrichment，并记录 source failure。
 |===

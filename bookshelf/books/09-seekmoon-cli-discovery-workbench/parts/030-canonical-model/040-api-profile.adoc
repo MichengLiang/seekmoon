@@ -59,7 +59,7 @@ API profile 由 `ModuleIndexTree` 和 `PackageData` 组成。`view` 使用 modul
 
 Package relpath 由 `package.path` 和 module coordinate 派生。`package_data.json` URL 必须使用 module index 派生出的 relpath。
 
-[#package-data-model.model]
+[.model]
 === PackageData
 
 `PackageData` 来自 `package_data.json`。它是单 package API 详情来源。

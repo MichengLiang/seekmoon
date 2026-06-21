@@ -1,4 +1,4 @@
-[#skill-command.command]
+[.command]
 == `seekmoon skill`
 
 `skill` 处理 executable Wasm / runwasm entries。它依赖 xref:skill-entry-model[SkillEntry, rel=depends-on]。
@@ -46,4 +46,4 @@ sha256  available
 run     moon runwasm Yoorkin/cowsay/cowsay@0.1.0
 ----
 
-Skill execution verification 与 library dependency probe 分开记录。Skill entry 可以进入 report，但不进入 library adoption conclusion。
+Skill execution verification 与 library dependency probe 分开记录。Skill entry 进入 skill record 和 report，不进入 library adoption conclusion。

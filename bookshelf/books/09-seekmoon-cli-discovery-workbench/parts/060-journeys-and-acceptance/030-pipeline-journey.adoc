@@ -1,9 +1,9 @@
-[#pipeline-journey.workflow]
+[.workflow]
 == Pipeline Journey
 
-Pipeline journey shows a consumer inspecting output contract, extracting fields and using JSON without parsing pretty text.
+Pipeline journey 展示消费者如何查看输出契约、提取字段并使用 JSON，而不解析 pretty text。
 
-=== E1: Inspect Shape
+=== E1：检查 Shape
 
 [source,bash]
 ----
@@ -32,7 +32,7 @@ results[]:
     source: string
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
@@ -40,7 +40,7 @@ consumer.field_path = results[].module
 consumer.license_path = results[].license.value
 ----
 
-=== E2: Extract Modules
+=== E2：提取 Module
 
 [source,bash]
 ----
@@ -54,18 +54,18 @@ moonbit-community/cmark
 shiguri-01/markdown
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
 pipeline.output = module-list
 ----
 
-=== E3: Filter JSON
+=== E3：过滤 JSON
 
 [source,bash]
 ----
-seekmoon search markdown --json --jq '.results[] | select(.license.value == "MIT") | .module'
+seekmoon search markdown --jq '.results[] | select(.license.value == "MIT") | .module'
 ----
 
 [source,text]
@@ -74,25 +74,25 @@ mizchi/markdown
 shiguri-01/markdown
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
 pipeline.output = mit-module-list
 ----
 
-=== E4: Validate Schema
+=== E4：校验 Schema
 
 [source,bash]
 ----
 seekmoon search --schema
 ----
 
-State change:
+状态变化：
 
 [source,text]
 ----
 consumer.schema = seekmoon.search-results.v1
 ----
 
-The schema result can be saved by automation and used to validate later JSON output.
+自动化流程保存 schema result，并用它校验后续 JSON output。
