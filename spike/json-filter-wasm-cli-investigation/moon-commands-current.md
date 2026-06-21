@@ -1,0 +1,918 @@
+# Command-Line Help for `moon`
+
+This document contains the help content for the `moon` command-line program.
+
+**Command Overview:**
+
+* [`moon`↴](#moon)
+* [`moon new`↴](#moon-new)
+* [`moon build`↴](#moon-build)
+* [`moon check`↴](#moon-check)
+* [`moon prove`↴](#moon-prove)
+* [`moon run`↴](#moon-run)
+* [`moon runwasm`↴](#moon-runwasm)
+* [`moon test`↴](#moon-test)
+* [`moon clean`↴](#moon-clean)
+* [`moon fmt`↴](#moon-fmt)
+* [`moon doc`↴](#moon-doc)
+* [`moon explain`↴](#moon-explain)
+* [`moon info`↴](#moon-info)
+* [`moon bench`↴](#moon-bench)
+* [`moon add`↴](#moon-add)
+* [`moon remove`↴](#moon-remove)
+* [`moon install`↴](#moon-install)
+* [`moon tree`↴](#moon-tree)
+* [`moon fetch`↴](#moon-fetch)
+* [`moon work`↴](#moon-work)
+* [`moon work init`↴](#moon-work-init)
+* [`moon work use`↴](#moon-work-use)
+* [`moon work sync`↴](#moon-work-sync)
+* [`moon login`↴](#moon-login)
+* [`moon whoami`↴](#moon-whoami)
+* [`moon register`↴](#moon-register)
+* [`moon publish`↴](#moon-publish)
+* [`moon package`↴](#moon-package)
+* [`moon update`↴](#moon-update)
+* [`moon coverage`↴](#moon-coverage)
+* [`moon coverage analyze`↴](#moon-coverage-analyze)
+* [`moon coverage report`↴](#moon-coverage-report)
+* [`moon coverage clean`↴](#moon-coverage-clean)
+* [`moon generate-build-matrix`↴](#moon-generate-build-matrix)
+* [`moon upgrade`↴](#moon-upgrade)
+* [`moon shell-completion`↴](#moon-shell-completion)
+* [`moon version`↴](#moon-version)
+
+## `moon`
+
+**Usage:** `moon <COMMAND>`
+
+###### **Subcommands:**
+
+* `new` — Create a new MoonBit module
+* `build` — Build the current package
+* `check` — Check the current package, but don't build object files
+* `prove` — Prove the current package
+* `run` — Run a main package
+* `runwasm` — Run a local package as WebAssembly or a prebuilt WebAssembly binary
+* `test` — Test the current package
+* `clean` — Remove the _build directory
+* `fmt` — Format source code
+* `doc` — Generate documentation or searching documentation for a symbol
+* `explain` — Explain compiler diagnostics and language topics
+* `info` — Generate public interface (`.mbti`) files for all packages in the module or workspace
+* `bench` — Run benchmarks in the current package
+* `add` — Add a dependency
+* `remove` — Remove a dependency
+* `install` — Install a binary package globally or install project dependencies (deprecated without args)
+* `tree` — Display the dependency tree
+* `fetch` — Download a package to .repos directory (unstable)
+* `work` — Workspace maintenance commands
+* `login` — Log in to your account
+* `whoami` — Show login status and username
+* `register` — Register an account at mooncakes.io
+* `publish` — Publish the current module
+* `package` — Package the current module
+* `update` — Update the package registry index
+* `coverage` — Code coverage utilities
+* `generate-build-matrix` — Generate build matrix for benchmarking (legacy feature)
+* `upgrade` — Upgrade toolchains
+* `shell-completion` — Generate shell completion for bash/elvish/fish/pwsh/zsh to stdout
+* `version` — Print version information and exit
+
+
+
+## `moon new`
+
+Create a new MoonBit module
+
+**Usage:** `moon new [OPTIONS] <PATH>`
+
+###### **Arguments:**
+
+* `<PATH>` — The path of the new project
+
+###### **Options:**
+
+* `--user <USER>` — The username of the module. Default to the logged-in username
+* `--name <NAME>` — The name of the module. Default to the last part of the path
+
+
+
+## `moon build`
+
+Build the current package
+
+**Usage:** `moon build [OPTIONS] [PATH]...`
+
+###### **Arguments:**
+
+* `<PATH>` — Paths to the packages that should be built
+
+###### **Options:**
+
+* `-g`, `--debug` — Emit debug information
+* `--release` — Compile in release mode
+* `--strip` — Enable stripping debug information
+* `--no-strip` — Disable stripping debug information
+* `--target <TARGET>` — Select output target
+
+  Possible values: `wasm`, `wasm-gc`, `js`, `native`, `llvm`, `all`
+
+* `--enable-coverage` — Enable coverage instrumentation
+* `--sort-input` — Sort input files
+* `--output-wat` — Output WAT instead of WASM
+* `-d`, `--deny-warn` — Treat all warnings as errors
+* `--no-render` — Don't render diagnostics (in raw human-readable format)
+* `--output-json` — Output diagnostics in JSON format
+* `--warn-list <WARN_LIST>` — Warn list config
+* `-j`, `--jobs <JOBS>` — Set the max number of jobs to run in parallel
+* `--render-no-loc <MIN_LEVEL>` — Render no-location diagnostics starting from a certain level
+
+  Default value: `error`
+
+  Possible values: `info`, `warn`, `error`
+
+* `--diagnostic-limit <N>` — Limit the number of rendered diagnostics
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `-w`, `--watch` — Monitor the file system and automatically build artifacts
+
+
+
+## `moon check`
+
+Check the current package, but don't build object files
+
+**Usage:** `moon check [OPTIONS] [PATH]...`
+
+###### **Arguments:**
+
+* `<PATH>` — Filesystem path to a package directory or `.mbt` / `.mbt.md` file
+
+###### **Options:**
+
+* `-g`, `--debug` — Emit debug information
+* `--release` — Compile in release mode
+* `--strip` — Enable stripping debug information
+* `--no-strip` — Disable stripping debug information
+* `--target <TARGET>` — Select output target
+
+  Possible values: `wasm`, `wasm-gc`, `js`, `native`, `llvm`, `all`
+
+* `--enable-coverage` — Enable coverage instrumentation
+* `--sort-input` — Sort input files
+* `--output-wat` — Output WAT instead of WASM
+* `-d`, `--deny-warn` — Treat all warnings as errors
+* `--no-render` — Don't render diagnostics (in raw human-readable format)
+* `--output-json` — Output diagnostics in JSON format
+* `--warn-list <WARN_LIST>` — Warn list config
+* `-j`, `--jobs <JOBS>` — Set the max number of jobs to run in parallel
+* `--render-no-loc <MIN_LEVEL>` — Render no-location diagnostics starting from a certain level
+
+  Default value: `error`
+
+  Possible values: `info`, `warn`, `error`
+
+* `--diagnostic-limit <N>` — Limit the number of rendered diagnostics
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `-w`, `--watch` — Monitor the file system and automatically check files
+* `--patch-file <PATCH_FILE>` — The patch file to check. Only valid when the selector resolves to a single package
+* `--no-mi` — Whether to skip the mi generation. Only valid when the selector resolves to a single package
+* `--explain` — Whether to explain the error code with details
+* `--fmt` — Check whether the code is properly formatted
+
+
+
+## `moon prove`
+
+Prove the current package
+
+**Usage:** `moon prove [OPTIONS] [PATH]`
+
+###### **Arguments:**
+
+* `<PATH>` — The file-system path to the package or file in package to prove
+
+###### **Options:**
+
+* `--why3-config <PATH>` — Use a user-supplied Why3 configuration file instead of the generated default
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `-d`, `--deny-warn` — Treat all warnings as errors
+* `--no-render` — Don't render diagnostics (in raw human-readable format)
+* `--output-json` — Output diagnostics in JSON format
+* `--warn-list <WARN_LIST>` — Warn list config
+* `-j`, `--jobs <JOBS>` — Set the max number of jobs to run in parallel
+* `--render-no-loc <MIN_LEVEL>` — Render no-location diagnostics starting from a certain level
+
+  Default value: `error`
+
+  Possible values: `info`, `warn`, `error`
+
+* `--diagnostic-limit <N>` — Limit the number of rendered diagnostics
+
+
+
+## `moon run`
+
+Run a main package
+
+**Usage:** `moon run [OPTIONS] <PACKAGE_OR_MBT_FILE|-e <SCRIPT>> [ARGS]...`
+
+###### **Arguments:**
+
+* `<PACKAGE_OR_MBT_FILE>` — The package, .mbt/.mbtx file, or `-` to read `.mbtx` source from stdin
+* `<ARGS>` — The arguments provided to the program to be run
+
+###### **Options:**
+
+* `-e <SCRIPT>` — Run `.mbtx` source passed in as a string
+* `-g`, `--debug` — Emit debug information
+* `--release` — Compile in release mode
+* `--strip` — Enable stripping debug information
+* `--no-strip` — Disable stripping debug information
+* `--target <TARGET>` — Select output target
+
+  Possible values: `wasm`, `wasm-gc`, `js`, `native`, `llvm`, `all`
+
+* `--enable-coverage` — Enable coverage instrumentation
+* `--sort-input` — Sort input files
+* `--output-wat` — Output WAT instead of WASM
+* `-d`, `--deny-warn` — Treat all warnings as errors
+* `--no-render` — Don't render diagnostics (in raw human-readable format)
+* `--output-json` — Output diagnostics in JSON format
+* `--warn-list <WARN_LIST>` — Warn list config
+* `-j`, `--jobs <JOBS>` — Set the max number of jobs to run in parallel
+* `--render-no-loc <MIN_LEVEL>` — Render no-location diagnostics starting from a certain level
+
+  Default value: `error`
+
+  Possible values: `info`, `warn`, `error`
+
+* `--diagnostic-limit <N>` — Limit the number of rendered diagnostics
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `--build-only` — Only build, do not run the code
+* `--profile` — Profile the native executable using Time Profiler on macOS or perf on Linux
+
+
+
+## `moon runwasm`
+
+Run a local package as WebAssembly or a prebuilt WebAssembly binary published as a Mooncakes asset.
+
+Local package inputs are handled like `moon run --target wasm`:
+  moon runwasm main
+  moon runwasm ./main
+
+Accepted Mooncakes coordinate forms:
+  moon runwasm moonbitlang/parser/cmd/moonfmt@0.3.3
+  moon runwasm moonbitlang/parser@0.3.3/cmd/moonfmt
+  moon runwasm moonbitlang/parser/cmd/moonfmt
+
+Pinned coordinates use the given version directly. Unpinned coordinates resolve
+the latest version from the registry index, updating it only when the module is
+absent from the local index. Fetched wasm files are cached under
+$MOON_HOME/registry/cache/assets and reused on later runs.
+
+**Usage:** `moon runwasm <LOCAL_PACKAGE|PACKAGE[@VERSION]> [ARGS]...`
+
+###### **Arguments:**
+
+* `<LOCAL_PACKAGE|PACKAGE[@VERSION]>` — Local package path or Mooncakes package coordinate of the prebuilt wasm binary
+* `<ARGS>` — The arguments provided to the wasm program
+
+
+
+## `moon test`
+
+Test the current package
+
+**Usage:** `moon test [OPTIONS] [PATH]...`
+
+###### **Arguments:**
+
+* `<PATH>` — Run tests for a filesystem path. If in a project, `PATH` may point to a package directory or a file inside a package; otherwise, runs in a temporary project
+
+###### **Options:**
+
+* `-g`, `--debug` — Emit debug information
+* `--release` — Compile in release mode
+* `--strip` — Enable stripping debug information
+* `--no-strip` — Disable stripping debug information
+* `--target <TARGET>` — Select output target
+
+  Possible values: `wasm`, `wasm-gc`, `js`, `native`, `llvm`, `all`
+
+* `--enable-coverage` — Enable coverage instrumentation
+* `--sort-input` — Sort input files
+* `--output-wat` — Output WAT instead of WASM
+* `-d`, `--deny-warn` — Treat all warnings as errors
+* `--no-render` — Don't render diagnostics (in raw human-readable format)
+* `--output-json` — Output diagnostics in JSON format
+* `--warn-list <WARN_LIST>` — Warn list config
+* `-j`, `--jobs <JOBS>` — Set the max number of jobs to run in parallel
+* `--render-no-loc <MIN_LEVEL>` — Render no-location diagnostics starting from a certain level
+
+  Default value: `error`
+
+  Possible values: `info`, `warn`, `error`
+
+* `--diagnostic-limit <N>` — Limit the number of rendered diagnostics
+* `-p`, `--package <PACKAGE>` — Run test in the specified package
+* `-i`, `--index <INDEX>` — Run only the index-th test in the file. Accepts a single index or a left-inclusive right-exclusive range like `0-2`. Only valid when a single file is selected. Implies `--include-skipped`
+* `--doc-index <DOC_INDEX>` — Run only the index-th doc test in the file. Only valid when a single file is selected. Implies `--include-skipped`
+* `-u`, `--update` — Update the test snapshot
+* `-l`, `--limit <LIMIT>` — Limit of expect test update passes to run, in order to avoid infinite loops
+
+  Default value: `256`
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `--build-only` — Only build, do not run the tests
+* `--profile` — Profile native test executables using Time Profiler on macOS or perf on Linux
+* `--no-parallelize` — Run the tests in a target backend sequentially
+* `--outline` — Print the outline of tests to be executed and exit
+* `--test-failure-json` — Print failure message in JSON format
+* `--patch-file <PATCH_FILE>` — Path to the patch file
+* `--include-skipped` — Include skipped tests. Automatically implied when `--[doc-]index` is set
+* `-f`, `--filter <FILTER>` — Run only tests whose name matches the given glob pattern. Supports '*' (matches any sequence) and '?' (matches any single character)
+
+
+
+## `moon clean`
+
+Remove the _build directory
+
+**Usage:** `moon clean`
+
+
+
+## `moon fmt`
+
+Format source code
+
+**Usage:** `moon fmt [OPTIONS] [PATH]... [-- <ARGS>...]`
+
+###### **Arguments:**
+
+* `<PATH>` — Paths to package directories or files inside packages to format
+* `<ARGS>` — Extra arguments passed to the formatter (after --)
+
+###### **Options:**
+
+* `--check` — Check only and don't change the source code
+* `--sort-input` — Sort input files
+* `--warn` — Warn if code is not properly formatted
+
+
+
+## `moon doc`
+
+Generate documentation or searching documentation for a symbol
+
+**Usage:** `moon doc [OPTIONS] [SYMBOL]`
+
+###### **Arguments:**
+
+* `<SYMBOL>` — [Deprecated] The symbol to query documentation for. Use `moon ide doc <SYMBOL>` instead.
+
+###### **Options:**
+
+* `--serve` — Start a web server to serve the documentation
+* `-b`, `--bind <BIND>` — The address of the server
+
+  Default value: `127.0.0.1`
+* `-p`, `--port <PORT>` — The port of the server
+
+  Default value: `3000`
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+
+
+
+## `moon explain`
+
+Explain compiler diagnostics and language topics
+
+**Usage:** `moon explain <--diagnostic [<ID_OR_NAME>]|--attribute [<NAME>]>`
+
+Resources:
+    Docs: https://docs.moonbitlang.com
+    Skills: https://github.com/moonbitlang/skills
+
+    Use `moon explain --diagnostic` to list diagnostic codes and names.
+    Use `moon explain --attribute` to list attributes.
+
+###### **Options:**
+
+* `--diagnostic <ID_OR_NAME>` — Explain diagnostics. Without a query, list diagnostic codes and names
+* `--attribute <NAME>` — Explain attributes. Without a query, list attribute names
+
+
+
+## `moon info`
+
+Generate public interface (`.mbti`) files for all packages in the module or workspace
+
+By default, `moon info` writes `pkg.generated.mbti` from each selected package's canonical backend: module `preferred-backend`, then workspace `preferred-backend`, then `wasm-gc`.
+
+`--target` inspects backend-specific interfaces and reports differences, but does not change which backend is written to `pkg.generated.mbti`.
+
+**Usage:** `moon info [OPTIONS] [PATH]...`
+
+###### **Arguments:**
+
+* `<PATH>` — The file-system path to the package or file in package to emit `mbti` files for
+
+   Conflicts with `--package`.
+
+###### **Options:**
+
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `--target <TARGET>` — Inspect one or more target backends without changing the canonical `pkg.generated.mbti` output
+
+  Possible values: `wasm`, `wasm-gc`, `js`, `native`, `llvm`, `all`
+
+* `-p`, `--package <PACKAGE>` — The full or subset of name of the package to emit `mbti` files for
+
+
+
+## `moon bench`
+
+Run benchmarks in the current package
+
+**Usage:** `moon bench [OPTIONS]`
+
+###### **Options:**
+
+* `-g`, `--debug` — Emit debug information
+* `--release` — Compile in release mode
+* `--strip` — Enable stripping debug information
+* `--no-strip` — Disable stripping debug information
+* `--target <TARGET>` — Select output target
+
+  Possible values: `wasm`, `wasm-gc`, `js`, `native`, `llvm`, `all`
+
+* `--enable-coverage` — Enable coverage instrumentation
+* `--sort-input` — Sort input files
+* `--output-wat` — Output WAT instead of WASM
+* `-d`, `--deny-warn` — Treat all warnings as errors
+* `--no-render` — Don't render diagnostics (in raw human-readable format)
+* `--output-json` — Output diagnostics in JSON format
+* `--warn-list <WARN_LIST>` — Warn list config
+* `-j`, `--jobs <JOBS>` — Set the max number of jobs to run in parallel
+* `--render-no-loc <MIN_LEVEL>` — Render no-location diagnostics starting from a certain level
+
+  Default value: `error`
+
+  Possible values: `info`, `warn`, `error`
+
+* `--diagnostic-limit <N>` — Limit the number of rendered diagnostics
+* `-p`, `--package <PACKAGE>` — Run test in the specified package
+* `-f`, `--file <FILE>` — Run test in the specified file. Only valid when `--package` is also specified
+* `-i`, `--index <INDEX>` — Run only the index-th test in the file. Accepts a single index or a left-inclusive right-exclusive range like `0-2`. Only valid when `--file` is also specified
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `--build-only` — Only build, do not bench
+* `--no-parallelize` — Run the benchmarks in a target backend sequentially
+
+
+
+## `moon add`
+
+Add a dependency
+
+**Usage:** `moon add [OPTIONS] <MODULE>`
+
+###### **Arguments:**
+
+* `<MODULE>` — The registry module name to add
+
+###### **Options:**
+
+* `--bin` — Whether to add the dependency as a binary
+* `-u`, `--upgrade` — Upgrade an existing dependency
+* `--no-update` — Do not update the registry index before adding the dependency
+
+
+
+## `moon remove`
+
+Remove a dependency
+
+**Usage:** `moon remove <MODULE>`
+
+###### **Arguments:**
+
+* `<MODULE>` — The registry module name to remove
+
+
+
+## `moon install`
+
+Install a binary package globally or install project dependencies (deprecated without args)
+
+**Usage:** `moon install [OPTIONS] [SOURCE] [PATH_IN_REPO]`
+
+###### **Arguments:**
+
+* `<SOURCE>` — Install source.
+
+   Interpretation order:
+     1. local path (`./`, `../`, `/`, Windows drive)
+     2. git URL
+     3. registry package path (`user/module/pkg[@version]`)
+
+   Use `/...` suffix to install all matching main packages.
+* `<PATH_IN_REPO>` — Filesystem path inside the cloned git repository.
+   Used only when SOURCE is a git URL.
+
+   Use `/...` suffix to install all matching main packages under this path prefix.
+
+###### **Options:**
+
+* `--bin <DIR>` — Specify installation directory (default: ~/.moon/bin/)
+* `--path <PATH>` — Install from local path instead of registry
+* `--rev <REV>` — Git revision to checkout (commit hash, requires git URL)
+* `--branch <BRANCH>` — Git branch to checkout (requires git URL)
+* `--tag <TAG>` — Git tag to checkout (requires git URL)
+
+
+
+## `moon tree`
+
+Display the dependency tree
+
+**Usage:** `moon tree`
+
+
+
+## `moon fetch`
+
+Download a package to .repos directory (unstable)
+
+Note: This is an unstable command and may change or be removed in future versions.
+
+**Usage:** `moon fetch [OPTIONS] <MODULE[@VERSION]>`
+
+###### **Arguments:**
+
+* `<MODULE[@VERSION]>` — The registry module name to fetch in the form of <author>/<module_name>[@<version>]
+
+###### **Options:**
+
+* `--no-update` — Do not update the registry index before fetching
+
+
+
+## `moon work`
+
+Workspace maintenance commands
+
+**Usage:** `moon work <COMMAND>`
+
+###### **Subcommands:**
+
+* `init` — Create a workspace manifest
+* `use` — Add modules to the workspace manifest
+* `sync` — Sync workspace dependency versions into member manifests
+
+
+
+## `moon work init`
+
+Create a workspace manifest
+
+**Usage:** `moon work init [PATHS]...`
+
+###### **Arguments:**
+
+* `<PATHS>` — Module directories to add to the workspace
+
+
+
+## `moon work use`
+
+Add modules to the workspace manifest
+
+**Usage:** `moon work use <PATHS>...`
+
+###### **Arguments:**
+
+* `<PATHS>` — Module directories to add to the workspace
+
+
+
+## `moon work sync`
+
+Sync workspace dependency versions into member manifests
+
+**Usage:** `moon work sync`
+
+
+
+## `moon login`
+
+Log in to your account
+
+**Usage:** `moon login`
+
+
+
+## `moon whoami`
+
+Show login status and username
+
+**Usage:** `moon whoami`
+
+
+
+## `moon register`
+
+Register an account at mooncakes.io
+
+**Usage:** `moon register`
+
+
+
+## `moon publish`
+
+Publish the current module
+
+**Usage:** `moon publish [OPTIONS]`
+
+###### **Options:**
+
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+
+
+
+## `moon package`
+
+Package the current module
+
+**Usage:** `moon package [OPTIONS]`
+
+###### **Options:**
+
+* `--frozen` — Do not sync dependencies, assuming local dependencies are up-to-date
+* `--list`
+
+
+
+## `moon update`
+
+Update the package registry index
+
+**Usage:** `moon update`
+
+
+
+## `moon coverage`
+
+Code coverage utilities
+
+**Usage:** `moon coverage <COMMAND>`
+
+###### **Subcommands:**
+
+* `analyze` — Run test with instrumentation and report coverage
+* `report` — Generate code coverage report
+* `clean` — Clean up coverage artifacts
+
+
+
+## `moon coverage analyze`
+
+Run test with instrumentation and report coverage
+
+**Usage:** `moon coverage analyze [OPTIONS] [-- <EXTRA_FLAGS>...]`
+
+###### **Arguments:**
+
+* `<EXTRA_FLAGS>` — Extra flags passed directly to `moon_cove_report`
+
+###### **Options:**
+
+* `-p`, `--package <PACKAGE>` — Analyze coverage for a specific package
+
+
+
+## `moon coverage report`
+
+Generate code coverage report
+
+**Usage:** `moon coverage report [args]... [COMMAND]`
+
+###### **Arguments:**
+
+* `<args>` — Arguments to pass to the coverage utility
+
+###### **Options:**
+
+* `-h`, `--help` — Show help for the coverage utility
+
+
+
+## `moon coverage clean`
+
+Clean up coverage artifacts
+
+**Usage:** `moon coverage clean`
+
+
+
+## `moon generate-build-matrix`
+
+Generate build matrix for benchmarking (legacy feature)
+
+**Usage:** `moon generate-build-matrix [OPTIONS] --output-dir <OUT_DIR>`
+
+###### **Options:**
+
+* `-n <NUMBER>` — Set all of `drow`, `dcol`, `mrow`, `mcol` to the same value
+* `--drow <DIR_ROWS>` — Number of directory rows
+* `--dcol <DIR_COLS>` — Number of directory columns
+* `--mrow <MOD_ROWS>` — Number of module rows
+* `--mcol <MOD_COLS>` — Number of module columns
+* `-o`, `--output-dir <OUT_DIR>` — The output directory
+
+
+
+## `moon upgrade`
+
+Upgrade toolchains
+
+**Usage:** `moon upgrade [OPTIONS]`
+
+###### **Options:**
+
+* `-f`, `--force` — Force upgrade
+* `--dev` — Install the latest development version
+
+
+
+## `moon shell-completion`
+
+Generate shell completion for bash/elvish/fish/pwsh/zsh to stdout
+
+**Usage:** `moon shell-completion [OPTIONS]`
+
+
+Discussion:
+Enable tab completion for Bash, Elvish, Fish, Zsh, or PowerShell
+The script is output on `stdout`, allowing one to re-direct the
+output to the file of their choosing. Where you place the file
+will depend on which shell, and which operating system you are
+using. Your particular configuration may also determine where
+these scripts need to be placed.
+
+The completion scripts won't update itself, so you may need to
+periodically run this command to get the latest completions.
+Or you may put `eval "$(moon shell-completion --shell <SHELL>)"`
+in your shell's rc file to always load newest completions on startup.
+Although it's considered not as efficient as having the completions
+script installed.
+
+Here are some common set ups for the three supported shells under
+Unix and similar operating systems (such as GNU/Linux).
+
+Bash:
+
+Completion files are commonly stored in `/etc/bash_completion.d/` for
+system-wide commands, but can be stored in
+`~/.local/share/bash-completion/completions` for user-specific commands.
+Run the command:
+
+    $ mkdir -p ~/.local/share/bash-completion/completions
+    $ moon shell-completion --shell bash >> ~/.local/share/bash-completion/completions/moon
+
+This installs the completion script. You may have to log out and
+log back in to your shell session for the changes to take effect.
+
+Bash (macOS/Homebrew):
+
+Homebrew stores bash completion files within the Homebrew directory.
+With the `bash-completion` brew formula installed, run the command:
+
+    $ mkdir -p $(brew --prefix)/etc/bash_completion.d
+    $ moon shell-completion --shell bash > $(brew --prefix)/etc/bash_completion.d/moon.bash-completion
+
+Fish:
+
+Fish completion files are commonly stored in
+`$HOME/.config/fish/completions`. Run the command:
+
+    $ mkdir -p ~/.config/fish/completions
+    $ moon shell-completion --shell fish > ~/.config/fish/completions/moon.fish
+
+This installs the completion script. You may have to log out and
+log back in to your shell session for the changes to take effect.
+
+Elvish:
+
+Elvish completions are commonly stored in a single `completers` module.
+A typical module search path is `~/.config/elvish/lib`, and
+running the command:
+
+    $ moon shell-completion --shell elvish >> ~/.config/elvish/lib/completers.elv
+
+will install the completions script. Note that use `>>` (append) 
+instead of `>` (overwrite) to prevent overwriting the existing completions 
+for other commands. Then prepend your rc.elv with:
+
+    `use completers`
+
+to load the `completers` module and enable completions.
+
+Zsh:
+
+ZSH completions are commonly stored in any directory listed in
+your `$fpath` variable. To use these completions, you must either
+add the generated script to one of those directories, or add your
+own to this list.
+
+Adding a custom directory is often the safest bet if you are
+unsure of which directory to use. First create the directory; for
+this example we'll create a hidden directory inside our `$HOME`
+directory:
+
+    $ mkdir ~/.zfunc
+
+Then add the following lines to your `.zshrc` just before
+`compinit`:
+
+    fpath+=~/.zfunc
+
+Now you can install the completions script using the following
+command:
+
+    $ moon shell-completion --shell zsh > ~/.zfunc/_moon
+
+You must then open a new zsh session, or simply run
+
+    $ . ~/.zshrc
+
+for the new completions to take effect.
+
+Custom locations:
+
+Alternatively, you could save these files to the place of your
+choosing, such as a custom directory inside your $HOME. Doing so
+will require you to add the proper directives, such as `source`ing
+inside your login script. Consult your shells documentation for
+how to add such directives.
+
+PowerShell:
+
+The powershell completion scripts require PowerShell v5.0+ (which
+comes with Windows 10, but can be downloaded separately for windows 7
+or 8.1).
+
+First, check if a profile has already been set
+
+    PS C:\> Test-Path $profile
+
+If the above command returns `False` run the following
+
+    PS C:\> New-Item -path $profile -type file -force
+
+Now open the file provided by `$profile` (if you used the
+`New-Item` command it will be
+`${env:USERPROFILE}\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1`
+
+Next, we either save the completions file into our profile, or
+into a separate file and source it inside our profile. To save the
+completions into our profile simply use
+
+    PS C:\> moon shell-completion --shell powershell >>
+    ${env:USERPROFILE}\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+
+This discussion is taken from `rustup completions` command with some changes.
+
+
+###### **Options:**
+
+* `--shell <SHELL>` — The shell to generate completion for
+
+  Default value: `<your shell>`
+
+  Possible values: `bash`, `elvish`, `fish`, `powershell`, `zsh`
+
+
+
+
+## `moon version`
+
+Print version information and exit
+
+**Usage:** `moon version [OPTIONS]`
+
+###### **Options:**
+
+* `--all` — Print all version information
+* `--json` — Print version information in JSON format
+* `--no-path` — Do not print the path
+
+
+
+<hr/>
+
+<small><i>
+    This document was generated automatically by
+    <a href="https://crates.io/crates/clap-markdown"><code>clap-markdown</code></a>.
+</i></small>

@@ -1,0 +1,70 @@
+jaredzhou/pony	0.1.1	cmd/main	jaredzhou/pony/cmd/main		/assets/jaredzhou/pony@0.1.1/cmd/main/main.wasm
+R00TK17/hex_editor	0.1.0	cmd/wasm	R00TK17/hex_editor/cmd/wasm		/assets/R00TK17/hex_editor@0.1.0/cmd/wasm/wasm.wasm
+Mairzzcllo/moonbit_sqlc_plugin	0.1.3	plugin	Mairzzcllo/moonbit_sqlc_plugin/plugin		/assets/Mairzzcllo/moonbit_sqlc_plugin@0.1.3/plugin/plugin.wasm
+moonbitlang/parser	0.3.5	cmd/moonfmt	moonbitlang/parser/cmd/moonfmt		/assets/moonbitlang/parser@0.3.5/cmd/moonfmt/moonfmt.wasm
+moonbitlang/parser	0.3.5	cmd/wasm/mq	moonbitlang/parser/cmd/wasm/mq		/assets/moonbitlang/parser@0.3.5/cmd/wasm/mq/mq.wasm
+pocket7878/cog_complex	0.1.0	cmd/cog_complex	pocket7878/cog_complex/cmd/cog_complex		/assets/pocket7878/cog_complex@0.1.0/cmd/cog_complex/cog_complex.wasm
+connect0459/starlark	0.3.1	cmd/starlark	connect0459/starlark/cmd/starlark		/assets/connect0459/starlark@0.3.1/cmd/starlark/starlark.wasm
+Xpeng/mooncharts	0.3.0	cmd/main	Xpeng/mooncharts/cmd/main		/assets/Xpeng/mooncharts@0.3.0/cmd/main/main.wasm
+Xpeng/mooncharts	0.3.0	web	Xpeng/mooncharts/web		/assets/Xpeng/mooncharts@0.3.0/web/web.wasm
+starlittle/MoonEvidence	0.3.0	src/api	starlittle/MoonEvidence/src/api		/assets/starlittle/MoonEvidence@0.3.0/src/api/api.wasm
+starlittle/MoonEvidence	0.3.0	src/cmd/main	starlittle/MoonEvidence/src/cmd/main		/assets/starlittle/MoonEvidence@0.3.0/src/cmd/main/main.wasm
+Milky2018/pptz	0.5.0		Milky2018/pptz	Create editable PowerPoint PPTX decks from pptz YAML sources with Milky2018/pptz. Use when Codex needs to design a new slide deck, write deck/page sources, compile them to .pptx, and deliver both sources and output. Do not use for editing an existing PPTX or for PowerPoint features outside the pptz schema.	/assets/Milky2018/pptz@0.5.0/pptz.wasm
+moonbit-community/moongrep	0.1.6		moonbit-community/moongrep	`moongrep` is an experimental MoonBit structural search and taint-analysis tool. Matching rules are declared as YAML files.	/assets/moonbit-community/moongrep@0.1.6/moongrep.wasm
+Betterlol/moon_zod	0.5.1	cmd/json2schema	Betterlol/moon_zod/cmd/json2schema		/assets/Betterlol/moon_zod@0.5.1/cmd/json2schema/json2schema.wasm
+Betterlol/moon_zod	0.5.1	cmd/main	Betterlol/moon_zod/cmd/main		/assets/Betterlol/moon_zod@0.5.1/cmd/main/main.wasm
+Betterlol/moon_zod	0.5.1	cmd/wasm	Betterlol/moon_zod/cmd/wasm		/assets/Betterlol/moon_zod@0.5.1/cmd/wasm/wasm.wasm
+Betterlol/moon_zod	0.5.1	examples/educational_agent	Betterlol/moon_zod/examples/educational_agent		/assets/Betterlol/moon_zod@0.5.1/examples/educational_agent/educational_agent.wasm
+Betterlol/moon_zod	0.5.1	examples/json2schema	Betterlol/moon_zod/examples/json2schema		/assets/Betterlol/moon_zod@0.5.1/examples/json2schema/json2schema.wasm
+Betterlol/moon_zod	0.5.1	examples/llm_agent	Betterlol/moon_zod/examples/llm_agent		/assets/Betterlol/moon_zod@0.5.1/examples/llm_agent/llm_agent.wasm
+Betterlol/moon_zod	0.5.1	examples/real_llm_agent	Betterlol/moon_zod/examples/real_llm_agent		/assets/Betterlol/moon_zod@0.5.1/examples/real_llm_agent/real_llm_agent.wasm
+Betterlol/moon_zod	0.5.1	examples/schema2json	Betterlol/moon_zod/examples/schema2json		/assets/Betterlol/moon_zod@0.5.1/examples/schema2json/schema2json.wasm
+Betterlol/moon_zod	0.5.1	examples/schema2prompt	Betterlol/moon_zod/examples/schema2prompt		/assets/Betterlol/moon_zod@0.5.1/examples/schema2prompt/schema2prompt.wasm
+Luna-Flow/geometry3d	0.5.0	demo	Luna-Flow/geometry3d/demo		/assets/Luna-Flow/geometry3d@0.5.0/demo/demo.wasm
+kaashyapan/uri	0.1.2		kaashyapan/uri		/assets/kaashyapan/uri@0.1.2/uri.wasm
+Luna-Flow/linear-algebra	0.3.0	perf_runner	Luna-Flow/linear-algebra/perf_runner		/assets/Luna-Flow/linear-algebra@0.3.0/perf_runner/perf_runner.wasm
+bobzhang/bap	0.2.2	cmd/main	bobzhang/bap/cmd/main		/assets/bobzhang/bap@0.2.2/cmd/main/main.wasm
+Nanaloveyuki/BitLogger	0.5.3	examples/basic	Nanaloveyuki/BitLogger/examples/basic		/assets/Nanaloveyuki/BitLogger@0.5.3/examples/basic/basic.wasm
+Nanaloveyuki/BitLogger	0.5.3	examples/config_build	Nanaloveyuki/BitLogger/examples/config_build		/assets/Nanaloveyuki/BitLogger@0.5.3/examples/config_build/config_build.wasm
+Nanaloveyuki/BitLogger	0.5.3	examples/console_basic	Nanaloveyuki/BitLogger/examples/console_basic		/assets/Nanaloveyuki/BitLogger@0.5.3/examples/console_basic/console_basic.wasm
+Nanaloveyuki/BitLogger	0.5.3	examples/file_rotation	Nanaloveyuki/BitLogger/examples/file_rotation		/assets/Nanaloveyuki/BitLogger@0.5.3/examples/file_rotation/file_rotation.wasm
+Nanaloveyuki/BitLogger	0.5.3	examples/presets	Nanaloveyuki/BitLogger/examples/presets		/assets/Nanaloveyuki/BitLogger@0.5.3/examples/presets/presets.wasm
+Nanaloveyuki/BitLogger	0.5.3	examples/style_tags	Nanaloveyuki/BitLogger/examples/style_tags		/assets/Nanaloveyuki/BitLogger@0.5.3/examples/style_tags/style_tags.wasm
+Nanaloveyuki/BitLogger	0.5.3	examples/text_formatter	Nanaloveyuki/BitLogger/examples/text_formatter		/assets/Nanaloveyuki/BitLogger@0.5.3/examples/text_formatter/text_formatter.wasm
+NiHao124538/examine	0.1.0	cmd/main	NiHao124538/examine/cmd/main		/assets/NiHao124538/examine@0.1.0/cmd/main/main.wasm
+oboard/morm	0.4.0	mormgen	oboard/morm/mormgen		/assets/oboard/morm@0.4.0/mormgen/mormgen.wasm
+hustcer/ed25519	0.5.0	cmd/openssl-interop	hustcer/ed25519/cmd/openssl-interop		/assets/hustcer/ed25519@0.5.0/cmd/openssl-interop/openssl-interop.wasm
+peter-jerry-ye/md-outline	0.2.1		peter-jerry-ye/md-outline		/assets/peter-jerry-ye/md-outline@0.2.1/md-outline.wasm
+moonbit-community/miniio	0.2.1	demo	moonbit-community/miniio/demo		/assets/moonbit-community/miniio@0.2.1/demo/demo.wasm
+robinfang/mold	0.3.0	examples/custom_filter	robinfang/mold/examples/custom_filter		/assets/robinfang/mold@0.3.0/examples/custom_filter/custom_filter.wasm
+robinfang/mold	0.3.0	examples/email	robinfang/mold/examples/email		/assets/robinfang/mold@0.3.0/examples/email/email.wasm
+robinfang/mold	0.3.0	examples/from_json	robinfang/mold/examples/from_json		/assets/robinfang/mold@0.3.0/examples/from_json/from_json.wasm
+robinfang/mold	0.3.0	examples/hello	robinfang/mold/examples/hello		/assets/robinfang/mold@0.3.0/examples/hello/hello.wasm
+robinfang/mold	0.3.0	examples/html_safe	robinfang/mold/examples/html_safe		/assets/robinfang/mold@0.3.0/examples/html_safe/html_safe.wasm
+robinfang/mold	0.3.0	examples/include_loader	robinfang/mold/examples/include_loader		/assets/robinfang/mold@0.3.0/examples/include_loader/include_loader.wasm
+robinfang/mold	0.3.0	examples/report	robinfang/mold/examples/report		/assets/robinfang/mold@0.3.0/examples/report/report.wasm
+robinfang/mold	0.3.0	examples/site	robinfang/mold/examples/site		/assets/robinfang/mold@0.3.0/examples/site/site.wasm
+Anxiu0101/yuegui	0.1.3	cmd/main	Anxiu0101/yuegui/cmd/main		/assets/Anxiu0101/yuegui@0.1.3/cmd/main/main.wasm
+moonbit-community/embed	0.1.0		moonbit-community/embed	Embed files into a generated MoonBit source file.	/assets/moonbit-community/embed@0.1.0/embed.wasm
+moonbit-community/meta-skill	0.1.0		moonbit-community/meta-skill	Create or revise minimal MoonBit WASM skills that package a runnable WASIp1 CLI with SKILL.md guidance for AI agents.	/assets/moonbit-community/meta-skill@0.1.0/meta-skill.wasm
+justjavac/walkdir	0.1.6	examples/collect_all	justjavac/walkdir/examples/collect_all		/assets/justjavac/walkdir@0.1.6/examples/collect_all/collect_all.wasm
+justjavac/walkdir	0.1.6	examples/files_only	justjavac/walkdir/examples/files_only		/assets/justjavac/walkdir@0.1.6/examples/files_only/files_only.wasm
+justjavac/walkdir	0.1.6	examples/max_depth	justjavac/walkdir/examples/max_depth		/assets/justjavac/walkdir@0.1.6/examples/max_depth/max_depth.wasm
+justjavac/template_codegen	0.1.2		justjavac/template_codegen		/assets/justjavac/template_codegen@0.1.2/template_codegen.wasm
+Suquster/moonbit-pathfinding	0.0.3	cmd/main	Suquster/moonbit-pathfinding/cmd/main		/assets/Suquster/moonbit-pathfinding@0.0.3/cmd/main/main.wasm
+Suquster/moonbit-pathfinding	0.0.3	examples/eight_puzzle	Suquster/moonbit-pathfinding/examples/eight_puzzle		/assets/Suquster/moonbit-pathfinding@0.0.3/examples/eight_puzzle/eight_puzzle.wasm
+Suquster/moonbit-pathfinding	0.0.3	examples/maze_solver	Suquster/moonbit-pathfinding/examples/maze_solver		/assets/Suquster/moonbit-pathfinding@0.0.3/examples/maze_solver/maze_solver.wasm
+Suquster/moonbit-pathfinding	0.0.3	examples/network_routing	Suquster/moonbit-pathfinding/examples/network_routing		/assets/Suquster/moonbit-pathfinding@0.0.3/examples/network_routing/network_routing.wasm
+dowdiness/js_engine	0.3.0	benchmarks	dowdiness/js_engine/benchmarks		/assets/dowdiness/js_engine@0.3.0/benchmarks/benchmarks.wasm
+dowdiness/js_engine	0.3.0	cmd/main	dowdiness/js_engine/cmd/main		/assets/dowdiness/js_engine@0.3.0/cmd/main/main.wasm
+justjavac/ttl	0.1.1	examples/basic	justjavac/ttl/examples/basic		/assets/justjavac/ttl@0.1.1/examples/basic/basic.wasm
+gmlewis/fonts	0.19.11	examples/canvas-checkerboard	gmlewis/fonts/examples/canvas-checkerboard		/assets/gmlewis/fonts@0.19.11/examples/canvas-checkerboard/canvas-checkerboard.wasm
+gmlewis/fonts	0.19.11	examples/svg-checkerboard	gmlewis/fonts/examples/svg-checkerboard		/assets/gmlewis/fonts@0.19.11/examples/svg-checkerboard/svg-checkerboard.wasm
+PerfectPan/agent-finder	0.1.2	agent_discovery_core	PerfectPan/agent-finder/agent_discovery_core		/assets/PerfectPan/agent-finder@0.1.2/agent_discovery_core/agent_discovery_core.wasm
+justjavac/template_examples	0.1.1	filter_pipelines	justjavac/template_examples/filter_pipelines		/assets/justjavac/template_examples@0.1.1/filter_pipelines/filter_pipelines.wasm
+justjavac/template_examples	0.1.1	hello	justjavac/template_examples/hello		/assets/justjavac/template_examples@0.1.1/hello/hello.wasm
+justjavac/template_examples	0.1.1	layout	justjavac/template_examples/layout		/assets/justjavac/template_examples@0.1.1/layout/layout.wasm
+justjavac/template_examples	0.1.1	list	justjavac/template_examples/list		/assets/justjavac/template_examples@0.1.1/list/list.wasm
+PaiGack/moonbitqrcode	0.1.0	src/cmd/main	PaiGack/moonbitqrcode/src/cmd/main		/assets/PaiGack/moonbitqrcode@0.1.0/src/cmd/main/main.wasm
+bobzhang/toml	0.4.1	cmd/toml	bobzhang/toml/cmd/toml		/assets/bobzhang/toml@0.4.1/cmd/toml/toml.wasm
+Yoorkin/cowsay	0.1.0		Yoorkin/cowsay	Build and run Yoorkin's portable MoonBit cowsay CLI for WASM.	/assets/Yoorkin/cowsay@0.1.0/cowsay.wasm

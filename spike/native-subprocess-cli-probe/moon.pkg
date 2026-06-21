@@ -1,0 +1,8 @@
+import {
+  "moonbitlang/core/argparse",
+  "moonbitlang/core/test",
+  "moonbitlang/async/fs",
+  "moonbitlang/async/process",
+}
+
+supported_targets = "native"

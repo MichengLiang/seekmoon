@@ -1,0 +1,11 @@
+import {
+  "seekmoon/native_subprocess_cli_probe" @app,
+  "moonbitlang/core/env",
+  "moonbitlang/async",
+}
+
+options(
+  "is-main": true,
+)
+
+supported_targets = "native"
