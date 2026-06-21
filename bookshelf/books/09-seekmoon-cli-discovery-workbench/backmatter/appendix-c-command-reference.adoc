@@ -17,7 +17,7 @@
 
 |`search`
 |`seekmoon search <query> [--target <target>]`
-Modules snapshot、visible-result manifest enrichment。
+|Modules snapshot、visible-result manifest enrichment。
 |SearchResult array。
 
 |`view`
@@ -27,7 +27,7 @@ Modules snapshot、visible-result manifest enrichment。
 
 |`api`
 |`seekmoon api <module-or-number> --package <path>`
-Module index、package data、local toolchain evidence when requested by output mode。
+|Module index、package data、local toolchain evidence when requested by output mode。
 |API profile。
 
 |`source`
@@ -61,7 +61,7 @@ Module index、package data、local toolchain evidence when requested by output 
 |AdoptionRecord。
 
 |`report`
-|`seekmoon report --format markdown\|json`
+|`seekmoon report --format <format>`
 |Records、snapshot、evidence refs。
 |Report。
 
@@ -80,3 +80,5 @@ Module index、package data、local toolchain evidence when requested by output 
 --shape
 --schema
 ----
+
+`--jq <expr>` 需要本机 `jq` 可执行文件。SeekMoon 把命令 JSON output 写入 jq stdin，并返回 jq stdout。

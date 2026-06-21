@@ -42,6 +42,18 @@ known packages
   src/slug
 ----
 
+`jq` 不可用示例：
+
+[source,text]
+----
+command  seekmoon search --jq
+object   jq
+source   local executable lookup
+state    unavailable
+meaning  jq executable is not available in PATH
+recover  install jq or use --json
+----
+
 恢复文本只出现在 failure projection 中。正常 pretty text 保持为结果表面。
 
 Error surface 中的状态词由 xref:evidence-state-values[Evidence State Values, rel=depends-on] 定义。

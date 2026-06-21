@@ -75,4 +75,8 @@
 |Repository API unreachable
 |`failed`
 |不加载 repository enrichment，并记录 source failure。
+
+|`jq` executable absent
+|`unavailable`
+|安装 `jq`，或改用 `--json`。
 |===

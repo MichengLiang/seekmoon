@@ -1,4 +1,4 @@
-= 包复用生态书架
+= 包复用与 MoonBit 工具书架
 弥澄亮 <t103ooooo@stu.mju.edu.cn>
 v1.0, 2026-06
 :toc: left
@@ -8,62 +8,74 @@ v1.0, 2026-06
 :idprefix:
 :idseparator: -
 
-本书架的主书是 xref:books/08-package-reuse-ecosystem/book.adoc[《包复用生态：发现、管理与评价尺度》]。
+本书架包含结构化写作规范、包复用生态模型和 MoonBit 包发现工具书。07 号书定义书写结构规则；08 号书定义通用包复用生态；09 号书定义 SeekMoon 的 MoonBit 包发现工作台。
 
-07 号书提供结构化写作规范，服务 8 号书的结构维护。
-
-== 主入口
+== 书籍入口
 
 [cols="1,3", options="header"]
 |===
-|入口 |说明
-
-|xref:books/08-package-reuse-ecosystem/book.adoc[08 包复用生态]
-|定义 Package Discovery 与 Package Management 的对象模型、生命周期、证据源、变量体系、安全治理和评价尺度；这是本书架的主要阅读对象。
+|书籍 |对象
 
 |xref:books/07-structured-writing-conventions/book.adoc[07 结构化书写约定]
-|说明标题层级、stable ID、xref、rel、字段、索引词和附录等结构规则；这是维护 8 号书时使用的写作纪律参考。
+|定义标题层级、stable ID、xref、rel、字段、索引词和附录等结构规则。
+
+|xref:books/08-package-reuse-ecosystem/book.adoc[08 包复用生态]
+|定义 Package Discovery 与 Package Management 的对象模型、生命周期、证据源、变量体系、安全治理和评价尺度。
 
 |xref:books/09-seekmoon-cli-discovery-workbench/book.adoc[09 SeekMoon：MoonBit 包发现工作台]
 |定义消费者侧 MoonBit 包发现 CLI 的证据来源边界、canonical 数据模型、命令契约、输出契约、行动轨迹和验收条件。
 |===
 
-== 如何阅读 08
+== 按任务进入
 
 [cols="1,2,2", options="header"]
 |===
-|读者 |先读 |获得的判断
+|任务 |入口 |获得的判断
 
-|技术选型工程师
+|维护 AsciiDoc 书稿结构
+|xref:books/07-structured-writing-conventions/book.adoc[07 结构化书写约定]
+|标题、xref、rel、role、附录、术语表和索引的源文档规则。
+
+|理解包复用生态
 |xref:books/08-package-reuse-ecosystem/book.adoc#reader-paths[读者路径]、xref:books/08-package-reuse-ecosystem/book.adoc#package-level-evaluation[包级评价]
 |候选包是否适合当前项目，以及哪些硬约束不能被下载量、Star 或文档质量抵消。
 
-|包作者与库维护者
-|xref:books/08-package-reuse-ecosystem/book.adoc#manifest-registry-index-model[Manifest、Registry 与 Index]、xref:books/08-package-reuse-ecosystem/book.adoc#part-lifecycle[生命周期]
-|源码项目如何成为别人能发现、理解、信任、安装和维护的包。
-
-|工具、平台与 registry 设计者
+|设计 registry、index 或评价模型
 |xref:books/08-package-reuse-ecosystem/book.adoc#part-object-model[对象模型]、xref:books/08-package-reuse-ecosystem/book.adoc#part-evidence-measurement[证据与度量]、xref:books/08-package-reuse-ecosystem/book.adoc#appendix-structure-vocabulary[结构词表]
 |Registry、Index、Resolver、Discovery Surface、Audit Surface 和评价输出的职责边界。
 
-|研究者与评价模型构造者
-|xref:books/08-package-reuse-ecosystem/book.adoc#appendix-variable-dictionary[变量字典]、xref:books/08-package-reuse-ecosystem/book.adoc#appendix-ecosystem-matrix[生态矩阵]、xref:books/08-package-reuse-ecosystem/book.adoc#appendix-source-map[资料来源图]
-|哪些变量可跨生态比较，哪些变量必须保留生态语义和来源口径。
+|让源码项目成为可消费的包
+|xref:books/08-package-reuse-ecosystem/book.adoc#manifest-registry-index-model[Manifest、Registry 与 Index]、xref:books/08-package-reuse-ecosystem/book.adoc#part-lifecycle[生命周期]
+|源码项目如何成为别人能发现、理解、信任、安装和维护的包。
+
+|执行 MoonBit 包发现调查
+|xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#library-discovery-journey[Library Discovery Journey]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#command-map[Command Map]
+|从 query 到候选、证据下钻、本地验证、采纳记录和报告的完整动作链。
+
+|实现 SeekMoon CLI
+|xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#public-http-sources[Public HTTP Sources]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#evidence-state-values[Evidence State Values]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#json-output[JSON Output]
+|证据来源、状态词、canonical 数据模型、命令契约和输出契约。
 |===
 
-== 08 的知识结构
+== 书籍关系
 
-* xref:books/08-package-reuse-ecosystem/book.adoc#part-orientation[进入包复用生态]：定义研究对象、读者路径和基本命题。
-* xref:books/08-package-reuse-ecosystem/book.adoc#part-object-model[对象模型]：定义 Package、Artifact、Manifest、Registry、Index、Resolver、Lockfile、Provenance 和 Attestation。
-* xref:books/08-package-reuse-ecosystem/book.adoc#part-lifecycle[生命周期]：描述 Authoring、Declaration、Publication、Indexing、Discovery、Assessment、Resolution、Realization、Maintenance 和反馈回路。
-* xref:books/08-package-reuse-ecosystem/book.adoc#part-evidence-measurement[证据与度量]：区分证据源、维度、变量、指标、权重和分数。
-* xref:books/08-package-reuse-ecosystem/book.adoc#part-ecosystem-studies[主流生态对照]：对照 JS/TS、Rust、Python、Go、JVM/Kotlin、.NET、C/C++、Swift 和跨生态数据表面。
-* xref:books/08-package-reuse-ecosystem/book.adoc#part-security-governance[安全与治理]：拆分漏洞状态、发布者身份、构建来源、制品完整性和注册表治理。
-* xref:books/08-package-reuse-ecosystem/book.adoc#part-evaluation-scale[评价尺度]：说明变量组、作用域、归一化、可比性边界和分数读取方式。
+[cols="1,3", options="header"]
+|===
+|关系 |说明
+
+|07 -> 08 / 09
+|07 给出源文档结构规则。08 和 09 的标题、xref、rel、role、附录和索引都按这些规则维护。
+
+|08 -> 09
+|08 讨论通用包复用生态。09 讨论 MoonBit 生态中的具体消费者侧工具 SeekMoon。09 可以独立阅读，不要求先读 08。
+
+|09 -> SeekMoon 实现
+|09 的命令契约、输出契约、数据字典、行动轨迹和验收条件共同定义 SeekMoon 的公共行为。
+|===
 
 == 维护参考
 
-编辑 8 号书时，使用 xref:books/07-structured-writing-conventions/book.adoc[07 结构化书写约定] 检查以下规则：
+维护本书架中的 AsciiDoc 书稿时，使用 xref:books/07-structured-writing-conventions/book.adoc[07 结构化书写约定] 检查以下规则：
 
 * 标题层级必须连续。
 * 被交叉引用且标题文本不稳定或不唯一的节点需要 stable ID。
