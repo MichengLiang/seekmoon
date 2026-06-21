@@ -17,3 +17,12 @@ test "parse jq subcommand" {
   assert_eq(filter, ".name")
   assert_eq(json, payload)
 }
+
+///|
+test "parse help as normal action" {
+  let config = parse_config(["--help"])
+  guard config.action is Help(text) else {
+    fail("expected help action")
+  }
+  assert_true(text.contains("Usage: native-subprocess-clap-probe"))
+}

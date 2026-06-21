@@ -1,5 +1,5 @@
 import {
-  "moonbitlang/core/argparse",
+  "TheWaWaR/clap" @clap,
   "moonbitlang/core/test",
   "moonbitlang/async/fs",
   "moonbitlang/async/process",

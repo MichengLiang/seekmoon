@@ -12,7 +12,7 @@ async fn command_exists(name : String) -> Bool {
 
 ///|
 async fn run_capture(command : String, filter : String, json : String) -> ProbeResult {
-  let input_path = "_build/native-subprocess-cli-probe-input.json"
+  let input_path = "_build/native-subprocess-clap-probe-input.json"
   @fs.write_file(input_path, json, create_mode=CreateOrTruncate)
   let input = @process.redirect_from_file(input_path)
   let (code, output) = @process.collect_output_merged(
@@ -50,6 +50,7 @@ pub async fn run(config : Config) -> ProbeResult {
     }
     MissingJq(filter, json) =>
       run_jq("__seekmoon_definitely_missing_jq__", filter, json)
+    Help(text) => { code: 0, output: text }
   }
 }
 
@@ -60,7 +61,7 @@ pub async fn run_cli(argv : ArrayView[String]) -> Int {
   } catch {
     err => {
       println("error: \{err}")
-      println(command().render_help())
+      println(command().gen_help_message([command().prog], {}))
       return 2
     }
   }

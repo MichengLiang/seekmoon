@@ -1,5 +1,5 @@
 import {
-  "seekmoon/native_subprocess_cli_probe" @app,
+  "seekmoon/native_subprocess_clap_probe" @app,
   "moonbitlang/core/env",
   "moonbitlang/async",
 }
