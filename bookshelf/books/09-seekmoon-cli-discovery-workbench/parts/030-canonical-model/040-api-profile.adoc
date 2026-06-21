@@ -131,5 +131,3 @@ Type、value 和 method entry 使用共同字段：
 |array
 |Type implementations。
 |===
-
-`moon ide doc` 可为 API profile 提供补充输出。该输出必须标记为 local toolchain evidence，不替代 `package_data.json`。

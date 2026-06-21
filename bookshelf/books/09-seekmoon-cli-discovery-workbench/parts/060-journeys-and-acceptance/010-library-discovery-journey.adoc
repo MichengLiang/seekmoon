@@ -15,7 +15,6 @@ seekmoon doctor
 moon        0.1.20260608
 moonc       v0.10.0
 registry    present
-symbols     present
 network     mooncakes.io ok
 project     MoonBit module detected
 ----
@@ -41,7 +40,6 @@ snapshot  2026-06-21T22:35:10+08:00
 modules   1350
 packages  12008
 index     1363 files
-symbols   3 modules
 ----
 
 状态变化：

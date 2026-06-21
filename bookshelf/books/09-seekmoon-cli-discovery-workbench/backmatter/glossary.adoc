@@ -15,7 +15,7 @@ Pipeline consumer:: 通过 JSON 或 jq 处理 SeekMoon 输出的消费者。
 Contract reader:: 通过 help、shape 或 schema 理解输出契约的消费者。
 Failure recovery consumer:: 命令失败后读取错误表面并执行恢复动作的消费者。
 Evidence source:: SeekMoon 读取的事实来源，包括 HTTP API、静态资产、本地工具链、本地缓存、项目上下文、repository enrichment 和本地记录。
-Input surface:: 某个 evidence source 暴露给 SeekMoon 的具体读取表面，例如 `/api/v0/modules`、`module_index.json`、`package_data.json`、registry index JSONL 和 symbols JSONL。
+Input surface:: 某个 evidence source 暴露给 SeekMoon 的具体读取表面，例如 `/api/v0/modules`、`module_index.json`、`package_data.json`、registry index JSONL 和 source zip。
 Snapshot:: 一次带时间戳的数据读取结果。Snapshot 让搜索、比较、记录和报告可以回到同一数据口径。
 Candidate:: 由 `search` 或 `skill search` 产生的候选对象。
 Library module:: 可作为 MoonBit 依赖引入的包模块。

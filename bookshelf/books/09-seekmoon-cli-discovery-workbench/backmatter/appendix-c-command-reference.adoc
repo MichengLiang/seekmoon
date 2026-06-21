@@ -12,7 +12,7 @@
 
 |`sync`
 |`seekmoon sync`
-|Statistics API、Modules API、local index、symbols、toolchain。
+|Statistics API、Modules API、local index、toolchain。
 |Snapshot。
 
 |`search`
@@ -27,7 +27,7 @@
 
 |`api`
 |`seekmoon api <module-or-number> --package <path>`
-|Module index、package data、local toolchain evidence when requested by output mode。
+|Module index、package data。
 |API profile。
 
 |`source`

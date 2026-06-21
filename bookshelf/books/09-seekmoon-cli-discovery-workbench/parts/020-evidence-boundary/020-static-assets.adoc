@@ -91,7 +91,7 @@ GET https://mooncakes.io/assets/<owner>/<module>@<version>/<package-relpath>/res
 
 `resource.json` 是可选资源资产。它可提供 README content 和 source file links。`resource.json` 404 的状态是 `unavailable`，不表示 package 缺失，不表示 API data 缺失，也不表示 module 不存在。
 
-`resource.json` 的状态进入 `view`、`api` 或 report 时必须带 source label。`package_data.json`、module index、published source 和 `moon ide doc` 仍可提供 API 与源码证据。
+`resource.json` 的状态进入 `view`、`api` 或 report 时必须带 source label。Module index 与 `package_data.json` 提供 API 证据；published source 提供源码证据。
 
 [.source]
 === Source Zip

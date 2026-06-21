@@ -26,17 +26,17 @@
 |`skill search`、`skill view`
 
 |Module index asset
-|`GET https://mooncakes.io/assets/<module>@<version>/module_index.json`
+|`GET https://mooncakes.io/assets/<owner>/<module>@<version>/module_index.json`
 |`ModuleIndexTree`
 |`view`、`api`
 
 |Package data asset
-|`GET https://mooncakes.io/assets/<module>@<version>/<package-relpath>/package_data.json`
+|`GET https://mooncakes.io/assets/<owner>/<module>@<version>/<package-relpath>/package_data.json`
 |`PackageData`
 |`api`
 
 |Resource asset
-|`GET https://mooncakes.io/assets/<module>@<version>/<package-relpath>/resource.json`
+|`GET https://mooncakes.io/assets/<owner>/<module>@<version>/<package-relpath>/resource.json`
 |Optional resource evidence
 |`view`、`api`、`report`
 
@@ -51,19 +51,14 @@
 |`skill view`
 
 |Moon CLI
-|`moon update`、`moon fetch`、`moon ide doc`、`moon add`、`moon check`、`moon test`、`moon build`
-|Local toolchain evidence
-|`sync`、`api`、`source`、`probe`
+|`moon update`、`moon fetch`、`moon add`、`moon check`、`moon test`、`moon build`
+|Local command result
+|`sync`、`source`、`probe`
 
 |Local registry index
 |`~/.moon/registry/index/user/**/*.index`
 |`LocalModuleVersionRecord`
-|`search`、`view`、`raw`
-
-|Local symbols cache
-|`~/.moon/registry/symbols/**/*.symbols`
-|`SymbolRecord`
-|`api`、`raw`
+|`sync`、`search`、`view`、`raw`
 
 |Repository
 |GitHub or declared repository URL

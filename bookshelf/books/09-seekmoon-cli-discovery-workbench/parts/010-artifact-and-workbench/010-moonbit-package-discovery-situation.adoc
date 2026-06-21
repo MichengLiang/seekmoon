@@ -1,9 +1,9 @@
 [.boundary]
 == MoonBit 包发现处境
 
-MoonBit 包消费者面对的对象不是空白生态。MoonBit 工具链、Mooncakes registry、Mooncakes documentation surface、Mooncakes public API、本地 registry index、symbols cache、`moon add`、`moon fetch`、`moon ide doc`、`moon runwasm` 和 Skills API 已经提供多个事实表面。indexterm2:[Mooncakes] indexterm2:[MoonBit]
+MoonBit 包消费者面对的对象不是空白生态。MoonBit 工具链、Mooncakes registry、Mooncakes documentation surface、Mooncakes public API、本地 registry index、registry cache、`moon add`、`moon fetch`、`moon runwasm` 和 Skills API 已经提供多个事实表面。indexterm2:[Mooncakes] indexterm2:[MoonBit]
 
-这些事实表面分别回答不同问题。Modules API 给出 module 列表和声明性摘要。Manifest API 给出单个 module 的版本、下载量、build status 和 metadata。`module_index.json` 给出 module 内 package tree 和紧凑 API index。`package_data.json` 给出单 package 的类型、函数、trait、docstring、signature 和 source location。`moon fetch` 获取发布版源码。`moon ide doc` 查询本地可见 API 文档。Skills API 给出可执行 Wasm 或 `moon runwasm` 条目。
+这些事实表面分别回答不同问题。Modules API 给出 module 列表和声明性摘要。Manifest API 给出单个 module 的版本、下载量、build status 和 metadata。`module_index.json` 给出 module 内 package tree 和紧凑 API index。`package_data.json` 给出单 package 的类型、函数、trait、docstring、signature 和 source location。`moon fetch` 获取发布版源码。Skills API 给出可执行 Wasm 或 `moon runwasm` 条目。
 
 消费者的摩擦来自行动链路，而不是单个事实源缺席。一个开发者寻找 Markdown parser、JSON parser、CLI argument parser 或 terminal output library 时，需要连续完成以下动作：
 

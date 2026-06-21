@@ -36,6 +36,5 @@ resource.json
 module_index.json
 package_data.json
 moon fetch
-moon ide doc
 moon runwasm
 ----
