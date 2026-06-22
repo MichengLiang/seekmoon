@@ -106,6 +106,33 @@ include::parts/050-output-contracts/050-schema.adoc[]
 
 include::parts/050-output-contracts/060-error-surface.adoc[]
 
+= Go 实现架构
+
+[partintro]
+include::parts/055-go-implementation-architecture/_partintro.adoc[]
+
+include::parts/055-go-implementation-architecture/010-architecture-premises.adoc[]
+
+include::parts/055-go-implementation-architecture/020-module-layout.adoc[]
+
+include::parts/055-go-implementation-architecture/030-package-boundaries.adoc[]
+
+include::parts/055-go-implementation-architecture/040-runtime-composition.adoc[]
+
+include::parts/055-go-implementation-architecture/050-data-flow.adoc[]
+
+include::parts/055-go-implementation-architecture/060-control-flow.adoc[]
+
+include::parts/055-go-implementation-architecture/070-source-reader-boundary.adoc[]
+
+include::parts/055-go-implementation-architecture/080-output-pipeline.adoc[]
+
+include::parts/055-go-implementation-architecture/090-storage-and-side-effects.adoc[]
+
+include::parts/055-go-implementation-architecture/100-error-and-state-flow.adoc[]
+
+include::parts/055-go-implementation-architecture/110-testing-and-tooling.adoc[]
+
 = 行动轨迹与验收
 
 [partintro]
@@ -138,6 +165,9 @@ include::backmatter/appendix-d-output-shapes.adoc[]
 
 [appendix]
 include::backmatter/appendix-e-status-and-error-matrix.adoc[]
+
+[appendix]
+include::backmatter/appendix-f-go-implementation-dependencies.adoc[]
 
 [bibliography]
 include::backmatter/bibliography.adoc[]

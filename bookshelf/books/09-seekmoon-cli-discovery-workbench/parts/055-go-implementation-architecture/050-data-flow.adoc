@@ -1,0 +1,158 @@
+[#go-data-flow.architecture]
+== Data Flow
+
+Executable commands transform input into canonical objects and then project those objects. Shape and schema modes read command contracts through xref:go-output-pipeline[Output Pipeline, rel=depends-on].
+
+=== `sync`
+
+[source,text]
+----
+CLI input
+-> SyncService
+-> moon update command result
+-> Modules API fetch result
+-> Statistics API fetch result
+-> local registry index summary
+-> toolchain version result
+-> Snapshot
+-> snapshot store write
+-> output projection
+----
+
+`sync` fixes a data snapshot. Candidate ranking and adoption decision remain outside the sync flow. Partial source failure is recorded inside the snapshot state.
+
+=== `search`
+
+[source,text]
+----
+query + target + limit
+-> latest snapshot or transient modules fetch
+-> ModuleSummary normalization
+-> local match and rank
+-> visible-window manifest enrichment
+-> SearchResult array
+-> session candidate map
+-> output projection
+----
+
+`search` generates library module candidates. Package data, published source and probe evidence belong to later inspection or validation flows.
+
+=== `view`
+
+[source,text]
+----
+module coordinate or candidate number
+-> candidate resolution
+-> Manifest API fetch
+-> docs URL derivation
+-> module_index asset fetch
+-> ManifestProfile with index summary
+-> output projection
+----
+
+`view` shows a module profile. API details remain under `api`.
+
+=== `api`
+
+[source,text]
+----
+module coordinate + package path
+-> manifest version resolution
+-> module_index load
+-> package path to package relpath
+-> package_data asset fetch
+-> API profile
+-> output projection
+----
+
+Package path failure is resolved against module index. The error surface lists known package paths from that index.
+
+=== `source`
+
+[source,text]
+----
+module@version
+-> source resolution planner
+-> moon fetch attempt
+-> source zip attempt
+-> local cache attempt
+-> core local source attempt
+-> repository fallback signal
+-> selected source
+-> files summary
+-> SourceResolution
+-> output projection
+----
+
+Every source resolution attempt records status, path, URL and error. `selected_source` is derived from successful attempts.
+
+=== `skill`
+
+[source,text]
+----
+skill query or entry
+-> Skills API list or detail
+-> SkillEntry or SkillProfile
+-> skill asset fetch when requested
+-> runwasm coordinate derivation
+-> output projection
+----
+
+Skill flow uses executable entry objects. Library adoption uses record flow for library module candidates.
+
+=== `compare`
+
+[source,text]
+----
+candidate list
+-> manifest profiles
+-> loaded API/source/probe/repository evidence
+-> comparison object
+-> output projection
+----
+
+`compare` aligns evidence fields. Quality judgment remains a consumer decision supported by the comparison object.
+
+=== `probe`
+
+[source,text]
+----
+candidate + target
+-> isolated probe path
+-> moon new command result
+-> moon add command result
+-> moon check command result
+-> moon test command result
+-> target check/build command results
+-> logs
+-> ProbeResult
+-> output projection
+----
+
+Probe result is local derived evidence. Upstream metadata remains source evidence.
+
+=== `record` and `report`
+
+[source,text]
+----
+candidate + conclusion + evidence refs + note
+-> AdoptionRecord
+-> record store write
+-> report reads records + snapshot + evidence refs
+-> Report
+-> output projection
+----
+
+Report output lists only sources actually used by the records and evidence references.
+
+=== `raw`
+
+[source,text]
+----
+raw source selector
+-> exact source reader
+-> raw payload envelope
+-> raw output
+----
+
+`raw` preserves upstream field names and source status. It bypasses ordinary normalization.

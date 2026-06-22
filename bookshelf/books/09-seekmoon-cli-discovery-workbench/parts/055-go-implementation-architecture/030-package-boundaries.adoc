@@ -1,0 +1,93 @@
+[#go-package-boundaries.architecture]
+== Package Boundaries
+
+Go package dependencies follow responsibility direction。Inner packages 定义对象和 host capabilities；outer packages 装配行为和投影。
+
+[source,text]
+----
+cmd/seekmoon
+  -> internal/app
+  -> internal/cli
+
+internal/cli
+  -> internal/service
+  -> internal/output
+  -> internal/model
+
+internal/service
+  -> internal/model
+  -> internal/source
+  -> internal/store
+  -> internal/platform
+
+internal/source
+  -> internal/model
+  -> internal/platform
+
+internal/store
+  -> internal/model
+  -> internal/platform
+
+internal/output
+  -> internal/model
+  -> internal/contract
+
+internal/contract
+  -> internal/model
+
+internal/model
+  -> Go standard library
+----
+
+Dependency rules：
+
+* `internal/model` contains canonical types and state values. It imports only Go standard library packages.
+* `internal/source` returns evidence-bearing source results. Its import surface excludes `internal/output`.
+* `internal/output` projects canonical objects. Its import surface excludes `internal/source`.
+* `internal/service` owns command use cases. It composes source readers and stores into canonical command results.
+* `cmd/seekmoon` owns process startup. It creates Runtime through `internal/app` and passes Runtime into `internal/cli`.
+* `internal/cli` owns Cobra command definitions. Cobra types remain in the CLI package.
+* `internal/store` owns persistence paths and read/write operations. Adoption conclusion belongs to record service flow.
+* `internal/platform` owns host primitives. It is below SeekMoon business packages.
+
+Third-party dependency placement is fixed:
+
+[cols="1,2", options="header"]
+|===
+|Dependency |Import boundary
+
+|`github.com/spf13/cobra`
+|`internal/cli`
+
+|`github.com/itchyny/gojq`
+|`internal/output`
+
+|`github.com/charmbracelet/lipgloss/v2`
+|`internal/output`
+
+|`github.com/jedib0t/go-pretty/v6`
+|`internal/output`
+
+|`github.com/google/go-github/v88`
+|`internal/source`
+
+|`golang.org/x/oauth2`
+|`internal/source`
+
+|`github.com/pelletier/go-toml/v2`
+|`internal/source`
+
+|`github.com/santhosh-tekuri/jsonschema/v6`
+|`internal/contract` tests or schema validation tests
+
+|`github.com/adrg/xdg`
+|`internal/store`
+
+|`github.com/cenkalti/backoff/v5`
+|`internal/source`
+
+|`github.com/google/go-cmp`
+|Tests only
+|===
+
+这些边界保持书中契约。Source readers 只产生来源结果；output renderers 只投影既有对象；canonical models 只承载对象、状态词和结构化字段。

@@ -1,0 +1,60 @@
+[#go-storage-side-effects.architecture]
+== Storage and Side Effects
+
+SeekMoon separates project records from reusable cache. Project records belong to the current project context. Reusable remote cache belongs to the user cache location.
+
+Project storage:
+
+[source,text]
+----
+.seekmoon/
+  snapshots/
+  sessions/
+  records/
+  reports/
+  probes/
+  sources/
+  logs/
+----
+
+Reusable cache:
+
+[source,text]
+----
+$XDG_CACHE_HOME/seekmoon/
+  mooncakes/
+  assets/
+  github/
+----
+
+Storage responsibilities:
+
+[cols="1,2", options="header"]
+|===
+|Store |Responsibility
+
+|Snapshot store
+|Writes and reads dated source snapshots.
+
+|Session store
+|Maps session-local candidate numbers to candidate coordinates.
+
+|Record store
+|Writes adoption records with evidence refs.
+
+|Report store
+|Writes report projections.
+
+|Cache store
+|Stores reusable fetched payloads and assets.
+
+|Probe store
+|Creates isolated probe directories and log paths.
+
+|Source store
+|Stores source resolution material controlled by SeekMoon.
+|===
+
+Probe and source resolution are controlled side effects. Their default paths live under `.seekmoon/` because they serve the current project's dependency investigation. Project manifest mutation requires an explicit command surface.
+
+Store packages own path construction and read/write mechanics. Services decide when a record, snapshot, report, probe directory or source directory should be created.

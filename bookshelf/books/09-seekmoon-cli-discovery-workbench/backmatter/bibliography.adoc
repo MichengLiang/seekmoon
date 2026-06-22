@@ -8,6 +8,16 @@
 * [[[mooncakes-statistics-api]]] Mooncakes Statistics API, https://mooncakes.io/api/v0/modules/statistics
 * [[[json-schema]]] JSON Schema, https://json-schema.org/
 * [[[jq-manual]]] jq Manual, https://jqlang.github.io/jq/manual/
+* [[[gojq]]] gojq, https://github.com/itchyny/gojq
+* [[[cobra]]] Cobra, https://github.com/spf13/cobra
+* [[[go-github]]] go-github, https://github.com/google/go-github
+* [[[lipgloss]]] Lip Gloss, https://github.com/charmbracelet/lipgloss
+* [[[go-docs-module-layout]]] Go Documentation, Organizing a Go module, https://go.dev/doc/modules/layout
+* [[[go-docs-context]]] Go Blog, Go Concurrency Patterns: Context, https://go.dev/blog/context
+* [[[go-docs-testing]]] Go Documentation, Add a test, https://go.dev/doc/tutorial/add-a-test
+* [[[go-docs-fuzzing]]] Go Documentation, Fuzzing, https://go.dev/doc/tutorial/fuzz
+* [[[go-docs-govulncheck]]] Go Documentation, Find and fix vulnerable dependencies with govulncheck, https://go.dev/doc/tutorial/govulncheck
+* [[[go-docs-comment]]] Go Documentation, Go Doc Comments, https://go.dev/doc/comment
 * [[[github-cli-formatting]]] GitHub CLI Manual: Formatting JSON output, https://cli.github.com/manual/gh_help_formatting
 * [[[gibson-affordance]]] Gibson, J. J. (1979). _The Ecological Approach to Visual Perception_. Houghton Mifflin.
 * [[[norman-design]]] Norman, D. A. (1988). _The Psychology of Everyday Things_. Basic Books.

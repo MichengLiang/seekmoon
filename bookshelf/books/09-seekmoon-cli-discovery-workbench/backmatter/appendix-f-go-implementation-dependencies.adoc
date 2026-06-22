@@ -1,0 +1,111 @@
+[#appendix-go-implementation-dependencies.reference]
+= 附录 F：Go 实现依赖图
+
+本附录固定 SeekMoon 的 Go 实现依赖选择。实现语言已经确定为 Go；依赖选择只服务本书定义的公共对象、命令契约、输出契约、来源读取、本地验证和记录报告。
+
+== Dependency Set
+
+[cols="1,1,2,2", options="header"]
+|===
+|职责 |Go module |版本 |采纳理由
+
+|CLI command surface
+|`github.com/spf13/cobra`
+|`v1.10.2`
+|SeekMoon 有多级命令、共享 output mode options、help surface 和 error handling。Cobra 是 Go CLI 事实标准，命令树、flag、completion 和 help 能直接承载 xref:command-map[Command Map, rel=depends-on]。
+
+|Embedded jq
+|`github.com/itchyny/gojq`
+|`v0.12.19`
+|`--jq` 是进程内输出模式。gojq 是纯 Go jq implementation，可作为 library 编译和运行 jq expression，直接满足 xref:built-in-jq[Built-in jq, rel=depends-on] 的对象边界。
+
+|Pretty text styling
+|`github.com/charmbracelet/lipgloss/v2`
+|`v2.0.4`
+|Pretty text 需要稳定列、状态色和终端宽度处理，但不需要 TUI 框架。Lip Gloss 提供终端样式、布局和宽度控制，覆盖默认阅读输出。
+
+|GitHub repository enrichment
+|`github.com/google/go-github/v88`
+|`v88.0.0`
+|Repository signal 需要读取 repository、license、release、issue、PR 和 workflow 等 GitHub 事实。go-github 是官方维护的 GitHub REST API Go client，避免手写 endpoint 和分页结构。
+
+|GitHub authentication
+|`golang.org/x/oauth2`
+|`v0.36.0`
+|GitHub enrichment 需要使用 token 时，OAuth2 transport 是 go-github 的标准认证接入层。匿名请求和 token 请求使用同一 client construction。
+
+|MoonBit TOML config parsing
+|`github.com/pelletier/go-toml/v2`
+|`v2.4.0`
+|Project context 需要读取 `moon.mod` 和 `moon.pkg` TOML 形态。该库是成熟 v2 TOML parser，适合结构化读取；SeekMoon 不把 TOML 当普通字符串处理。
+
+|JSON Schema validation
+|`github.com/santhosh-tekuri/jsonschema/v6`
+|`v6.0.2`
+|Acceptance 和测试需要验证输出是否满足 schema。该库提供 Draft 2020-12 validation，与本书 xref:schema-output[Schema Output, rel=depends-on] 对齐。
+
+|XDG path resolution
+|`github.com/adrg/xdg`
+|`v0.5.3`
+|Snapshot、cache、record 和 report 要落在可解释的本地目录。XDG path resolution 避免手写 Linux/macOS/Windows 目录规则。
+
+|Retry policy
+|`github.com/cenkalti/backoff/v5`
+|`v5.0.3`
+|HTTP source 读取需要有限重试、退避和上下文取消。backoff 提供小而稳定的 retry primitive，不把网络策略散落在每个 source reader 中。
+
+|Table rendering
+|`github.com/jedib0t/go-pretty/v6`
+|`v6.8.1`
+|`search`、`compare` 和部分 report projection 需要稳定表格。go-pretty 提供表格渲染和宽度控制；Lip Gloss 负责样式，go-pretty 负责表格结构。
+
+|Test diff
+|`github.com/google/go-cmp`
+|`v0.7.0`
+|Canonical object、JSON output、shape 和 error surface 测试需要结构化 diff。go-cmp 比 `reflect.DeepEqual` 更适合可维护测试失败输出。
+|===
+
+== Standard Library Responsibilities
+
+以下职责使用 Go standard library，不引入第三方依赖：
+
+[cols="1,2", options="header"]
+|===
+|职责 |包
+
+|HTTP client、timeout、redirect、status handling
+|`net/http`、`context`
+
+|JSON encoding/decoding
+|`encoding/json`
+
+|JSON Schema construction
+|`encoding/json`
+
+|Filesystem traversal、temporary directories、path handling
+|`io/fs`、`os`、`path/filepath`
+
+|Local command execution for Moon CLI
+|`os/exec`
+
+|Archive handling for source zip
+|`archive/zip`
+
+|Time, snapshot id, timestamp formatting
+|`time`
+
+|Hash and checksum verification
+|`crypto/sha256`、`encoding/hex`
+|===
+
+== Derived Implementation Rules
+
+`--jq` 使用 `github.com/itchyny/gojq@v0.12.19`。SeekMoon 将当前命令 JSON output 解码为 Go value，交给 gojq interpreter 求值。错误面报告 expression parse/eval failure。
+
+HTTP source reader 使用 `net/http`、`context` 和 `github.com/cenkalti/backoff/v5@v5.0.3`。Mooncakes API、asset 和 source zip 共享同一 fetch result 结构，保留 URL、status、fetch time、parse state 和 error。
+
+Repository enrichment 使用 `github.com/google/go-github/v88@v88.0.0` 和 `golang.org/x/oauth2@v0.36.0`。未请求 enrichment 时，repository activity 不进入输出对象；请求失败只改变 repository signal state。
+
+Pretty text 使用 `github.com/jedib0t/go-pretty/v6@v6.8.1` 生成表格，使用 `github.com/charmbracelet/lipgloss/v2@v2.0.4` 控制样式。JSON output、shape、schema 和 raw output 不依赖 pretty text 渲染层。
+
+Schema output 使用 Go standard library 构造固定 JSON Schema object，并用 `github.com/santhosh-tekuri/jsonschema/v6@v6.0.2` 在测试中校验。Schema id 是下游消费者的兼容边界；canonical object struct 不能通过反射自动改写公共 schema。

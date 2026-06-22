@@ -1,0 +1,150 @@
+[#go-module-layout.architecture]
+== Go Module Layout
+
+SeekMoon 使用单一 Go module。根目录保存 Go module metadata、命令入口和内部 packages；业务实现由 `internal` packages 承载。
+
+[source,text]
+----
+seekmoon/
+  go.mod
+  go.sum
+  cmd/
+    seekmoon/
+      main.go
+  internal/
+    app/
+      app.go
+      runtime.go
+      command.go
+    cli/
+      root.go
+      doctor.go
+      sync.go
+      search.go
+      view.go
+      api.go
+      source.go
+      skill.go
+      compare.go
+      probe.go
+      record.go
+      report.go
+      raw.go
+      flags.go
+    model/
+      evidence.go
+      module.go
+      manifest.go
+      api.go
+      skill.go
+      source.go
+      probe.go
+      record.go
+      report.go
+      snapshot.go
+      project.go
+      schema.go
+    source/
+      fetch.go
+      mooncakes.go
+      assets.go
+      skills.go
+      local_index.go
+      local_cache.go
+      repository.go
+      mooncli.go
+      project.go
+    service/
+      doctor.go
+      sync.go
+      search.go
+      view.go
+      api.go
+      source.go
+      skill.go
+      compare.go
+      probe.go
+      record.go
+      report.go
+      raw.go
+    output/
+      render.go
+      pretty.go
+      json.go
+      jq.go
+      shape.go
+      schema.go
+      error.go
+    store/
+      paths.go
+      snapshot_store.go
+      session_store.go
+      record_store.go
+      report_store.go
+      cache_store.go
+    platform/
+      clock.go
+      env.go
+      fs.go
+      exec.go
+      http.go
+    contract/
+      schemas.go
+      shapes.go
+    testutil/
+      fixture.go
+      golden.go
+----
+
+每个目录承担一个实现职责：
+
+[cols="1,2,2", options="header"]
+|===
+|Path |Responsibility |Boundary
+
+|`cmd/seekmoon`
+|进程入口。
+|创建 Runtime 并调用 CLI root execution。
+
+|`internal/app`
+|运行时装配和实现 registry。
+|创建 platform clients、sources、stores、services 和 renderer。
+
+|`internal/cli`
+|Cobra command surface。
+|接收 Runtime，解析 command input，并分派 service calls。
+
+|`internal/model`
+|Canonical objects、state values 和 shared structured types。
+|只定义对象、状态词和结构化字段。
+
+|`internal/source`
+|Evidence source readers。
+|读取 HTTP、assets、local index/cache、repository、Moon CLI 和 project context。
+
+|`internal/service`
+|命令用例。
+|组合 source results、store operations 和 canonical objects。
+
+|`internal/output`
+|输出投影。
+|渲染 pretty text、JSON、jq result、shape、schema 和 error surface。
+
+|`internal/store`
+|文件系统持久化。
+|管理 snapshot、session、record、report、cache、probe 和 log paths。
+
+|`internal/platform`
+|可替换 host capability。
+|封装 clock、filesystem、command runner、HTTP client 和 environment。
+
+|`internal/contract`
+|Shape 和 schema contract definitions。
+|定义 output 和 tests 使用的 field trees 与 JSON Schema objects。
+
+|`internal/testutil`
+|Test fixtures 和 golden helpers。
+|由 tests 使用。
+|===
+
+Module layout 让变更靠近被修改对象。Manifest API parsing 的变更落在 `internal/source` 和 `internal/model`；`search` ranking 的变更落在 `internal/service`；table rendering 的变更落在 `internal/output`；record path layout 的变更落在 `internal/store`。

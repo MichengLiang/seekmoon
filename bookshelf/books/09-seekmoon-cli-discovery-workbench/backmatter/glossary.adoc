@@ -30,7 +30,7 @@ Report:: 面向人和审查流程的调查输出。Report 从 snapshot、candida
 Projection:: 同一内部对象面向不同消费者的输出表面，包括 pretty text、JSON output、shape、schema 和 report。
 Pretty text:: 默认终端阅读输出。
 JSON output:: 当前命令的机器处理输出。它不是 pretty text 的 JSON 化。
-jq expression:: 传递给本机 `jq` 可执行文件的查询表达式。SeekMoon 把当前命令 JSON output 写入 jq subprocess 的 stdin。
+jq expression:: 传递给 SeekMoon 内置 gojq interpreter 的查询表达式。SeekMoon 先生成当前命令 JSON output，再在同一 Go 进程内对该 JSON projection 求值。
 Shape:: 人可读字段树。Shape 说明当前命令 JSON output 的字段、类型和状态枚举。
 Schema:: 当前命令 JSON output 的 JSON Schema。
 Error surface:: 命令失败时的输出表面。它包含失败对象、尝试来源、状态含义和恢复动作。

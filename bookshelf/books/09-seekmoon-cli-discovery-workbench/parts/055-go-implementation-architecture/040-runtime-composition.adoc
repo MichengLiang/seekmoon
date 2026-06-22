@@ -1,0 +1,54 @@
+[#go-runtime-composition.architecture]
+== Runtime Composition
+
+`Runtime` 是 Go implementation 的 composition root。它为一次进程执行绑定 platform capabilities、source readers、stores、services 和 renderer。
+
+[source,go]
+----
+type Runtime struct {
+    Clock    platform.Clock
+    FS       platform.FS
+    HTTP     *http.Client
+    Runner   platform.Runner
+    Paths    store.Paths
+    Sources  source.Registry
+    Stores   store.Registry
+    Services service.Registry
+    Renderer output.Renderer
+}
+----
+
+Process startup order：
+
+[source,text]
+----
+process environment
+-> path resolution
+-> platform clients
+-> source readers
+-> stores
+-> services
+-> renderer
+-> runtime value
+-> CLI command tree
+----
+
+`context.Context` 贯穿所有可能阻塞、取消或触碰 host environment 的操作。HTTP requests、repository enrichment、Moon CLI commands、source downloads 和 probe commands 接收来自 CLI command invocation 的 context。
+
+Service methods 使用 context-first signatures：
+
+[source,go]
+----
+func (s *SearchService) Search(ctx context.Context, input SearchInput) (*model.SearchOutput, error)
+----
+
+Source reader methods 同样使用 context-first signatures：
+
+[source,go]
+----
+func (c *MooncakesClient) FetchModules(ctx context.Context) (*model.SourceResult[[]model.ModuleSummary], error)
+----
+
+Runtime objects 通过构造传递。测试用 HTTP clients、clocks、filesystems 和 command runners 可以替换对应 host capability。
+
+Runtime 只装配 command contracts 和 services 已经定义的行为实现。`cmd/seekmoon` 把 Runtime 交给 CLI command tree。

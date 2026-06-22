@@ -81,4 +81,4 @@
 --schema
 ----
 
-`--jq <expr>` 需要本机 `jq` 可执行文件。SeekMoon 把命令 JSON output 写入 jq stdin，并返回 jq stdout。
+`--jq <expr>` 使用 SeekMoon 内置 gojq interpreter。SeekMoon 把命令 JSON output 作为求值输入，并返回 jq result。

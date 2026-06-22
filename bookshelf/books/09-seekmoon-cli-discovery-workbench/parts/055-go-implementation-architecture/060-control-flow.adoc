@@ -1,0 +1,57 @@
+[#go-control-flow.architecture]
+== Control Flow
+
+所有 executable commands 使用同一控制序列：
+
+[source,text]
+----
+parse args
+-> build command input
+-> create or receive context
+-> call service
+-> render output
+-> map process exit
+----
+
+Cobra handlers 保持薄层职责。Command handler 校验 surface syntax，构造 input object，调用一个 service method，并把结果交给 output renderer。
+
+[source,go]
+----
+cmd.RunE = func(cmd *cobra.Command, args []string) error {
+    ctx := cmd.Context()
+    input, err := parseSearchInput(args, flags)
+    if err != nil {
+        return err
+    }
+    result, err := rt.Services.Search.Search(ctx, input)
+    return rt.Renderer.Render(ctx, output.Request{
+        Mode:  flags.OutputMode,
+        Value: result,
+        Err:   err,
+    })
+}
+----
+
+Process exit 和 evidence state 是不同对象。Evidence state 描述字段、source action 或 source attempt；process exit 描述命令进程状态。
+
+[cols="1,2", options="header"]
+|===
+|Exit condition |Process behavior
+
+|Command succeeds
+|Exit code `0`.
+
+|Input parse failure
+|Exit code `2`.
+
+|Core command object failure
+|Exit code `1`.
+
+|Probe target validation fails
+|Exit code `1`, with `ProbeResult` output.
+
+|jq expression parse/eval fails
+|Exit code `1`, with error surface output.
+|===
+
+当 command contract 允许 partial canonical object 投影时，partial source failure 保留为 evidence state。Core object failure 映射为 process failure。

@@ -76,7 +76,7 @@
 |`failed`
 |不加载 repository enrichment，并记录 source failure。
 
-|`jq` executable absent
-|`unavailable`
-|安装 `jq`，或改用 `--json`。
+|jq expression parse/eval failure
+|`failed`
+|查看对应命令的 `--shape`，修正表达式，或改用 `--json`。
 |===

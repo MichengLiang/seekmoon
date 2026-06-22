@@ -1,0 +1,42 @@
+[#go-source-reader-boundary.architecture]
+== Source Reader Boundary
+
+Source readers 把外部事实转换为带证据状态的 Go objects。Reader 记录 attempt、事实来源位置和 parse result。
+
+`SourceResult` 是 source reader 的共享 envelope。它包含 reader 产生的 normalized value，以及 JSON output、raw output 和 error surface 需要的 source metadata。
+
+All source results carry:
+
+[cols="1,2", options="header"]
+|===
+|Field |Meaning
+
+|`source`
+|Stable source label, such as `modules_api`, `manifest_api`, `module_index_asset`, `local_index`, `repository_api` or `moon_cli`.
+
+|`url` / `path`
+|Remote URL or local path used by the attempt.
+
+|`fetched_at`
+|Clock time for the source action.
+
+|`status`
+|Evidence state for the source action.
+
+|`parse_state`
+|Payload parse result when the source returns structured data.
+
+|`raw_ref`
+|Pointer to raw payload storage or raw envelope when raw output needs audit data.
+
+|`error`
+|Failure message when status is `failed`.
+|===
+
+HTTP source readers 共享 fetch behavior：context、timeout、redirect handling、retry policy、status classification 和 JSON decoding。Mooncakes API readers、asset readers 和 source zip readers 使用同一 fetch result envelope。
+
+Local source readers 通过 `platform.FS` 共享 filesystem behavior。Service code 从 readers 接收 source results。
+
+Moon CLI reader 使用 `platform.Runner`。Command result 包含 command、cwd、exit code、status 和 log path。Command failure 进入 local command evidence。
+
+Repository reader 在 enrichment 被请求后读取 repository metadata。Repository signal failure 改变 repository source state；module profile 中的其他字段保留各自 evidence state。

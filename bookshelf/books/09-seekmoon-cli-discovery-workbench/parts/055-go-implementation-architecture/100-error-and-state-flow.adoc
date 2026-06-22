@@ -1,0 +1,65 @@
+[#go-error-state-flow.architecture]
+== Error and State Flow
+
+Error flow 使用三类错误：
+
+[cols="1,2,2", options="header"]
+|===
+|Category |Trigger |Projection
+
+|Input error
+|Command input parse failure.
+|CLI error with exit code `2`.
+
+|Source error
+|HTTP request, local file read, repository request, Moon CLI command or parse action fails.
+|Evidence state inside canonical object, or error surface for core object failure.
+
+|Projection error
+|JSON, jq, shape, schema or pretty output failure.
+|Error surface.
+|===
+
+Evidence state stays inside model fields and source attempts. Process errors wrap the failed operation.
+
+Error surface object：
+
+[source,go]
+----
+type SurfaceError struct {
+    Command  string
+    Object   string
+    Source   string
+    State    model.State
+    Meaning  string
+    Recovery string
+    Cause    error
+}
+----
+
+Source attempt object：
+
+[source,go]
+----
+type SourceAttempt struct {
+    Status model.State `json:"status"`
+    Path   string      `json:"path,omitempty"`
+    URL    string      `json:"url,omitempty"`
+    Error  string      `json:"error,omitempty"`
+}
+----
+
+Command result object：
+
+[source,go]
+----
+type CommandResult struct {
+    Command  []string    `json:"command"`
+    CWD      string      `json:"cwd"`
+    ExitCode int         `json:"exit_code"`
+    Status   model.State `json:"status"`
+    LogPath  string      `json:"log_path,omitempty"`
+}
+----
+
+State values come from xref:evidence-state-values[Evidence State Values, rel=depends-on]. Implementation code uses that enum as the status vocabulary.

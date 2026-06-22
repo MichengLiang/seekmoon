@@ -1,0 +1,51 @@
+[#go-output-pipeline.architecture]
+== Output Pipeline
+
+Output pipeline 投影 command result。Result 进入 output projection 之前，evidence loading 已经结束。
+
+[source,text]
+----
+canonical object
+-> output request
+-> selected projection
+-> writer
+----
+
+Projection modes：
+
+[cols="1,2,2", options="header"]
+|===
+|Mode |Input |Renderer
+
+|Pretty text
+|Canonical object
+|稳定终端表格或摘要。
+
+|JSON
+|Canonical object
+|带 schema id 和 evidence states 的 JSON encoder。
+
+|jq
+|JSON projection
+|gojq interpreter result。
+
+|Shape
+|Command contract
+|人可读 field tree。
+
+|Schema
+|Command contract
+|JSON Schema object。
+
+|Error surface
+|Surface error object
+|Failure recovery projection。
+|===
+
+Pretty text 和 JSON 来自同一 canonical object。Pretty text 服务 terminal reading；JSON 服务 mechanical processing。
+
+`--jq` 消费 JSON projection。SeekMoon 把 canonical object 编码为 command JSON shape，把该 shape 解码为 Go value，用 gojq 求值 jq expression，并写出 jq result。
+
+`--shape` 和 `--schema` 是 contract projections。它们读取 command contract definitions。
+
+当 command execution 无法产生请求的 projection，或 projection-specific error 出现时，output pipeline 选择 error surface。

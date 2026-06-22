@@ -1,7 +1,7 @@
 [#built-in-jq.projection]
 == Built-in jq
 
-Built-in jq 是 SeekMoon 的输出模式。它把当前命令的 JSON output 发送给本机 `jq` 可执行文件，并通过 subprocess 返回 jq result。
+Built-in jq 是 SeekMoon 的输出模式。它使用 Go 进程内 jq interpreter 对当前命令的 JSON output 求值，并把求值结果作为 jq result 返回。Go 实现采用 `github.com/itchyny/gojq`，版本钉选见 xref:appendix-go-implementation-dependencies[附录 F：Go 实现依赖图, rel=depends-on]。
 
 [source,bash]
 ----
@@ -14,12 +14,12 @@ seekmoon source 1 --jq '.selected_source.path'
 
 [source,text]
 ----
-command input -> canonical object -> JSON output -> jq subprocess stdin -> jq result
+command input -> canonical object -> JSON output -> embedded gojq interpreter -> jq result
 ----
 
 `--jq` 不读取 pretty text。除非命令选项改变来源加载规则，`--jq` 不改变 evidence loading；它只转换 JSON projection。
 
-`--jq` 执行前检查当前运行环境中的 `jq`。`jq` 可用时，SeekMoon 把 JSON output 写入 jq subprocess 的 stdin，并把 jq stdout 作为命令输出。`jq` 不可用时，命令进入 error surface；错误对象标记为 `jq`，状态为 `unavailable`。
+SeekMoon 把 JSON output 解码为 Go value，编译 jq expression，并由 gojq iterator 产生结果。表达式解析失败或求值失败时，命令进入 error surface；错误对象标记为 `jq_expression`，状态为 `failed`。
 
 示例：
 

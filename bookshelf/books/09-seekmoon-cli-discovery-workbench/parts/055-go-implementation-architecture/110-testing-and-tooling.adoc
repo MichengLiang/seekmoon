@@ -1,0 +1,58 @@
+[#go-testing-tooling.architecture]
+== Testing and Tooling
+
+Go tests 跟随 SeekMoon 的对象边界。Tests 分别验证 canonical objects、source readers、services、stores、output projections 和 command wiring。
+
+[cols="1,2,2", options="header"]
+|===
+|Test layer |Scope |Tooling
+
+|Model tests
+|Evidence wrapper JSON、state values、coordinate parsing、package relpath derivation。
+|`go test`.
+
+|Source tests
+|HTTP status mapping、JSON parse state、asset 404 state、local index parsing、repository enrichment mapping。
+|`httptest.Server` 和 fake filesystem。
+
+|Service tests
+|Command data flow、evidence composition、session candidate resolution、source resolution selection。
+|Fake source readers 和 fake stores。
+
+|Output tests
+|Pretty text、JSON shape、jq result、shape output、schema output、error surface。
+|Golden fixtures 和 gojq-backed projection tests。
+
+|Store tests
+|Snapshot、session、record、report、cache、probe path read/write behavior。
+|`t.TempDir()`.
+
+|Probe tests
+|Command sequence、cwd、log paths、target flags 和 result mapping。
+|Fake `platform.Runner`.
+
+|Schema tests
+|JSON output validates against command schema。
+|`github.com/santhosh-tekuri/jsonschema/v6`.
+
+|Fuzz tests
+|Module coordinate parser、package relpath derivation、local index JSONL parser。
+|Go fuzzing。
+|===
+
+Integration tests 在环境显式启用时使用真实 Moon CLI 和网络。Default test runs 使用 fake runner、fake filesystem 和 local fixtures。
+
+Required local checks：
+
+[source,bash]
+----
+go test ./...
+go test -race ./...
+go vet ./...
+govulncheck ./...
+go mod tidy
+----
+
+`go test ./...` 验证 functional behavior。`go test -race ./...` 检查 concurrent source/store/output interactions。`go vet ./...` 检查 Go static issues。`govulncheck ./...` 检查 dependency vulnerability exposure。`go mod tidy` 保持 dependency graph 与 xref:appendix-go-implementation-dependencies[附录 F：Go 实现依赖图, rel=depends-on] 对齐。
+
+Documentation comments explain object contracts、side effects 和 failure meanings。

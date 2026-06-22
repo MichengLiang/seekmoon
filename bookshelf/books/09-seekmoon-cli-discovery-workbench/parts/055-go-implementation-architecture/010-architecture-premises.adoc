@@ -1,0 +1,39 @@
+[#go-architecture-premises.architecture]
+== Architecture Premises
+
+SeekMoon 的 Go implementation 是一个 command-line program 和 internal packages 组成的单一 Go module。Go module 的公共进程入口是 `cmd/seekmoon`；`internal` packages 承载非公开实现 API。该形态对应 Go 官方 module layout 中的 command-line program 组织方式。
+
+架构前提来自本书已经定义的对象：
+
+[cols="1,2,2", options="header"]
+|===
+|前提 |已定义对象 |架构约束
+
+|SeekMoon 是本地 package discovery workbench。
+|xref:seekmoon-object-definition[SeekMoon, rel=depends-on]
+|实现围绕 CLI 动作、证据读取和输出投影组织。
+
+|命令按消费者动作分组。
+|xref:command-map[Command Map, rel=depends-on]
+|Cobra command handler 解析输入并分派 service；evidence source 读取和输出投影由下游 package 承担。
+
+|Canonical objects 是输出来源。
+|xref:module-summary-model[ModuleSummary, rel=depends-on]、xref:manifest-profile-model[ManifestProfile, rel=depends-on]、xref:api-profile-model[API Profile, rel=depends-on]、xref:source-resolution-model[SourceResolution, rel=depends-on]、xref:probe-result-model[ProbeResult, rel=depends-on]、xref:adoption-record-model[AdoptionRecord, rel=depends-on]
+|Go `model` package 定义 canonical objects；source、service、output 和 store 都依赖 model。
+
+|Evidence sources 只回答各自能回答的问题。
+|xref:public-http-sources[Public HTTP Sources, rel=depends-on]、xref:static-assets[Static Assets, rel=depends-on]、xref:local-toolchain-cache[Local Toolchain and Cache, rel=depends-on]、xref:project-context[Project Context, rel=depends-on]、xref:repository-signals[Repository Signals, rel=depends-on]
+|Go `source` package 读取来源并产生带状态的 source result；采纳判断由 service 和 record flow 承担。
+
+|输出投影服务不同消费者动作。
+|xref:pretty-text-output[Pretty Text, rel=depends-on]、xref:json-output[JSON Output, rel=depends-on]、xref:built-in-jq[Built-in jq, rel=depends-on]、xref:shape-output[Shape Output, rel=depends-on]、xref:schema-output[Schema Output, rel=depends-on]、xref:error-surface[Error Surface, rel=depends-on]
+|Go `output` package 从同一 canonical object 生成 pretty text、JSON、jq result、shape、schema 和 error surface。
+
+|Probe 和 source resolution 具有本地副作用。
+|xref:source-resolution-model[SourceResolution, rel=depends-on]、xref:probe-result-model[ProbeResult, rel=depends-on]
+|Go `store` 和 `platform` packages 约束路径、日志、命令执行和隔离目录。
+|===
+
+架构的中心是不带 I/O 的 canonical model。命令、来源、存储和输出都围绕 canonical model 协作。这个结构使同一事实可以被终端阅读、机器处理、jq expression、schema 校验和报告生成共同消费。
+
+Go implementation 使用 xref:appendix-go-implementation-dependencies[附录 F：Go 实现依赖图, rel=depends-on] 中固定的依赖。第三方依赖只进入对应实现 package；依赖本身不定义 SeekMoon 的对象边界。
