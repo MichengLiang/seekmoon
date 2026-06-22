@@ -53,8 +53,8 @@ v1.0, 2026-06
 |从 query 到候选、证据下钻、本地验证、采纳记录和报告的完整动作链。
 
 |实现 SeekMoon CLI
-|xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#public-http-sources[Public HTTP Sources]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#evidence-state-values[Evidence State Values]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#json-output[JSON Output]
-|证据来源、状态词、canonical 数据模型、命令契约和输出契约。
+|xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-architecture-premises[Architecture Premises]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-module-layout[Go Module Layout]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#appendix-go-implementation-dependencies[附录 F：Go 实现依赖图]
+|Go module layout、package 边界、依赖方向、运行时组合、数据流、输出管线和依赖选择。
 |===
 
 == 书籍关系
