@@ -36,4 +36,4 @@ SeekMoon 的 Go implementation 是一个 command-line program 和 internal packa
 
 架构的中心是不带 I/O 的 canonical model。命令、来源、存储和输出都围绕 canonical model 协作。这个结构使同一事实可以被终端阅读、机器处理、jq expression、schema 校验和报告生成共同消费。
 
-Go implementation 使用 xref:appendix-go-implementation-dependencies[附录 F：Go 实现依赖图, rel=depends-on] 中固定的依赖。第三方依赖只进入对应实现 package；依赖本身不定义 SeekMoon 的对象边界。
+Go implementation 使用 xref:appendix-go-implementation-dependencies[附录 F：Go 实现依赖图, rel=depends-on] 中固定的 source imports 和 test imports。工程质量工具链由 xref:go-engineering-quality-toolchain[Engineering Quality Toolchain, rel=depends-on] 和 xref:appendix-go-engineering-toolchain[附录 G：Go 工程工具链, rel=depends-on] 固定。第三方依赖和工程工具只进入对应实现或质量门位置；它们不定义 SeekMoon 的对象边界。

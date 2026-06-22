@@ -8,6 +8,9 @@ SeekMoon 使用单一 Go module。根目录保存 Go module metadata、命令入
 seekmoon/
   go.mod
   go.sum
+  justfile
+  .golangci.yml
+  .goreleaser.yaml
   cmd/
     seekmoon/
       main.go
@@ -94,6 +97,8 @@ seekmoon/
     testutil/
       fixture.go
       golden.go
+  .artifacts/
+    test/
 ----
 
 每个目录承担一个实现职责：
@@ -145,6 +150,25 @@ seekmoon/
 |`internal/testutil`
 |Test fixtures 和 golden helpers。
 |由 tests 使用。
+|===
+
+Engineering files live at the Go implementation root:
+
+[cols="1,2", options="header"]
+|===
+|Path |Responsibility
+
+|`justfile`
+|定义本地和 CI 共用的工程质量入口，例如 format、lint、test、race、coverage、vulnerability、module integrity 和 release check。
+
+|`.golangci.yml`
+|定义 aggregate lint gate。它约束 Go source quality，不定义 SeekMoon public command surface。
+
+|`.goreleaser.yaml`
+|定义 CLI release artifacts、archives 和 checksums 的生成规则。
+
+|`.artifacts/`
+|保存测试报告、race 报告和覆盖率输出。该目录是生成物，不是 runtime storage contract。
 |===
 
 Module layout 让变更靠近被修改对象。Manifest API parsing 的变更落在 `internal/source` 和 `internal/model`；`search` ranking 的变更落在 `internal/service`；table rendering 的变更落在 `internal/output`；record path layout 的变更落在 `internal/store`。

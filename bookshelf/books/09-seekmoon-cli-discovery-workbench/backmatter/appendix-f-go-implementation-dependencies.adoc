@@ -3,6 +3,8 @@
 
 本附录固定 SeekMoon 的 Go 实现依赖选择。实现语言已经确定为 Go；依赖选择只服务本书定义的公共对象、命令契约、输出契约、来源读取、本地验证和记录报告。
 
+本附录只记录 Go source imports 和 test imports。工程质量工具链、CI 入口和 release 工具见 xref:appendix-go-engineering-toolchain[附录 G：Go 工程工具链, rel=depends-on]。
+
 == Dependency Set
 
 [cols="1,1,2,2", options="header"]

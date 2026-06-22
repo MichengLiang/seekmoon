@@ -53,8 +53,8 @@ v1.0, 2026-06
 |从 query 到候选、证据下钻、本地验证、采纳记录和报告的完整动作链。
 
 |实现 SeekMoon CLI
-|xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-architecture-premises[Architecture Premises]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-module-layout[Go Module Layout]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#appendix-go-implementation-dependencies[附录 F：Go 实现依赖图]
-|Go module layout、package 边界、依赖方向、运行时组合、数据流、输出管线和依赖选择。
+|xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-architecture-premises[Architecture Premises]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-module-layout[Go Module Layout]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-engineering-quality-toolchain[Engineering Quality Toolchain]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#appendix-go-implementation-dependencies[附录 F：Go 实现依赖图]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#appendix-go-engineering-toolchain[附录 G：Go 工程工具链]
+|Go module layout、package 边界、依赖方向、运行时组合、数据流、输出管线、依赖选择和工程质量门。
 |===
 
 == 书籍关系

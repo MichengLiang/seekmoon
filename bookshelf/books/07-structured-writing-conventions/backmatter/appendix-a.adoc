@@ -48,10 +48,10 @@
 |`summary::` + 下一行说明文本
 |标题下描述列表字段。用于较多字段或多行字段值。
 
-|`xref:stable-id[显示文本]`
+|`pass:[xref:stable-id[显示文本]]`
 |显示为链接，投影为 references。
 
-|`xref:stable-id[显示文本, rel=depends-on]`
+|`pass:[xref:stable-id[显示文本, rel=depends-on]]`
 |显示为链接，同时声明 depends-on 关系。
 
 |`indexterm2:[role]`

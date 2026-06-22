@@ -1,0 +1,167 @@
+[#appendix-go-engineering-toolchain.reference]
+= 附录 G：Go 工程工具链
+
+本附录固定 SeekMoon Go implementation 的工程工具链。工程工具链定义本地开发、CI 和 release artifact 检查使用的命令入口；它不等同于 Go source imports，也不定义 SeekMoon 面向包消费者的 CLI 命令。
+
+== Tool Version Set
+
+[cols="1,1,2,2", options="header"]
+|===
+|职责 |工具 |版本或坐标 |边界
+
+|Go toolchain
+|`go`
+|`go1.26.x`
+|编译、测试、fuzz、覆盖率、module 命令和官方静态检查的基础工具链。`go1.26.3 linux/amd64` 是该基线的本地环境样本。
+
+|Test presentation
+|`gotestsum`
+|`gotest.tools/gotestsum@v1.13.0`
+|消费 `go test -json`，提供本地摘要、CI annotation 和 JUnit XML。它不替代 Go test execution core。
+
+|Lint aggregation
+|`golangci-lint`
+|`github.com/golangci/golangci-lint/v2@v2.12.2`
+|聚合 `govet`、`staticcheck`、`errcheck`、`ineffassign`、`unused`、`revive`、`gosec`、`misspell`、`gocritic`、`unparam`、`nakedret` 和 `prealloc` 等 lint gates。
+
+|Formatting
+|`gofumpt`
+|`mvdan.cc/gofumpt@v0.10.0`
+|作为 gofmt 的严格超集固定格式化结果。
+
+|Import grouping
+|`goimports`
+|Go tools version matched to toolchain policy
+|整理 imports。该职责可以由编辑器、CI 辅助命令或 lint gate 承担。
+
+|Vulnerability exposure
+|`govulncheck`
+|`golang.org/x/vuln/cmd/govulncheck@v1.4.0`
+|扫描 Go vulnerability database，并结合调用可达性报告 vulnerability exposure。
+
+|Release artifacts
+|`goreleaser`
+|`github.com/goreleaser/goreleaser/v2@v2.16.0`
+|检查 release 配置，生成 snapshot 和正式发布 artifacts。
+
+|Task orchestration
+|`just`
+|`1.50.0`
+|命名并组合工程质量入口。`just` 是 repo-level task runner，不进入 Go module dependency graph。
+|===
+
+== Installation Coordinates
+
+Go-based tools use pinned `go install` coordinates:
+
+[source,bash]
+----
+go install gotest.tools/gotestsum@v1.13.0
+go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
+go install golang.org/x/vuln/cmd/govulncheck@v1.4.0
+go install mvdan.cc/gofumpt@v0.10.0
+go install github.com/goreleaser/goreleaser/v2@v2.16.0
+----
+
+`just` is installed as a repository-level command runner through the host package manager, prebuilt binary or CI action. It is not installed through the SeekMoon Go module.
+
+== Standard Commands
+
+[cols="1,2", options="header"]
+|===
+|Command |Meaning
+
+|`go test ./...`
+|Functional test execution.
+
+|`gotestsum --format=pkgname -- -count=1 ./...`
+|Human-readable local test summary without using cached test success.
+
+|`gotestsum --format=github-actions --junitfile=.artifacts/test/unit.xml -- -count=1 ./...`
+|CI test output with GitHub Actions annotations and JUnit report.
+
+|`gotestsum --format=pkgname -- -race -count=1 ./...`
+|Race detector test execution with readable summary.
+
+|`go test -coverprofile=.artifacts/coverage.out ./...`
+|Coverage profile generation.
+
+|`go tool cover -func=.artifacts/coverage.out`
+|Coverage summary.
+
+|`go test -fuzz=Fuzz -run=^$ ./internal/model ./internal/source`
+|Fuzz target execution for parsers and path derivations owned by SeekMoon.
+
+|`go vet ./...`
+|Official Go static checks.
+
+|`golangci-lint run ./...`
+|Aggregated lint gate.
+
+|`gofumpt -w .`
+|Rewrite source formatting.
+
+|`gofumpt -l .`
+|List files that do not match the formatting gate.
+
+|`go mod tidy`
+|Synchronize `go.mod` and `go.sum` with source imports.
+
+|`git diff --exit-code -- go.mod go.sum`
+|Fail when module metadata changed during `go mod tidy`.
+
+|`go mod verify`
+|Verify module cache content against `go.sum`.
+
+|`govulncheck ./...`
+|Report reachable vulnerability exposure.
+
+|`goreleaser check`
+|Validate release configuration.
+
+|`goreleaser release --snapshot --clean`
+|Build local snapshot release artifacts.
+
+|`goreleaser release --clean`
+|Build official release artifacts for a tag release.
+|===
+
+== Lint Configuration Surface
+
+SeekMoon's lint gate is configured by `.golangci.yml` at the Go implementation root.
+
+[source,yaml]
+----
+version: "2"
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - errcheck
+    - ineffassign
+    - unused
+    - revive
+    - gosec
+    - misspell
+    - gocritic
+    - unparam
+    - nakedret
+    - prealloc
+----
+
+`gosec` enters through `golangci-lint`. Vulnerability exposure remains the responsibility of `govulncheck`.
+
+== Artifact Paths
+
+CI and local quality commands write generated reports under `.artifacts/`:
+
+[source,text]
+----
+.artifacts/
+  test/
+    unit.xml
+    race.xml
+  coverage.out
+----
+
+`.artifacts/` is generated quality output. It is not a source directory and does not define SeekMoon's runtime storage contract.

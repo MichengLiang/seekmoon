@@ -133,6 +133,8 @@ include::parts/055-go-implementation-architecture/100-error-and-state-flow.adoc[
 
 include::parts/055-go-implementation-architecture/110-testing-and-tooling.adoc[]
 
+include::parts/055-go-implementation-architecture/120-engineering-quality-toolchain.adoc[]
+
 = 行动轨迹与验收
 
 [partintro]
@@ -168,6 +170,9 @@ include::backmatter/appendix-e-status-and-error-matrix.adoc[]
 
 [appendix]
 include::backmatter/appendix-f-go-implementation-dependencies.adoc[]
+
+[appendix]
+include::backmatter/appendix-g-go-engineering-toolchain.adoc[]
 
 [bibliography]
 include::backmatter/bibliography.adoc[]

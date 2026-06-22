@@ -1,0 +1,159 @@
+[#go-engineering-quality-toolchain.architecture]
+== Engineering Quality Toolchain
+
+Engineering quality toolchain defines the executable checks that a SeekMoon Go implementation must pass before implementation material is treated as shippable. It belongs to the Go implementation layer; it does not define SeekMoon's public package-discovery CLI contract.
+
+SeekMoon uses Go 1.26.x as the implementation toolchain baseline. `go1.26.3 linux/amd64` is the recorded local environment sample for that baseline; CI and release jobs use the same minor toolchain family to avoid local, CI and artifact drift.
+
+[cols="1,2,2", options="header"]
+|===
+|Quality concern |Primary entry |Boundary
+
+|Functional tests
+|`go test ./...`
+|The Go test command is the execution core. It compiles packages, runs unit and package tests, uses Go's test cache, and supplies JSON event output.
+
+|Test presentation
+|`gotestsum --format=pkgname -- -count=1 ./...`
+|`gotestsum` consumes `go test -json` output and produces readable local summaries, CI annotations and JUnit reports. It does not replace `go test`.
+
+|Race detection
+|`go test -race ./...`
+|Race detection checks concurrent source readers, stores, probe runners and output writers in the current Go runtime environment.
+
+|Coverage
+|`go test -coverprofile=.artifacts/coverage.out ./...`
+|Coverage exposes untested model, source, service, output, schema and error-surface paths. Coverage is evidence for test reach, not a quality proof by itself.
+
+|Fuzzing
+|`go test -fuzz=Fuzz -run=^$ ./internal/model ./internal/source`
+|Fuzz targets parsers and path derivations owned by SeekMoon. Third-party parser correctness remains with the dependency that provides it.
+
+|Static analysis
+|`go vet ./...` and `golangci-lint run ./...`
+|`go vet` remains the official static check. `golangci-lint` is the aggregate lint gate for error handling, unused code, security-oriented linting, style rules and maintainability checks.
+
+|Formatting
+|`gofumpt -w .` and `gofumpt -l .`
+|`gofmt` is the Go formatting baseline. `gofumpt` is the stricter formatter used as the project formatting gate; import grouping is handled by `goimports` or lint configuration.
+
+|Module integrity
+|`go mod tidy` and `go mod verify`
+|`go mod tidy` keeps `go.mod` and `go.sum` aligned with source imports. `go mod verify` checks module cache content against `go.sum`.
+
+|Vulnerability exposure
+|`govulncheck ./...`
+|`govulncheck` uses the Go vulnerability database and call reachability. It is a vulnerability exposure gate, not a linter.
+
+|Release artifacts
+|`goreleaser check` and `goreleaser release --snapshot --clean`
+|GoReleaser validates release configuration and produces CLI artifacts, archives and checksums. It does not run the test or lint gates.
+
+|Task orchestration
+|`just ci`
+|`just` names quality gates and composes commands across Go, documentation and release tasks. It does not replace the underlying Go tools.
+|===
+
+`gotestsum` is the only additional test runner surface in the standard path. The Rust `cargo-nextest` shape is not copied into SeekMoon because Go's execution core remains `go test`; SeekMoon only adds a presentation and CI reporting layer around that core.
+
+Standard quality entrypoints:
+
+[source,bash]
+----
+just fmt-check
+just lint
+just test
+just test-race
+just cover
+just fuzz
+just vuln
+just mod-check
+just release-check
+just ci
+----
+
+The corresponding `just` recipes call one primary tool each:
+
+[source,make]
+----
+fmt:
+    gofumpt -w .
+
+fmt-check:
+    test -z "$(gofumpt -l .)"
+
+lint:
+    golangci-lint run ./...
+
+test:
+    gotestsum --format=pkgname -- -count=1 ./...
+
+test-race:
+    gotestsum --format=pkgname -- -race -count=1 ./...
+
+cover:
+    go test -coverprofile=.artifacts/coverage.out ./...
+    go tool cover -func=.artifacts/coverage.out
+
+fuzz:
+    go test -fuzz=Fuzz -run=^$ ./internal/model ./internal/source
+
+vuln:
+    govulncheck ./...
+
+mod-check:
+    go mod tidy
+    git diff --exit-code -- go.mod go.sum
+    go mod verify
+
+release-check:
+    goreleaser check
+
+release-snapshot:
+    goreleaser release --snapshot --clean
+
+ci: fmt-check lint test test-race cover vuln mod-check release-check
+----
+
+CI uses the same gates as local development:
+
+[cols="1,2,2", options="header"]
+|===
+|Job |Command |Artifact or decision
+
+|`format`
+|`gofumpt -l .`
+|The listed files must be empty.
+
+|`lint`
+|`golangci-lint run ./...`
+|Static quality gate passes or fails.
+
+|`test`
+|`gotestsum --format=github-actions --junitfile=.artifacts/test/unit.xml -- -count=1 ./...`
+|JUnit unit test report.
+
+|`race`
+|`gotestsum --format=github-actions --junitfile=.artifacts/test/race.xml -- -race -count=1 ./...`
+|JUnit race test report.
+
+|`coverage`
+|`go test -coverprofile=.artifacts/coverage.out ./...`
+|Coverage profile and summary.
+
+|`vuln`
+|`govulncheck ./...`
+|Reachable vulnerability exposure result.
+
+|`mod`
+|`go mod tidy`, `git diff --exit-code -- go.mod go.sum`, `go mod verify`
+|Dependency graph cleanliness and module cache verification.
+
+|`release-check`
+|`goreleaser check`
+|Release configuration validity.
+|===
+
+Integration tests are opt-in. Tests that use real network, real Moon CLI commands, GitHub API, source zip downloads or probe project mutation run only when an explicit integration environment variable is present. Default test runs use fixtures, fake source readers, fake filesystem and fake command runners.
+
+Tool version pins and installation coordinates are listed in xref:appendix-go-engineering-toolchain[附录 G：Go 工程工具链, rel=depends-on]. Source imports and test imports are listed separately in xref:appendix-go-implementation-dependencies[附录 F：Go 实现依赖图, rel=depends-on].

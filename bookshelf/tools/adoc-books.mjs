@@ -10,7 +10,8 @@ const DIAGRAM_BLOCK_PATTERN = /^\[(?:actdiag|blockdiag|bpmn|bytefield|c4plantuml
 const CATALOG_BOOK_XREF_PATTERN = /xref:books\/([^/\]]+)\/book\.adoc(?:#[^\[]+)?\[/g;
 const XREF_PATTERN = /xref:([^\[#]+)(?:#([A-Za-z0-9_-]+))?\[/g;
 const ANCHOR_PATTERN = /^\[#([A-Za-z0-9_-]+)(?:[.,][^\]]*)?\]$/gm;
-const LOCAL_TARGET_PATTERN = /\b(?:href|src)="([^"]+)"/g;
+const LOCAL_TARGET_PATTERN = /\b(href|src)="([^"]+)"/g;
+const HTML_ANCHOR_PATTERN = /\b(?:id|name)="([^"]+)"/g;
 const SCHEME_PATTERN = /^[a-zA-Z][a-zA-Z0-9+.-]*:/;
 const HOME_MARKER = "data-multi-book-home";
 const CONTROLS_MARKER = "data-multi-book-controls";
@@ -153,14 +154,54 @@ async function pruneStaleBookHtmlDirs(rootDir, books) {
         }
     }
 }
+function messageText(message) {
+    if (typeof message?.getText === "function")
+        return message.getText();
+    if (typeof message?.getMessage === "function")
+        return message.getMessage();
+    return String(message);
+}
+function messageLocation(message) {
+    const sourceLocation = typeof message?.getSourceLocation === "function" ? message.getSourceLocation() : undefined;
+    if (!sourceLocation)
+        return "";
+    const sourcePath = typeof sourceLocation.getPath === "function" ? sourceLocation.getPath() : undefined;
+    const lineNumber = typeof sourceLocation.getLineNumber === "function" ? sourceLocation.getLineNumber() : undefined;
+    if (sourcePath && lineNumber)
+        return `${sourcePath}: line ${lineNumber}`;
+    if (sourcePath)
+        return sourcePath;
+    if (lineNumber)
+        return `line ${lineNumber}`;
+    return "";
+}
+function formatAsciidoctorMessage(message) {
+    const severity = typeof message?.getSeverity === "function" ? message.getSeverity() : "UNKNOWN";
+    const location = messageLocation(message);
+    const text = messageText(message);
+    return location ? `${severity}: ${location}: ${text}` : `${severity}: ${text}`;
+}
 function convertFile(asciidoctor, input, outputFile, baseDir, attributes = {}) {
-    asciidoctor.convertFile(input, {
-        safe: "unsafe",
-        base_dir: baseDir,
-        to_file: outputFile,
-        mkdirs: true,
-        attributes
-    });
+    const loggerManager = asciidoctor.LoggerManager;
+    const defaultLogger = loggerManager.getLogger();
+    const memoryLogger = asciidoctor.MemoryLogger.create();
+    loggerManager.setLogger(memoryLogger);
+    try {
+        asciidoctor.convertFile(input, {
+            safe: "unsafe",
+            base_dir: baseDir,
+            to_file: outputFile,
+            mkdirs: true,
+            attributes
+        });
+    }
+    finally {
+        loggerManager.setLogger(defaultLogger);
+    }
+    const messages = memoryLogger.getMessages();
+    if (messages.length > 0) {
+        throw new Error(`AsciiDoc strict check failed for ${input}\n${messages.map(formatAsciidoctorMessage).join("\n")}`);
+    }
 }
 async function buildHtml(rootDir, books, asciidoctor, useKroki, fetchDiagrams) {
     await mkdir(path.join(rootDir, "build", "html"), { recursive: true });
@@ -1007,27 +1048,60 @@ async function collectHtmlFiles(dir) {
 function extractLocalTargets(html) {
     const targets = [];
     for (const match of html.matchAll(LOCAL_TARGET_PATTERN)) {
-        const rawTarget = match[1];
-        if (rawTarget === "" || rawTarget.startsWith("#") || rawTarget.startsWith("//") || SCHEME_PATTERN.test(rawTarget)) {
+        const [, attribute, rawTarget] = match;
+        if (rawTarget === "" || rawTarget === "#" || rawTarget.startsWith("//") || SCHEME_PATTERN.test(rawTarget)) {
             continue;
         }
         const targetWithoutFragment = rawTarget.split("#", 1)[0].split("?", 1)[0];
-        if (targetWithoutFragment !== "")
-            targets.push(rawTarget);
+        const fragment = rawTarget.includes("#") ? rawTarget.split("#", 2)[1].split("?", 1)[0] : "";
+        if (targetWithoutFragment !== "" || fragment !== "")
+            targets.push({ attribute, rawTarget });
     }
     return targets;
+}
+function decodeUrlFragment(fragment) {
+    try {
+        return decodeURIComponent(fragment);
+    }
+    catch {
+        return fragment;
+    }
+}
+function htmlAnchors(html) {
+    const anchors = new Set();
+    for (const match of html.matchAll(HTML_ANCHOR_PATTERN))
+        anchors.add(match[1]);
+    return anchors;
+}
+async function anchorsForHtmlFile(filePath, cache) {
+    const cached = cache.get(filePath);
+    if (cached)
+        return cached;
+    const anchors = htmlAnchors(await readFile(filePath, "utf8"));
+    cache.set(filePath, anchors);
+    return anchors;
 }
 async function missingLocalResources(rootDir) {
     const htmlDir = path.join(rootDir, "build", "html");
     const htmlFiles = await collectHtmlFiles(htmlDir);
     const issues = [];
+    const anchorCache = new Map();
     for (const htmlFile of htmlFiles) {
         const html = await readFile(htmlFile, "utf8");
         for (const target of extractLocalTargets(html)) {
-            const targetPath = target.split("#", 1)[0].split("?", 1)[0];
-            const resolved = path.resolve(path.dirname(htmlFile), targetPath);
-            if (!await existsFile(resolved)) {
-                issues.push(issue("HTML_RESOURCE_MISSING", `${path.relative(htmlDir, htmlFile)} -> ${target}`));
+            const targetPath = target.rawTarget.split("#", 1)[0].split("?", 1)[0];
+            const fragment = target.rawTarget.includes("#") ? target.rawTarget.split("#", 2)[1].split("?", 1)[0] : "";
+            const resolved = targetPath === "" ? htmlFile : path.resolve(path.dirname(htmlFile), targetPath);
+            if (targetPath !== "" && !await existsFile(resolved)) {
+                issues.push(issue("HTML_RESOURCE_MISSING", `${path.relative(htmlDir, htmlFile)} -> ${target.rawTarget}`));
+                continue;
+            }
+            if (target.attribute === "href" && fragment !== "" && (targetPath === "" || resolved.endsWith(".html"))) {
+                const anchors = await anchorsForHtmlFile(resolved, anchorCache);
+                const decodedFragment = decodeUrlFragment(fragment);
+                if (!anchors.has(fragment) && !anchors.has(decodedFragment)) {
+                    issues.push(issue("HTML_ANCHOR_MISSING", `${path.relative(htmlDir, htmlFile)} -> ${target.rawTarget}`));
+                }
             }
         }
     }
