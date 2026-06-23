@@ -1,0 +1,15 @@
+version: "2"
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - errcheck
+    - ineffassign
+    - unused
+    - revive
+    - gosec
+    - misspell
+    - gocritic
+    - unparam
+    - nakedret
+    - prealloc
