@@ -25,4 +25,7 @@ func TestNewRuntimeCompositionOrderArtifacts(t *testing.T) {
 	if rt.Stores.Records.Paths.ProjectRoot != root {
 		t.Fatalf("stores not composed from resolved paths")
 	}
+	if rt.Sources.Mooncakes.Fetcher.Client == nil || rt.Services.Sync.Snapshots.Paths.ProjectRoot != root {
+		t.Fatalf("Batch B source/service registries not initialized")
+	}
 }

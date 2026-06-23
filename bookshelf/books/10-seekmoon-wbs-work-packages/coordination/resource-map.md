@@ -116,3 +116,30 @@ Batch A must not implement full HTTP source readers, services, output renderers,
 - Reviewer report: `coordination/reports/002-batch-a-review-report.md`
 - Git evidence: commits in `/home/t103o/workbench/projects/seekmoon`
 - Command evidence: output summaries recorded in reports; raw generated artifacts under `.artifacts/` when produced
+
+## Batch B Exact Line Includes
+
+WP04:
+
+- `parts/020-evidence-boundary/010-public-http-sources.adoc`, lines `4..5;9..46;50..75;79..124`
+- `parts/055-go-implementation-architecture/070-source-reader-boundary.adoc`, lines `4..42`
+- `parts/055-go-implementation-architecture/050-data-flow.adoc`, lines `8..22;26..39`
+
+WP05:
+
+- `parts/020-evidence-boundary/020-static-assets.adoc`, lines `4..5;9..42;46..83;87..95;99..107;111..127`
+- `parts/030-canonical-model/040-api-profile.adoc`, lines `4..5;9..60;65..133`
+- `parts/040-command-workbench/040-api-and-source.adoc`, lines `4..32`
+
+WP06:
+
+- `parts/020-evidence-boundary/030-local-toolchain-and-cache.adoc`, lines `4..5;9..43;47..56;59..68`
+- `parts/020-evidence-boundary/040-project-context.adoc`, lines `4..43`
+- `parts/030-canonical-model/060-source-resolution-and-probe-result.adoc`, lines `77..132`
+
+WP07:
+
+- `parts/020-evidence-boundary/050-repository-signals.adoc`, lines `4..46`
+- `parts/020-evidence-boundary/010-public-http-sources.adoc`, lines `128..169`
+- `parts/030-canonical-model/050-skill-profile.adoc`, lines `4..94`
+- `backmatter/appendix-f-go-implementation-dependencies.adoc`, lines `29..37;105..113`

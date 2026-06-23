@@ -5,8 +5,8 @@
 | Agent | Runtime role | Work package | Boundary | Reuse intent | Status |
 |---|---|---|---|---|---|
 | principal coordinator | coordinator | full WBS | process artifacts, handoffs, review routing, promotion decisions | continuous | active |
-| `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`) | builder | Batch A: WP01-WP03 revision 1 | implementation files listed in `coordination/resource-map.md` plus revision report | persistent specialist reuse | revision returned |
-| `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`) | reviewer | Batch A: WP01-WP03 re-review | independent review, evidence check, commit on approval | reused for re-review | re-review dispatched |
+| `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`) | builder | Batch B revision 1 | source reader implementation files listed in Batch B handoff | persistent specialist reuse | revision returned |
+| `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`) | reviewer | Batch B re-review | independent review, evidence check, commit on approval | reused for Batch B re-review | re-review ready |
 
 ## Rules For Specialized Executors
 

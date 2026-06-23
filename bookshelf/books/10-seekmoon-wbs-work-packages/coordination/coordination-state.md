@@ -18,9 +18,10 @@ The coordinator must not become the primary builder or the primary reviewer. Any
 - Git root: `/home/t103o/workbench/projects/seekmoon`
 - Branch: `main`
 - Baseline command run by coordinator: `git -C /home/t103o/workbench/projects/seekmoon status --short --branch`
-- Observed status: `## main...origin/main [ahead 3]`
-- Latest commit observed: `206c830 (HEAD -> main) 000`
-- Implementation state observed: no `go.mod`, no Go source, no `justfile`.
+- Initial observed status: `## main...origin/main [ahead 3]`
+- Initial observed commit: `206c830 (HEAD -> main) 000`
+- Batch A promotion commit: `0f83682 Implement SeekMoon Batch A substrate`
+- Post-Batch-A observed status: `## main...origin/main [ahead 4]`
 
 This baseline is process-side recorded state. Promotion requires executor evidence plus independent review.
 
@@ -74,12 +75,28 @@ Batch E closes acceptance:
 
 ## Active Dispatch
 
-- Role: builder revision
-- Agent: `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`)
-- Handoff: `coordination/handoffs/batch-a-revision-1-builder.md`
-- Prompt: `coordination/prompts/003-batch-a-revision-1-builder.md`
-- Write boundary: SeekMoon Go implementation root files and `internal/` Go packages listed in Batch A handoff.
-- Report path: `coordination/reports/003-batch-a-revision-1-builder-report.md`
+- Role: pending Batch B builder
+- Agent: `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`), intended persistent builder reuse
+- Handoff: `coordination/handoffs/batch-b-builder.md`
+- Prompt: `coordination/prompts/005-batch-b-builder.md`
+- Write boundary: Batch B source readers, primitives, tests, and reports
+- Report path: `coordination/reports/005-batch-b-builder-report.md`
+
+## Batch B Review
+
+- Builder report: `coordination/reports/005-batch-b-builder-report.md`
+- Review package: `coordination/review-packages/006-batch-b-review.md`
+- Reviewer: `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`)
+- Review report: `coordination/reports/006-batch-b-review-report.md`
+- Verdict: rejected
+- Revision handoff: `coordination/handoffs/batch-b-revision-1-builder.md`
+- Revision prompt: `coordination/prompts/007-batch-b-revision-1-builder.md`
+- Revision report: `coordination/reports/007-batch-b-revision-1-builder-report.md`
+- Re-review package: `coordination/review-packages/008-batch-b-re-review.md`
+- Re-review prompt: `coordination/prompts/008-batch-b-re-reviewer.md`
+- Blocking findings:
+  - non-HTTP/project/repository source readers do not carry complete source envelopes;
+  - project context parse failures are hidden by aggregate present status.
 
 ## Review State
 
@@ -87,11 +104,9 @@ Batch E closes acceptance:
 - Independent review report: `coordination/reports/002-batch-a-review-report.md`
 - Revision builder report: `coordination/reports/003-batch-a-revision-1-builder-report.md`
 - Re-review package: `coordination/review-packages/004-batch-a-re-review.md`
-- Current review verdict: pending re-review
-- Blocking findings:
-  - evidence wrapper JSON omits nullable `source`;
-  - `internal/platform` imports `internal/model`;
-  - `just fmt-check` and `goreleaser check` blocked by missing external tools.
+- Batch A final verdict: approved
+- Batch A commit: `0f83682 Implement SeekMoon Batch A substrate`
+- Promotion status: stable accepted belief for WP01-WP03 substrate
 
 ## Promotion Boundary
 

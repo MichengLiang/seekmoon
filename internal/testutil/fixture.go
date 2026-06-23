@@ -1,0 +1,44 @@
+// Package testutil contains fixtures shared by SeekMoon package tests.
+package testutil
+
+import (
+	"context"
+	"os"
+	"path/filepath"
+	"testing"
+
+	"github.com/yumiaura/seekmoon/internal/platform"
+)
+
+func WriteFile(t *testing.T, root, rel, body string) string {
+	t.Helper()
+	path := filepath.Join(root, rel)
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		t.Fatalf("MkdirAll: %v", err)
+	}
+	if err := os.WriteFile(path, []byte(body), 0o644); err != nil {
+		t.Fatalf("WriteFile: %v", err)
+	}
+	return path
+}
+
+type FakeRunner struct {
+	Result platform.RunResult
+	Err    error
+	Calls  []platform.RunRequest
+}
+
+func (r *FakeRunner) Run(ctx context.Context, request platform.RunRequest) (platform.RunResult, error) {
+	r.Calls = append(r.Calls, request)
+	result := r.Result
+	if result.Command == nil {
+		result.Command = request.Command
+	}
+	if result.CWD == "" {
+		result.CWD = request.CWD
+	}
+	if result.LogPath == "" {
+		result.LogPath = request.LogPath
+	}
+	return result, r.Err
+}
