@@ -143,3 +143,21 @@ WP07:
 - `parts/020-evidence-boundary/010-public-http-sources.adoc`, lines `128..169`
 - `parts/030-canonical-model/050-skill-profile.adoc`, lines `4..94`
 - `backmatter/appendix-f-go-implementation-dependencies.adoc`, lines `29..37;105..113`
+
+## Batch C Exact Line Includes
+
+WP08:
+
+- `parts/050-output-contracts/010-pretty-text.adoc`, lines `4..45`
+- `parts/050-output-contracts/020-json-output.adoc`, lines `4..58`
+- `parts/050-output-contracts/030-built-in-jq.adoc`, lines `4..36`
+- `parts/050-output-contracts/040-shape.adoc`, lines `4..47`
+- `parts/050-output-contracts/050-schema.adoc`, lines `4..32`
+- `parts/050-output-contracts/060-error-surface.adoc`, lines `4..59`
+- `parts/055-go-implementation-architecture/080-output-pipeline.adoc`, lines `4..51`
+
+WP09:
+
+- `parts/040-command-workbench/010-command-map.adoc`, lines `4..73`
+- `parts/055-go-implementation-architecture/060-control-flow.adoc`, lines `4..57`
+- `backmatter/appendix-c-command-reference.adoc`, lines `4..84`

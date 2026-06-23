@@ -61,3 +61,51 @@ func AdoptionRecordShape() Shape {
 		},
 	}
 }
+
+func EnvironmentStatusShape() Shape {
+	return genericShape(model.SchemaEnvironmentStatusV1, "toolchain", "paths", "network", "project")
+}
+
+func SnapshotShape() Shape {
+	return genericShape(model.SchemaSnapshotV1, "id", "created_at", "sources", "statistics", "raw")
+}
+
+func ManifestProfileShape() Shape {
+	return genericShape(model.SchemaManifestProfileV1, "module", "version", "metadata", "downloads", "build_status", "docs_url")
+}
+
+func PackageDataShape() Shape {
+	return genericShape(model.SchemaPackageDataV1, "name", "traits", "errors", "types", "typealias", "values", "misc")
+}
+
+func SkillEntryShape() Shape {
+	return genericShape(model.SchemaSkillEntryV1, "module", "version", "package", "name", "wasm_url", "checksum_url", "repository")
+}
+
+func SourceResolutionShape() Shape {
+	return genericShape(model.SchemaSourceResolutionV1, "module", "version", "moon_fetch", "source_zip", "local_cache", "selected_source")
+}
+
+func ComparisonShape() Shape {
+	return genericShape(model.SchemaComparisonV1, "candidates", "evidence", "differences", "recommendation")
+}
+
+func ProbeResultShape() Shape {
+	return genericShape(model.SchemaProbeResultV1, "module", "version", "target", "probe_path", "moon_add", "moon_check", "result")
+}
+
+func ReportShape() Shape {
+	return genericShape(model.SchemaReportV1, "goal", "environment", "data_sources", "candidates", "decision")
+}
+
+func RawPayloadShape() Shape {
+	return genericShape(model.SchemaRawPayloadV1, "source", "status", "payload", "metadata")
+}
+
+func genericShape(schema string, names ...string) Shape {
+	fields := []Field{{Name: "schema", Type: "string", Required: true}}
+	for _, name := range names {
+		fields = append(fields, Field{Name: name, Type: "object|string", Required: false})
+	}
+	return Shape{Schema: schema, Fields: fields}
+}

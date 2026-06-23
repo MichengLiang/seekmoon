@@ -88,7 +88,7 @@ Batch E closes acceptance:
 - Review package: `coordination/review-packages/006-batch-b-review.md`
 - Reviewer: `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`)
 - Review report: `coordination/reports/006-batch-b-review-report.md`
-- Verdict: rejected
+- Initial verdict: rejected
 - Revision handoff: `coordination/handoffs/batch-b-revision-1-builder.md`
 - Revision prompt: `coordination/prompts/007-batch-b-revision-1-builder.md`
 - Revision report: `coordination/reports/007-batch-b-revision-1-builder-report.md`
@@ -97,6 +97,33 @@ Batch E closes acceptance:
 - Blocking findings:
   - non-HTTP/project/repository source readers do not carry complete source envelopes;
   - project context parse failures are hidden by aggregate present status.
+- Revision report: `coordination/reports/007-batch-b-revision-1-builder-report.md`
+- Re-review report: `coordination/reports/008-batch-b-re-review-report.md`
+- Final verdict: approved
+- Batch B commit: `7bccfb1 Approve Batch B source-reader foundations`
+- Promotion status: stable accepted belief for WP04-WP07 source-reader foundations
+
+## Batch C Dispatch
+
+- Status: ready to dispatch
+- Work packages: WP08 Output Pipeline and Error Surface, then WP09 CLI Command Surface
+- Intended builder: `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`)
+- Intended reviewer: `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`)
+- Handoff: `coordination/handoffs/batch-c-builder.md`
+- Prompt: `coordination/prompts/009-batch-c-builder.md`
+- Report path: `coordination/reports/009-batch-c-builder-report.md`
+- Review package: `coordination/review-packages/010-batch-c-review.md`
+- Review prompt: `coordination/prompts/010-batch-c-reviewer.md`
+- Initial review report: `coordination/reports/010-batch-c-review-report.md`
+- Initial verdict: rejected
+- Revision handoff: `coordination/handoffs/batch-c-revision-1-builder.md`
+- Revision prompt: `coordination/prompts/011-batch-c-revision-1-builder.md`
+- Revision report: `coordination/reports/011-batch-c-revision-1-builder-report.md`
+- Re-review package: `coordination/review-packages/012-batch-c-re-review.md`
+- Re-review prompt: `coordination/prompts/012-batch-c-re-reviewer.md`
+- Blocking findings:
+  - `--shape`/`--schema` contract modes call normal services or require normal operands;
+  - real `cmd/seekmoon` maps parse/flag failures to exit code `1` instead of `2`.
 
 ## Review State
 

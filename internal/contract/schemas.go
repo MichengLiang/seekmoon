@@ -119,3 +119,57 @@ func AdoptionRecordSchema() Schema {
 		},
 	}
 }
+
+func EnvironmentStatusSchema() Schema {
+	return genericObjectSchema(model.SchemaEnvironmentStatusV1)
+}
+
+func SnapshotSchema() Schema {
+	return genericObjectSchema(model.SchemaSnapshotV1)
+}
+
+func ManifestProfileSchema() Schema {
+	return genericObjectSchema(model.SchemaManifestProfileV1)
+}
+
+func PackageDataSchema() Schema {
+	return genericObjectSchema(model.SchemaPackageDataV1)
+}
+
+func SkillEntrySchema() Schema {
+	return genericObjectSchema(model.SchemaSkillEntryV1)
+}
+
+func SourceResolutionSchema() Schema {
+	return genericObjectSchema(model.SchemaSourceResolutionV1)
+}
+
+func ComparisonSchema() Schema {
+	return genericObjectSchema(model.SchemaComparisonV1)
+}
+
+func ProbeResultSchema() Schema {
+	return genericObjectSchema(model.SchemaProbeResultV1)
+}
+
+func ReportSchema() Schema {
+	return genericObjectSchema(model.SchemaReportV1)
+}
+
+func RawPayloadSchema() Schema {
+	return genericObjectSchema(model.SchemaRawPayloadV1)
+}
+
+func genericObjectSchema(id string) Schema {
+	return Schema{
+		"$schema": "https://json-schema.org/draft/2020-12/schema",
+		"$id":     id,
+		"type":    "object",
+		"required": []string{
+			"schema",
+		},
+		"properties": map[string]any{
+			"schema": map[string]any{"const": id},
+		},
+	}
+}

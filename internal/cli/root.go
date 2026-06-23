@@ -5,9 +5,11 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/yumiaura/seekmoon/internal/app"
+	"github.com/yumiaura/seekmoon/internal/output"
 )
 
 type Options struct {
@@ -22,8 +24,7 @@ func NewRoot(rt *app.Runtime, options Options) *cobra.Command {
 		SilenceUsage:  true,
 		SilenceErrors: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			_, _ = fmt.Fprintln(cmd.OutOrStdout(), "seekmoon: command surface pending Batch C")
-			return nil
+			return cmd.Help()
 		},
 	}
 	if options.Out != nil {
@@ -34,20 +35,19 @@ func NewRoot(rt *app.Runtime, options Options) *cobra.Command {
 	}
 	cmd.SetContext(context.Background())
 	cmd.AddCommand(
-		placeholder("doctor"),
-		placeholder("sync"),
-		placeholder("search"),
-		placeholder("view"),
-		placeholder("api"),
-		placeholder("source"),
-		placeholder("skill"),
-		placeholder("compare"),
-		placeholder("probe"),
-		placeholder("record"),
-		placeholder("report"),
-		placeholder("raw"),
+		newDoctorCommand(rt),
+		newSyncCommand(rt),
+		newSearchCommand(rt),
+		newViewCommand(rt),
+		newAPICommand(rt),
+		newSourceCommand(rt),
+		newSkillCommand(rt),
+		newCompareCommand(rt),
+		newProbeCommand(rt),
+		newRecordCommand(rt),
+		newReportCommand(rt),
+		newRawCommand(rt),
 	)
-	_ = rt
 	return cmd
 }
 
@@ -57,12 +57,48 @@ func Execute(ctx context.Context, rt *app.Runtime, options Options) error {
 	return root.Execute()
 }
 
-func placeholder(use string) *cobra.Command {
-	return &cobra.Command{
-		Use:          use,
-		SilenceUsage: true,
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return fmt.Errorf("%s command behavior is outside Batch A", cmd.CommandPath())
-		},
+func ExecuteWithCode(ctx context.Context, rt *app.Runtime, options Options, args ...string) int {
+	root := NewRoot(rt, options)
+	root.SetContext(ctx)
+	root.SetArgs(args)
+	if err := root.Execute(); err != nil {
+		if options.Err != nil {
+			_, _ = fmt.Fprintln(options.Err, err)
+		}
+		if isUsageFailure(err) {
+			return exitCodeUsage
+		}
+		return exitCodeError
+	}
+	return exitCodeOK
+}
+
+func isUsageFailure(err error) bool {
+	if isParseFailure(err) {
+		return true
+	}
+	message := err.Error()
+	return strings.Contains(message, "unknown flag") ||
+		strings.Contains(message, "flag needs an argument") ||
+		strings.Contains(message, "accepts ") ||
+		strings.Contains(message, "requires ")
+}
+
+func renderCommand(cmd *cobra.Command, rt *app.Runtime, flags outputFlags, schema string, value any, err error) error {
+	if rt.Renderer == nil {
+		return fmt.Errorf("runtime renderer is not configured")
+	}
+	return rt.Renderer.Render(cmd.Context(), outputRequest(cmd.CommandPath(), flags, schema, cmd.OutOrStdout(), value, err))
+}
+
+func outputRequest(command string, flags outputFlags, schema string, writer io.Writer, value any, err error) output.Request {
+	return output.Request{
+		Command:      command,
+		Mode:         flags.mode,
+		JQExpression: flags.jq,
+		Schema:       schema,
+		Writer:       writer,
+		Value:        value,
+		Err:          err,
 	}
 }

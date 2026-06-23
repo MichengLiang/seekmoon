@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/yumiaura/seekmoon/internal/output"
 	"github.com/yumiaura/seekmoon/internal/platform"
 	"github.com/yumiaura/seekmoon/internal/service"
 	"github.com/yumiaura/seekmoon/internal/source"
@@ -21,6 +22,7 @@ type Runtime struct {
 	Sources  SourceRegistry
 	Stores   store.Registry
 	Services ServiceRegistry
+	Renderer output.Renderer
 }
 
 type SourceRegistry struct {
@@ -35,7 +37,8 @@ type SourceRegistry struct {
 }
 
 type ServiceRegistry struct {
-	Sync service.SyncService
+	Registry service.Registry
+	Sync     service.SyncService
 }
 
 type Option func(*Runtime)
@@ -97,13 +100,16 @@ func (runtime *Runtime) registerBatchB() {
 		MoonCLI:    source.MoonCLI{Runner: runtime.Runner, Paths: runtime.Paths},
 		Repository: source.RepositoryReader{Clock: runtime.Clock},
 	}
-	runtime.Services = ServiceRegistry{
-		Sync: service.SyncService{
-			Mooncakes: runtime.Sources.Mooncakes,
-			Snapshots: runtime.Stores.Snapshots,
-			Now: func() time.Time {
-				return runtime.Clock.Now()
-			},
+	syncService := service.SyncService{
+		Mooncakes: runtime.Sources.Mooncakes,
+		Snapshots: runtime.Stores.Snapshots,
+		Now: func() time.Time {
+			return runtime.Clock.Now()
 		},
 	}
+	runtime.Services = ServiceRegistry{
+		Sync: syncService,
+	}
+	runtime.Services.Registry = service.NewPendingRegistry(syncService)
+	runtime.Renderer = output.DefaultRenderer{}
 }

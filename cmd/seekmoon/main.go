@@ -15,8 +15,5 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	if err := cli.Execute(context.Background(), rt, cli.Options{Out: os.Stdout, Err: os.Stderr}); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
+	os.Exit(cli.ExecuteWithCode(context.Background(), rt, cli.Options{Out: os.Stdout, Err: os.Stderr}, os.Args[1:]...))
 }
