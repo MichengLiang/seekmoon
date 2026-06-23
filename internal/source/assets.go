@@ -51,6 +51,22 @@ func (c AssetClient) FetchPackageData(ctx context.Context, module, version, pack
 	return SourceResult(string(model.SourcePackageData), fetch, &data)
 }
 
+func (c AssetClient) FetchRawModuleIndex(ctx context.Context, module, version string) model.SourceResult[any] {
+	fetch := c.Fetcher.Fetch(ctx, c.assetURL(module, version, "module_index.json"))
+	return RawJSONSourceResult(string(model.SourceModuleIndex), fetch)
+}
+
+func (c AssetClient) FetchRawPackageData(ctx context.Context, module, version, packagePath string) model.SourceResult[any] {
+	relpath, err := model.PackageRelPath(module, packagePath)
+	rawURL := c.assetURL(module, version, packagePath)
+	if err != nil {
+		fetch := FetchResult{URL: rawURL, FetchedAt: sourceNow(c.Fetcher.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: "inline:" + rawURL, Error: err.Error()}
+		return SourceResult[any](string(model.SourcePackageData), fetch, nil)
+	}
+	fetch := c.Fetcher.Fetch(ctx, c.assetURL(module, version, relpath, "package_data.json"))
+	return RawJSONSourceResult(string(model.SourcePackageData), fetch)
+}
+
 func (c AssetClient) FetchResource(ctx context.Context, module, version, packagePath string) model.SourceResult[map[string]any] {
 	relpath, err := model.PackageRelPath(module, packagePath)
 	if err != nil {

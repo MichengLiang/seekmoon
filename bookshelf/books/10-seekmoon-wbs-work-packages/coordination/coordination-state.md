@@ -121,9 +121,35 @@ Batch E closes acceptance:
 - Revision report: `coordination/reports/011-batch-c-revision-1-builder-report.md`
 - Re-review package: `coordination/review-packages/012-batch-c-re-review.md`
 - Re-review prompt: `coordination/prompts/012-batch-c-re-reviewer.md`
+- Re-review report: `coordination/reports/012-batch-c-re-review-report.md`
+- Final verdict: approved
+- Batch C commit: `4a911ad Approve Batch C output and CLI surfaces`
+- Promotion status: stable accepted belief for WP08-WP09 output and CLI surfaces
 - Blocking findings:
   - `--shape`/`--schema` contract modes call normal services or require normal operands;
   - real `cmd/seekmoon` maps parse/flag failures to exit code `1` instead of `2`.
+
+## Batch D Dispatch
+
+- Status: ready to dispatch
+- Work packages: WP10 Discovery and Profile Services, WP11 Inspection and Source Services, WP12 Assessment Record and Report Services
+- Intended builder: `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`)
+- Intended reviewer: `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`)
+- Handoff: `coordination/handoffs/batch-d-builder.md`
+- Prompt: `coordination/prompts/013-batch-d-builder.md`
+- Report path: `coordination/reports/013-batch-d-builder-report.md`
+- Review package: `coordination/review-packages/014-batch-d-review.md`
+- Review prompt: `coordination/prompts/014-batch-d-reviewer.md`
+- Initial review report: `coordination/reports/014-batch-d-review-report.md`
+- Initial verdict: rejected
+- Revision handoff: `coordination/handoffs/batch-d-revision-1-builder.md`
+- Revision prompt: `coordination/prompts/015-batch-d-revision-1-builder.md`
+- Revision report: `coordination/reports/015-batch-d-revision-1-builder-report.md`
+- Re-review package: `coordination/review-packages/016-batch-d-re-review.md`
+- Re-review prompt: `coordination/prompts/016-batch-d-re-reviewer.md`
+- Blocking findings:
+  - `sync` omits local registry index source and summary;
+  - `raw` returns normalized model payloads instead of upstream raw payload shape.
 
 ## Review State
 

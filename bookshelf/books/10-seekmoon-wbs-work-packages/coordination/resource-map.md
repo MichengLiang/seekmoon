@@ -161,3 +161,26 @@ WP09:
 - `parts/040-command-workbench/010-command-map.adoc`, lines `4..73`
 - `parts/055-go-implementation-architecture/060-control-flow.adoc`, lines `4..57`
 - `backmatter/appendix-c-command-reference.adoc`, lines `4..84`
+
+## Batch D Exact Line Includes
+
+WP10:
+
+- `parts/040-command-workbench/020-doctor-and-sync.adoc`, lines `4..43;47..83`
+- `parts/040-command-workbench/030-search-and-view.adoc`, lines `4..44;48..74`
+- `parts/040-command-workbench/060-compare-and-probe.adoc`, lines `4..28`
+- `parts/055-go-implementation-architecture/050-data-flow.adoc`, lines `8..22;26..38;42..53;105..115`
+
+WP11:
+
+- `parts/040-command-workbench/040-api-and-source.adoc`, lines `4..33;37..78`
+- `parts/040-command-workbench/050-skill.adoc`, lines `4..49`
+- `parts/055-go-implementation-architecture/050-data-flow.adoc`, lines `57..68;72..87;91..101`
+- `parts/060-journeys-and-acceptance/020-skill-discovery-journey.adoc`, lines `4..5;8..27;30..52;55..73`
+
+WP12:
+
+- `parts/040-command-workbench/060-compare-and-probe.adoc`, lines `32..58`
+- `parts/040-command-workbench/070-record-report-and-raw.adoc`, lines `4..19;23..37;41..52`
+- `parts/030-canonical-model/070-record-and-report.adoc`, lines `4..64;69..97`
+- `parts/060-journeys-and-acceptance/040-failure-recovery-journey.adoc`, lines `63..91`

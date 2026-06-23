@@ -20,6 +20,18 @@ type SurfaceError struct {
 	LogPath  string `json:"log_path,omitempty"`
 }
 
+type SurfaceFailure struct {
+	Value SurfaceError
+}
+
+func (e SurfaceFailure) Error() string {
+	return e.Value.Meaning
+}
+
+func (e SurfaceFailure) SurfaceError() SurfaceError {
+	return e.Value
+}
+
 type CommandInput struct {
 	Command    string             `json:"command"`
 	Query      string             `json:"query,omitempty"`
@@ -45,4 +57,36 @@ type CommandEnvelope struct {
 	Schema string       `json:"schema"`
 	Input  CommandInput `json:"input"`
 	Result any          `json:"result"`
+}
+
+type EnvironmentStatus struct {
+	Schema    string                       `json:"schema"`
+	Toolchain map[string]CommandResult     `json:"toolchain"`
+	Commands  map[string]CommandResult     `json:"commands"`
+	Paths     map[string]EvidenceString    `json:"paths"`
+	Network   map[string]EvidenceString    `json:"network"`
+	Project   SourceResult[ProjectContext] `json:"project"`
+}
+
+type Comparison struct {
+	Schema     string            `json:"schema"`
+	Candidates []CandidateRef    `json:"candidates"`
+	Fields     []ComparisonField `json:"fields"`
+}
+
+type ComparisonField struct {
+	Name   string            `json:"name"`
+	Values map[string]string `json:"values"`
+}
+
+type RawEnvelope struct {
+	Schema    string `json:"schema"`
+	Source    string `json:"source"`
+	URL       string `json:"url,omitempty"`
+	Path      string `json:"path,omitempty"`
+	FetchedAt string `json:"fetched_at,omitempty"`
+	Status    State  `json:"status"`
+	RawRef    string `json:"raw_ref,omitempty"`
+	Payload   any    `json:"payload,omitempty"`
+	Error     string `json:"error,omitempty"`
 }

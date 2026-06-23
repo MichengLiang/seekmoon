@@ -21,6 +21,10 @@ func ErrorFrom(command string, err error) model.SurfaceError {
 	if errors.As(err, &surface) {
 		return surface.Value
 	}
+	var carrier interface{ SurfaceError() model.SurfaceError }
+	if errors.As(err, &carrier) {
+		return carrier.SurfaceError()
+	}
 	return model.SurfaceError{
 		Command: command,
 		Object:  "command",

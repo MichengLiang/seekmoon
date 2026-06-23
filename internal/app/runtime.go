@@ -101,15 +101,42 @@ func (runtime *Runtime) registerBatchB() {
 		Repository: source.RepositoryReader{Clock: runtime.Clock},
 	}
 	syncService := service.SyncService{
-		Mooncakes: runtime.Sources.Mooncakes,
-		Snapshots: runtime.Stores.Snapshots,
+		Mooncakes:  runtime.Sources.Mooncakes,
+		MoonCLI:    runtime.Sources.MoonCLI,
+		LocalIndex: runtime.Sources.LocalIndex,
+		Snapshots:  runtime.Stores.Snapshots,
+		Paths:      runtime.Paths,
 		Now: func() time.Time {
 			return runtime.Clock.Now()
 		},
 	}
+	doctor := service.DoctorFlow{Project: runtime.Sources.Project, MoonCLI: runtime.Sources.MoonCLI, Paths: runtime.Paths}
+	search := service.SearchFlow{Mooncakes: runtime.Sources.Mooncakes, Assets: runtime.Sources.Assets, Snapshots: runtime.Stores.Snapshots, Sessions: runtime.Stores.Sessions}
+	view := service.ViewFlow{Mooncakes: runtime.Sources.Mooncakes, Assets: runtime.Sources.Assets, Sessions: runtime.Stores.Sessions}
+	api := service.APIFlow{Mooncakes: runtime.Sources.Mooncakes, Assets: runtime.Sources.Assets, Sessions: runtime.Stores.Sessions}
+	sourceFlow := service.SourceFlow{Mooncakes: runtime.Sources.Mooncakes, Assets: runtime.Sources.Assets, MoonCLI: runtime.Sources.MoonCLI, LocalCache: runtime.Sources.LocalCache, Sessions: runtime.Stores.Sessions, Paths: runtime.Paths}
+	skill := service.SkillFlow{Skills: runtime.Sources.Skills, Sessions: runtime.Stores.Sessions}
+	compare := service.CompareFlow{Mooncakes: runtime.Sources.Mooncakes, Sessions: runtime.Stores.Sessions}
+	probe := service.ProbeFlow{MoonCLI: runtime.Sources.MoonCLI, Sessions: runtime.Stores.Sessions, Probes: runtime.Stores.Probes, Paths: runtime.Paths}
+	record := service.RecordFlow{Sessions: runtime.Stores.Sessions, Records: runtime.Stores.Records, Project: runtime.Sources.Project, Paths: runtime.Paths, Now: func() time.Time { return runtime.Clock.Now() }}
+	report := service.ReportFlow{Records: runtime.Stores.Records, Reports: runtime.Stores.Reports, Project: runtime.Sources.Project, Paths: runtime.Paths, Now: func() time.Time { return runtime.Clock.Now() }}
+	raw := service.RawFlow{Mooncakes: runtime.Sources.Mooncakes, Assets: runtime.Sources.Assets, Skills: runtime.Sources.Skills}
 	runtime.Services = ServiceRegistry{
 		Sync: syncService,
 	}
-	runtime.Services.Registry = service.NewPendingRegistry(syncService)
+	runtime.Services.Registry = service.Registry{
+		Doctor:  doctor,
+		Sync:    syncService,
+		Search:  search,
+		View:    view,
+		API:     api,
+		Source:  sourceFlow,
+		Skill:   skill,
+		Compare: compare,
+		Probe:   probe,
+		Record:  record,
+		Report:  report,
+		Raw:     raw,
+	}
 	runtime.Renderer = output.DefaultRenderer{}
 }

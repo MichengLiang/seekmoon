@@ -28,6 +28,14 @@ func (m MoonCLI) Version(ctx context.Context, cwd string) model.CommandResult {
 	return m.Run(ctx, cwd, "moon-version", "moon", "--version")
 }
 
+func (m MoonCLI) Fetch(ctx context.Context, cwd, module string) model.CommandResult {
+	return m.Run(ctx, cwd, "moon-fetch", "moon", "fetch", module)
+}
+
+func (m MoonCLI) Update(ctx context.Context, cwd string) model.CommandResult {
+	return m.Run(ctx, cwd, "moon-update", "moon", "update")
+}
+
 func commandResultFromRun(result platform.RunResult, err error) model.CommandResult {
 	status := model.StatePresent
 	if err != nil {

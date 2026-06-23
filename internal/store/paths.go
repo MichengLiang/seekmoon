@@ -23,6 +23,7 @@ type Paths struct {
 	Mooncakes   string
 	Assets      string
 	GitHub      string
+	MoonIndex   string
 }
 
 func ResolvePaths(env platform.Env) Paths {
@@ -33,6 +34,10 @@ func ResolvePaths(env platform.Env) Paths {
 	cacheRoot := filepath.Join(xdg.CacheHome, "seekmoon")
 	if env.XDGCacheHome != "" {
 		cacheRoot = filepath.Join(env.XDGCacheHome, "seekmoon")
+	}
+	home := env.Home
+	if home == "" {
+		home = root
 	}
 	projectDir := filepath.Join(root, ".seekmoon")
 	return Paths{
@@ -49,6 +54,7 @@ func ResolvePaths(env platform.Env) Paths {
 		Mooncakes:   filepath.Join(cacheRoot, "mooncakes"),
 		Assets:      filepath.Join(cacheRoot, "assets"),
 		GitHub:      filepath.Join(cacheRoot, "github"),
+		MoonIndex:   filepath.Join(home, ".moon", "registry", "index", "user"),
 	}
 }
 

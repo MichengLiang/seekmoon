@@ -62,6 +62,22 @@ func (c MooncakesClient) FetchManifest(ctx context.Context, module string) model
 	return SourceResult(string(model.SourceManifestAPI), fetch, &profile)
 }
 
+func (c MooncakesClient) FetchRawModules(ctx context.Context) model.SourceResult[any] {
+	fetch := c.Fetcher.Fetch(ctx, c.apiURL("/api/v0/modules"))
+	return RawJSONSourceResult(string(model.SourceModulesAPI), fetch)
+}
+
+func (c MooncakesClient) FetchRawManifest(ctx context.Context, module string) model.SourceResult[any] {
+	coord, err := model.ParseModuleCoordinate(module)
+	rawURL := c.apiURL("/api/v0/manifest/" + module)
+	if err != nil {
+		fetch := FetchResult{URL: rawURL, FetchedAt: sourceNow(c.Fetcher.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: "inline:" + rawURL, Error: err.Error()}
+		return SourceResult[any](string(model.SourceManifestAPI), fetch, nil)
+	}
+	fetch := c.Fetcher.Fetch(ctx, c.apiURL("/api/v0/manifest/"+url.PathEscape(coord.Owner)+"/"+url.PathEscape(coord.Name)))
+	return RawJSONSourceResult(string(model.SourceManifestAPI), fetch)
+}
+
 func (c MooncakesClient) apiURL(path string) string {
 	base := strings.TrimRight(c.BaseURL, "/")
 	if base == "" {

@@ -124,6 +124,23 @@ func SourceResult[T any](label string, fetch FetchResult, value *T) model.Source
 	}
 }
 
+func RawJSONSourceResult(label string, fetch FetchResult) model.SourceResult[any] {
+	if fetch.Status != model.StatePresent {
+		return SourceResult[any](label, fetch, nil)
+	}
+	var raw any
+	decoder := json.NewDecoder(bytes.NewReader(fetch.Body))
+	decoder.UseNumber()
+	if err := decoder.Decode(&raw); err != nil {
+		fetch.Status = model.StateFailed
+		fetch.ParseState = model.StateFailed
+		fetch.Error = err.Error()
+		return SourceResult[any](label, fetch, nil)
+	}
+	fetch.ParseState = model.StatePresent
+	return SourceResult(label, fetch, &raw)
+}
+
 func sourceNow(clock platform.Clock) string {
 	now := time.Now()
 	if clock != nil {

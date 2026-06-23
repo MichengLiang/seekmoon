@@ -5,8 +5,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io/fs"
+	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/yumiaura/seekmoon/internal/model"
 	"github.com/yumiaura/seekmoon/internal/platform"
@@ -18,14 +22,18 @@ type LocalIndexReader struct {
 }
 
 type LocalIndexSummary struct {
-	Records   []model.ModuleSummary `json:"records"`
-	Malformed int                   `json:"malformed"`
+	Records     []model.ModuleSummary `json:"records"`
+	FileCount   int                   `json:"file_count"`
+	RecordCount int                   `json:"record_count"`
+	Malformed   int                   `json:"malformed"`
+	IndexHead   string                `json:"index_head,omitempty"`
 }
 
 func (r LocalIndexReader) Parse(data []byte) LocalIndexSummary {
 	var summary LocalIndexSummary
 	scanner := bufio.NewScanner(bytes.NewReader(data))
 	for scanner.Scan() {
+		summary.RecordCount++
 		line := scanner.Bytes()
 		var item moduleItem
 		if err := json.Unmarshal(line, &item); err != nil {
@@ -48,11 +56,81 @@ func (r LocalIndexReader) Read(ctx context.Context, path string) model.SourceRes
 	if fs == nil {
 		fs = platform.OSFS{}
 	}
-	data, err := fs.ReadFile(ctx, path)
 	cleanPath := filepath.Clean(path)
-	if err != nil {
+	if err := ctx.Err(); err != nil {
 		return model.SourceResult[LocalIndexSummary]{Source: string(model.SourceLocalIndex), Path: cleanPath, FetchedAt: sourceNow(r.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: fmt.Sprintf("file:%s", cleanPath), Error: err.Error()}
 	}
+	if _, ok := fs.(platform.OSFS); ok {
+		stat, err := os.Stat(cleanPath)
+		if err != nil {
+			status := model.StateFailed
+			if errors.Is(err, os.ErrNotExist) {
+				status = model.StateUnavailable
+			}
+			return model.SourceResult[LocalIndexSummary]{Source: string(model.SourceLocalIndex), Path: cleanPath, FetchedAt: sourceNow(r.Clock), Status: status, ParseState: status, RawRef: fmt.Sprintf("file:%s", cleanPath), Error: err.Error()}
+		}
+		if stat.IsDir() {
+			return r.readDirectory(ctx, cleanPath)
+		}
+	}
+	data, err := fs.ReadFile(ctx, cleanPath)
+	if err != nil {
+		status := model.StateFailed
+		if errors.Is(err, os.ErrNotExist) {
+			status = model.StateUnavailable
+		}
+		return model.SourceResult[LocalIndexSummary]{Source: string(model.SourceLocalIndex), Path: cleanPath, FetchedAt: sourceNow(r.Clock), Status: status, ParseState: status, RawRef: fmt.Sprintf("file:%s", cleanPath), Error: err.Error()}
+	}
 	value := r.Parse(data)
+	value.FileCount = 1
 	return model.SourceResult[LocalIndexSummary]{Source: string(model.SourceLocalIndex), Path: cleanPath, FetchedAt: sourceNow(r.Clock), Status: model.StatePresent, ParseState: model.StatePresent, RawRef: fmt.Sprintf("file:%s", cleanPath), Value: &value}
+}
+
+func (r LocalIndexReader) readDirectory(ctx context.Context, root string) model.SourceResult[LocalIndexSummary] {
+	var summary LocalIndexSummary
+	err := filepath.WalkDir(root, func(path string, entry fs.DirEntry, walkErr error) error {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() || filepath.Ext(path) != ".index" {
+			return nil
+		}
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		fileSummary := r.Parse(data)
+		summary.FileCount++
+		summary.RecordCount += fileSummary.RecordCount
+		summary.Malformed += fileSummary.Malformed
+		summary.Records = append(summary.Records, fileSummary.Records...)
+		return nil
+	})
+	if err != nil {
+		return model.SourceResult[LocalIndexSummary]{Source: string(model.SourceLocalIndex), Path: root, FetchedAt: sourceNow(r.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: fmt.Sprintf("file:%s", root), Error: err.Error()}
+	}
+	summary.IndexHead = readIndexHead(root)
+	return model.SourceResult[LocalIndexSummary]{Source: string(model.SourceLocalIndex), Path: root, FetchedAt: sourceNow(r.Clock), Status: model.StatePresent, ParseState: model.StatePresent, RawRef: fmt.Sprintf("file:%s", root), Value: &summary}
+}
+
+func readIndexHead(path string) string {
+	for _, candidate := range []string{path, filepath.Dir(path), filepath.Dir(filepath.Dir(path))} {
+		headPath := filepath.Join(candidate, ".git", "HEAD")
+		data, err := os.ReadFile(headPath)
+		if err != nil {
+			continue
+		}
+		head := strings.TrimSpace(string(data))
+		if ref, ok := strings.CutPrefix(head, "ref: "); ok {
+			refData, err := os.ReadFile(filepath.Join(candidate, ".git", filepath.FromSlash(ref)))
+			if err == nil {
+				return strings.TrimSpace(string(refData))
+			}
+		}
+		return head
+	}
+	return ""
 }

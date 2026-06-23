@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"encoding/json"
+	"os"
 	"path/filepath"
 
 	"github.com/yumiaura/seekmoon/internal/model"
@@ -40,4 +41,40 @@ func (s RecordStore) Read(ctx context.Context, recordID string) (model.AdoptionR
 		return model.AdoptionRecord{}, err
 	}
 	return record, nil
+}
+
+func (s RecordStore) List(ctx context.Context) ([]model.AdoptionRecord, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	entries, err := os.ReadDir(s.Paths.Records)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	records := make([]model.AdoptionRecord, 0, len(entries))
+	for _, entry := range entries {
+		if entry.IsDir() || filepath.Ext(entry.Name()) != ".json" {
+			continue
+		}
+		data, err := platformFS(s.FS).ReadFile(ctx, filepath.Join(s.Paths.Records, entry.Name()))
+		if err != nil {
+			return nil, err
+		}
+		var record model.AdoptionRecord
+		if err := json.Unmarshal(data, &record); err != nil {
+			return nil, err
+		}
+		records = append(records, record)
+	}
+	return records, nil
+}
+
+func platformFS(fs platform.FS) platform.FS {
+	if fs == nil {
+		return platform.OSFS{}
+	}
+	return fs
 }

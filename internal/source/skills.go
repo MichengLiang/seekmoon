@@ -26,6 +26,11 @@ func (c SkillsClient) FetchSkills(ctx context.Context) model.SourceResult[[]mode
 	return SourceResult(string(model.SourceSkillsAPI), fetch, &entries)
 }
 
+func (c SkillsClient) FetchRawSkills(ctx context.Context) model.SourceResult[any] {
+	fetch := c.Fetcher.Fetch(ctx, c.apiURL("/api/v0/skills"))
+	return RawJSONSourceResult(string(model.SourceSkillsAPI), fetch)
+}
+
 func (c SkillsClient) FetchSkill(ctx context.Context, entry string) model.SourceResult[model.SkillEntry] {
 	var raw skillPayload
 	fetch := c.Fetcher.FetchJSON(ctx, c.apiURL("/api/v0/skills/"+url.PathEscape(entry)), &raw)
