@@ -1,0 +1,92 @@
+[#wp03-platform-runtime-and-storage.work-package]
+== WP03：Platform Runtime and Storage
+
+=== 工作包身份
+
+WP03 实现 SeekMoon 的 host capability boundary、runtime composition 和 storage boundary。它把 clock、filesystem、HTTP client、command runner、path resolution、stores、source registry、service registry 和 renderer registry 装配为一次进程执行可消费的 Runtime。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/040-runtime-composition.adoc[lines=4..54,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/090-storage-and-side-effects.adoc[lines=4..60,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/040-project-context.adoc[lines=4..43,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP03 接收 WP02 的 model types、state values 和 common structured types。它接收 WP01 的 module layout 和工程质量入口。它不实现 concrete Mooncakes readers、business services 或 renderers 的业务规则。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|路径 |对象
+
+|`internal/platform/clock.go`
+|Clock interface and system clock implementation。
+
+|`internal/platform/fs.go`
+|Filesystem interface and OS filesystem implementation。
+
+|`internal/platform/http.go`
+|HTTP client construction with timeout and context behavior。
+
+|`internal/platform/exec.go`
+|Command runner interface, command result mapping and log writer hook。
+
+|`internal/platform/env.go`
+|Environment summary and integration flag access。
+
+|`internal/store/paths.go`
+|Project storage and XDG cache path resolution。
+
+|`internal/store/snapshot_store.go`
+|Snapshot read/write contract。
+
+|`internal/store/session_store.go`
+|Session-local candidate number mapping。
+
+|`internal/store/record_store.go`
+|Adoption record persistence。
+
+|`internal/store/report_store.go`
+|Report projection persistence。
+
+|`internal/store/cache_store.go`
+|Reusable remote payload and asset cache。
+
+|`internal/app/runtime.go`
+|Runtime struct and construction sequence。
+|===
+
+=== 实现边界
+
+WP03 owns path construction and host capability abstraction. Services decide when to create snapshots、records、reports、probe directories or source directories. Stores do not decide adoption conclusions, source priority or output shape.
+
+Project storage lives under `.seekmoon/` within the current project context. Reusable cache lives under `$XDG_CACHE_HOME/seekmoon/`. Probe and source resolution paths are controlled side effects. Current project manifest mutation requires explicit command surface and cannot be hidden inside store methods.
+
+=== 测试责任
+
+WP03 tests use `t.TempDir()` and fake platform implementations. Tests must cover path construction, XDG fallback, project storage directories, cache storage directories, atomic write behavior where required, session candidate mapping, record/report path sanitization and command log path generation.
+
+=== 审核尺子
+
+审核者检查四项。
+
+* Runtime construction order follows process environment -> path resolution -> platform clients -> source readers -> stores -> services -> renderer -> runtime value -> CLI command tree.
+* `context.Context` can reach HTTP requests, repository enrichment, Moon CLI commands, downloads and probe commands.
+* Store package owns mechanics, not business decisions.
+* Side effect paths match 9 号书 storage contract.
+
+=== 完成证据
+
+[source,bash]
+----
+go test ./internal/platform ./internal/store ./internal/app
+----
+
+WP03 完成后，source readers、services、output pipeline 和 CLI command surface 可以通过 Runtime 使用可替换 host capabilities。

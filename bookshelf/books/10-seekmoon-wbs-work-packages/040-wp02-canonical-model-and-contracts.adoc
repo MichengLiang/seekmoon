@@ -1,0 +1,122 @@
+[#wp02-canonical-model-and-contracts.work-package]
+== WP02：Canonical Model and Contracts
+
+=== 工作包身份
+
+WP02 实现 SeekMoon 的对象语言。对象语言包括 state values、evidence wrappers、common structured types、canonical objects、schema id 和 shape/schema contract definitions。下游 source readers、services、stores 和 output projections 都依赖这些对象。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/010-evidence-state.adoc[lines=4..62,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/020-module-summary-and-search-result.adoc[lines=4..55;59..118,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/030-manifest-profile.adoc[lines=4..100,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/040-api-profile.adoc[lines=4..5;9..60;65..133,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/050-skill-profile.adoc[lines=4..94,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/060-source-resolution-and-probe-result.adoc[lines=4..5;8..72;77..132,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/070-record-and-report.adoc[lines=4..64;69..97,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-b-data-dictionary.adoc[lines=6..27;31..50;54..93;97..144;148..191;195..226;230..269;273..282,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP02 接收 9 号书 canonical model 与 data dictionary。它不读取真实 HTTP、filesystem 或 command output。所有字段、枚举、schema id 和 wrapper 类型必须来自规范材料。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|路径 |对象
+
+|`internal/model/evidence.go`
+|`State` enum、evidence wrappers、source labels、state helpers。
+
+|`internal/model/module.go`
+|`ModuleSummary`、`SearchResult`、match evidence、snapshot reference。
+
+|`internal/model/manifest.go`
+|`ManifestProfile`、metadata normalized projection、target metadata state。
+
+|`internal/model/api.go`
+|`ModuleIndexTree`、`PackageData`、API entry、package relpath structures。
+
+|`internal/model/skill.go`
+|`SkillEntry`、`SkillProfile`、root marker、runwasm coordinate field。
+
+|`internal/model/source.go`
+|`SourceResolution`、`SourceAttempt`、selected source、files summary。
+
+|`internal/model/probe.go`
+|`ProbeResult`、`CommandResult`、probe step results。
+
+|`internal/model/record.go`
+|`AdoptionRecord`、conclusion enum、evidence refs、not confirmed items。
+
+|`internal/model/report.go`
+|`Report` sections and report input structures。
+
+|`internal/model/snapshot.go`
+|Snapshot id、source snapshot status、statistics summary。
+
+|`internal/model/project.go`
+|Project identity、project context state、path boundary。
+
+|`internal/contract/shapes.go`
+|Human-readable shape definitions。
+
+|`internal/contract/schemas.go`
+|JSON Schema objects and schema id constants。
+|===
+
+=== 实现边界
+
+`internal/model` 只定义对象、状态词和结构化字段。它只能使用 Go standard library。它不得导入 Cobra、gojq、HTTP client、filesystem implementation、source reader、output renderer 或 store package。
+
+`internal/contract` 定义 command output contracts。Contract definitions 可以依赖 model 的枚举和 schema id 常量，但不能通过 reflection 自动把 Go struct 变成 public schema。Schema id 是下游消费者兼容边界，必须显式维护。
+
+=== 测试责任
+
+WP02 需要 model tests、schema tests 和 fuzz tests 的基础目标。
+
+* Evidence wrapper JSON round-trip。
+* State enum string parsing and validation。
+* `missing`、`unknown`、`failed`、`unavailable` 的语义单元测试。
+* Module coordinate parser。
+* Package relpath derivation。
+* Adoption conclusion enum validation。
+* Shape output contract snapshots。
+* JSON Schema compilation tests。
+* Fuzz tests for coordinate and relpath derivations。
+
+=== 审核尺子
+
+审核者检查五项。
+
+* 状态词集合完全等于 9 号书定义。
+* `missing` 与 `unknown` 的类型和 helper 不能互相替代。
+* Evidence wrapper 保留 `status`、`value`、`source` 和可选 `error`。
+* `raw` payload 字段只出现在规范允许的对象里。
+* Schema id、shape 和 model 字段名称保持一致，但 schema 不由 struct reflection 自动生成。
+
+=== 完成证据
+
+[source,bash]
+----
+go test ./internal/model ./internal/contract
+go test -fuzz=Fuzz -run=^$ ./internal/model
+----
+
+WP02 完成后，下游工作包可以依赖稳定对象语言实现来源读取、服务组合和输出投影。

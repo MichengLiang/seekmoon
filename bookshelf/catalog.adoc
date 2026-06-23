@@ -8,7 +8,7 @@ v1.0, 2026-06
 :idprefix:
 :idseparator: -
 
-本书架包含结构化写作规范、包复用生态模型和 MoonBit 包发现工具书。07 号书定义书写结构规则；08 号书定义通用包复用生态；09 号书定义 SeekMoon 的 MoonBit 包发现工作台。
+本书架包含结构化写作规范、包复用生态模型和 MoonBit 包发现工具书。07 号书定义书写结构规则；08 号书定义通用包复用生态；09 号书定义 SeekMoon 的 MoonBit 包发现工作台；10 号书把 SeekMoon 实现材料分解为可执行和可审核的 WBS 工作包。
 
 == 书籍入口
 
@@ -24,6 +24,9 @@ v1.0, 2026-06
 
 |xref:books/09-seekmoon-cli-discovery-workbench/book.adoc[09 SeekMoon：MoonBit 包发现工作台]
 |定义消费者侧 MoonBit 包发现 CLI 的证据来源边界、canonical 数据模型、命令契约、输出契约、行动轨迹和验收条件。
+
+|xref:books/10-seekmoon-wbs-work-packages/book.adoc[10 SeekMoon：WBS 工作包分解书]
+|定义 SeekMoon Go implementation 的全局必读上下文、工作包依赖图、工作包边界、测试责任、审核尺子和完成证据。
 |===
 
 == 按任务进入
@@ -55,6 +58,10 @@ v1.0, 2026-06
 |实现 SeekMoon CLI
 |xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-architecture-premises[Architecture Premises]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-module-layout[Go Module Layout]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#go-engineering-quality-toolchain[Engineering Quality Toolchain]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#appendix-go-implementation-dependencies[附录 F：Go 实现依赖图]、xref:books/09-seekmoon-cli-discovery-workbench/book.adoc#appendix-go-engineering-toolchain[附录 G：Go 工程工具链]
 |Go module layout、package 边界、依赖方向、运行时组合、数据流、输出管线、依赖选择和工程质量门。
+
+|分配和审核 SeekMoon 实现工作
+|xref:books/10-seekmoon-wbs-work-packages/book.adoc#mandatory-global-context[全局必读上下文]、xref:books/10-seekmoon-wbs-work-packages/book.adoc#wbs-dependency-map[WBS 依赖图]、xref:books/10-seekmoon-wbs-work-packages/book.adoc#wp13-black-box-acceptance-and-quality-gates[Black-box Acceptance and Quality Gates]
+|每个执行者应读取的公共上下文、每个工作包的输入输出边界、审核依据和质量门。
 |===
 
 == 书籍关系
@@ -71,6 +78,12 @@ v1.0, 2026-06
 
 |09 -> SeekMoon 实现
 |09 的命令契约、输出契约、数据字典、行动轨迹和验收条件共同定义 SeekMoon 的公共行为。
+
+|09 -> 10
+|10 不重新定义 SeekMoon 公共行为；10 把 09 的对象、架构、依赖、质量门和验收材料投影为 WBS 工作包。
+
+|10 -> SeekMoon 实现
+|10 的工作包章节定义实现协作中的交付边界、依赖顺序、测试责任、审核尺子和完成证据。
 |===
 
 == 维护参考

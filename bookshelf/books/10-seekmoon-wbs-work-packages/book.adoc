@@ -1,0 +1,45 @@
+= SeekMoon：WBS 工作包分解书
+弥澄亮 <t103ooooo@stu.mju.edu.cn>
+v1.0, 2026-06
+:doctype: book
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+
+include::../../shared/attributes.adoc[]
+
+include::010-mandatory-global-context.adoc[]
+
+include::020-wbs-dependency-map.adoc[]
+
+include::030-wp01-go-module-substrate.adoc[]
+
+include::040-wp02-canonical-model-and-contracts.adoc[]
+
+include::050-wp03-platform-runtime-and-storage.adoc[]
+
+include::060-wp04-public-http-sources-and-snapshot.adoc[]
+
+include::070-wp05-static-assets-and-api-profile.adoc[]
+
+include::080-wp06-local-toolchain-source-and-probe-primitives.adoc[]
+
+include::090-wp07-repository-and-skill-sources.adoc[]
+
+include::100-wp08-output-pipeline-and-error-surface.adoc[]
+
+include::110-wp09-cli-command-surface.adoc[]
+
+include::120-wp10-discovery-and-profile-services.adoc[]
+
+include::130-wp11-inspection-and-source-services.adoc[]
+
+include::140-wp12-assessment-record-and-report-services.adoc[]
+
+include::150-wp13-black-box-acceptance-and-quality-gates.adoc[]
+
+include::900-source-include-map.adoc[]

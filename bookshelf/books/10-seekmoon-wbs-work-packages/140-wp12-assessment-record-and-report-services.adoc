@@ -1,0 +1,83 @@
+[#wp12-assessment-record-and-report-services.work-package]
+== WP12：Assessment, Record and Report Services
+
+=== 工作包身份
+
+WP12 实现 `probe`、`record`、`report` and `raw` service flows。These services generate local derived evidence, persist adoption decisions, project investigation reports and expose raw payloads for audit。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/060-compare-and-probe.adoc[lines=32..58,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/070-record-report-and-raw.adoc[lines=4..19;23..37;41..52,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/070-record-and-report.adoc[lines=4..64;69..97,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/040-failure-recovery-journey.adoc[lines=63..91,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP12 receives probe primitives from WP06, candidate/session records from WP10/WP11, stores from WP03, model and conclusion enums from WP02, renderer from WP08 and CLI inputs from WP09。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|路径 |对象
+
+|`internal/service/probe.go`
+|Probe command sequence and `ProbeResult` construction。
+
+|`internal/service/record.go`
+|AdoptionRecord creation and persistence。
+
+|`internal/service/report.go`
+|Report projection from records、snapshot and evidence refs。
+
+|`internal/service/raw.go`
+|Raw payload envelope service。
+|===
+
+=== 实现边界
+
+Probe creates local derived evidence. It proves only current environment、current version、current target and current command sequence. Probe failure does not prove upstream metadata is wrong.
+
+Record persists candidate、version、snapshot、evidence refs、conclusion、not confirmed items and note. Conclusion enum is fixed: `adopt`、`adopt-with-adapter`、`continue-verification`、`contribute-upstream`、`fork`、`build-own`、`reject-for-now`.
+
+Report lists only sources actually used by records and evidence refs. If repository enrichment was not executed, report does not invent repository activity. If probe was not executed, report does not claim validation success or failure.
+
+Raw output preserves upstream field names and source status. It bypasses ordinary normalization for audit; it does not become normal discovery path.
+
+=== 测试责任
+
+WP12 tests cover:
+
+* Probe command sequence uses isolated probe path。
+* Command results include command、cwd、exit code、status and log path。
+* Target build failure produces ProbeResult with failed status and logs。
+* Record validates conclusion enum and writes evidence refs。
+* Report omits sources not present in evidence refs。
+* Raw service returns raw payload envelope with source URL/path、fetch status and timestamp。
+
+=== 审核尺子
+
+审核者检查五项。
+
+* Probe does not mutate upstream facts or adoption record automatically。
+* Record does not accept arbitrary conclusion strings。
+* Report does not add unobserved sources。
+* Raw service does not normalize or hide upstream fields。
+* Service flow remains store-backed and renderer-independent。
+
+=== 完成证据
+
+[source,bash]
+----
+go test ./internal/service -run 'Test(Probe|Record|Report|Raw)'
+----
+
+WP12 完成后，Library Discovery Journey E8 to E10 and raw audit flows can be exercised through service tests and CLI integration tests.

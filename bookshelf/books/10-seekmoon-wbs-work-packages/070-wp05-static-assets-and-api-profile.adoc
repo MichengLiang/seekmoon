@@ -1,0 +1,79 @@
+[#wp05-static-assets-and-api-profile.work-package]
+== WP05：Static Assets and API Profile
+
+=== 工作包身份
+
+WP05 实现 Mooncakes static asset readers 和 API profile construction。它读取 `module_index.json`、`package_data.json`、可选 `resource.json` 和 source zip，把 package tree、API detail、resource state 和 source zip attempt 转换为 canonical objects。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/020-static-assets.adoc[lines=4..5;9..42;46..83;87..95;99..107;111..127,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/040-api-profile.adoc[lines=4..5;9..60;65..133,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/040-api-and-source.adoc[lines=4..32,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP05 接收 WP02 的 `ModuleIndexTree`、`PackageData`、API entry、evidence wrappers and source attempt types，接收 WP03 的 HTTP/FS/cache capabilities，接收 WP04 的 manifest version resolution where needed。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|路径 |对象
+
+|`internal/source/assets.go`
+|Module index、package data、resource asset and source zip readers。
+
+|`internal/model/api.go`
+|Asset-specific parsing helpers owned by model where pure derivation is required。
+
+|`internal/source/fetch.go`
+|Shared asset fetch behavior reused from WP04 when needed。
+
+|`internal/testutil/fixture.go`
+|Module index、package data、resource 404 and source zip fixtures。
+|===
+
+=== 实现边界
+
+`module_index.json` 当前事实表面使用 `childs`。Parser may tolerate `children`, but canonical authored surface remains `childs`. Package relpath must be derived from package path and module coordinate. Root package relpath is empty.
+
+`package_data.json` preserves raw signature. Plain text signature is derived projection and cannot replace raw signature. Source location missing state remains evidence state, not command failure by itself.
+
+`resource.json` is optional. HTTP 404 maps to `unavailable`, not package absence, API data absence or module absence. Source zip failure does not prove module absence and must remain one source attempt in SourceResolution.
+
+=== 测试责任
+
+WP05 tests cover:
+
+* Module index tree parsing with `childs`。
+* Package relpath derivation for root and nested package paths。
+* Package path absent error data includes known package paths。
+* Package data parses types、traits、errors、typealias、values、misc and methods。
+* HTML signature generates plain signature while preserving raw signature。
+* `resource.json` 404 maps to `unavailable`。
+* Source zip redirect and zip reading produce files summary。
+
+=== 审核尺子
+
+审核者检查五项。
+
+* Asset URL construction uses manifest version and derived package relpath。
+* Package relpath derivation is not handwritten per command。
+* Resource asset state cannot block package data API profile。
+* Raw signature and raw payload audit material remain available for JSON/raw surfaces。
+* Source zip is a source attempt, not the only published source route。
+
+=== 完成证据
+
+[source,bash]
+----
+go test ./internal/source ./internal/model -run 'Test(Asset|ModuleIndex|PackageData|Relpath|SourceZip)'
+----
+
+WP05 完成后，`view` and `api` services can consume module index and package data without directly handling HTTP shape details.

@@ -1,0 +1,80 @@
+[#wp01-go-module-substrate.work-package]
+== WP01：Go Module Substrate
+
+=== 工作包身份
+
+WP01 建立 SeekMoon Go implementation 的工程基底。该基底包含 Go module metadata、process entrypoint、internal package directories、工程质量入口和生成物目录约定。它不实现 Mooncakes source readers、canonical model、command services 或 output projections。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/020-module-layout.adoc[lines=4..174,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/120-engineering-quality-toolchain.adoc[lines=4..73;118..159,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-g-go-engineering-toolchain.adoc[lines=8..51;55..67;131..152;156..167,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP01 的输入是 9 号书的 Go module layout、Go 1.26.x toolchain baseline、工程质量命令集合和 lint configuration surface。它还接收当前 repository 中 `projects/seekmoon` 的既有目录约束。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|输出 |内容
+
+|`go.mod`
+|SeekMoon 单一 Go module metadata。
+
+|`cmd/seekmoon/main.go`
+|进程入口，只创建 Runtime 并调用 CLI root execution。
+
+|`internal/` package directories
+|`app`、`cli`、`model`、`source`、`service`、`output`、`store`、`platform`、`contract`、`testutil` 的空实现或 package docs。
+
+|`justfile`
+|`fmt-check`、`lint`、`test`、`test-race`、`cover`、`fuzz`、`vuln`、`mod-check`、`release-check`、`ci`。
+
+|`.golangci.yml`
+|9 号书附录 G 规定的 lint gate。
+
+|`.goreleaser.yaml`
+|release configuration check 可执行的最小 release surface。
+
+|`.artifacts/`
+|测试报告、race 报告和 coverage profile 的生成物位置。
+|===
+
+=== 实现边界
+
+WP01 可以创建工程目录和最小编译入口。它不得在 `cmd/seekmoon` 中实现业务行为，不得让 `cmd/seekmoon` 直接读取 HTTP、filesystem 或 Moon CLI，不得在工程基底中提前定义 public command contract。
+
+`internal` 目录可以包含 package-level doc comments。注释只说明 package 的对象职责和边界，不解释显而易见的 Go 语法。
+
+=== 测试责任
+
+WP01 的测试责任是 module-level sanity。`go test ./...` 必须在空实现状态下通过；`just fmt-check` 必须验证格式；`go mod tidy` 后 `go.mod` 和 `go.sum` 不能产生未解释漂移。
+
+=== 审核尺子
+
+审核者检查四件事。
+
+* Go module layout 与 9 号书目录表一致。
+* `cmd/seekmoon` 只承担 process startup，不承载 source、service 或 output 逻辑。
+* 工程质量入口名称与 9 号书 Engineering Quality Toolchain 一致。
+* `.artifacts/` 作为 generated quality output，不进入 runtime storage contract。
+
+=== 完成证据
+
+[source,bash]
+----
+go test ./...
+just fmt-check
+just mod-check
+goreleaser check
+----
+
+这些命令通过时，WP01 只证明工程基底可用。它不证明 SeekMoon 公共 CLI 行为成立。

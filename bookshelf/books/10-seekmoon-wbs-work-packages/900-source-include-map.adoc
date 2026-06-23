@@ -1,0 +1,99 @@
+[#source-include-map.reference]
+== 来源引用图
+
+本章记录 10 号书引用 9 号书的位置。它服务维护者复查 include 路径、行号范围和交叉引用质量。
+
+=== 全局上下文引用
+
+[cols="1,2", options="header"]
+|===
+|10 号章节 |9 号来源
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/010-artifact-and-workbench/020-seekmoon-object-definition.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/010-artifact-and-workbench/030-consumer-actions.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/010-artifact-and-workbench/040-cli-workbench-environment.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/020-evidence-boundary/*.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/030-canonical-model/010-evidence-state.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/040-command-workbench/010-command-map.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/050-output-contracts/*.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/055-go-implementation-architecture/*.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`backmatter/appendix-e-status-and-error-matrix.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`backmatter/appendix-f-go-implementation-dependencies.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`backmatter/appendix-g-go-engineering-toolchain.adoc`
+
+|xref:mandatory-global-context[全局必读上下文]
+|`parts/060-journeys-and-acceptance/050-black-box-acceptance.adoc`
+|===
+
+=== 工作包局部引用
+
+[cols="1,2", options="header"]
+|===
+|工作包 |主要 9 号来源
+
+|xref:wp01-go-module-substrate[WP01]
+|Go Module Layout、Engineering Quality Toolchain、Go 工程工具链。
+
+|xref:wp02-canonical-model-and-contracts[WP02]
+|Canonical 数据模型、数据字典。
+
+|xref:wp03-platform-runtime-and-storage[WP03]
+|Runtime Composition、Storage and Side Effects、Project Context。
+
+|xref:wp04-public-http-sources-and-snapshot[WP04]
+|Public HTTP Sources、Source Reader Boundary、`sync` and `search` data flow。
+
+|xref:wp05-static-assets-and-api-profile[WP05]
+|Static Assets、API Profile、`api` command。
+
+|xref:wp06-local-toolchain-source-and-probe-primitives[WP06]
+|Local Toolchain and Cache、Project Context、ProbeResult。
+
+|xref:wp07-repository-and-skill-sources[WP07]
+|Repository Signals、Skills API、SkillEntry、Go dependencies。
+
+|xref:wp08-output-pipeline-and-error-surface[WP08]
+|Output contracts and Output Pipeline。
+
+|xref:wp09-cli-command-surface[WP09]
+|Command Map、Control Flow、Command Reference。
+
+|xref:wp10-discovery-and-profile-services[WP10]
+|doctor/sync、search/view、compare、Data Flow。
+
+|xref:wp11-inspection-and-source-services[WP11]
+|api/source、skill、Data Flow、Skill Discovery Journey。
+
+|xref:wp12-assessment-record-and-report-services[WP12]
+|probe、record/report/raw、AdoptionRecord、Failure Recovery Journey。
+
+|xref:wp13-black-box-acceptance-and-quality-gates[WP13]
+|Journeys、Black-box Acceptance、Testing and Tooling、Engineering Quality Toolchain。
+|===
+
+=== 维护规则
+
+当 9 号书章节发生行号变化时，维护者必须检查本书所有 `lines=` include。整章 include 使用 9 号书章节锚点；局部 include 使用行号范围。局部 include 不应包含 9 号书原始 anchor 行，避免同一本渲染书中出现重复 id。
+
+当工作包边界变化时，维护者先修改 xref:wbs-dependency-map[WBS 依赖图]，再修改对应工作包章节，最后更新本来源引用图。来源引用图不定义工作包边界；它只记录引用关系。

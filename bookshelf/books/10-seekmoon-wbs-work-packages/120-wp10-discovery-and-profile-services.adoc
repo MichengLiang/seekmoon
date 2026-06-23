@@ -1,0 +1,89 @@
+[#wp10-discovery-and-profile-services.work-package]
+== WP10：Discovery and Profile Services
+
+=== 工作包身份
+
+WP10 实现 `doctor`、`sync`、`search`、`view` 和 `compare` service flows。These services create environment status、snapshot、library module candidates、module profiles and evidence comparison objects。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/020-doctor-and-sync.adoc[lines=4..43;47..83,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/030-search-and-view.adoc[lines=4..44;48..74,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/060-compare-and-probe.adoc[lines=4..28,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/050-data-flow.adoc[lines=8..22;26..38;42..53;105..115,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP10 receives source readers from WP04、WP05、WP06 as needed, stores from WP03, renderer through WP08, command inputs through WP09 and model objects from WP02。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|路径 |对象
+
+|`internal/service/doctor.go`
+|Environment status service。
+
+|`internal/service/sync.go`
+|Snapshot creation service。
+
+|`internal/service/search.go`
+|Library module search、rank、manifest enrichment、session candidate mapping。
+
+|`internal/service/view.go`
+|Manifest profile with module index summary。
+
+|`internal/service/compare.go`
+|Evidence comparison object。
+|===
+
+=== 实现边界
+
+`doctor` reads environment and reports status. It does not create snapshot、update registry or write record.
+
+`sync` creates dated evidence snapshot. It records `moon update` result、Modules API、Statistics API、local registry index and toolchain versions. Candidate ranking and adoption decision remain outside sync.
+
+`search` generates library module candidates from query and snapshot. It may fetch visible-window manifest enrichment for downloads and build status. It does not read package data、published source or probe evidence.
+
+`view` presents one module profile. It reads Manifest API and module index asset. It does not expand all API symbols. Repository activity enters output only when requested enrichment is loaded.
+
+`compare` aligns loaded evidence fields and does not generate quality score.
+
+=== 测试责任
+
+WP10 tests cover:
+
+* Doctor reports toolchain、paths、network and project context using fake capabilities。
+* Sync writes snapshot with source status and partial failure state。
+* Search uses latest snapshot or transient modules fetch。
+* Search rank includes match evidence and writes session candidate map。
+* Manifest enrichment failure appears in result field state。
+* View reads manifest and module index and reports package count/index state。
+* Compare aligns multiple candidates without producing score。
+
+=== 审核尺子
+
+审核者检查五项。
+
+* Discovery services never turn downloads/build/repository presence into quality proof。
+* Session-local candidate numbers are bound to snapshot/session boundary。
+* Target unknown remains unknown before metadata/probe evidence。
+* Compare output is evidence alignment, not ranking or recommendation。
+* Services compose source results and stores; they do not render directly。
+
+=== 完成证据
+
+[source,bash]
+----
+go test ./internal/service -run 'Test(Doctor|Sync|Search|View|Compare)'
+----
+
+WP10 完成后，Library Discovery Journey 的 E1 到 E4 and E7 can be driven through services with fake readers and stores.

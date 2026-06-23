@@ -1,0 +1,84 @@
+[#wp06-local-toolchain-source-and-probe-primitives.work-package]
+== WP06：Local Toolchain Source and Probe Primitives
+
+=== 工作包身份
+
+WP06 实现本地 MoonBit toolchain、local registry index、registry cache、core source、project context 和 probe primitives。它把本地命令和本地文件系统事实转换为 local source result、command result、project context 和 probe-ready path objects。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/030-local-toolchain-and-cache.adoc[lines=4..5;9..43;47..56;59..68,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/040-project-context.adoc[lines=4..43,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/060-source-resolution-and-probe-result.adoc[lines=77..132,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP06 接收 WP02 的 `SourceAttempt`、`CommandResult`、`ProbeResult` and project context types，接收 WP03 的 Runner、FS、Paths、Probe store and Source store。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|路径 |对象
+
+|`internal/source/mooncli.go`
+|Moon command invocation and command result mapping。
+
+|`internal/source/local_index.go`
+|Local registry JSONL parser and index summary。
+
+|`internal/source/local_cache.go`
+|Registry cache、assets cache and core source readers。
+
+|`internal/source/project.go`
+|MoonBit project context reader for `moon.mod`、`moon.mod.json`、`moon.pkg`、`moon.pkg.json`。
+
+|`internal/store/paths.go`
+|Probe、source and log path construction。
+
+|`internal/testutil/fixture.go`
+|Fake runner、fake local index、fake project context fixtures。
+|===
+
+=== 实现边界
+
+Moon CLI commands record command、cwd、environment summary、exit status and log path. Command failure does not rewrite upstream facts. `moon add` success is not adoption success. `moon check` and `moon build --target` results are local derived evidence bound to environment、version and target。
+
+Local registry index is JSON Lines. WP06 normalizes only fields represented in current model and preserves raw line for audit. Local cache hit is current machine fact; it does not imply another machine has the same cache.
+
+Project context can enrich search, probe, record and report. Read failure does not block global search, but affects contextual probe and report. Probe mutation defaults to `.seekmoon/probes/<id>`.
+
+=== 测试责任
+
+WP06 tests cover:
+
+* `moon --version` command result mapping。
+* Non-zero `moon fetch` and `moon build` produce `failed` command result and log path。
+* Local index JSONL parser handles sparse records and malformed lines。
+* Project context reader handles TOML and JSON file variants。
+* Probe path construction is deterministic and project-bounded。
+* Core source reader distinguishes present、unavailable and failed filesystem states。
+
+=== 审核尺子
+
+审核者检查五项。
+
+* Runner calls are context-aware and log-bearing。
+* Local command failure is source evidence, not upstream metadata mutation。
+* Probe default path lives under `.seekmoon/probes/`。
+* Project manifest mutation is not hidden in local primitives。
+* Target support without metadata or probe remains `unknown`。
+
+=== 完成证据
+
+[source,bash]
+----
+go test ./internal/source ./internal/store -run 'Test(MoonCLI|LocalIndex|LocalCache|Project|ProbePath)'
+----
+
+WP06 完成后，source resolution and probe services can use local primitives without duplicating command execution rules.

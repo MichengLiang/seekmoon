@@ -1,0 +1,110 @@
+[#wp13-black-box-acceptance-and-quality-gates.work-package]
+== WP13：Black-box Acceptance and Quality Gates
+
+=== 工作包身份
+
+WP13 turns public behavior into executable acceptance and engineering quality gates。It owns journey tests、black-box CLI tests、schema validation tests、golden output tests、integration boundaries and `just ci` gate composition。
+
+=== 必读依据
+
+include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/050-black-box-acceptance.adoc[lines=4..75,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/110-testing-and-tooling.adoc[lines=4..53,leveloffset=+1]
+:leveloffset: 0
+
+include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/120-engineering-quality-toolchain.adoc[lines=59..159,leveloffset=+1]
+:leveloffset: 0
+
+=== 输入
+
+WP13 receives all public command surfaces, source reader fakes, stores, renderer, schemas, golden fixtures and quality commands from prior work packages。
+
+=== 输出
+
+[cols="1,2", options="header"]
+|===
+|路径 |对象
+
+|`internal/testutil/fixture.go`
+|Reusable source, service and CLI fixtures。
+
+|`internal/testutil/golden.go`
+|Golden file helpers and update policy。
+
+|`tests/blackbox/`
+|CLI black-box acceptance tests for A1 to A16。
+
+|`tests/journey/`
+|Library、skill、pipeline and failure recovery journey tests。
+
+|`tests/integration/`
+|Opt-in real network、Moon CLI、GitHub and probe mutation tests。
+
+|`justfile`
+|Final `just ci` composition and integration test commands。
+|===
+
+=== 实现边界
+
+Default tests are offline, repeatable and free of external side effects. Tests using real network、real Moon CLI、GitHub API、source zip downloads or probe project mutation run only when explicit integration environment variables are present.
+
+Coverage exposes test reach. It is not the sole acceptance condition. A passing quality gate does not cancel black-box behavior checks. Black-box acceptance remains language-independent public behavior evidence.
+
+=== 验收矩阵
+
+[cols="1,2,2", options="header"]
+|===
+|范围 |验收对象 |测试形式
+
+|A1-A3
+|Search candidates、session number、library/skill split。
+|Black-box CLI tests with fake source server。
+
+|A4-A6
+|Module profile、API profile、source resolution。
+|Journey and service-backed CLI tests。
+
+|A7-A8
+|Target unknown and local derived probe evidence。
+|Probe fixture tests and CLI output checks。
+
+|A9-A10
+|Adoption record and report source discipline。
+|Store-backed black-box tests。
+
+|A11-A16
+|Pretty text、JSON、jq、shape、schema and error surface。
+|Golden, schema validation and failure recovery tests。
+
+|Engineering gates
+|format、lint、test、race、coverage、vuln、mod、release check。
+|`just ci` and individual gate tests。
+|===
+
+=== 审核尺子
+
+审核者检查五项。
+
+* A1 to A16 each map to executable test names。
+* Default tests do not require network, Moon CLI mutation or GitHub token。
+* Integration tests are opt-in and visibly named。
+* Golden output changes require intentional review。
+* `just ci` composes the same gates as local development and CI policy。
+
+=== 完成证据
+
+[source,bash]
+----
+just fmt-check
+just lint
+just test
+just test-race
+just cover
+just vuln
+just mod-check
+just release-check
+just ci
+----
+
+WP13 完成后，SeekMoon implementation material can be judged against public behavior, projection contracts and engineering quality gates.

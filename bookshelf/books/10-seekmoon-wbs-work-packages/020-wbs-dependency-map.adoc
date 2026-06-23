@@ -1,0 +1,146 @@
+[#wbs-dependency-map.boundary]
+== WBS 依赖图
+
+WBS 依赖图规定工作包的批次、先后关系和审核流。它不定义 SeekMoon 的公共功能；公共功能已经由 9 号书定义。它定义实现协作中哪些对象先成立，哪些对象可以并行推进，哪些对象必须在其他对象之后验收。
+
+[#wbs-package-list]
+=== 工作包清单
+
+[cols="1,2,2", options="header"]
+|===
+|编号 |工作包 |交付对象
+
+|WP01
+|xref:wp01-go-module-substrate[Go Module Substrate]
+|Go module 骨架、工程入口、质量命令入口。
+
+|WP02
+|xref:wp02-canonical-model-and-contracts[Canonical Model and Contracts]
+|Canonical objects、state enum、evidence wrappers、shape/schema contract definitions。
+
+|WP03
+|xref:wp03-platform-runtime-and-storage[Platform Runtime and Storage]
+|Runtime composition、platform capabilities、store registries、side effect paths。
+
+|WP04
+|xref:wp04-public-http-sources-and-snapshot[Public HTTP Sources and Snapshot]
+|Mooncakes API readers、fetch envelope、snapshot creation。
+
+|WP05
+|xref:wp05-static-assets-and-api-profile[Static Assets and API Profile]
+|Asset readers、API profile construction、package relpath derivation。
+
+|WP06
+|xref:wp06-local-toolchain-source-and-probe-primitives[Local Toolchain Source and Probe Primitives]
+|Moon CLI runner、local index/cache readers、project context、probe primitives。
+
+|WP07
+|xref:wp07-repository-and-skill-sources[Repository and Skill Sources]
+|Repository enrichment、Skills API、skill assets、runwasm coordinate derivation。
+
+|WP08
+|xref:wp08-output-pipeline-and-error-surface[Output Pipeline and Error Surface]
+|Pretty text、JSON、jq、shape、schema、error surface renderers。
+
+|WP09
+|xref:wp09-cli-command-surface[CLI Command Surface]
+|Cobra command tree、flags、input parsing、process exit mapping。
+
+|WP10
+|xref:wp10-discovery-and-profile-services[Discovery and Profile Services]
+|`doctor`、`sync`、`search`、`view`、`compare` service flows。
+
+|WP11
+|xref:wp11-inspection-and-source-services[Inspection and Source Services]
+|`api`、`source`、`skill search`、`skill view` service flows。
+
+|WP12
+|xref:wp12-assessment-record-and-report-services[Assessment, Record and Report Services]
+|`probe`、`record`、`report`、`raw` service flows。
+
+|WP13
+|xref:wp13-black-box-acceptance-and-quality-gates[Black-box Acceptance and Quality Gates]
+|Black-box acceptance、journey tests、quality gates、integration boundaries。
+|===
+
+[#wbs-batches]
+=== 批次
+
+[source,text]
+----
+Batch A: WP01 -> WP02 -> WP03
+Batch B: WP04 || WP05 || WP06 || WP07
+Batch C: WP08 -> WP09
+Batch D: WP10 || WP11 || WP12
+Batch E: WP13
+----
+
+Batch A 建立实现基底。WP01 建立工程壳，WP02 建立对象语言，WP03 建立运行时、平台能力和持久化边界。没有 Batch A，下游 source readers、output projections 和 services 会各自定义对象。
+
+Batch B 建立来源读取能力。WP04、WP05、WP06 和 WP07 在 WP02 与 WP03 后可以并行推进。并行条件是所有 reader 返回带状态的 source result，不直接渲染输出，不直接写 adoption record。
+
+Batch C 建立投影与命令壳。WP08 先让 canonical object 能投影到 pretty text、JSON、jq、shape、schema 和 error surface；WP09 再把 command surface 接入 renderer 和 service registry。
+
+Batch D 建立命令行为。WP10、WP11 和 WP12 使用已经成立的 source readers、stores、output pipeline 和 CLI surface 实现消费者动作。服务层完成声明必须通过输出投影和测试观察。
+
+Batch E 建立验收闭环。WP13 把 A1 到 A16、journey tests 和工程质量门组合为公共对象成立证据。WP13 可以在 Batch A 后建立测试框架，在 Batch B、C、D 中持续接收场景。
+
+[#wbs-dependency-edges]
+=== 依赖边
+
+[cols="1,2", options="header"]
+|===
+|工作包 |必须依赖
+
+|WP01
+|无上游工作包。
+
+|WP02
+|WP01 的 Go module 与 test entrypoint。
+
+|WP03
+|WP01 的 module layout，WP02 的 model contracts。
+
+|WP04
+|WP02 的 model/state/source result，WP03 的 HTTP、clock、store path。
+
+|WP05
+|WP02 的 API model，WP03 的 HTTP/FS/cache boundary。
+
+|WP06
+|WP02 的 source/probe model，WP03 的 runner、FS、probe/source paths。
+
+|WP07
+|WP02 的 skill/repository model，WP03 的 HTTP/cache boundary。
+
+|WP08
+|WP02 的 canonical objects 和 contract definitions。
+
+|WP09
+|WP01 的 CLI root，WP03 的 runtime registry，WP08 的 renderer。
+
+|WP10
+|WP04、WP05、WP08、WP09；`doctor` 还依赖 WP03 和 WP06。
+
+|WP11
+|WP05、WP06、WP07、WP08、WP09。
+
+|WP12
+|WP03、WP06、WP08、WP09、WP10、WP11。
+
+|WP13
+|所有公共 command surface、source readers、services、output projections 和 quality entries。
+|===
+
+[#wbs-common-completion-definition]
+=== 共同完成定义
+
+工作包完成必须满足五项条件。
+
+* 交付物位于工作包声明的文件边界内。
+* 单元测试或 contract tests 覆盖工作包定义的对象、状态和失败路径。
+* 输出、error surface 或 store artifact 能观察工作包的公共行为。
+* `just fmt-check`、`just lint`、`just test` 和与工作包相关的局部测试通过。
+* 审核者能把交付物映射回本书工作包依据和 9 号书规范依据。
+
+工作包不能用“其他工作包会处理”取消自身边界内的状态语义、错误语义、测试责任或输出契约。下游工作包只能消费已经成立的对象。
