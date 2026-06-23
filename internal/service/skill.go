@@ -10,11 +10,13 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// SkillFlow searches and inspects skill registry entries.
 type SkillFlow struct {
 	Skills   source.SkillsClient
 	Sessions store.SessionStore
 }
 
+// Search returns matching skills and records them in the session.
 func (s SkillFlow) Search(ctx context.Context, input SkillSearchInput) ([]model.SkillEntry, error) {
 	sourceResult := s.Skills.FetchSkills(ctx)
 	if sourceResult.Status != model.StatePresent || sourceResult.Value == nil {
@@ -36,6 +38,7 @@ func (s SkillFlow) Search(ctx context.Context, input SkillSearchInput) ([]model.
 	return out, nil
 }
 
+// View returns skill registry details and asset evidence.
 func (s SkillFlow) View(ctx context.Context, input SkillViewInput) (model.SkillProfile, error) {
 	ref, err := candidateFromRequest(ctx, s.Sessions, input.Entry)
 	if err != nil {

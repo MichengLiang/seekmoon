@@ -1,5 +1,6 @@
 package model
 
+// RepositorySignal summarizes repository-level maintenance evidence.
 type RepositorySignal struct {
 	URL           string         `json:"url"`
 	Status        State          `json:"status"`

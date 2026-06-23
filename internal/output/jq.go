@@ -10,6 +10,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// RenderJQ projects a value to JSON and evaluates a gojq expression over it.
 func RenderJQ(ctx context.Context, writer io.Writer, schema string, value any, expression, command string) error {
 	if expression == "" {
 		return renderJQError(writer, jqSurfaceError(command, "jq expression is required"))

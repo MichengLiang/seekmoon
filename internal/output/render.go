@@ -9,10 +9,12 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// Renderer renders command output requests.
 type Renderer interface {
 	Render(ctx context.Context, request Request) error
 }
 
+// Request carries all data needed to render a command response.
 type Request struct {
 	Command      string
 	Mode         model.OutputMode
@@ -23,16 +25,20 @@ type Request struct {
 	Err          error
 }
 
+// RendererFunc adapts a function to the Renderer interface.
 type RendererFunc func(context.Context, Request) error
 
+// Render calls the wrapped renderer function.
 func (f RendererFunc) Render(ctx context.Context, request Request) error {
 	return f(ctx, request)
 }
 
+// DefaultRenderer dispatches to the built-in output modes.
 type DefaultRenderer struct {
 	Writer io.Writer
 }
 
+// Render writes either a command result or a structured command error.
 func (r DefaultRenderer) Render(ctx context.Context, request Request) error {
 	if request.Writer == nil {
 		request.Writer = r.Writer

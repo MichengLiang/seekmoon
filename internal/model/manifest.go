@@ -1,5 +1,6 @@
 package model
 
+// ManifestProfile is the normalized package manifest view.
 type ManifestProfile struct {
 	Module        string            `json:"module"`
 	Version       string            `json:"version"`
@@ -13,6 +14,7 @@ type ManifestProfile struct {
 	DocsURL       EvidenceString    `json:"docs_url"`
 }
 
+// ManifestMetadata stores manifest metadata as evidence-bearing fields.
 type ManifestMetadata struct {
 	Description      EvidenceString      `json:"description,omitempty"`
 	Keywords         EvidenceStringArray `json:"keywords,omitempty"`
@@ -25,6 +27,7 @@ type ManifestMetadata struct {
 	Raw              map[string]any      `json:"raw,omitempty"`
 }
 
+// ManifestVersion records one published version from the manifest.
 type ManifestVersion struct {
 	Version string `json:"version"`
 	Yanked  bool   `json:"yanked,omitempty"`

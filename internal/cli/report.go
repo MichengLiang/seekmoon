@@ -13,7 +13,7 @@ func newReportCommand(rt *app.Runtime) *cobra.Command {
 		Use:   "report --format <format>",
 		Short: "Render an investigation report",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			if err := resolveOutputMode(cmd, &flags); err != nil {
 				return err
 			}

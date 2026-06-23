@@ -14,76 +14,83 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// AssetClient reads Mooncakes asset payloads and source archives.
 type AssetClient struct {
 	BaseURL     string
 	DownloadURL string
 	Fetcher     Fetcher
 }
 
+// FetchModuleIndex reads and normalizes module_index.json for a module version.
 func (c AssetClient) FetchModuleIndex(ctx context.Context, module, version string) model.SourceResult[model.ModuleIndexTree] {
 	var raw moduleIndexNode
 	fetch := c.Fetcher.FetchJSON(ctx, c.assetURL(module, version, "module_index.json"), &raw)
 	if fetch.Status != model.StatePresent {
-		return SourceResult[model.ModuleIndexTree](string(model.SourceModuleIndex), fetch, nil)
+		return sourceResult[model.ModuleIndexTree](string(model.SourceModuleIndex), fetch, nil)
 	}
 	tree, err := normalizeModuleIndex(module, raw)
 	if err != nil {
 		fetch.Status = model.StateFailed
 		fetch.ParseState = model.StateFailed
 		fetch.Error = err.Error()
-		return SourceResult[model.ModuleIndexTree](string(model.SourceModuleIndex), fetch, nil)
+		return sourceResult[model.ModuleIndexTree](string(model.SourceModuleIndex), fetch, nil)
 	}
-	return SourceResult(string(model.SourceModuleIndex), fetch, &tree)
+	return sourceResult(string(model.SourceModuleIndex), fetch, &tree)
 }
 
+// FetchPackageData reads and normalizes package_data.json for a package path.
 func (c AssetClient) FetchPackageData(ctx context.Context, module, version, packagePath string) model.SourceResult[model.PackageData] {
 	relpath, err := model.PackageRelPath(module, packagePath)
 	if err != nil {
 		fetch := FetchResult{URL: c.assetURL(module, version, packagePath), FetchedAt: sourceNow(c.Fetcher.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: "inline:" + c.assetURL(module, version, packagePath), Error: err.Error()}
-		return SourceResult[model.PackageData](string(model.SourcePackageData), fetch, nil)
+		return sourceResult[model.PackageData](string(model.SourcePackageData), fetch, nil)
 	}
 	var raw packageDataPayload
 	fetch := c.Fetcher.FetchJSON(ctx, c.assetURL(module, version, relpath, "package_data.json"), &raw)
 	if fetch.Status != model.StatePresent {
-		return SourceResult[model.PackageData](string(model.SourcePackageData), fetch, nil)
+		return sourceResult[model.PackageData](string(model.SourcePackageData), fetch, nil)
 	}
 	data := normalizePackageData(raw)
-	return SourceResult(string(model.SourcePackageData), fetch, &data)
+	return sourceResult(string(model.SourcePackageData), fetch, &data)
 }
 
+// FetchRawModuleIndex returns raw module_index.json payload.
 func (c AssetClient) FetchRawModuleIndex(ctx context.Context, module, version string) model.SourceResult[any] {
 	fetch := c.Fetcher.Fetch(ctx, c.assetURL(module, version, "module_index.json"))
 	return RawJSONSourceResult(string(model.SourceModuleIndex), fetch)
 }
 
+// FetchRawPackageData returns raw package_data.json payload.
 func (c AssetClient) FetchRawPackageData(ctx context.Context, module, version, packagePath string) model.SourceResult[any] {
 	relpath, err := model.PackageRelPath(module, packagePath)
 	rawURL := c.assetURL(module, version, packagePath)
 	if err != nil {
 		fetch := FetchResult{URL: rawURL, FetchedAt: sourceNow(c.Fetcher.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: "inline:" + rawURL, Error: err.Error()}
-		return SourceResult[any](string(model.SourcePackageData), fetch, nil)
+		return sourceResult[any](string(model.SourcePackageData), fetch, nil)
 	}
 	fetch := c.Fetcher.Fetch(ctx, c.assetURL(module, version, relpath, "package_data.json"))
 	return RawJSONSourceResult(string(model.SourcePackageData), fetch)
 }
 
+// FetchResource reads an optional resource.json asset.
 func (c AssetClient) FetchResource(ctx context.Context, module, version, packagePath string) model.SourceResult[map[string]any] {
 	relpath, err := model.PackageRelPath(module, packagePath)
 	if err != nil {
 		fetch := FetchResult{URL: c.assetURL(module, version, packagePath), FetchedAt: sourceNow(c.Fetcher.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: "inline:" + c.assetURL(module, version, packagePath), Error: err.Error()}
-		return SourceResult[map[string]any](string(model.SourceResourceAsset), fetch, nil)
+		return sourceResult[map[string]any](string(model.SourceResourceAsset), fetch, nil)
 	}
 	var raw map[string]any
 	fetch := c.Fetcher.FetchJSON(ctx, c.assetURL(module, version, relpath, "resource.json"), &raw)
 	if fetch.Status == model.StateUnavailable {
-		return SourceResult[map[string]any](string(model.SourceResourceAsset), fetch, nil)
+		return sourceResult[map[string]any](string(model.SourceResourceAsset), fetch, nil)
 	}
 	if fetch.Status != model.StatePresent {
-		return SourceResult[map[string]any](string(model.SourceResourceAsset), fetch, nil)
+		return sourceResult[map[string]any](string(model.SourceResourceAsset), fetch, nil)
 	}
-	return SourceResult(string(model.SourceResourceAsset), fetch, &raw)
+	return sourceResult(string(model.SourceResourceAsset), fetch, &raw)
 }
 
+// FetchSourceZipAttempt downloads and summarizes a source archive.
 func (c AssetClient) FetchSourceZipAttempt(ctx context.Context, module, version string) model.SourceAttempt {
 	fetch := c.Fetcher.Fetch(ctx, c.sourceZipURL(module, version))
 	attempt := model.SourceAttempt{Status: fetch.Status, URL: fetch.URL, Error: fetch.Error}
@@ -106,7 +113,8 @@ func (c AssetClient) assetURL(module, version string, parts ...string) string {
 		base = DefaultMooncakesBaseURL
 	}
 	coord, _ := model.ParseModuleCoordinate(module)
-	pathParts := []string{"assets", coord.Owner, coord.Name + "@" + version}
+	pathParts := make([]string, 0, 3+len(parts))
+	pathParts = append(pathParts, "assets", coord.Owner, coord.Name+"@"+version)
 	pathParts = append(pathParts, parts...)
 	escaped := make([]string, 0, len(pathParts))
 	for _, part := range pathParts {
@@ -235,6 +243,7 @@ func normalizeAPIEntries(raw []apiEntryRaw) []model.APIEntry {
 
 var htmlTagRE = regexp.MustCompile(`<[^>]*>`)
 
+// PlainSignature strips simple HTML markup and entities from an API signature.
 func PlainSignature(signature string) string {
 	plain := htmlTagRE.ReplaceAllString(signature, "")
 	plain = strings.ReplaceAll(plain, "&lt;", "<")
@@ -243,6 +252,7 @@ func PlainSignature(signature string) string {
 	return strings.TrimSpace(plain)
 }
 
+// SummarizeZip summarizes MoonBit-relevant files inside a zip archive.
 func SummarizeZip(data []byte) (model.FilesSummary, error) {
 	reader, err := zip.NewReader(bytes.NewReader(data), int64(len(data)))
 	if err != nil {
@@ -276,6 +286,7 @@ func filesSummaryString(s model.FilesSummary) string {
 	return string(data)
 }
 
+// StatusFromHTTP maps HTTP status codes to evidence states.
 func StatusFromHTTP(statusCode int) model.State {
 	if statusCode == http.StatusNotFound {
 		return model.StateUnavailable

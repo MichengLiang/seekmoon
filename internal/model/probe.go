@@ -1,5 +1,6 @@
 package model
 
+// ProbeResult records isolated Moon CLI verification commands and outcome.
 type ProbeResult struct {
 	Module          string            `json:"module"`
 	Version         string            `json:"version"`
@@ -15,6 +16,7 @@ type ProbeResult struct {
 	Result          string            `json:"result"`
 }
 
+// CommandResult records one invoked command and its status.
 type CommandResult struct {
 	Command  []string `json:"command"`
 	CWD      string   `json:"cwd"`

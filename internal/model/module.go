@@ -5,11 +5,13 @@ import (
 	"strings"
 )
 
+// ModuleCoordinate splits an owner/module coordinate.
 type ModuleCoordinate struct {
 	Owner string `json:"owner"`
 	Name  string `json:"name"`
 }
 
+// ParseModuleCoordinate parses owner/module coordinates.
 func ParseModuleCoordinate(value string) (ModuleCoordinate, error) {
 	owner, name, ok := strings.Cut(value, "/")
 	if !ok || owner == "" || name == "" || strings.Contains(name, "/") {
@@ -25,6 +27,7 @@ func (c ModuleCoordinate) String() string {
 	return c.Owner + "/" + c.Name
 }
 
+// ModuleSummary records module registry summary evidence.
 type ModuleSummary struct {
 	Module      string              `json:"module"`
 	Version     string              `json:"version"`
@@ -37,6 +40,7 @@ type ModuleSummary struct {
 	Raw         map[string]any      `json:"raw,omitempty"`
 }
 
+// SearchResult is one ranked library search result.
 type SearchResult struct {
 	Rank        int                 `json:"rank"`
 	Module      string              `json:"module"`
@@ -52,18 +56,21 @@ type SearchResult struct {
 	SnapshotID  string              `json:"snapshot_id"`
 }
 
+// MatchEvidence records why a result matched the query.
 type MatchEvidence struct {
 	Fields []string           `json:"fields,omitempty"`
 	Token  string             `json:"token,omitempty"`
 	Score  *Evidence[float64] `json:"score,omitempty"`
 }
 
+// SearchQuery records normalized search input.
 type SearchQuery struct {
 	Text   string `json:"text"`
 	Kind   string `json:"kind"`
 	Target string `json:"target,omitempty"`
 }
 
+// SearchOutput is the full search command result.
 type SearchOutput struct {
 	Schema   string         `json:"schema"`
 	Snapshot SnapshotRef    `json:"snapshot"`

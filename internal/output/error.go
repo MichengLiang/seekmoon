@@ -8,6 +8,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// SurfaceError wraps a model surface error for renderer returns.
 type SurfaceError struct {
 	Value model.SurfaceError
 }
@@ -16,6 +17,7 @@ func (e SurfaceError) Error() string {
 	return e.Value.Meaning
 }
 
+// ErrorFrom converts any command error into the user-facing surface shape.
 func ErrorFrom(command string, err error) model.SurfaceError {
 	var surface SurfaceError
 	if errors.As(err, &surface) {
@@ -34,6 +36,7 @@ func ErrorFrom(command string, err error) model.SurfaceError {
 	}
 }
 
+// RenderError writes a human-readable structured error surface.
 func RenderError(writer io.Writer, surface model.SurfaceError) error {
 	rows := [][2]string{
 		{"command", surface.Command},

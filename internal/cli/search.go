@@ -12,7 +12,7 @@ func newSearchCommand(rt *app.Runtime) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "search <query>",
 		Short: "Search library module candidates",
-		Args: argsUnlessContract(func(cmd *cobra.Command, args []string) error {
+		Args: argsUnlessContract(func(_ *cobra.Command, args []string) error {
 			if len(args) != 1 {
 				return parseError("search requires a query")
 			}

@@ -9,18 +9,21 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// DefaultMooncakesBaseURL is the default public Mooncakes API origin.
 const DefaultMooncakesBaseURL = "https://mooncakes.io"
 
+// MooncakesClient reads public Mooncakes API endpoints.
 type MooncakesClient struct {
 	BaseURL string
 	Fetcher Fetcher
 }
 
+// FetchModules reads the public module list.
 func (c MooncakesClient) FetchModules(ctx context.Context) model.SourceResult[[]model.ModuleSummary] {
 	var raw []moduleItem
 	fetch := c.Fetcher.FetchJSON(ctx, c.apiURL("/api/v0/modules"), &raw)
 	if fetch.Status != model.StatePresent {
-		return SourceResult[[]model.ModuleSummary](string(model.SourceModulesAPI), fetch, nil)
+		return sourceResult[[]model.ModuleSummary](string(model.SourceModulesAPI), fetch, nil)
 	}
 	modules := make([]model.ModuleSummary, 0, len(raw))
 	for _, item := range raw {
@@ -29,50 +32,54 @@ func (c MooncakesClient) FetchModules(ctx context.Context) model.SourceResult[[]
 		}
 		modules = append(modules, normalizeModule(item))
 	}
-	return SourceResult(string(model.SourceModulesAPI), fetch, &modules)
+	return sourceResult(string(model.SourceModulesAPI), fetch, &modules)
 }
 
+// FetchStatistics reads module registry aggregate statistics.
 func (c MooncakesClient) FetchStatistics(ctx context.Context) model.SourceResult[model.SnapshotStatistics] {
 	var stats model.SnapshotStatistics
 	fetch := c.Fetcher.FetchJSON(ctx, c.apiURL("/api/v0/modules/statistics"), &stats)
 	if fetch.Status != model.StatePresent {
-		return SourceResult[model.SnapshotStatistics](string(model.SourceStatisticsAPI), fetch, nil)
+		return sourceResult[model.SnapshotStatistics](string(model.SourceStatisticsAPI), fetch, nil)
 	}
-	return SourceResult(string(model.SourceStatisticsAPI), fetch, &stats)
+	return sourceResult(string(model.SourceStatisticsAPI), fetch, &stats)
 }
 
+// FetchManifest reads and normalizes a module manifest.
 func (c MooncakesClient) FetchManifest(ctx context.Context, module string) model.SourceResult[model.ManifestProfile] {
 	coord, err := model.ParseModuleCoordinate(module)
 	if err != nil {
 		fetch := FetchResult{URL: c.apiURL("/api/v0/manifest/" + module), FetchedAt: sourceNow(c.Fetcher.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: "inline:" + c.apiURL("/api/v0/manifest/"+module), Error: err.Error()}
-		return SourceResult[model.ManifestProfile](string(model.SourceManifestAPI), fetch, nil)
+		return sourceResult[model.ManifestProfile](string(model.SourceManifestAPI), fetch, nil)
 	}
 	var raw manifestPayload
 	fetch := c.Fetcher.FetchJSON(ctx, c.apiURL("/api/v0/manifest/"+url.PathEscape(coord.Owner)+"/"+url.PathEscape(coord.Name)), &raw)
 	if fetch.Status != model.StatePresent {
-		return SourceResult[model.ManifestProfile](string(model.SourceManifestAPI), fetch, nil)
+		return sourceResult[model.ManifestProfile](string(model.SourceManifestAPI), fetch, nil)
 	}
 	profile, err := normalizeManifest(raw)
 	if err != nil {
 		fetch.Status = model.StateFailed
 		fetch.ParseState = model.StateFailed
 		fetch.Error = err.Error()
-		return SourceResult[model.ManifestProfile](string(model.SourceManifestAPI), fetch, nil)
+		return sourceResult[model.ManifestProfile](string(model.SourceManifestAPI), fetch, nil)
 	}
-	return SourceResult(string(model.SourceManifestAPI), fetch, &profile)
+	return sourceResult(string(model.SourceManifestAPI), fetch, &profile)
 }
 
+// FetchRawModules returns the raw modules API payload.
 func (c MooncakesClient) FetchRawModules(ctx context.Context) model.SourceResult[any] {
 	fetch := c.Fetcher.Fetch(ctx, c.apiURL("/api/v0/modules"))
 	return RawJSONSourceResult(string(model.SourceModulesAPI), fetch)
 }
 
+// FetchRawManifest returns the raw manifest API payload.
 func (c MooncakesClient) FetchRawManifest(ctx context.Context, module string) model.SourceResult[any] {
 	coord, err := model.ParseModuleCoordinate(module)
 	rawURL := c.apiURL("/api/v0/manifest/" + module)
 	if err != nil {
 		fetch := FetchResult{URL: rawURL, FetchedAt: sourceNow(c.Fetcher.Clock), Status: model.StateFailed, ParseState: model.StateFailed, RawRef: "inline:" + rawURL, Error: err.Error()}
-		return SourceResult[any](string(model.SourceManifestAPI), fetch, nil)
+		return sourceResult[any](string(model.SourceManifestAPI), fetch, nil)
 	}
 	fetch := c.Fetcher.Fetch(ctx, c.apiURL("/api/v0/manifest/"+url.PathEscape(coord.Owner)+"/"+url.PathEscape(coord.Name)))
 	return RawJSONSourceResult(string(model.SourceManifestAPI), fetch)

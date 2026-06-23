@@ -11,7 +11,7 @@ func newSyncCommand(rt *app.Runtime) *cobra.Command {
 		Use:   "sync",
 		Short: "Create a data snapshot",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			if err := resolveOutputMode(cmd, &flags); err != nil {
 				return err
 			}

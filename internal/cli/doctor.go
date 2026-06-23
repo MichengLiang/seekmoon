@@ -12,7 +12,7 @@ func newDoctorCommand(rt *app.Runtime) *cobra.Command {
 		Use:   "doctor",
 		Short: "Check the local environment",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			if err := resolveOutputMode(cmd, &flags); err != nil {
 				return err
 			}

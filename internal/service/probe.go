@@ -9,6 +9,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// ProbeFlow runs isolated Moon CLI verification.
 type ProbeFlow struct {
 	MoonCLI  source.MoonCLI
 	Sessions store.SessionStore
@@ -16,6 +17,7 @@ type ProbeFlow struct {
 	Paths    store.Paths
 }
 
+// Probe executes or records probe commands for a candidate.
 func (s ProbeFlow) Probe(ctx context.Context, input ProbeInput) (model.ProbeResult, error) {
 	candidate, err := candidateFromRequest(ctx, s.Sessions, input.Candidate)
 	if err != nil {

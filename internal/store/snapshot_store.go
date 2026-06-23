@@ -11,11 +11,13 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// SnapshotStore persists sync snapshots.
 type SnapshotStore struct {
 	FS    platform.FS
 	Paths Paths
 }
 
+// Path returns the path for a snapshot id.
 func (s SnapshotStore) Path(id string) string {
 	return filepath.Join(s.Paths.Snapshots, SafeName(id)+".json")
 }
@@ -44,6 +46,7 @@ func (s SnapshotStore) Read(ctx context.Context, id string) (model.Snapshot, err
 	return snapshot, nil
 }
 
+// Latest returns the newest snapshot by sorted snapshot id.
 func (s SnapshotStore) Latest(ctx context.Context) (model.Snapshot, error) {
 	if err := ctx.Err(); err != nil {
 		return model.Snapshot{}, err

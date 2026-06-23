@@ -5,8 +5,10 @@ import (
 	"time"
 )
 
+// AdoptionConclusion is the closed recommendation vocabulary for records.
 type AdoptionConclusion string
 
+// Adoption conclusions supported by records and schemas.
 const (
 	ConclusionAdopt                AdoptionConclusion = "adopt"
 	ConclusionAdoptWithAdapter     AdoptionConclusion = "adopt-with-adapter"
@@ -17,6 +19,7 @@ const (
 	ConclusionRejectForNow         AdoptionConclusion = "reject-for-now"
 )
 
+// ParseAdoptionConclusion validates an adoption conclusion string.
 func ParseAdoptionConclusion(value string) (AdoptionConclusion, error) {
 	conclusion := AdoptionConclusion(value)
 	if conclusion.IsValid() {
@@ -25,6 +28,7 @@ func ParseAdoptionConclusion(value string) (AdoptionConclusion, error) {
 	return "", fmt.Errorf("unknown adoption conclusion %q", value)
 }
 
+// IsValid reports whether the conclusion belongs to the closed vocabulary.
 func (c AdoptionConclusion) IsValid() bool {
 	switch c {
 	case ConclusionAdopt, ConclusionAdoptWithAdapter, ConclusionContinueVerification, ConclusionContributeUpstream, ConclusionFork, ConclusionBuildOwn, ConclusionRejectForNow:
@@ -34,6 +38,7 @@ func (c AdoptionConclusion) IsValid() bool {
 	}
 }
 
+// AdoptionRecord records the dependency adoption decision and evidence refs.
 type AdoptionRecord struct {
 	RecordID     string             `json:"record_id"`
 	CreatedAt    time.Time          `json:"created_at"`
@@ -47,6 +52,7 @@ type AdoptionRecord struct {
 	Note         string             `json:"note,omitempty"`
 }
 
+// CandidateRef identifies a library or skill candidate.
 type CandidateRef struct {
 	Kind    string `json:"kind"`
 	Module  string `json:"module"`
@@ -55,6 +61,7 @@ type CandidateRef struct {
 	Name    string `json:"name,omitempty"`
 }
 
+// EvidenceRef points to source evidence used by a record or report.
 type EvidenceRef struct {
 	Kind string `json:"kind"`
 	ID   string `json:"id"`

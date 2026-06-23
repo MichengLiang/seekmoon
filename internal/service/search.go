@@ -11,6 +11,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// SearchFlow searches snapshot or transient module evidence.
 type SearchFlow struct {
 	Mooncakes source.MooncakesClient
 	Assets    source.AssetClient
@@ -18,6 +19,7 @@ type SearchFlow struct {
 	Sessions  store.SessionStore
 }
 
+// Search returns ranked module results and records session candidates.
 func (s SearchFlow) Search(ctx context.Context, input SearchInput) (model.SearchOutput, error) {
 	snapshot, modules, err := snapshotModules(ctx, s.Snapshots)
 	if err != nil {

@@ -9,6 +9,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// RenderSchema writes the JSON Schema contract for a schema identifier.
 func RenderSchema(writer io.Writer, schema string) error {
 	object, err := SchemaFor(schema)
 	if err != nil {
@@ -19,6 +20,7 @@ func RenderSchema(writer io.Writer, schema string) error {
 	return encoder.Encode(object)
 }
 
+// SchemaFor resolves a schema identifier to its JSON Schema contract.
 func SchemaFor(schema string) (contract.Schema, error) {
 	switch schema {
 	case "", model.SchemaSearchResultsV1:

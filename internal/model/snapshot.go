@@ -1,10 +1,12 @@
 package model
 
+// SnapshotRef is the compact reference to a stored snapshot.
 type SnapshotRef struct {
 	ID      string   `json:"id"`
 	Sources []string `json:"sources"`
 }
 
+// Snapshot captures synced source evidence at one point in time.
 type Snapshot struct {
 	ID         string              `json:"id"`
 	CreatedAt  string              `json:"created_at"`
@@ -13,6 +15,7 @@ type Snapshot struct {
 	Raw        map[string]any      `json:"raw,omitempty"`
 }
 
+// SnapshotStatistics records registry-wide counts from the snapshot.
 type SnapshotStatistics struct {
 	TotalModules   int `json:"total_modules"`
 	TotalPackages  int `json:"total_packages"`

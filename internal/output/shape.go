@@ -9,6 +9,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// RenderShape writes the compact field shape for a schema identifier.
 func RenderShape(writer io.Writer, schema string) error {
 	shape, err := ShapeFor(schema)
 	if err != nil {
@@ -28,6 +29,7 @@ func RenderShape(writer io.Writer, schema string) error {
 	return nil
 }
 
+// ShapeFor resolves a schema identifier to its field shape.
 func ShapeFor(schema string) (contract.Shape, error) {
 	switch schema {
 	case "", model.SchemaSearchResultsV1:

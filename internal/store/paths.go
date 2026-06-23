@@ -9,6 +9,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// Paths groups all project and cache paths used by SeekMoon.
 type Paths struct {
 	ProjectRoot string
 	ProjectDir  string
@@ -26,6 +27,7 @@ type Paths struct {
 	MoonIndex   string
 }
 
+// ResolvePaths derives project and cache paths from environment values.
 func ResolvePaths(env platform.Env) Paths {
 	root := env.WorkingDir
 	if root == "" {
@@ -58,6 +60,7 @@ func ResolvePaths(env platform.Env) Paths {
 	}
 }
 
+// SafeName converts arbitrary identifiers into filesystem-safe names.
 func SafeName(value string) string {
 	value = strings.TrimSpace(value)
 	if value == "" {

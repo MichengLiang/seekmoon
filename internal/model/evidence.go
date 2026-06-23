@@ -11,6 +11,7 @@ import (
 // stores, records, reports, and error surfaces.
 type State string
 
+// Evidence states used by source readers and output contracts.
 const (
 	StatePresent     State = "present"
 	StateMissing     State = "missing"
@@ -29,6 +30,7 @@ var allStates = map[State]string{
 	StateDerived:     "SeekMoon calculated the value from current facts",
 }
 
+// ParseState validates and returns an evidence state.
 func ParseState(value string) (State, error) {
 	state := State(value)
 	if state.IsValid() {
@@ -37,23 +39,28 @@ func ParseState(value string) (State, error) {
 	return "", fmt.Errorf("unknown evidence state %q", value)
 }
 
+// IsValid reports whether the state belongs to the closed evidence vocabulary.
 func (s State) IsValid() bool {
 	_, ok := allStates[s]
 	return ok
 }
 
+// Meaning returns the human-readable meaning of a state.
 func (s State) Meaning() string {
 	return allStates[s]
 }
 
+// IsAbsence reports whether the state means no usable value is available.
 func (s State) IsAbsence() bool {
 	return s == StateMissing || s == StateUnknown || s == StateUnavailable
 }
 
+// IsFailure reports whether the state represents a failed source action.
 func (s State) IsFailure() bool {
 	return s == StateFailed
 }
 
+// MarshalJSON rejects unknown states before writing JSON.
 func (s State) MarshalJSON() ([]byte, error) {
 	if !s.IsValid() {
 		return nil, fmt.Errorf("invalid evidence state %q", string(s))
@@ -61,6 +68,7 @@ func (s State) MarshalJSON() ([]byte, error) {
 	return json.Marshal(string(s))
 }
 
+// UnmarshalJSON validates incoming state strings.
 func (s *State) UnmarshalJSON(data []byte) error {
 	var value string
 	if err := json.Unmarshal(data, &value); err != nil {
@@ -74,6 +82,7 @@ func (s *State) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Evidence wraps a value with source, status, and failure metadata.
 type Evidence[T any] struct {
 	Status State   `json:"status"`
 	Value  *T      `json:"value"`
@@ -81,30 +90,37 @@ type Evidence[T any] struct {
 	Error  string  `json:"error,omitempty"`
 }
 
+// Present returns evidence with an observed source value.
 func Present[T any](value T, source string) Evidence[T] {
 	return Evidence[T]{Status: StatePresent, Value: &value, Source: sourcePtr(source)}
 }
 
+// Missing returns evidence for a known field with no source value.
 func Missing[T any](source string) Evidence[T] {
 	return Evidence[T]{Status: StateMissing, Source: sourcePtr(source)}
 }
 
+// Unknown returns evidence for an unanswered question.
 func Unknown[T any]() Evidence[T] {
 	return Evidence[T]{Status: StateUnknown}
 }
 
+// Failed returns evidence for an attempted source action that failed.
 func Failed[T any](source, message string) Evidence[T] {
 	return Evidence[T]{Status: StateFailed, Source: sourcePtr(source), Error: message}
 }
 
+// Unavailable returns evidence for an optional absent source.
 func Unavailable[T any](source string) Evidence[T] {
 	return Evidence[T]{Status: StateUnavailable, Source: sourcePtr(source)}
 }
 
+// Derived returns evidence calculated from current facts.
 func Derived[T any](value T, source string) Evidence[T] {
 	return Evidence[T]{Status: StateDerived, Value: &value, Source: sourcePtr(source)}
 }
 
+// Validate checks evidence status/value consistency.
 func (e Evidence[T]) Validate() error {
 	if !e.Status.IsValid() {
 		return fmt.Errorf("invalid evidence status %q", e.Status)
@@ -126,14 +142,20 @@ func sourcePtr(source string) *string {
 }
 
 type (
-	EvidenceString      = Evidence[string]
+	// EvidenceString is string evidence.
+	EvidenceString = Evidence[string]
+	// EvidenceStringArray is string-slice evidence.
 	EvidenceStringArray = Evidence[[]string]
-	EvidenceInt         = Evidence[int]
-	EvidenceObject      = Evidence[map[string]any]
+	// EvidenceInt is integer evidence.
+	EvidenceInt = Evidence[int]
+	// EvidenceObject is object-map evidence.
+	EvidenceObject = Evidence[map[string]any]
 )
 
+// SourceLabel identifies a source family in evidence records.
 type SourceLabel string
 
+// Source labels used by source readers and stores.
 const (
 	SourceModulesAPI      SourceLabel = "modules_api"
 	SourceStatisticsAPI   SourceLabel = "statistics_api"
@@ -152,6 +174,7 @@ const (
 	SourceDerived         SourceLabel = "derived"
 )
 
+// SourceResult records value, status, and raw-reference data for one source.
 type SourceResult[T any] struct {
 	Source     string `json:"source"`
 	URL        string `json:"url,omitempty"`

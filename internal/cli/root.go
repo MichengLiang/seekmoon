@@ -12,18 +12,20 @@ import (
 	"github.com/yumiaura/seekmoon/internal/output"
 )
 
+// Options configures command output streams.
 type Options struct {
 	Out io.Writer
 	Err io.Writer
 }
 
+// NewRoot builds the root Cobra command and subcommands.
 func NewRoot(rt *app.Runtime, options Options) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           "seekmoon",
 		Short:         "MoonBit package discovery workbench",
 		SilenceUsage:  true,
 		SilenceErrors: true,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			return cmd.Help()
 		},
 	}
@@ -51,12 +53,14 @@ func NewRoot(rt *app.Runtime, options Options) *cobra.Command {
 	return cmd
 }
 
+// Execute runs the root command with the supplied context.
 func Execute(ctx context.Context, rt *app.Runtime, options Options) error {
 	root := NewRoot(rt, options)
 	root.SetContext(ctx)
 	return root.Execute()
 }
 
+// ExecuteWithCode runs the root command and returns a process-style exit code.
 func ExecuteWithCode(ctx context.Context, rt *app.Runtime, options Options, args ...string) int {
 	root := NewRoot(rt, options)
 	root.SetContext(ctx)

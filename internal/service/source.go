@@ -10,6 +10,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// SourceFlow resolves source acquisition options for a candidate.
 type SourceFlow struct {
 	Mooncakes  source.MooncakesClient
 	Assets     source.AssetClient
@@ -19,6 +20,7 @@ type SourceFlow struct {
 	Paths      store.Paths
 }
 
+// Source returns attempted source locations and the selected inspection route.
 func (s SourceFlow) Source(ctx context.Context, input SourceInput) (model.SourceResolution, error) {
 	candidate, err := candidateFromRequest(ctx, s.Sessions, input.Candidate)
 	if err != nil {

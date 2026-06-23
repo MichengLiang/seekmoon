@@ -1,3 +1,4 @@
+// Package main starts the SeekMoon CLI.
 package main
 
 import (

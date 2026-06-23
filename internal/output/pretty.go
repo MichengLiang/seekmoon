@@ -8,6 +8,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// RenderPretty writes the default human-oriented command output.
 func RenderPretty(writer io.Writer, value any) error {
 	switch v := value.(type) {
 	case model.SearchOutput:
@@ -269,7 +270,7 @@ func evidenceIntText(e model.EvidenceInt) string {
 
 func evidenceObjectText(e model.EvidenceObject) string {
 	if e.Value != nil && len(*e.Value) > 0 {
-		var parts []string
+		parts := make([]string, 0, len(*e.Value))
 		for key := range *e.Value {
 			parts = append(parts, key)
 		}

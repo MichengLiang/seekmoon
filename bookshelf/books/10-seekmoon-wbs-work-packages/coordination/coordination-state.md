@@ -147,9 +147,42 @@ Batch E closes acceptance:
 - Revision report: `coordination/reports/015-batch-d-revision-1-builder-report.md`
 - Re-review package: `coordination/review-packages/016-batch-d-re-review.md`
 - Re-review prompt: `coordination/prompts/016-batch-d-re-reviewer.md`
+- Re-review report: `coordination/reports/016-batch-d-re-review-report.md`
+- Final verdict: approved
+- Batch D commit: `059456c Approve Batch D WP10-WP12 service flows`
+- Promotion status: stable accepted belief for WP10-WP12 service flows
 - Blocking findings:
   - `sync` omits local registry index source and summary;
   - `raw` returns normalized model payloads instead of upstream raw payload shape.
+
+## Batch E Dispatch
+
+- Status: ready to dispatch
+- Work package: WP13 Black-box Acceptance and Quality Gates
+- Intended builder: `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`)
+- Intended reviewer: `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`)
+- Handoff: `coordination/handoffs/batch-e-builder.md`
+- Prompt: `coordination/prompts/017-batch-e-builder.md`
+- Report path: `coordination/reports/017-batch-e-builder-report.md`
+- Review package: `coordination/review-packages/018-batch-e-review.md`
+- Review prompt: `coordination/prompts/018-batch-e-reviewer.md`
+- Builder-reported blockers:
+  - `just lint` fails with broad lint findings;
+  - `just vuln` fails due Go standard library vulnerabilities in local `go1.26.3`, fixed in `go1.26.4`;
+  - `just ci` fails because it includes lint and vuln gates.
+- Initial review report: `coordination/reports/018-batch-e-review-report.md`
+- Initial verdict: rejected
+- Revision handoff: `coordination/handoffs/batch-e-revision-1-builder.md`
+- Revision prompt: `coordination/prompts/019-batch-e-revision-1-builder.md`
+- Revision report: `coordination/reports/019-batch-e-revision-1-builder-report.md`
+- Re-review package: `coordination/review-packages/020-batch-e-re-review.md`
+- Re-review prompt: `coordination/prompts/020-batch-e-re-reviewer.md`
+- Re-review status: ready for independent reviewer
+- Revision evidence:
+  - local Go toolchain updated to `go1.26.4`;
+  - `PATH="$(go env GOPATH)/bin:$PATH" just lint` passes;
+  - `PATH="$(go env GOPATH)/bin:$PATH" just vuln` passes;
+  - `PATH="$(go env GOPATH)/bin:$PATH" just ci` passes.
 
 ## Review State
 

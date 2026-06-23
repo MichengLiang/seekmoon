@@ -184,3 +184,11 @@ WP12:
 - `parts/040-command-workbench/070-record-report-and-raw.adoc`, lines `4..19;23..37;41..52`
 - `parts/030-canonical-model/070-record-and-report.adoc`, lines `4..64;69..97`
 - `parts/060-journeys-and-acceptance/040-failure-recovery-journey.adoc`, lines `63..91`
+
+## Batch E Exact Line Includes
+
+WP13:
+
+- `parts/060-journeys-and-acceptance/050-black-box-acceptance.adoc`, lines `4..75`
+- `parts/055-go-implementation-architecture/110-testing-and-tooling.adoc`, lines `4..53`
+- `parts/055-go-implementation-architecture/120-engineering-quality-toolchain.adoc`, lines `59..159`

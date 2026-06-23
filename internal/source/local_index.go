@@ -16,11 +16,13 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// LocalIndexReader reads Moon registry local index files.
 type LocalIndexReader struct {
 	FS    platform.FS
 	Clock platform.Clock
 }
 
+// LocalIndexSummary summarizes records parsed from local index files.
 type LocalIndexSummary struct {
 	Records     []model.ModuleSummary `json:"records"`
 	FileCount   int                   `json:"file_count"`
@@ -29,6 +31,7 @@ type LocalIndexSummary struct {
 	IndexHead   string                `json:"index_head,omitempty"`
 }
 
+// Parse parses newline-delimited local index records.
 func (r LocalIndexReader) Parse(data []byte) LocalIndexSummary {
 	var summary LocalIndexSummary
 	scanner := bufio.NewScanner(bytes.NewReader(data))
@@ -88,6 +91,7 @@ func (r LocalIndexReader) Read(ctx context.Context, path string) model.SourceRes
 
 func (r LocalIndexReader) readDirectory(ctx context.Context, root string) model.SourceResult[LocalIndexSummary] {
 	var summary LocalIndexSummary
+	cleanRoot := filepath.Clean(root)
 	err := filepath.WalkDir(root, func(path string, entry fs.DirEntry, walkErr error) error {
 		if err := ctx.Err(); err != nil {
 			return err
@@ -98,7 +102,15 @@ func (r LocalIndexReader) readDirectory(ctx context.Context, root string) model.
 		if entry.IsDir() || filepath.Ext(path) != ".index" {
 			return nil
 		}
-		data, err := os.ReadFile(path)
+		cleanPath := filepath.Clean(path)
+		rel, err := filepath.Rel(cleanRoot, cleanPath)
+		if err != nil || rel == ".." || strings.HasPrefix(rel, ".."+string(os.PathSeparator)) {
+			return fmt.Errorf("local index path escaped root: %s", path)
+		}
+		// #nosec G304,G122 -- WalkDir supplies paths under the configured local
+		// index root; rel validation rejects callbacks outside that root before
+		// reading discovered registry index files.
+		data, err := os.ReadFile(cleanPath)
 		if err != nil {
 			return err
 		}
@@ -119,13 +131,21 @@ func (r LocalIndexReader) readDirectory(ctx context.Context, root string) model.
 func readIndexHead(path string) string {
 	for _, candidate := range []string{path, filepath.Dir(path), filepath.Dir(filepath.Dir(path))} {
 		headPath := filepath.Join(candidate, ".git", "HEAD")
+		// #nosec G304 -- HEAD probing is constrained to the configured local
+		// registry index root and parents used by Moon's registry checkout.
 		data, err := os.ReadFile(headPath)
 		if err != nil {
 			continue
 		}
 		head := strings.TrimSpace(string(data))
 		if ref, ok := strings.CutPrefix(head, "ref: "); ok {
-			refData, err := os.ReadFile(filepath.Join(candidate, ".git", filepath.FromSlash(ref)))
+			ref = filepath.Clean(filepath.FromSlash(ref))
+			if filepath.IsAbs(ref) || ref == ".." || strings.HasPrefix(ref, ".."+string(os.PathSeparator)) {
+				continue
+			}
+			// #nosec G304 -- git ref path is resolved relative to the discovered
+			// registry checkout metadata, not arbitrary command input.
+			refData, err := os.ReadFile(filepath.Join(candidate, ".git", ref))
 			if err == nil {
 				return strings.TrimSpace(string(refData))
 			}

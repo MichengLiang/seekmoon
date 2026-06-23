@@ -9,10 +9,12 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// LocalCacheReader checks local filesystem cache paths.
 type LocalCacheReader struct {
 	FS platform.FS
 }
 
+// CheckPath reports whether a local cache path exists.
 func (r LocalCacheReader) CheckPath(ctx context.Context, label model.SourceLabel, path string) model.SourceAttempt {
 	fs := r.FS
 	if fs == nil {

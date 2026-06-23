@@ -54,7 +54,7 @@ func TestRepositorySignalMapping(t *testing.T) {
 }
 
 func TestRepositorySignalMissingPushedAtUnknown(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"archived":false,"open_issues_count":0,"default_branch":"main"}`))
 	}))
@@ -75,7 +75,7 @@ func TestRepositorySignalMissingPushedAtUnknown(t *testing.T) {
 }
 
 func TestSkillParsingRootMarkerAndRunwasm(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte(`[{"module":"Yoorkin/cowsay","author":"Yoorkin","author_avatar":"","version":"0.1.0","package":"","name":"cowsay","wasm_url":"https://asset/wasm","checksum_url":"https://asset/checksum","repository":"","created_at":"2026"}]`))
 	}))
 	defer server.Close()

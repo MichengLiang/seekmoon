@@ -1,5 +1,6 @@
 package model
 
+// SkillEntry is a normalized skill registry entry.
 type SkillEntry struct {
 	Module       string         `json:"module"`
 	Author       string         `json:"author"`
@@ -15,6 +16,7 @@ type SkillEntry struct {
 	CreatedAt    string         `json:"created_at"`
 }
 
+// SkillProfile combines a skill entry with inspectable asset evidence.
 type SkillProfile struct {
 	Entry             SkillEntry     `json:"entry"`
 	SkillMD           EvidenceString `json:"skill_md"`
@@ -23,6 +25,7 @@ type SkillProfile struct {
 	RunwasmCoordinate EvidenceString `json:"runwasm_coordinate"`
 }
 
+// RunwasmCoordinate derives the moon runwasm coordinate for a skill entry.
 func RunwasmCoordinate(entry SkillEntry) string {
 	if entry.Package == "" {
 		return entry.Module + "@" + entry.Version

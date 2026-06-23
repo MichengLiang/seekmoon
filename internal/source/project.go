@@ -12,6 +12,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// ProjectReader reads local Moon project configuration.
 type ProjectReader struct {
 	FS    platform.FS
 	Clock platform.Clock
@@ -30,7 +31,8 @@ func (r ProjectReader) Read(ctx context.Context, root string) model.SourceResult
 		ExistingDependencies: model.Unknown[map[string]any](),
 	}
 	moduleConfig := readFirstConfig(ctx, fs, root, "moon.mod.json", "moon.mod")
-	if moduleConfig.Status == model.StatePresent {
+	switch moduleConfig.Status {
+	case model.StatePresent:
 		project.ModuleConfig = moduleConfig.Evidence
 		if module, ok := moduleConfig.Value["name"].(string); ok {
 			project.Identity.Module = module
@@ -38,16 +40,17 @@ func (r ProjectReader) Read(ctx context.Context, root string) model.SourceResult
 		if deps, ok := moduleConfig.Value["deps"].(map[string]any); ok {
 			project.ExistingDependencies = model.Present(deps, string(model.SourceProjectContext))
 		}
-	} else if moduleConfig.Status == model.StateFailed {
+	case model.StateFailed:
 		project.ModuleConfig = moduleConfig.Evidence
 	}
 	packageConfig := readFirstConfig(ctx, fs, root, "moon.pkg.json", "moon.pkg")
-	if packageConfig.Status == model.StatePresent {
+	switch packageConfig.Status {
+	case model.StatePresent:
 		project.PackageConfig = packageConfig.Evidence
 		if target, ok := packageConfig.Value["target"].(string); ok {
 			project.DeclaredTarget = model.Present(target, string(model.SourceProjectContext))
 		}
-	} else if packageConfig.Status == model.StateFailed {
+	case model.StateFailed:
 		project.PackageConfig = packageConfig.Evidence
 	}
 	status := model.StatePresent

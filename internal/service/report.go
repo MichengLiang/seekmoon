@@ -11,6 +11,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// ReportFlow builds reports from stored adoption records.
 type ReportFlow struct {
 	Records store.RecordStore
 	Reports store.ReportStore
@@ -19,6 +20,7 @@ type ReportFlow struct {
 	Now     func() time.Time
 }
 
+// Report returns and optionally writes a report.
 func (s ReportFlow) Report(ctx context.Context, input ReportInput) (model.Report, error) {
 	records, err := s.Records.List(ctx)
 	if err != nil {

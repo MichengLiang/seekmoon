@@ -6,14 +6,17 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// SourceStore resolves local source inspection paths.
 type SourceStore struct {
 	Paths Paths
 }
 
+// SourceDir returns the local source directory for an id.
 func (s SourceStore) SourceDir(id string) string {
 	return filepath.Join(s.Paths.Sources, SafeName(id))
 }
 
+// Registry groups all stores used by the runtime.
 type Registry struct {
 	Snapshots SnapshotStore
 	Sessions  SessionStore
@@ -24,6 +27,7 @@ type Registry struct {
 	Sources   SourceStore
 }
 
+// NewRegistry creates stores for the supplied filesystem and paths.
 func NewRegistry(fs platform.FS, paths Paths) Registry {
 	return Registry{
 		Snapshots: SnapshotStore{FS: fs, Paths: paths},

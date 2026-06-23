@@ -15,11 +15,13 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// Fetcher reads HTTP payloads with status-bearing results.
 type Fetcher struct {
 	Client *http.Client
 	Clock  platform.Clock
 }
 
+// FetchResult records one HTTP fetch attempt.
 type FetchResult struct {
 	URL        string
 	Path       string
@@ -31,6 +33,7 @@ type FetchResult struct {
 	Error      string
 }
 
+// Fetch performs an HTTP GET with a short retry policy.
 func (f Fetcher) Fetch(ctx context.Context, url string) FetchResult {
 	var out FetchResult
 	operation := func() (FetchResult, error) {
@@ -47,6 +50,7 @@ func (f Fetcher) Fetch(ctx context.Context, url string) FetchResult {
 	return out
 }
 
+// FetchJSON fetches and decodes a JSON payload.
 func (f Fetcher) FetchJSON(ctx context.Context, url string, target any) FetchResult {
 	result := f.Fetch(ctx, url)
 	if result.Status != model.StatePresent {
@@ -89,12 +93,17 @@ func (f Fetcher) fetchOnce(ctx context.Context, url string) FetchResult {
 		result.Error = err.Error()
 		return result
 	}
-	defer resp.Body.Close()
 	body, readErr := io.ReadAll(resp.Body)
+	closeErr := resp.Body.Close()
 	result.Body = body
 	if readErr != nil {
 		result.Status = model.StateFailed
 		result.Error = readErr.Error()
+		return result
+	}
+	if closeErr != nil {
+		result.Status = model.StateFailed
+		result.Error = closeErr.Error()
 		return result
 	}
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
@@ -110,7 +119,8 @@ func (f Fetcher) fetchOnce(ctx context.Context, url string) FetchResult {
 	return result
 }
 
-func SourceResult[T any](label string, fetch FetchResult, value *T) model.SourceResult[T] {
+// sourceResult converts fetch metadata into a model source result.
+func sourceResult[T any](label string, fetch FetchResult, value *T) model.SourceResult[T] {
 	return model.SourceResult[T]{
 		Source:     label,
 		URL:        fetch.URL,
@@ -124,9 +134,10 @@ func SourceResult[T any](label string, fetch FetchResult, value *T) model.Source
 	}
 }
 
+// RawJSONSourceResult decodes a raw JSON fetch without normalization.
 func RawJSONSourceResult(label string, fetch FetchResult) model.SourceResult[any] {
 	if fetch.Status != model.StatePresent {
-		return SourceResult[any](label, fetch, nil)
+		return sourceResult[any](label, fetch, nil)
 	}
 	var raw any
 	decoder := json.NewDecoder(bytes.NewReader(fetch.Body))
@@ -135,10 +146,10 @@ func RawJSONSourceResult(label string, fetch FetchResult) model.SourceResult[any
 		fetch.Status = model.StateFailed
 		fetch.ParseState = model.StateFailed
 		fetch.Error = err.Error()
-		return SourceResult[any](label, fetch, nil)
+		return sourceResult[any](label, fetch, nil)
 	}
 	fetch.ParseState = model.StatePresent
-	return SourceResult(label, fetch, &raw)
+	return sourceResult(label, fetch, &raw)
 }
 
 func sourceNow(clock platform.Clock) string {

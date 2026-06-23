@@ -6,6 +6,7 @@ import (
 	"io"
 )
 
+// JSONProjection converts any command value into a schema-bearing JSON object.
 func JSONProjection(schema string, value any) (any, error) {
 	if schema == "" {
 		return nil, fmt.Errorf("schema id is required")
@@ -30,6 +31,7 @@ func JSONProjection(schema string, value any) (any, error) {
 	return map[string]any{"schema": schema, "result": decoded}, nil
 }
 
+// RenderJSON writes a command value as indented JSON.
 func RenderJSON(writer io.Writer, schema string, value any) error {
 	projected, err := JSONProjection(schema, value)
 	if err != nil {

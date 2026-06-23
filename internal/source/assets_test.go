@@ -13,7 +13,7 @@ import (
 )
 
 func TestAssetModuleIndexChildsAndRelpath(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{"name":"root","package":{"path":"moonbitlang/core"},"childs":[{"name":"argparse","package":{"path":"moonbitlang/core/argparse","values":[{"name":"parse"}]}}]}`))
 	}))

@@ -116,7 +116,7 @@ func TestSearchThinHandlerCallsServiceOnce(t *testing.T) {
 	}}
 	rt.Services.Registry.Search = search
 	var rendered output.Request
-	rt.Renderer = output.RendererFunc(func(ctx context.Context, request output.Request) error {
+	rt.Renderer = output.RendererFunc(func(_ context.Context, request output.Request) error {
 		rendered = request
 		return nil
 	})
@@ -155,7 +155,7 @@ type fakeSearchService struct {
 	err    error
 }
 
-func (s *fakeSearchService) Search(ctx context.Context, input service.SearchInput) (model.SearchOutput, error) {
+func (s *fakeSearchService) Search(_ context.Context, input service.SearchInput) (model.SearchOutput, error) {
 	s.calls++
 	s.input = input
 	return s.result, s.err

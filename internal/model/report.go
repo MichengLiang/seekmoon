@@ -1,5 +1,6 @@
 package model
 
+// Report is the generated adoption evidence report.
 type Report struct {
 	Goal        string            `json:"goal"`
 	Environment ReportEnvironment `json:"environment"`
@@ -10,6 +11,7 @@ type Report struct {
 	Decision    AdoptionRecord    `json:"decision"`
 }
 
+// ReportEnvironment records the environment context used by a report.
 type ReportEnvironment struct {
 	Toolchain string          `json:"toolchain,omitempty"`
 	Snapshot  SnapshotRef     `json:"snapshot"`

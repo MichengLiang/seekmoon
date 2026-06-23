@@ -8,11 +8,13 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// CompareFlow compares evidence for selected candidates.
 type CompareFlow struct {
 	Mooncakes source.MooncakesClient
 	Sessions  store.SessionStore
 }
 
+// Compare returns field-by-field evidence for candidate comparison.
 func (s CompareFlow) Compare(ctx context.Context, input CompareInput) (any, error) {
 	refs := make([]model.CandidateRef, 0, len(input.Candidates))
 	fields := map[string]map[string]string{

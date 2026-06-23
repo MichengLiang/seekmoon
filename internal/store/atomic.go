@@ -7,6 +7,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// AtomicWriteFile writes data via a temporary file then renames it into place.
 func AtomicWriteFile(ctx context.Context, fs platform.FS, path string, data []byte) error {
 	if fs == nil {
 		fs = platform.OSFS{}

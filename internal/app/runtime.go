@@ -12,6 +12,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// Runtime contains all host capabilities, stores, sources, services, and rendering.
 type Runtime struct {
 	Env      platform.Env
 	Clock    platform.Clock
@@ -25,6 +26,7 @@ type Runtime struct {
 	Renderer output.Renderer
 }
 
+// SourceRegistry groups source readers used by services.
 type SourceRegistry struct {
 	Mooncakes  source.MooncakesClient
 	Assets     source.AssetClient
@@ -36,13 +38,16 @@ type SourceRegistry struct {
 	Repository source.RepositoryReader
 }
 
+// ServiceRegistry groups command-facing services.
 type ServiceRegistry struct {
 	Registry service.Registry
 	Sync     service.SyncService
 }
 
+// Option customizes a Runtime during construction.
 type Option func(*Runtime)
 
+// NewRuntime builds a runtime with default host capabilities.
 func NewRuntime(options ...Option) (*Runtime, error) {
 	env := platform.ReadEnv()
 	paths := store.ResolvePaths(env)
@@ -64,6 +69,7 @@ func NewRuntime(options ...Option) (*Runtime, error) {
 	return runtime, nil
 }
 
+// WithEnv replaces environment-derived runtime paths.
 func WithEnv(env platform.Env) Option {
 	return func(runtime *Runtime) {
 		runtime.Env = env
@@ -73,6 +79,7 @@ func WithEnv(env platform.Env) Option {
 	}
 }
 
+// WithFS replaces the runtime filesystem capability.
 func WithFS(fs platform.FS) Option {
 	return func(runtime *Runtime) {
 		runtime.FS = fs
@@ -82,6 +89,7 @@ func WithFS(fs platform.FS) Option {
 	}
 }
 
+// WithClock replaces the runtime clock.
 func WithClock(clock platform.Clock) Option {
 	return func(runtime *Runtime) {
 		runtime.Clock = clock

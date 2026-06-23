@@ -2,8 +2,10 @@ package contract
 
 import "github.com/yumiaura/seekmoon/internal/model"
 
+// Schema is a JSON Schema object rendered by the schema output mode.
 type Schema map[string]any
 
+// SearchResultsSchema returns the contract for search result JSON output.
 func SearchResultsSchema() Schema {
 	return Schema{
 		"$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -82,6 +84,7 @@ func SearchResultsSchema() Schema {
 	}
 }
 
+// AdoptionRecordSchema returns the contract for adoption record JSON output.
 func AdoptionRecordSchema() Schema {
 	return Schema{
 		"$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -120,42 +123,52 @@ func AdoptionRecordSchema() Schema {
 	}
 }
 
+// EnvironmentStatusSchema returns the contract for doctor environment output.
 func EnvironmentStatusSchema() Schema {
 	return genericObjectSchema(model.SchemaEnvironmentStatusV1)
 }
 
+// SnapshotSchema returns the contract for sync snapshot output.
 func SnapshotSchema() Schema {
 	return genericObjectSchema(model.SchemaSnapshotV1)
 }
 
+// ManifestProfileSchema returns the contract for manifest profile output.
 func ManifestProfileSchema() Schema {
 	return genericObjectSchema(model.SchemaManifestProfileV1)
 }
 
+// PackageDataSchema returns the contract for package API data output.
 func PackageDataSchema() Schema {
 	return genericObjectSchema(model.SchemaPackageDataV1)
 }
 
+// SkillEntrySchema returns the contract for skill entry output.
 func SkillEntrySchema() Schema {
 	return genericObjectSchema(model.SchemaSkillEntryV1)
 }
 
+// SourceResolutionSchema returns the contract for source resolution output.
 func SourceResolutionSchema() Schema {
 	return genericObjectSchema(model.SchemaSourceResolutionV1)
 }
 
+// ComparisonSchema returns the contract for comparison output.
 func ComparisonSchema() Schema {
 	return genericObjectSchema(model.SchemaComparisonV1)
 }
 
+// ProbeResultSchema returns the contract for probe result output.
 func ProbeResultSchema() Schema {
 	return genericObjectSchema(model.SchemaProbeResultV1)
 }
 
+// ReportSchema returns the contract for report output.
 func ReportSchema() Schema {
 	return genericObjectSchema(model.SchemaReportV1)
 }
 
+// RawPayloadSchema returns the contract for raw source payload output.
 func RawPayloadSchema() Schema {
 	return genericObjectSchema(model.SchemaRawPayloadV1)
 }

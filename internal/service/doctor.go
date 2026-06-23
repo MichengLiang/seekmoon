@@ -2,19 +2,20 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/yumiaura/seekmoon/internal/model"
 	"github.com/yumiaura/seekmoon/internal/source"
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// DoctorFlow reports local environment and project context evidence.
 type DoctorFlow struct {
 	Project source.ProjectReader
 	MoonCLI source.MoonCLI
 	Paths   store.Paths
 }
 
+// Doctor returns environment status without mutating project records.
 func (s DoctorFlow) Doctor(ctx context.Context, input DoctorInput) (any, error) {
 	_ = input
 	root := s.Paths.ProjectRoot
@@ -47,11 +48,4 @@ func (s DoctorFlow) Doctor(ctx context.Context, input DoctorInput) (any, error) 
 		},
 		Project: s.Project.Read(ctx, root),
 	}, nil
-}
-
-func environmentPathStatus(path string) model.EvidenceString {
-	if path == "" {
-		return model.Unknown[string]()
-	}
-	return model.Present(fmt.Sprintf("%s", path), string(model.SourceProjectContext))
 }

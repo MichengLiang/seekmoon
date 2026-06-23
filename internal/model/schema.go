@@ -1,5 +1,6 @@
 package model
 
+// Schema identifiers advertised by SeekMoon output contracts.
 const (
 	SchemaSearchResultsV1     = "seekmoon.search-results.v1"
 	SchemaEnvironmentStatusV1 = "seekmoon.environment-status.v1"

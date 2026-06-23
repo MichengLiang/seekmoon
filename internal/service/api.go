@@ -10,12 +10,14 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// APIFlow resolves package API data through manifest and module index evidence.
 type APIFlow struct {
 	Mooncakes source.MooncakesClient
 	Assets    source.AssetClient
 	Sessions  store.SessionStore
 }
 
+// API returns package data for a selected candidate and known package path.
 func (s APIFlow) API(ctx context.Context, input APIInput) (model.PackageData, error) {
 	candidate, err := candidateFromRequest(ctx, s.Sessions, input.Candidate)
 	if err != nil {

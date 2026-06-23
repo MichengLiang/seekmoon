@@ -7,28 +7,30 @@ import (
 	"github.com/yumiaura/seekmoon/internal/source"
 )
 
+// RawFlow projects upstream source payloads without normalization.
 type RawFlow struct {
 	Mooncakes source.MooncakesClient
 	Assets    source.AssetClient
 	Skills    source.SkillsClient
 }
 
+// Raw returns the selected upstream payload with source status metadata.
 func (s RawFlow) Raw(ctx context.Context, input RawInput) (any, error) {
 	switch input.Source {
 	case "modules":
 		result := s.Mooncakes.FetchRawModules(ctx)
 		return rawEnvelope(result.Source, result.URL, result.Path, result.FetchedAt, result.Status, result.RawRef, rawPayload(result.Value), result.Error), nil
 	case "manifest":
-		module := firstArg(input.Args, "")
+		module := firstArg(input.Args)
 		result := s.Mooncakes.FetchRawManifest(ctx, module)
 		return rawEnvelope(result.Source, result.URL, result.Path, result.FetchedAt, result.Status, result.RawRef, rawPayload(result.Value), result.Error), nil
 	case "module-index":
-		module, version := splitModuleVersion(firstArg(input.Args, ""))
+		module, version := splitModuleVersion(firstArg(input.Args))
 		result := s.Assets.FetchRawModuleIndex(ctx, module, version)
 		return rawEnvelope(result.Source, result.URL, result.Path, result.FetchedAt, result.Status, result.RawRef, rawPayload(result.Value), result.Error), nil
 	case "package-data":
-		module, version := splitModuleVersion(firstArg(input.Args, ""))
-		pkg := firstArg(input.Args[1:], "")
+		module, version := splitModuleVersion(firstArg(input.Args))
+		pkg := firstArg(input.Args[1:])
 		result := s.Assets.FetchRawPackageData(ctx, module, version, pkg)
 		return rawEnvelope(result.Source, result.URL, result.Path, result.FetchedAt, result.Status, result.RawRef, rawPayload(result.Value), result.Error), nil
 	case "skills":
@@ -60,9 +62,9 @@ func rawEnvelope(sourceName, url, path, fetchedAt string, status model.State, ra
 	}
 }
 
-func firstArg(args []string, fallback string) string {
+func firstArg(args []string) string {
 	if len(args) == 0 {
-		return fallback
+		return ""
 	}
 	return args[0]
 }

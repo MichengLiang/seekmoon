@@ -381,15 +381,37 @@ func mooncakesServer(t *testing.T) *httptest.Server {
 			w.Header().Set("Content-Type", "application/zip")
 			_, _ = w.Write(testZip(t))
 		case "/api/v0/skills":
-			_, _ = w.Write([]byte(`[{"module":"Yoorkin/cowsay","version":"0.1.0","package":"cowsay","name":"cowsay","detail_url":"skills/Yoorkin/cowsay","wasm_url":"` + "http://" + r.Host + `/skill.wasm","checksum_url":"` + "http://" + r.Host + `/skill.sha256","metadata":{"description":"cowsay"}}]`))
+			writeJSON(t, w, []map[string]any{skillPayloadForHost(r.Host)})
 		case "/api/v0/skills/Yoorkin%2Fcowsay", "/api/v0/skills/Yoorkin/cowsay":
-			_, _ = w.Write([]byte(`{"module":"Yoorkin/cowsay","version":"0.1.0","package":"cowsay","name":"cowsay","detail_url":"skills/Yoorkin/cowsay","wasm_url":"` + "http://" + r.Host + `/skill.wasm","checksum_url":"` + "http://" + r.Host + `/skill.sha256","metadata":{"description":"cowsay"}}`))
+			writeJSON(t, w, skillPayloadForHost(r.Host))
 		case "/skill.wasm", "/skill.sha256":
 			_, _ = w.Write([]byte("asset"))
 		default:
 			http.NotFound(w, r)
 		}
 	}))
+}
+
+func skillPayloadForHost(host string) map[string]any {
+	baseURL := "http://" + host
+	return map[string]any{
+		"module":       "Yoorkin/cowsay",
+		"version":      "0.1.0",
+		"package":      "cowsay",
+		"name":         "cowsay",
+		"detail_url":   "skills/Yoorkin/cowsay",
+		"wasm_url":     baseURL + "/skill.wasm",
+		"checksum_url": baseURL + "/skill.sha256",
+		"metadata":     map[string]any{"description": "cowsay"},
+	}
+}
+
+func writeJSON(t *testing.T, w http.ResponseWriter, value any) {
+	t.Helper()
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(value); err != nil {
+		t.Fatalf("write json: %v", err)
+	}
 }
 
 func testZip(t *testing.T) []byte {
@@ -418,7 +440,7 @@ type fakeRunner struct {
 	failContains string
 }
 
-func (r fakeRunner) Run(ctx context.Context, request platform.RunRequest) (platform.RunResult, error) {
+func (r fakeRunner) Run(_ context.Context, request platform.RunRequest) (platform.RunResult, error) {
 	result := platform.RunResult{Command: request.Command, CWD: request.CWD, LogPath: request.LogPath}
 	if strings.Contains(strings.Join(request.Command, " "), r.failContains) {
 		result.ExitCode = 1

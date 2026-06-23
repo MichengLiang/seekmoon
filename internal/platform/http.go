@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// NewHTTPClient returns a timeout-bound HTTP client.
 func NewHTTPClient(timeout time.Duration) *http.Client {
 	if timeout == 0 {
 		timeout = 30 * time.Second

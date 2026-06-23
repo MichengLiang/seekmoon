@@ -2,11 +2,11 @@ set dotenv-load := false
 
 fmt:
     command -v gofumpt >/dev/null
-    gofumpt -w cmd internal
+    gofumpt -w cmd internal tests
 
 fmt-check:
     command -v gofumpt >/dev/null
-    test -z "$(gofumpt -l cmd internal)"
+    test -z "$(gofumpt -l cmd internal tests)"
 
 lint:
     command -v golangci-lint >/dev/null
@@ -26,7 +26,7 @@ cover:
     go tool cover -func=.artifacts/coverage.out
 
 fuzz:
-    go test -fuzz=Fuzz -run=^$ ./internal/model
+    go test -fuzz=Fuzz -run=^$ ./internal/model ./internal/source
 
 vuln:
     command -v govulncheck >/dev/null

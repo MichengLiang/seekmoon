@@ -1,5 +1,6 @@
 package model
 
+// SourceResolution records all attempted source acquisition routes.
 type SourceResolution struct {
 	Module           string         `json:"module"`
 	Version          string         `json:"version"`
@@ -12,6 +13,7 @@ type SourceResolution struct {
 	FilesSummary     FilesSummary   `json:"files_summary"`
 }
 
+// SourceAttempt records one source acquisition attempt.
 type SourceAttempt struct {
 	Status State  `json:"status"`
 	Path   string `json:"path,omitempty"`
@@ -19,12 +21,14 @@ type SourceAttempt struct {
 	Error  string `json:"error,omitempty"`
 }
 
+// SelectedSource names the source route chosen for inspection.
 type SelectedSource struct {
 	Method string `json:"method"`
 	Path   string `json:"path,omitempty"`
 	URL    string `json:"url,omitempty"`
 }
 
+// FilesSummary summarizes source archive contents relevant to adoption.
 type FilesSummary struct {
 	MoonMod  bool `json:"moon_mod"`
 	Readme   bool `json:"readme"`

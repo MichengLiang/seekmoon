@@ -10,6 +10,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// SyncService builds and stores source snapshots.
 type SyncService struct {
 	Mooncakes  source.MooncakesClient
 	MoonCLI    source.MoonCLI
@@ -19,6 +20,7 @@ type SyncService struct {
 	Now        func() time.Time
 }
 
+// Sync fetches current source evidence and writes a snapshot.
 func (s SyncService) Sync(ctx context.Context) (model.Snapshot, error) {
 	now := time.Now()
 	if s.Now != nil {

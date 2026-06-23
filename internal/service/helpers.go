@@ -47,16 +47,6 @@ func evidenceStringValue(value model.EvidenceString) string {
 	return ""
 }
 
-func evidenceIntValue(value model.EvidenceInt) string {
-	if value.Value != nil {
-		return fmt.Sprintf("%d", *value.Value)
-	}
-	if value.Status != "" {
-		return string(value.Status)
-	}
-	return ""
-}
-
 func candidateFromRequest(ctx context.Context, sessions store.SessionStore, request model.CandidateRequest) (model.CandidateRef, error) {
 	if request.Number > 0 {
 		candidates, err := sessions.ReadCandidates(ctx, defaultSessionID)

@@ -14,17 +14,20 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// RepositoryReader reads repository evidence from GitHub.
 type RepositoryReader struct {
 	Client *github.Client
 	Token  string
 	Clock  platform.Clock
 }
 
+// RepositoryCoordinate identifies a GitHub owner/repository pair.
 type RepositoryCoordinate struct {
 	Owner string
 	Name  string
 }
 
+// ParseGitHubRepository parses supported GitHub repository URLs.
 func ParseGitHubRepository(rawURL string) (RepositoryCoordinate, error) {
 	parsed, err := url.Parse(rawURL)
 	if err != nil {
@@ -40,6 +43,7 @@ func ParseGitHubRepository(rawURL string) (RepositoryCoordinate, error) {
 	return RepositoryCoordinate{Owner: parts[0], Name: strings.TrimSuffix(parts[1], ".git")}, nil
 }
 
+// Signal reads repository maintenance signals.
 func (r RepositoryReader) Signal(ctx context.Context, rawURL string) model.SourceResult[model.RepositorySignal] {
 	envelope := r.envelope(rawURL, model.StateUnknown, model.StateUnknown, "")
 	coord, err := ParseGitHubRepository(rawURL)

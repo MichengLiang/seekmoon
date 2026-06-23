@@ -10,11 +10,13 @@ import (
 	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
+// RecordStore persists adoption records.
 type RecordStore struct {
 	FS    platform.FS
 	Paths Paths
 }
 
+// Path returns the path for a record id.
 func (s RecordStore) Path(recordID string) string {
 	return filepath.Join(s.Paths.Records, SafeName(recordID)+".json")
 }
@@ -43,6 +45,7 @@ func (s RecordStore) Read(ctx context.Context, recordID string) (model.AdoptionR
 	return record, nil
 }
 
+// List returns all stored adoption records.
 func (s RecordStore) List(ctx context.Context) ([]model.AdoptionRecord, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err

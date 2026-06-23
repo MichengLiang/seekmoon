@@ -8,39 +8,44 @@ import (
 	"github.com/yumiaura/seekmoon/internal/model"
 )
 
+// SkillsClient reads public Mooncakes skill endpoints and assets.
 type SkillsClient struct {
 	BaseURL string
 	Fetcher Fetcher
 }
 
+// FetchSkills reads and normalizes skill search entries.
 func (c SkillsClient) FetchSkills(ctx context.Context) model.SourceResult[[]model.SkillEntry] {
 	var raw []skillPayload
 	fetch := c.Fetcher.FetchJSON(ctx, c.apiURL("/api/v0/skills"), &raw)
 	if fetch.Status != model.StatePresent {
-		return SourceResult[[]model.SkillEntry](string(model.SourceSkillsAPI), fetch, nil)
+		return sourceResult[[]model.SkillEntry](string(model.SourceSkillsAPI), fetch, nil)
 	}
 	entries := make([]model.SkillEntry, 0, len(raw))
 	for _, item := range raw {
 		entries = append(entries, normalizeSkill(item))
 	}
-	return SourceResult(string(model.SourceSkillsAPI), fetch, &entries)
+	return sourceResult(string(model.SourceSkillsAPI), fetch, &entries)
 }
 
+// FetchRawSkills returns the raw skills API payload.
 func (c SkillsClient) FetchRawSkills(ctx context.Context) model.SourceResult[any] {
 	fetch := c.Fetcher.Fetch(ctx, c.apiURL("/api/v0/skills"))
 	return RawJSONSourceResult(string(model.SourceSkillsAPI), fetch)
 }
 
+// FetchSkill reads and normalizes one skill entry.
 func (c SkillsClient) FetchSkill(ctx context.Context, entry string) model.SourceResult[model.SkillEntry] {
 	var raw skillPayload
 	fetch := c.Fetcher.FetchJSON(ctx, c.apiURL("/api/v0/skills/"+url.PathEscape(entry)), &raw)
 	if fetch.Status != model.StatePresent {
-		return SourceResult[model.SkillEntry](string(model.SourceSkillsAPI), fetch, nil)
+		return sourceResult[model.SkillEntry](string(model.SourceSkillsAPI), fetch, nil)
 	}
 	value := normalizeSkill(raw)
-	return SourceResult(string(model.SourceSkillsAPI), fetch, &value)
+	return sourceResult(string(model.SourceSkillsAPI), fetch, &value)
 }
 
+// FetchSkillAsset fetches an asset referenced by a skill entry.
 func (c SkillsClient) FetchSkillAsset(ctx context.Context, assetURL string) model.EvidenceObject {
 	fetch := c.Fetcher.Fetch(ctx, assetURL)
 	if fetch.Status == model.StatePresent {

@@ -9,6 +9,7 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// RecordFlow validates and writes adoption records.
 type RecordFlow struct {
 	Sessions store.SessionStore
 	Records  store.RecordStore
@@ -17,6 +18,7 @@ type RecordFlow struct {
 	Now      func() time.Time
 }
 
+// Record creates an adoption record for a selected candidate.
 func (s RecordFlow) Record(ctx context.Context, input RecordInput) (model.AdoptionRecord, error) {
 	if !input.Conclusion.IsValid() {
 		return model.AdoptionRecord{}, surfaceFailure("record conclusion", "command input", model.StateFailed, "unknown adoption conclusion", "choose a fixed adoption conclusion enum value")

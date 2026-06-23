@@ -9,12 +9,14 @@ import (
 	"github.com/yumiaura/seekmoon/internal/store"
 )
 
+// ViewFlow reads manifest and module index evidence for a candidate.
 type ViewFlow struct {
 	Mooncakes source.MooncakesClient
 	Assets    source.AssetClient
 	Sessions  store.SessionStore
 }
 
+// View returns a manifest profile enriched with module index status.
 func (s ViewFlow) View(ctx context.Context, input ViewInput) (model.ManifestProfile, error) {
 	candidate, err := candidateFromRequest(ctx, s.Sessions, input.Candidate)
 	if err != nil {

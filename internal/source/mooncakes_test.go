@@ -71,7 +71,7 @@ func TestMooncakesFetchNon2xxAndParseFailure(t *testing.T) {
 }
 
 func TestMooncakesManifestMismatchFails(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{"module":"owner/a","name":"owner/b","version":"1.0.0","metadata":{}}`))
 	}))
