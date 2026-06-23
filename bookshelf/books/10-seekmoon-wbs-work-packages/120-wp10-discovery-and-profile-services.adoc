@@ -1,27 +1,23 @@
-[#wp10-discovery-and-profile-services.work-package]
+[#wp10-discovery-and-profile-services]
 == WP10：Discovery and Profile Services
 
 === 工作包身份
 
-WP10 实现 `doctor`、`sync`、`search`、`view` 和 `compare` service flows。These services create environment status、snapshot、library module candidates、module profiles and evidence comparison objects。
+WP10 实现 `doctor`、`sync`、`search`、`view` 和 `compare` service flows。这些 services 产生 environment status、snapshot、library module candidates、module profiles 和 evidence comparison objects。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/020-doctor-and-sync.adoc[lines=4..43;47..83,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/030-search-and-view.adoc[lines=4..44;48..74,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/060-compare-and-probe.adoc[lines=4..28,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/050-data-flow.adoc[lines=8..22;26..38;42..53;105..115,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP10 receives source readers from WP04、WP05、WP06 as needed, stores from WP03, renderer through WP08, command inputs through WP09 and model objects from WP02。
+WP10 按需接收 WP04、WP05、WP06 的 source readers，接收 WP03 的 stores、WP08 的 renderer、WP09 的 command inputs 和 WP02 的 model objects。
 
 === 输出
 
@@ -47,37 +43,37 @@ WP10 receives source readers from WP04、WP05、WP06 as needed, stores from WP03
 
 === 实现边界
 
-`doctor` reads environment and reports status. It does not create snapshot、update registry or write record.
+`doctor` 读取 environment 并报告 status。它不创建 snapshot，不更新 registry，不写 record。
 
-`sync` creates dated evidence snapshot. It records `moon update` result、Modules API、Statistics API、local registry index and toolchain versions. Candidate ranking and adoption decision remain outside sync.
+`sync` 创建 dated evidence snapshot。它记录 `moon update` result、Modules API、Statistics API、local registry index 和 toolchain versions。Candidate ranking 与 adoption decision 位于 sync flow 之外。
 
-`search` generates library module candidates from query and snapshot. It may fetch visible-window manifest enrichment for downloads and build status. It does not read package data、published source or probe evidence.
+`search` 从 query 和 snapshot 生成 library module candidates。它为 visible-window 读取 manifest enrichment，以填充 downloads 与 build status。Package data、published source 和 probe evidence 不属于 `search` 的读取范围。
 
-`view` presents one module profile. It reads Manifest API and module index asset. It does not expand all API symbols. Repository activity enters output only when requested enrichment is loaded.
+`view` 展示一个 module profile。它读取 Manifest API 和 module index asset，不展开全部 API symbols。Repository activity 只在 requested enrichment 已加载时进入 output。
 
-`compare` aligns loaded evidence fields and does not generate quality score.
+`compare` 对齐 loaded evidence fields，并且不生成 quality score。
 
 === 测试责任
 
-WP10 tests cover:
+WP10 的测试覆盖：
 
-* Doctor reports toolchain、paths、network and project context using fake capabilities。
-* Sync writes snapshot with source status and partial failure state。
-* Search uses latest snapshot or transient modules fetch。
-* Search rank includes match evidence and writes session candidate map。
-* Manifest enrichment failure appears in result field state。
-* View reads manifest and module index and reports package count/index state。
-* Compare aligns multiple candidates without producing score。
+* Doctor 使用 fake capabilities 报告 toolchain、paths、network 和 project context。
+* Sync 写入带 source status 和 partial failure state 的 snapshot。
+* Search 使用 latest snapshot 或 transient modules fetch。
+* Search rank 包含 match evidence，并写入 session candidate map。
+* Manifest enrichment failure 出现在 result field state。
+* View 读取 manifest 与 module index，并报告 package count/index state。
+* Compare 对齐多个 candidates，且不生成 score。
 
 === 审核尺子
 
 审核者检查五项。
 
-* Discovery services never turn downloads/build/repository presence into quality proof。
-* Session-local candidate numbers are bound to snapshot/session boundary。
-* Target unknown remains unknown before metadata/probe evidence。
-* Compare output is evidence alignment, not ranking or recommendation。
-* Services compose source results and stores; they do not render directly。
+* Discovery services 不把 downloads/build/repository presence 转换成 quality proof。
+* Session-local candidate numbers 绑定 snapshot/session boundary。
+* Target 在 metadata/probe evidence 出现前保持 unknown。
+* Compare output 是 evidence alignment，不是 ranking 或 recommendation。
+* Services 组合 source results 和 stores，不直接 render。
 
 === 完成证据
 
@@ -86,4 +82,4 @@ WP10 tests cover:
 go test ./internal/service -run 'Test(Doctor|Sync|Search|View|Compare)'
 ----
 
-WP10 完成后，Library Discovery Journey 的 E1 到 E4 and E7 can be driven through services with fake readers and stores.
+WP10 完成后，Library Discovery Journey 的 E1 到 E4 和 E7 由 services、fake readers 与 stores 驱动。

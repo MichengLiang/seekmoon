@@ -1,4 +1,4 @@
-[#wbs-dependency-map.boundary]
+[#wbs-dependency-map]
 == WBS 依赖图
 
 WBS 依赖图规定工作包的批次、先后关系和审核流。它不定义 SeekMoon 的公共功能；公共功能已经由 9 号书定义。它定义实现协作中哪些对象先成立，哪些对象可以并行推进，哪些对象必须在其他对象之后验收。

@@ -1,24 +1,21 @@
-[#wp13-black-box-acceptance-and-quality-gates.work-package]
+[#wp13-black-box-acceptance-and-quality-gates]
 == WP13：Black-box Acceptance and Quality Gates
 
 === 工作包身份
 
-WP13 turns public behavior into executable acceptance and engineering quality gates。It owns journey tests、black-box CLI tests、schema validation tests、golden output tests、integration boundaries and `just ci` gate composition。
+WP13 把 public behavior 表达为 executable acceptance 和 engineering quality gates。Journey tests、black-box CLI tests、schema validation tests、golden output tests、integration boundaries 和 `just ci` gate composition 属于 WP13。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/050-black-box-acceptance.adoc[lines=4..75,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/110-testing-and-tooling.adoc[lines=4..53,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/120-engineering-quality-toolchain.adoc[lines=59..159,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP13 receives all public command surfaces, source reader fakes, stores, renderer, schemas, golden fixtures and quality commands from prior work packages。
+WP13 接收上游工作包交付的 public command surfaces、source reader fakes、stores、renderer、schemas、golden fixtures 和 quality commands。
 
 === 输出
 
@@ -27,29 +24,29 @@ WP13 receives all public command surfaces, source reader fakes, stores, renderer
 |路径 |对象
 
 |`internal/testutil/fixture.go`
-|Reusable source, service and CLI fixtures。
+|Reusable source、service 和 CLI fixtures。
 
 |`internal/testutil/golden.go`
-|Golden file helpers and update policy。
+|Golden file helpers 和 update policy。
 
 |`tests/blackbox/`
-|CLI black-box acceptance tests for A1 to A16。
+|A1 到 A16 的 CLI black-box acceptance tests。
 
 |`tests/journey/`
-|Library、skill、pipeline and failure recovery journey tests。
+|Library、skill、pipeline 和 failure recovery journey tests。
 
 |`tests/integration/`
-|Opt-in real network、Moon CLI、GitHub and probe mutation tests。
+|Opt-in real network、Moon CLI、GitHub 和 probe mutation tests。
 
 |`justfile`
-|Final `just ci` composition and integration test commands。
+|Final `just ci` composition 和 integration test commands。
 |===
 
 === 实现边界
 
-Default tests are offline, repeatable and free of external side effects. Tests using real network、real Moon CLI、GitHub API、source zip downloads or probe project mutation run only when explicit integration environment variables are present.
+默认测试具备 offline、repeatable、无 external side effects 三个属性。使用 real network、real Moon CLI、GitHub API、source zip downloads 或 probe project mutation 的测试只在显式 integration environment variables 存在时运行。
 
-Coverage exposes test reach. It is not the sole acceptance condition. A passing quality gate does not cancel black-box behavior checks. Black-box acceptance remains language-independent public behavior evidence.
+Coverage 暴露 test reach。它不是唯一 acceptance condition。质量门通过不取消 black-box behavior checks。Black-box acceptance 保持为与实现语言无关的 public behavior evidence。
 
 === 验收矩阵
 
@@ -59,38 +56,38 @@ Coverage exposes test reach. It is not the sole acceptance condition. A passing 
 
 |A1-A3
 |Search candidates、session number、library/skill split。
-|Black-box CLI tests with fake source server。
+|使用 fake source server 的 black-box CLI tests。
 
 |A4-A6
 |Module profile、API profile、source resolution。
-|Journey and service-backed CLI tests。
+|Journey 和 service-backed CLI tests。
 
 |A7-A8
-|Target unknown and local derived probe evidence。
-|Probe fixture tests and CLI output checks。
+|Target unknown 与 local derived probe evidence。
+|Probe fixture tests 和 CLI output checks。
 
 |A9-A10
-|Adoption record and report source discipline。
+|Adoption record 和 report source discipline。
 |Store-backed black-box tests。
 
 |A11-A16
-|Pretty text、JSON、jq、shape、schema and error surface。
-|Golden, schema validation and failure recovery tests。
+|Pretty text、JSON、jq、shape、schema 和 error surface。
+|Golden、schema validation 和 failure recovery tests。
 
 |Engineering gates
 |format、lint、test、race、coverage、vuln、mod、release check。
-|`just ci` and individual gate tests。
+|`just ci` 和 individual gate tests。
 |===
 
 === 审核尺子
 
 审核者检查五项。
 
-* A1 to A16 each map to executable test names。
-* Default tests do not require network, Moon CLI mutation or GitHub token。
-* Integration tests are opt-in and visibly named。
-* Golden output changes require intentional review。
-* `just ci` composes the same gates as local development and CI policy。
+* A1 到 A16 均映射到 executable test names。
+* 默认测试不依赖 network、Moon CLI mutation 或 GitHub token。
+* Integration tests 是 opt-in，且名称可见。
+* Golden output 变更需要 intentional review。
+* `just ci` 组合 local development 与 CI policy 使用的同一组 gates。
 
 === 完成证据
 
@@ -107,4 +104,4 @@ just release-check
 just ci
 ----
 
-WP13 完成后，SeekMoon implementation material can be judged against public behavior, projection contracts and engineering quality gates.
+WP13 完成后，SeekMoon implementation material 按 public behavior、projection contracts 和 engineering quality gates 接受审查。

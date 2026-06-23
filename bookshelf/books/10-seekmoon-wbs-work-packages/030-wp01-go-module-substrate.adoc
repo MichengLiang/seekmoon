@@ -1,24 +1,21 @@
-[#wp01-go-module-substrate.work-package]
+[#wp01-go-module-substrate]
 == WP01：Go Module Substrate
 
 === 工作包身份
 
-WP01 建立 SeekMoon Go implementation 的工程基底。该基底包含 Go module metadata、process entrypoint、internal package directories、工程质量入口和生成物目录约定。它不实现 Mooncakes source readers、canonical model、command services 或 output projections。
+WP01 建立 SeekMoon Go implementation 的工程基底。该基底包含 Go module metadata、process entrypoint、internal package directories、工程质量入口和生成物目录约定。Mooncakes source readers、canonical model、command services 和 output projections 不属于 WP01 的交付边界。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/020-module-layout.adoc[lines=4..174,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/120-engineering-quality-toolchain.adoc[lines=4..73;118..159,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-g-go-engineering-toolchain.adoc[lines=8..51;55..67;131..152;156..167,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP01 的输入是 9 号书的 Go module layout、Go 1.26.x toolchain baseline、工程质量命令集合和 lint configuration surface。它还接收当前 repository 中 `projects/seekmoon` 的既有目录约束。
+WP01 的输入是 9 号书的 Go module layout、Go 1.26.x toolchain baseline、工程质量命令集合、lint configuration surface，以及当前 repository 中 `projects/seekmoon` 的既有目录约束。
 
 === 输出
 
@@ -42,7 +39,7 @@ WP01 的输入是 9 号书的 Go module layout、Go 1.26.x toolchain baseline、
 |9 号书附录 G 规定的 lint gate。
 
 |`.goreleaser.yaml`
-|release configuration check 可执行的最小 release surface。
+|release configuration check 可执行的 release surface。
 
 |`.artifacts/`
 |测试报告、race 报告和 coverage profile 的生成物位置。
@@ -50,7 +47,7 @@ WP01 的输入是 9 号书的 Go module layout、Go 1.26.x toolchain baseline、
 
 === 实现边界
 
-WP01 可以创建工程目录和最小编译入口。它不得在 `cmd/seekmoon` 中实现业务行为，不得让 `cmd/seekmoon` 直接读取 HTTP、filesystem 或 Moon CLI，不得在工程基底中提前定义 public command contract。
+WP01 交付工程目录和可编译进程入口。`cmd/seekmoon` 的职责是 process startup；HTTP、filesystem、Moon CLI、public command contract 和业务行为不进入工程基底。
 
 `internal` 目录可以包含 package-level doc comments。注释只说明 package 的对象职责和边界，不解释显而易见的 Go 语法。
 

@@ -1,27 +1,23 @@
-[#wp07-repository-and-skill-sources.work-package]
+[#wp07-repository-and-skill-sources]
 == WP07：Repository and Skill Sources
 
 === 工作包身份
 
-WP07 实现 repository signal reader、Skills API reader、skill asset reader and runwasm coordinate derivation。它处理 maintenance evidence and executable Wasm entries，不处理 library dependency adoption。
+WP07 实现 repository signal reader、Skills API reader、skill asset reader 和 runwasm coordinate derivation。它处理 maintenance evidence 与 executable Wasm entries，不处理 library dependency adoption。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/050-repository-signals.adoc[lines=4..46,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/010-public-http-sources.adoc[lines=128..169,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/050-skill-profile.adoc[lines=4..94,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-f-go-implementation-dependencies.adoc[lines=29..37;105..113,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP07 接收 WP02 的 `SkillEntry`、`SkillProfile`、repository signal and evidence wrappers，接收 WP03 的 HTTP client and cache path，接收 WP04 shared fetch envelope。
+WP07 接收 WP02 的 `SkillEntry`、`SkillProfile`、repository signal、evidence wrappers，接收 WP03 的 HTTP client、cache path，以及 WP04 的 shared fetch envelope。
 
 === 输出
 
@@ -30,45 +26,45 @@ WP07 接收 WP02 的 `SkillEntry`、`SkillProfile`、repository signal and evide
 |路径 |对象
 
 |`internal/source/repository.go`
-|GitHub repository enrichment reader and repository signal mapping。
+|GitHub repository enrichment reader 和 repository signal mapping。
 
 |`internal/source/skills.go`
 |Skills API list/detail reader、SKILL.md reader、wasm/checksum asset reader。
 
 |`internal/model/skill.go`
-|Pure runwasm coordinate derivation helper if not already complete in WP02。
+|WP02 尚未完成时使用的 pure runwasm coordinate derivation helper。
 
 |`internal/testutil/fixture.go`
-|Repository and skill fixtures。
+|Repository 和 skill fixtures。
 |===
 
 === 实现边界
 
-Repository signal answers maintenance questions. It does not answer registry publication facts. Repository main branch may differ from registry published source. Repository enrichment only appears when requested by command or report evidence refs. Repository enrichment failure changes repository signal state and must not fail unrelated manifest or module profile fields.
+Repository signal 回答 maintenance questions，不回答 registry publication facts。Repository main branch 可能不同于 registry published source。Repository enrichment 只在 command 或 report evidence refs 请求后出现。Repository enrichment failure 只改变 repository signal state，不使无关 manifest 或 module profile fields 失败。
 
-Skill entry belongs to executable path. It is not a library dependency candidate. Skill checksum verifies artifact content, not publishing identity、build provenance or vulnerability status. Skill record and report can exist, but library adoption conclusion remains separate.
+Skill entry 属于 executable path，不属于 library dependency candidate。Skill checksum 校验 artifact content，不证明 publishing identity、build provenance 或 vulnerability status。Skill record 与 report 可以存在；library adoption conclusion 保持独立。
 
 === 测试责任
 
-WP07 tests cover:
+WP07 的测试覆盖：
 
-* Repository URL parsing and unsupported repository state。
+* Repository URL parsing 和 unsupported repository state。
 * GitHub archived、pushed_at、license、release、issue、PR、workflow、README/tests/examples mapping。
-* Repository unreachable maps to `failed` repository signal without failing module profile。
-* Skills API list and detail parsing。
-* Empty skill package maps to root marker。
-* Skill asset fetch maps SKILL.md、wasm and checksum states。
+* Repository unreachable 映射为 `failed` repository signal，且不使 module profile 失败。
+* Skills API list 和 detail parsing。
+* Empty skill package 映射为 root marker。
+* Skill asset fetch 映射 SKILL.md、wasm 和 checksum states。
 * Pinned runwasm coordinate derivation。
 
 === 审核尺子
 
 审核者检查五项。
 
-* go-github and OAuth2 imports stay inside `internal/source`。
-* Repository signal never replaces published source resolution。
-* SkillEntry and ModuleSummary remain different candidate models。
-* Checksum wording and state never imply provenance。
-* Unrequested enrichment does not enter output objects。
+* go-github 和 OAuth2 imports 保持在 `internal/source` 内。
+* Repository signal 不替代 published source resolution。
+* SkillEntry 和 ModuleSummary 保持不同 candidate models。
+* Checksum wording 与 state 不暗示 provenance。
+* 未请求的 enrichment 不进入 output objects。
 
 === 完成证据
 
@@ -77,4 +73,4 @@ WP07 tests cover:
 go test ./internal/source ./internal/model -run 'Test(Repository|Skill|Runwasm)'
 ----
 
-WP07 完成后，skill services and optional repository enrichment can consume source readers without contaminating library discovery semantics.
+WP07 完成后，skill services 和 optional repository enrichment 消费各自 source readers，library discovery semantics 保持独立。

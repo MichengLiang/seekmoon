@@ -1,4 +1,4 @@
-[#wp06-local-toolchain-source-and-probe-primitives.work-package]
+[#wp06-local-toolchain-source-and-probe-primitives]
 == WP06：Local Toolchain Source and Probe Primitives
 
 === 工作包身份
@@ -8,17 +8,14 @@ WP06 实现本地 MoonBit toolchain、local registry index、registry cache、co
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/030-local-toolchain-and-cache.adoc[lines=4..5;9..43;47..56;59..68,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/040-project-context.adoc[lines=4..43,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/060-source-resolution-and-probe-result.adoc[lines=77..132,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP06 接收 WP02 的 `SourceAttempt`、`CommandResult`、`ProbeResult` and project context types，接收 WP03 的 Runner、FS、Paths、Probe store and Source store。
+WP06 接收 WP02 的 `SourceAttempt`、`CommandResult`、`ProbeResult`、project context types，接收 WP03 的 Runner、FS、Paths、Probe store 和 Source store。
 
 === 输出
 
@@ -27,19 +24,19 @@ WP06 接收 WP02 的 `SourceAttempt`、`CommandResult`、`ProbeResult` and proje
 |路径 |对象
 
 |`internal/source/mooncli.go`
-|Moon command invocation and command result mapping。
+|Moon command invocation 和 command result mapping。
 
 |`internal/source/local_index.go`
-|Local registry JSONL parser and index summary。
+|Local registry JSONL parser 和 index summary。
 
 |`internal/source/local_cache.go`
-|Registry cache、assets cache and core source readers。
+|Registry cache、assets cache 和 core source readers。
 
 |`internal/source/project.go`
-|MoonBit project context reader for `moon.mod`、`moon.mod.json`、`moon.pkg`、`moon.pkg.json`。
+|面向 `moon.mod`、`moon.mod.json`、`moon.pkg`、`moon.pkg.json` 的 MoonBit project context reader。
 
 |`internal/store/paths.go`
-|Probe、source and log path construction。
+|Probe、source 和 log path construction。
 
 |`internal/testutil/fixture.go`
 |Fake runner、fake local index、fake project context fixtures。
@@ -47,32 +44,32 @@ WP06 接收 WP02 的 `SourceAttempt`、`CommandResult`、`ProbeResult` and proje
 
 === 实现边界
 
-Moon CLI commands record command、cwd、environment summary、exit status and log path. Command failure does not rewrite upstream facts. `moon add` success is not adoption success. `moon check` and `moon build --target` results are local derived evidence bound to environment、version and target。
+Moon CLI commands 记录 command、cwd、environment summary、exit status 和 log path。Command failure 不改写 upstream facts。`moon add` success 不等于 adoption success。`moon check` 与 `moon build --target` results 是绑定 environment、version 和 target 的 local derived evidence。
 
-Local registry index is JSON Lines. WP06 normalizes only fields represented in current model and preserves raw line for audit. Local cache hit is current machine fact; it does not imply another machine has the same cache.
+Local registry index 是 JSON Lines。WP06 只规范化当前 model 表达的字段，并保留 raw line 供 audit 使用。Local cache hit 是当前机器事实，不推出其他机器具备同一 cache。
 
-Project context can enrich search, probe, record and report. Read failure does not block global search, but affects contextual probe and report. Probe mutation defaults to `.seekmoon/probes/<id>`.
+Project context 可 enrich search、probe、record 和 report。Read failure 不阻断 global search，但影响 contextual probe 和 report。Probe mutation 的默认位置是 `.seekmoon/probes/<id>`。
 
 === 测试责任
 
-WP06 tests cover:
+WP06 的测试覆盖：
 
 * `moon --version` command result mapping。
-* Non-zero `moon fetch` and `moon build` produce `failed` command result and log path。
-* Local index JSONL parser handles sparse records and malformed lines。
-* Project context reader handles TOML and JSON file variants。
-* Probe path construction is deterministic and project-bounded。
-* Core source reader distinguishes present、unavailable and failed filesystem states。
+* Non-zero `moon fetch` 和 `moon build` 生成 `failed` command result 和 log path。
+* Local index JSONL parser 处理 sparse records 和 malformed lines。
+* Project context reader 处理 TOML 与 JSON file variants。
+* Probe path construction 具有 deterministic 和 project-bounded 性质。
+* Core source reader 区分 present、unavailable 和 failed filesystem states。
 
 === 审核尺子
 
 审核者检查五项。
 
-* Runner calls are context-aware and log-bearing。
-* Local command failure is source evidence, not upstream metadata mutation。
-* Probe default path lives under `.seekmoon/probes/`。
-* Project manifest mutation is not hidden in local primitives。
-* Target support without metadata or probe remains `unknown`。
+* Runner calls 具备 context-aware 和 log-bearing 属性。
+* Local command failure 是 source evidence，不是 upstream metadata mutation。
+* Probe default path 位于 `.seekmoon/probes/`。
+* Project manifest mutation 不隐藏在 local primitives 中。
+* 没有 metadata 或 probe evidence 的 target support 保持 `unknown`。
 
 === 完成证据
 
@@ -81,4 +78,4 @@ WP06 tests cover:
 go test ./internal/source ./internal/store -run 'Test(MoonCLI|LocalIndex|LocalCache|Project|ProbePath)'
 ----
 
-WP06 完成后，source resolution and probe services can use local primitives without duplicating command execution rules.
+WP06 完成后，source resolution 和 probe services 复用 local primitives，command execution rules 保持单一实现边界。

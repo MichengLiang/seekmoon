@@ -1,4 +1,4 @@
-[#mandatory-global-context.boundary]
+[#mandatory-global-context]
 == 全局必读上下文
 
 10 号书是 SeekMoon Go implementation 的 Work Breakdown Structure 工作包分解书。它把 9 号书已经定义的人工制品边界、证据来源边界、canonical objects、命令契约、输出契约、Go 架构、工程质量工具链和黑盒验收，投影为可分配、可实现、可审核的工作包。
@@ -42,142 +42,100 @@
 === 人工制品边界
 
 include::../09-seekmoon-cli-discovery-workbench/parts/010-artifact-and-workbench/020-seekmoon-object-definition.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/010-artifact-and-workbench/030-consumer-actions.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/010-artifact-and-workbench/040-cli-workbench-environment.adoc[leveloffset=+1]
-:leveloffset: 0
 
 [#global-evidence-context]
 === 证据来源边界
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/010-public-http-sources.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/020-static-assets.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/030-local-toolchain-and-cache.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/040-project-context.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/050-repository-signals.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/010-evidence-state.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/020-module-summary-and-search-result.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/030-manifest-profile.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/040-api-profile.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/050-skill-profile.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/060-source-resolution-and-probe-result.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/070-record-and-report.adoc[leveloffset=+1]
-:leveloffset: 0
 
 [#global-command-output-context]
 === 命令与输出边界
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/010-command-map.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/010-pretty-text.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/020-json-output.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/030-built-in-jq.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/040-shape.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/050-schema.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/060-error-surface.adoc[leveloffset=+1]
-:leveloffset: 0
 
 [#global-architecture-context]
 === 完整 Go 架构
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/010-architecture-premises.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/020-module-layout.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/030-package-boundaries.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/040-runtime-composition.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/050-data-flow.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/060-control-flow.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/070-source-reader-boundary.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/080-output-pipeline.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/090-storage-and-side-effects.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/100-error-and-state-flow.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/110-testing-and-tooling.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/120-engineering-quality-toolchain.adoc[leveloffset=+1]
-:leveloffset: 0
 
 [#global-dependency-quality-context]
 === 依赖轮子与质量边界
 
 include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-f-go-implementation-dependencies.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-g-go-engineering-toolchain.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-e-status-and-error-matrix.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/010-library-discovery-journey.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/020-skill-discovery-journey.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/030-pipeline-journey.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/040-failure-recovery-journey.adoc[leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/050-black-box-acceptance.adoc[leveloffset=+1]
-:leveloffset: 0
 
 [#global-review-rules]
 === 全局审核规则

@@ -1,4 +1,4 @@
-[#wp02-canonical-model-and-contracts.work-package]
+[#wp02-canonical-model-and-contracts]
 == WP02：Canonical Model and Contracts
 
 === 工作包身份
@@ -8,28 +8,20 @@ WP02 实现 SeekMoon 的对象语言。对象语言包括 state values、evidenc
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/010-evidence-state.adoc[lines=4..62,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/020-module-summary-and-search-result.adoc[lines=4..55;59..118,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/030-manifest-profile.adoc[lines=4..100,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/040-api-profile.adoc[lines=4..5;9..60;65..133,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/050-skill-profile.adoc[lines=4..94,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/060-source-resolution-and-probe-result.adoc[lines=4..5;8..72;77..132,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/070-record-and-report.adoc[lines=4..64;69..97,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-b-data-dictionary.adoc[lines=6..27;31..50;54..93;97..144;148..191;195..226;230..269;273..282,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
@@ -66,7 +58,7 @@ WP02 接收 9 号书 canonical model 与 data dictionary。它不读取真实 HT
 |`AdoptionRecord`、conclusion enum、evidence refs、not confirmed items。
 
 |`internal/model/report.go`
-|`Report` sections and report input structures。
+|`Report` sections 和 report input structures。
 
 |`internal/model/snapshot.go`
 |Snapshot id、source snapshot status、statistics summary。
@@ -91,15 +83,15 @@ WP02 接收 9 号书 canonical model 与 data dictionary。它不读取真实 HT
 
 WP02 需要 model tests、schema tests 和 fuzz tests 的基础目标。
 
-* Evidence wrapper JSON round-trip。
-* State enum string parsing and validation。
+* Evidence wrapper 的 JSON round-trip。
+* State enum 的 string parsing 与 validation。
 * `missing`、`unknown`、`failed`、`unavailable` 的语义单元测试。
 * Module coordinate parser。
 * Package relpath derivation。
 * Adoption conclusion enum validation。
 * Shape output contract snapshots。
 * JSON Schema compilation tests。
-* Fuzz tests for coordinate and relpath derivations。
+* Coordinate 与 relpath derivations 的 fuzz tests。
 
 === 审核尺子
 
@@ -119,4 +111,4 @@ go test ./internal/model ./internal/contract
 go test -fuzz=Fuzz -run=^$ ./internal/model
 ----
 
-WP02 完成后，下游工作包可以依赖稳定对象语言实现来源读取、服务组合和输出投影。
+WP02 完成后，稳定对象语言成为下游来源读取、服务组合和输出投影的依赖。

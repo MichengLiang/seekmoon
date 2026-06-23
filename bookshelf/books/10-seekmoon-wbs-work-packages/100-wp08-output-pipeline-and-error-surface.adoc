@@ -1,36 +1,29 @@
-[#wp08-output-pipeline-and-error-surface.work-package]
+[#wp08-output-pipeline-and-error-surface]
 == WP08：Output Pipeline and Error Surface
 
 === 工作包身份
 
-WP08 实现 SeekMoon 的 output pipeline。它把 command result 投影为 pretty text、JSON output、built-in jq result、shape output、schema output and error surface。它不读取 evidence source，不执行 business service，不决定 adoption conclusion。
+WP08 实现 SeekMoon 的 output pipeline。它把 command result 投影为 pretty text、JSON output、built-in jq result、shape output、schema output 和 error surface。Evidence source 读取、business service 执行和 adoption conclusion 决策不属于 WP08。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/010-pretty-text.adoc[lines=4..45,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/020-json-output.adoc[lines=4..58,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/030-built-in-jq.adoc[lines=4..36,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/040-shape.adoc[lines=4..47,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/050-schema.adoc[lines=4..32,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/050-output-contracts/060-error-surface.adoc[lines=4..59,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/080-output-pipeline.adoc[lines=4..51,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP08 接收 WP02 canonical objects and contract definitions。It receives no source readers. It receives writers and style configuration through runtime construction。
+WP08 接收 WP02 的 canonical objects 和 contract definitions。Source readers 不进入 WP08。Writers 和 style configuration 通过 runtime construction 进入 renderer。
 
 === 输出
 
@@ -45,10 +38,10 @@ WP08 接收 WP02 canonical objects and contract definitions。It receives no sou
 |Pretty text rendering for current canonical objects。
 
 |`internal/output/json.go`
-|JSON output with schema id、input、snapshot、result object、evidence states and source labels。
+|带 schema id、input、snapshot、result object、evidence states 和 source labels 的 JSON output。
 
 |`internal/output/jq.go`
-|gojq-backed expression compilation, evaluation and failure mapping。
+|gojq-backed expression compilation、evaluation 和 failure mapping。
 
 |`internal/output/shape.go`
 |Human-readable shape rendering from `internal/contract`。
@@ -60,34 +53,34 @@ WP08 接收 WP02 canonical objects and contract definitions。It receives no sou
 |Failure recovery projection。
 
 |`internal/testutil/golden.go`
-|Golden helpers for pretty text、JSON、shape and error surface。
+|Pretty text、JSON、shape 和 error surface 的 golden helpers。
 |===
 
 === 实现边界
 
-Pretty text is terminal projection. It cannot become parsing interface. JSON output is command canonical object projection. It is not pretty text serialized as JSON. `--jq` consumes JSON projection and must not read pretty text. Shape and schema are contract projections and do not require real query execution. Error surface appears when command failure or projection-specific failure prevents requested projection.
+Pretty text 是 terminal projection，不能成为 parsing interface。JSON output 是 command canonical object projection，不是 pretty text serialized as JSON。`--jq` 消费 JSON projection，不读取 pretty text。Shape 和 schema 是 contract projections，不需要真实 query execution。Command failure 或 projection-specific failure 阻止 requested projection 时，output pipeline 生成 error surface。
 
 === 测试责任
 
-WP08 tests cover:
+WP08 的测试覆盖：
 
-* Pretty text golden outputs for search、view、api、probe and error cases。
-* JSON output includes schema id and evidence states。
-* gojq expression returns expected values from command JSON projection。
-* gojq parse/eval failure maps to error surface with `jq_expression` object。
-* Shape output uses contract definitions and not sample result values。
-* Schema output compiles as Draft 2020-12 JSON Schema。
-* Error surface includes command、object、source、state、meaning、recovery and log path when present。
+* search、view、api、probe 和 error cases 的 pretty text golden outputs。
+* JSON output 包含 schema id 和 evidence states。
+* gojq expression 从 command JSON projection 返回预期值。
+* gojq parse/eval failure 映射为带 `jq_expression` object 的 error surface。
+* Shape output 使用 contract definitions，而不是 sample result values。
+* Schema output 可编译为 Draft 2020-12 JSON Schema。
+* Error surface 包含 command、object、source、state、meaning、recovery，以及存在时的 log path。
 
 === 审核尺子
 
 审核者检查五项。
 
-* `internal/output` does not import `internal/source`。
-* Projection modes consume canonical object or contract definitions only。
-* Normal pretty text does not contain recovery tutorial text。
-* jq errors use error surface and do not panic or print raw stack traces。
-* Schema id is stable and explicit。
+* `internal/output` 不导入 `internal/source`。
+* Projection modes 只消费 canonical object 或 contract definitions。
+* Normal pretty text 不包含 recovery tutorial text。
+* jq errors 使用 error surface，不 panic，不打印 raw stack traces。
+* Schema id 稳定且显式。
 
 === 完成证据
 
@@ -96,4 +89,4 @@ WP08 tests cover:
 go test ./internal/output ./internal/contract
 ----
 
-WP08 完成后，command handlers and services can delegate all output decisions to the renderer.
+WP08 完成后，renderer 承担 command handlers 与 services 的 output decisions。

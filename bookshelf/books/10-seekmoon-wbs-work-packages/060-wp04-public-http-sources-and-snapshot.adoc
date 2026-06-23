@@ -1,20 +1,17 @@
-[#wp04-public-http-sources-and-snapshot.work-package]
+[#wp04-public-http-sources-and-snapshot]
 == WP04：Public HTTP Sources and Snapshot
 
 === 工作包身份
 
-WP04 实现 Mooncakes public HTTP sources 和 snapshot creation 所需 source readers。它读取 Modules API、Statistics API 和 Manifest API，把 HTTP result 转换为带 source label、fetch time、status、parse state、raw reference 和 normalized value 的 source result。
+WP04 实现 Mooncakes public HTTP sources 和 snapshot creation 所需 source readers。它读取 Modules API、Statistics API 和 Manifest API，把 HTTP result 转换为带 source label、fetch time、status、parse state、raw reference 和 normalized value 的 `SourceResult`。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/010-public-http-sources.adoc[lines=4..5;9..46;50..75;79..124,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/070-source-reader-boundary.adoc[lines=4..42,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/050-data-flow.adoc[lines=8..22;26..39,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
@@ -33,7 +30,7 @@ WP04 接收 WP02 的 `ModuleSummary`、`ManifestProfile`、Snapshot 和 source r
 |Modules API、Statistics API 和 Manifest API readers。
 
 |`internal/service/sync.go`
-|`sync` service 的 source composition skeleton and snapshot write。
+|`sync` service 的 source composition skeleton 和 snapshot write。
 
 |`internal/testutil/fixture.go`
 |HTTP fixtures for modules、statistics、manifest success、non-2xx、parse failure。
@@ -49,24 +46,24 @@ Manifest API 是单 module profile 的 registry profile 来源。Manifest metada
 
 === 测试责任
 
-WP04 tests cover:
+WP04 的测试覆盖：
 
-* HTTP 2xx with valid JSON maps to `present` source action。
-* HTTP timeout or non-2xx maps to `failed` source action with URL and error。
-* JSON parse failure records parse state。
-* Empty `description`、`keywords`、`repository`、`license` become `missing` evidence fields。
-* Manifest `module` and `name` mismatch enters failure path for profile construction。
-* `sync` records partial source failure in snapshot state。
+* 带有效 JSON 的 HTTP 2xx 映射为 `present` source action。
+* HTTP timeout 或 non-2xx 映射为带 URL 和 error 的 `failed` source action。
+* JSON parse failure 记录 parse state。
+* 空 `description`、`keywords`、`repository`、`license` 映射为 `missing` evidence fields。
+* Manifest `module` 与 `name` 不一致时进入 profile construction 的 failure path。
+* `sync` 在 snapshot state 中记录 partial source failure。
 
 === 审核尺子
 
 审核者检查五项。
 
-* Source labels are stable: `modules_api`、`statistics_api`、`manifest_api`。
-* Fetch result carries URL、fetched_at、status、parse_state、raw_ref and error when present。
-* Modules API reader does not fetch asset or repository data。
-* Manifest reader preserves raw metadata and normalized projection。
-* Snapshot failure semantics do not erase partial successful sources。
+* Source labels 保持稳定：`modules_api`、`statistics_api`、`manifest_api`。
+* Fetch result 携带 URL、fetched_at、status、parse_state、raw_ref，以及存在时的 error。
+* Modules API reader 不读取 asset 或 repository data。
+* Manifest reader 保留 raw metadata 和 normalized projection。
+* Snapshot failure semantics 不抹除已经成功的部分来源。
 
 === 完成证据
 
@@ -75,4 +72,4 @@ WP04 tests cover:
 go test ./internal/source ./internal/service -run 'Test(Mooncakes|Sync)'
 ----
 
-WP04 完成后，`sync` 和 `search` 可以依赖 public HTTP source snapshots，但 candidate ranking and adoption decision remain outside this work package.
+WP04 完成后，`sync` 和 `search` 依赖 public HTTP source snapshots。Candidate ranking 和 adoption decision 仍在本工作包边界之外。

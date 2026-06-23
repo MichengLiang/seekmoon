@@ -1,27 +1,23 @@
-[#wp11-inspection-and-source-services.work-package]
+[#wp11-inspection-and-source-services]
 == WP11：Inspection and Source Services
 
 === 工作包身份
 
-WP11 实现 `api`、`source`、`skill search` 和 `skill view` service flows。These services support API reading、published source resolution and executable skill discovery。
+WP11 实现 `api`、`source`、`skill search` 和 `skill view` service flows。这些 services 支持 API reading、published source resolution 和 executable skill discovery。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/040-api-and-source.adoc[lines=4..33;37..78,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/050-skill.adoc[lines=4..49,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/050-data-flow.adoc[lines=57..68;72..87;91..101,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/060-journeys-and-acceptance/020-skill-discovery-journey.adoc[lines=4..5;8..27;30..52;55..73,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP11 receives asset readers from WP05, local source primitives from WP06, repository/skill sources from WP07, stores from WP03, CLI inputs from WP09 and output pipeline from WP08。
+WP11 接收 WP05 的 asset readers、WP06 的 local source primitives、WP07 的 repository/skill sources、WP03 的 stores、WP09 的 CLI inputs 和 WP08 的 output pipeline。
 
 === 输出
 
@@ -33,41 +29,41 @@ WP11 receives asset readers from WP05, local source primitives from WP06, reposi
 |Package API profile service。
 
 |`internal/service/source.go`
-|Source resolution planner and selected source derivation。
+|Source resolution planner 和 selected source derivation。
 
 |`internal/service/skill.go`
-|Skill search and skill profile service。
+|Skill search 和 skill profile service。
 |===
 
 === 实现边界
 
-`api` resolves module version, loads module index, derives package relpath and fetches package data. Package path failure is resolved against module index and error surface lists known package paths. `resource.json` unavailable does not block package data.
+`api` 解析 module version、加载 module index、派生 package relpath，并读取 package data。Package path failure 依据 module index 解释，error surface 列出 known package paths。`resource.json` unavailable 不阻断 package data。
 
-`source` records every source resolution attempt: `moon fetch`、source zip、local cache、core local source and repository fallback signal. `selected_source` is derived from successful attempts. Repository fallback must be marked as repository signal, not registry published source.
+`source` 记录每个 source resolution attempt：`moon fetch`、source zip、local cache、core local source 和 repository fallback signal。`selected_source` 从 successful attempts 派生。Repository fallback 必须标记为 repository signal，不标记为 registry published source。
 
-`skill search` and `skill view` operate on executable entries. Skill execution verification and library dependency probe remain separate paths.
+`skill search` 与 `skill view` 处理 executable entries。Skill execution verification 与 library dependency probe 保持为不同路径。
 
 === 测试责任
 
-WP11 tests cover:
+WP11 的测试覆盖：
 
-* API service loads module index before package data。
-* Package relpath is derived from canonical package path。
-* Package path absent returns error surface data with known package list。
-* Source resolution records all attempts and chooses selected source deterministically。
-* `moon fetch` failure falls through to other attempts when contract allows。
-* Skill search uses Skills API and not Modules API。
-* Skill view loads SKILL.md、wasm/checksum asset states and derives runwasm coordinate。
+* API service 在 package data 之前加载 module index。
+* Package relpath 从 canonical package path 派生。
+* Package path absent 返回包含 known package list 的 error surface data。
+* Source resolution 记录所有 attempts，并以 deterministic 规则选择 selected source。
+* Contract 允许时，`moon fetch` failure 继续进入其他 attempts。
+* Skill search 使用 Skills API，不使用 Modules API。
+* Skill view 加载 SKILL.md、wasm/checksum asset states，并派生 runwasm coordinate。
 
 === 审核尺子
 
 审核者检查五项。
 
-* `api` does not re-run search; it consumes resolved module/package input。
-* Source resolution does not collapse failed/unavailable/unknown attempts。
-* Repository fallback wording does not claim published source。
-* Skill profile does not enter library adoption conclusion。
-* Services preserve raw source metadata for JSON/raw audit surfaces。
+* `api` 不重新执行 search；它消费 resolved module/package input。
+* Source resolution 不折叠 failed/unavailable/unknown attempts。
+* Repository fallback wording 不声称 published source。
+* Skill profile 不进入 library adoption conclusion。
+* Services 保留 JSON/raw audit surfaces 所需 raw source metadata。
 
 === 完成证据
 
@@ -76,4 +72,4 @@ WP11 tests cover:
 go test ./internal/service -run 'Test(API|Source|Skill)'
 ----
 
-WP11 完成后，Library Discovery Journey E5、E6 and Skill Discovery Journey E1/E2 can be executed against fake readers.
+WP11 完成后，Library Discovery Journey E5、E6 和 Skill Discovery Journey E1/E2 由 fake readers 驱动。

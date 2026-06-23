@@ -1,24 +1,21 @@
-[#wp09-cli-command-surface.work-package]
+[#wp09-cli-command-surface]
 == WP09：CLI Command Surface
 
 === 工作包身份
 
-WP09 实现 SeekMoon 的 Cobra command surface。它定义 root command、subcommands、flags、input parsing、output mode options、thin command handlers and process exit mapping。它不实现 source reading、business service composition or rendering internals。
+WP09 实现 SeekMoon 的 Cobra command surface。它定义 root command、subcommands、flags、input parsing、output mode options、thin command handlers 和 process exit mapping。Source reading、business service composition 和 rendering internals 不属于 WP09。
 
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/010-command-map.adoc[lines=4..73,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/055-go-implementation-architecture/060-control-flow.adoc[lines=4..57,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/backmatter/appendix-c-command-reference.adoc[lines=4..84,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP09 接收 WP03 Runtime、service registry placeholders and WP08 Renderer。It receives command names and usage surfaces from 9 号书 command map。
+WP09 接收 WP03 Runtime、service registry placeholders 和 WP08 Renderer。Command names 与 usage surfaces 来自 9 号书 command map。
 
 === 输出
 
@@ -30,10 +27,10 @@ WP09 接收 WP03 Runtime、service registry placeholders and WP08 Renderer。It 
 |Root command、global flags、output mode options、command registration。
 
 |`internal/cli/doctor.go`
-|`seekmoon doctor` syntax and input object。
+|`seekmoon doctor` syntax 和 input object。
 
 |`internal/cli/sync.go`
-|`seekmoon sync` syntax and input object。
+|`seekmoon sync` syntax 和 input object。
 
 |`internal/cli/search.go`
 |`seekmoon search <query> [--target <target>]` syntax。
@@ -48,7 +45,7 @@ WP09 接收 WP03 Runtime、service registry placeholders and WP08 Renderer。It 
 |`seekmoon source <module-or-number[@version]>` syntax。
 
 |`internal/cli/skill.go`
-|`seekmoon skill search` and `seekmoon skill view` syntax。
+|`seekmoon skill search` 和 `seekmoon skill view` syntax。
 
 |`internal/cli/compare.go`
 |`seekmoon compare <candidate>...` syntax。
@@ -66,36 +63,36 @@ WP09 接收 WP03 Runtime、service registry placeholders and WP08 Renderer。It 
 |`seekmoon raw <source> ...` syntax。
 
 |`internal/cli/flags.go`
-|Shared flag parsing and output mode validation。
+|Shared flag parsing 和 output mode validation。
 |===
 
 === 实现边界
 
-Cobra types remain in `internal/cli`. Command handlers validate surface syntax, build input object, call one service method and pass result/error to renderer. They do not construct HTTP URLs、read files、run Moon CLI、format tables or write records directly.
+Cobra types 保持在 `internal/cli`。Command handlers 校验 surface syntax、构造 input object、调用一个 service method，并把 result/error 交给 renderer。HTTP URLs 构造、file reading、Moon CLI execution、table formatting 和 record writing 不进入 command handlers。
 
-Command parameters use object names: query、module coordinate、package path、candidate number、target、record conclusion。Endpoint URLs, asset URLs, local paths and cache paths remain internal implementation details。
+Command parameters 使用对象名：query、module coordinate、package path、candidate number、target、record conclusion。Endpoint URLs、asset URLs、local paths 和 cache paths 保持为 internal implementation details。
 
 === 测试责任
 
-WP09 tests cover:
+WP09 的测试覆盖：
 
-* Command registration and help surface includes all command names。
-* Required argument and flag parse failures map to exit code `2`。
-* Output mode flags are accepted on output-capable commands。
-* `--jq` requires expression。
-* Candidate number and module coordinate syntax produce distinct input objects。
-* Thin handler calls expected service method once。
-* Service error is passed to renderer and maps to exit code `1`。
+* Command registration 与 help surface 包含全部 command names。
+* Required argument 和 flag parse failures 映射为 exit code `2`。
+* Output mode flags 可用于 output-capable commands。
+* `--jq` 缺少 expression 时触发解析失败。
+* Candidate number 和 module coordinate syntax 产生不同 input objects。
+* Thin handler 只调用 expected service method 一次。
+* Service error 传递给 renderer，并映射为 exit code `1`。
 
 === 审核尺子
 
 审核者检查五项。
 
-* `internal/cli` imports Cobra, model/service/output input types, but not source readers。
-* Command handlers follow parse args -> build input -> context -> service -> render -> exit mapping。
-* Help surface teaches command syntax, not hidden implementation URLs。
-* Output mode handling is shared and consistent。
-* Process exit and evidence state remain separate objects。
+* `internal/cli` 导入 Cobra、model/service/output input types，不导入 source readers。
+* Command handlers 遵循 parse args -> build input -> context -> service -> render -> exit mapping。
+* Help surface 说明 command syntax，不暴露 hidden implementation URLs。
+* Output mode handling 共享且一致。
+* Process exit 与 evidence state 保持为不同对象。
 
 === 完成证据
 
@@ -104,4 +101,4 @@ WP09 tests cover:
 go test ./internal/cli
 ----
 
-WP09 完成后，command surface can call fake services and render fake canonical objects while concrete service work packages continue independently.
+WP09 完成后，command surface 支持 fake services 调用和 fake canonical objects 渲染；concrete service work packages 具备独立推进入口。

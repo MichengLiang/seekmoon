@@ -1,4 +1,4 @@
-[#wp05-static-assets-and-api-profile.work-package]
+[#wp05-static-assets-and-api-profile]
 == WP05：Static Assets and API Profile
 
 === 工作包身份
@@ -8,17 +8,14 @@ WP05 实现 Mooncakes static asset readers 和 API profile construction。它读
 === 必读依据
 
 include::../09-seekmoon-cli-discovery-workbench/parts/020-evidence-boundary/020-static-assets.adoc[lines=4..5;9..42;46..83;87..95;99..107;111..127,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/030-canonical-model/040-api-profile.adoc[lines=4..5;9..60;65..133,leveloffset=+1]
-:leveloffset: 0
 
 include::../09-seekmoon-cli-discovery-workbench/parts/040-command-workbench/040-api-and-source.adoc[lines=4..32,leveloffset=+1]
-:leveloffset: 0
 
 === 输入
 
-WP05 接收 WP02 的 `ModuleIndexTree`、`PackageData`、API entry、evidence wrappers and source attempt types，接收 WP03 的 HTTP/FS/cache capabilities，接收 WP04 的 manifest version resolution where needed。
+WP05 接收 WP02 的 `ModuleIndexTree`、`PackageData`、API entry、evidence wrappers、source attempt types，接收 WP03 的 HTTP/FS/cache capabilities，并在需要时接收 WP04 的 manifest version resolution。
 
 === 输出
 
@@ -27,47 +24,47 @@ WP05 接收 WP02 的 `ModuleIndexTree`、`PackageData`、API entry、evidence wr
 |路径 |对象
 
 |`internal/source/assets.go`
-|Module index、package data、resource asset and source zip readers。
+|Module index、package data、resource asset 和 source zip readers。
 
 |`internal/model/api.go`
 |Asset-specific parsing helpers owned by model where pure derivation is required。
 
 |`internal/source/fetch.go`
-|Shared asset fetch behavior reused from WP04 when needed。
+|需要复用 WP04 时使用的 shared asset fetch behavior。
 
 |`internal/testutil/fixture.go`
-|Module index、package data、resource 404 and source zip fixtures。
+|Module index、package data、resource 404 和 source zip fixtures。
 |===
 
 === 实现边界
 
-`module_index.json` 当前事实表面使用 `childs`。Parser may tolerate `children`, but canonical authored surface remains `childs`. Package relpath must be derived from package path and module coordinate. Root package relpath is empty.
+`module_index.json` 当前事实表面使用 `childs`。Parser 可兼容 `children`，但 canonical authored surface 仍为 `childs`。Package relpath 必须由 package path 和 module coordinate 派生。Root package 的 relpath 为空。
 
-`package_data.json` preserves raw signature. Plain text signature is derived projection and cannot replace raw signature. Source location missing state remains evidence state, not command failure by itself.
+`package_data.json` 保留 raw signature。Plain text signature 是 derived projection，不能替代 raw signature。Source location 的缺失保持为 evidence state，本身不构成 command failure。
 
-`resource.json` is optional. HTTP 404 maps to `unavailable`, not package absence, API data absence or module absence. Source zip failure does not prove module absence and must remain one source attempt in SourceResolution.
+`resource.json` 是 optional source。HTTP 404 映射为 `unavailable`，不表示 package absence、API data absence 或 module absence。Source zip 失败不证明 module absence，并且必须作为 `SourceResolution` 中的一个 source attempt 保留。
 
 === 测试责任
 
-WP05 tests cover:
+WP05 的测试覆盖：
 
-* Module index tree parsing with `childs`。
-* Package relpath derivation for root and nested package paths。
-* Package path absent error data includes known package paths。
-* Package data parses types、traits、errors、typealias、values、misc and methods。
-* HTML signature generates plain signature while preserving raw signature。
-* `resource.json` 404 maps to `unavailable`。
-* Source zip redirect and zip reading produce files summary。
+* 使用 `childs` 的 module index tree parsing。
+* Root package 和 nested package paths 的 package relpath derivation。
+* Package path absent error data 包含 known package paths。
+* Package data 解析 types、traits、errors、typealias、values、misc 和 methods。
+* HTML signature 在保留 raw signature 的同时生成 plain signature。
+* `resource.json` 404 映射为 `unavailable`。
+* Source zip redirect 与 zip reading 生成 files summary。
 
 === 审核尺子
 
 审核者检查五项。
 
-* Asset URL construction uses manifest version and derived package relpath。
-* Package relpath derivation is not handwritten per command。
-* Resource asset state cannot block package data API profile。
-* Raw signature and raw payload audit material remain available for JSON/raw surfaces。
-* Source zip is a source attempt, not the only published source route。
+* Asset URL construction 使用 manifest version 和 derived package relpath。
+* Package relpath derivation 不在各 command 中手写。
+* Resource asset state 不阻断 package data API profile。
+* Raw signature 和 raw payload audit material 对 JSON/raw surfaces 可用。
+* Source zip 是 source attempt，不是唯一 published source route。
 
 === 完成证据
 
@@ -76,4 +73,4 @@ WP05 tests cover:
 go test ./internal/source ./internal/model -run 'Test(Asset|ModuleIndex|PackageData|Relpath|SourceZip)'
 ----
 
-WP05 完成后，`view` and `api` services can consume module index and package data without directly handling HTTP shape details.
+WP05 完成后，`view` 和 `api` services 通过 canonical objects 消费 module index 与 package data，HTTP shape details 保持在 source reader 边界内。

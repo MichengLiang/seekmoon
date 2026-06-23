@@ -1,7 +1,7 @@
-[#source-include-map.reference]
+[#source-include-map]
 == 来源引用图
 
-本章记录 10 号书引用 9 号书的位置。它服务维护者复查 include 路径、行号范围和交叉引用质量。
+本章记录 10 号书引用 9 号书的位置。维护者使用本章复查 include 路径、行号范围和交叉引用质量。
 
 === 全局上下文引用
 
@@ -62,7 +62,7 @@
 |Runtime Composition、Storage and Side Effects、Project Context。
 
 |xref:wp04-public-http-sources-and-snapshot[WP04]
-|Public HTTP Sources、Source Reader Boundary、`sync` and `search` data flow。
+|Public HTTP Sources、Source Reader Boundary、`sync` 与 `search` data flow。
 
 |xref:wp05-static-assets-and-api-profile[WP05]
 |Static Assets、API Profile、`api` command。
@@ -74,7 +74,7 @@
 |Repository Signals、Skills API、SkillEntry、Go dependencies。
 
 |xref:wp08-output-pipeline-and-error-surface[WP08]
-|Output contracts and Output Pipeline。
+|Output contracts 与 Output Pipeline。
 
 |xref:wp09-cli-command-surface[WP09]
 |Command Map、Control Flow、Command Reference。
@@ -94,6 +94,6 @@
 
 === 维护规则
 
-当 9 号书章节发生行号变化时，维护者必须检查本书所有 `lines=` include。整章 include 使用 9 号书章节锚点；局部 include 使用行号范围。局部 include 不应包含 9 号书原始 anchor 行，避免同一本渲染书中出现重复 id。
+9 号书章节行号变化时，维护者检查本书所有 `lines=` include。整章 include 使用 9 号书章节锚点；局部 include 使用行号范围。局部 include 避开 9 号书原始 anchor 行，避免同一本渲染书中出现重复 id。
 
 当工作包边界变化时，维护者先修改 xref:wbs-dependency-map[WBS 依赖图]，再修改对应工作包章节，最后更新本来源引用图。来源引用图不定义工作包边界；它只记录引用关系。
