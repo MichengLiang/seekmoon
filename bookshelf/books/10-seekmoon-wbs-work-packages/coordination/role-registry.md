@@ -5,8 +5,8 @@
 | Agent | Runtime role | Work package | Boundary | Reuse intent | Status |
 |---|---|---|---|---|---|
 | principal coordinator | coordinator | full WBS | process artifacts, handoffs, review routing, promotion decisions | continuous | active |
-| `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`) | builder | Batch E revision 1 | acceptance and quality gate files listed in Batch E handoff | persistent specialist reuse | revision returned |
-| `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`) | reviewer | Batch E re-review | independent review, evidence check, commit on approval | reused for Batch E re-review | re-review ready |
+| `019ef59d-058d-78c1-bcb6-9cf1417d8b8c` (`Dewey`) | builder | Batch E revision 1 | acceptance and quality gate files listed in Batch E handoff | persistent specialist reuse | complete |
+| `019ef5b4-df23-7151-85dd-41239d63c743` (`Curie`) | reviewer | Batch E re-review | independent review, evidence check, commit on approval | reused for Batch E re-review | approved and committed `71d5c73` |
 
 ## Rules For Specialized Executors
 
