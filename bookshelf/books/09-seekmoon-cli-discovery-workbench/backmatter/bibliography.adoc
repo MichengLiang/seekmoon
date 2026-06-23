@@ -1,6 +1,7 @@
 [.reference]
 = 参考文献
 
+[bibliography]
 * [[[moonbit-docs]]] MoonBit Documentation, https://docs.moonbitlang.com/
 * [[[moonbit-release-010]]] MoonBit v0.10.0 Release, https://www.moonbitlang.com/updates/2026/06/08/moonbit-0-10-0-release
 * [[[mooncakes]]] Mooncakes Registry, https://mooncakes.io/
