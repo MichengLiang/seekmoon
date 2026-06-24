@@ -3,6 +3,8 @@
 [![CI](https://github.com/MichengLiang/seekmoon/actions/workflows/ci.yml/badge.svg)](https://github.com/MichengLiang/seekmoon/actions/workflows/ci.yml)
 [![Pages](https://github.com/MichengLiang/seekmoon/actions/workflows/pages.yml/badge.svg)](https://github.com/MichengLiang/seekmoon/actions/workflows/pages.yml)
 
+English | [简体中文](README.zh-CN.md)
+
 SeekMoon is a MoonBit package discovery workbench. It helps dependency
 consumers discover candidate packages, inspect evidence, run local validation,
 record adoption judgments, and render investigation reports before adding a
