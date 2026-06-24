@@ -1,0 +1,67 @@
+name: GitLink Sync
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gitlink-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: ${{ vars.GITLINK_SYNC_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Configure GitLink SSH
+        env:
+          GITLINK_KNOWN_HOSTS: ${{ secrets.GITLINK_KNOWN_HOSTS }}
+          GITLINK_SSH_PRIVATE_KEY: ${{ secrets.GITLINK_SSH_PRIVATE_KEY }}
+        run: |
+          test -n "$GITLINK_SSH_PRIVATE_KEY"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$GITLINK_SSH_PRIVATE_KEY" > ~/.ssh/gitlink_sync
+          chmod 600 ~/.ssh/gitlink_sync
+
+          if [ -n "$GITLINK_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$GITLINK_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -T 30 www.gitlink.org.cn gitlink.org.cn > ~/.ssh/known_hosts
+          fi
+          chmod 600 ~/.ssh/known_hosts
+
+          cat > ~/.ssh/config <<'EOF'
+          Host www.gitlink.org.cn gitlink.org.cn
+            User git
+            IdentityFile ~/.ssh/gitlink_sync
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+          EOF
+          chmod 600 ~/.ssh/config
+
+      - name: Push GitHub state to GitLink
+        env:
+          GITLINK_REMOTE_URL: ${{ secrets.GITLINK_REMOTE_URL }}
+        run: |
+          test -n "$GITLINK_REMOTE_URL"
+          git remote add gitlink "$GITLINK_REMOTE_URL"
+
+          if [ "$GITHUB_REF_TYPE" = "branch" ] && [ "$GITHUB_REF_NAME" = "main" ]; then
+            git push gitlink refs/heads/main:refs/heads/master
+            git push gitlink --tags
+          elif [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            git push gitlink "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
+          else
+            echo "No GitLink sync rule for $GITHUB_REF_TYPE $GITHUB_REF_NAME"
+          fi
