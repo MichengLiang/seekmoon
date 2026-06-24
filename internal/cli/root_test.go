@@ -29,6 +29,74 @@ func TestRootCommandRegistersBatchCCommands(t *testing.T) {
 	}
 }
 
+func TestRootHelpContainsWorkbenchGuidance(t *testing.T) {
+	rt, err := app.NewRuntime()
+	if err != nil {
+		t.Fatalf("NewRuntime: %v", err)
+	}
+	var out bytes.Buffer
+	if code := ExecuteWithCode(context.Background(), rt, Options{Out: &out, Err: &out}, "--help"); code != exitCodeOK {
+		t.Fatalf("root help exit code = %d output=%q", code, out.String())
+	}
+	for _, want := range []string{
+		"package discovery workbench",
+		"Start with a command's help",
+		"doctor -> sync -> search",
+		"numbered candidates",
+		"--shape for field paths",
+	} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("root help missing %q: %s", want, out.String())
+		}
+	}
+}
+
+func TestCommandHelpContainsAuthoredBoundaries(t *testing.T) {
+	cases := []struct {
+		name string
+		args []string
+		want []string
+	}{
+		{
+			name: "search numbered session",
+			args: []string{"search", "--help"},
+			want: []string{"writes visible candidates", "default session", "--target adds target context"},
+		},
+		{
+			name: "probe local evidence",
+			args: []string{"probe", "--help"},
+			want: []string{"local validation evidence", "local derived evidence", "source-evidence identity"},
+		},
+		{
+			name: "skill executable entries",
+			args: []string{"skill", "--help"},
+			want: []string{"executable skill entries", "executable Wasm or runwasm object", "record --kind skill"},
+		},
+		{
+			name: "raw source audit",
+			args: []string{"raw", "--help"},
+			want: []string{"without normalizing", "source audit", "ordinary discovery path"},
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			rt, err := app.NewRuntime()
+			if err != nil {
+				t.Fatalf("NewRuntime: %v", err)
+			}
+			var out bytes.Buffer
+			if code := ExecuteWithCode(context.Background(), rt, Options{Out: &out, Err: &out}, tc.args...); code != exitCodeOK {
+				t.Fatalf("help exit code = %d output=%q", code, out.String())
+			}
+			for _, want := range tc.want {
+				if !strings.Contains(out.String(), want) {
+					t.Fatalf("%v help missing %q: %s", tc.args, want, out.String())
+				}
+			}
+		})
+	}
+}
+
 func TestRequiredArgumentFailureMapsToExitCode2(t *testing.T) {
 	rt, err := app.NewRuntime()
 	if err != nil {

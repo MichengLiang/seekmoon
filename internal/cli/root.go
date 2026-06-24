@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/MichengLiang/seekmoon/internal/app"
+	"github.com/MichengLiang/seekmoon/internal/helpdoc"
 	"github.com/MichengLiang/seekmoon/internal/output"
 	"github.com/spf13/cobra"
 )
@@ -50,6 +51,9 @@ func NewRoot(rt *app.Runtime, options Options) *cobra.Command {
 		newReportCommand(rt),
 		newRawCommand(rt),
 	)
+	if err := helpdoc.Apply(cmd); err != nil {
+		panic(err)
+	}
 	return cmd
 }
 
