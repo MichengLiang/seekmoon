@@ -1,8 +1,8 @@
 package cli
 
 import (
+	"github.com/MichengLiang/seekmoon/internal/app"
 	"github.com/spf13/cobra"
-	"github.com/yumiaura/seekmoon/internal/app"
 )
 
 func newSyncCommand(rt *app.Runtime) *cobra.Command {

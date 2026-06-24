@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/MichengLiang/seekmoon/internal/app"
+	"github.com/MichengLiang/seekmoon/internal/model"
 	"github.com/spf13/cobra"
-	"github.com/yumiaura/seekmoon/internal/app"
-	"github.com/yumiaura/seekmoon/internal/model"
 )
 
 const (

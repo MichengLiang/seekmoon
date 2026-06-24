@@ -10,9 +10,9 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 	"github.com/cenkalti/backoff/v5"
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
 // Fetcher reads HTTP payloads with status-bearing results.

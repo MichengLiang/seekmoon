@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 func jsonUnmarshal(data []byte, target any) error {

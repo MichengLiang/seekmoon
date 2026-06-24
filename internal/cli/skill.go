@@ -1,9 +1,9 @@
 package cli
 
 import (
+	"github.com/MichengLiang/seekmoon/internal/app"
+	"github.com/MichengLiang/seekmoon/internal/service"
 	"github.com/spf13/cobra"
-	"github.com/yumiaura/seekmoon/internal/app"
-	"github.com/yumiaura/seekmoon/internal/service"
 )
 
 func newSkillCommand(rt *app.Runtime) *cobra.Command {

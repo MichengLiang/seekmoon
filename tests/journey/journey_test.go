@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/yumiaura/seekmoon/tests/acceptance"
+	"github.com/MichengLiang/seekmoon/tests/acceptance"
 )
 
 func TestLibraryDiscoveryJourneySearchViewAPIProbeRecordReport(t *testing.T) {

@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 	"github.com/pelletier/go-toml/v2"
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
 // ProjectReader reads local Moon project configuration.

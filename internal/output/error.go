@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // SurfaceError wraps a model surface error for renderer returns.

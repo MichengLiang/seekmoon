@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/yumiaura/seekmoon/internal/app"
-	"github.com/yumiaura/seekmoon/internal/cli"
+	"github.com/MichengLiang/seekmoon/internal/app"
+	"github.com/MichengLiang/seekmoon/internal/cli"
 )
 
 func main() {

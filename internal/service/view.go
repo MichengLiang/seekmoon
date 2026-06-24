@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/source"
-	"github.com/yumiaura/seekmoon/internal/store"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/source"
+	"github.com/MichengLiang/seekmoon/internal/store"
 )
 
 // ViewFlow reads manifest and module index evidence for a candidate.

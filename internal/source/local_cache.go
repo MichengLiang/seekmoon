@@ -5,8 +5,8 @@ import (
 	"errors"
 	"path/filepath"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 )
 
 // LocalCacheReader checks local filesystem cache paths.

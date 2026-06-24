@@ -3,7 +3,7 @@ package store
 import (
 	"path/filepath"
 
-	"github.com/yumiaura/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 )
 
 // SourceStore resolves local source inspection paths.

@@ -1,7 +1,7 @@
 // Package contract owns output contract definitions independent of renderers.
 package contract
 
-import "github.com/yumiaura/seekmoon/internal/model"
+import "github.com/MichengLiang/seekmoon/internal/model"
 
 // Field describes one projected output field for shape rendering.
 type Field struct {

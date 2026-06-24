@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/yumiaura/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 )
 
 // WriteFile writes a test fixture below root using private file permissions.

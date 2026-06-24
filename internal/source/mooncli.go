@@ -3,9 +3,9 @@ package source
 import (
 	"context"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
-	"github.com/yumiaura/seekmoon/internal/store"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/store"
 )
 
 // MoonCLI runs Moon CLI commands through a platform runner.

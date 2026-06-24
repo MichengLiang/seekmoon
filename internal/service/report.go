@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/source"
-	"github.com/yumiaura/seekmoon/internal/store"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/source"
+	"github.com/MichengLiang/seekmoon/internal/store"
 )
 
 // ReportFlow builds reports from stored adoption records.

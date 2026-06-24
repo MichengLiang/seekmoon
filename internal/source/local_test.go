@@ -7,10 +7,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
-	"github.com/yumiaura/seekmoon/internal/store"
-	"github.com/yumiaura/seekmoon/internal/testutil"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/store"
+	"github.com/MichengLiang/seekmoon/internal/testutil"
 )
 
 func TestMoonCLICommandResultMapping(t *testing.T) {

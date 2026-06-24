@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // SkillsClient reads public Mooncakes skill endpoints and assets.

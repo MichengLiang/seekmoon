@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"testing"
 
+	"github.com/MichengLiang/seekmoon/internal/model"
 	"github.com/santhosh-tekuri/jsonschema/v6"
-	"github.com/yumiaura/seekmoon/internal/model"
 )
 
 func TestSearchShapeUsesStableSchemaID(t *testing.T) {

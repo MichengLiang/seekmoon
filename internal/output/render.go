@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // Renderer renders command output requests.

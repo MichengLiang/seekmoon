@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // DefaultMooncakesBaseURL is the default public Mooncakes API origin.

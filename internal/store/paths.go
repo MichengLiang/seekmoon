@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/MichengLiang/seekmoon/internal/platform"
 	"github.com/adrg/xdg"
-	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
 // Paths groups all project and cache paths used by SeekMoon.

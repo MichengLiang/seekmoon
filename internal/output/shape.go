@@ -5,8 +5,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/yumiaura/seekmoon/internal/contract"
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/contract"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // RenderShape writes the compact field shape for a schema identifier.

@@ -4,7 +4,7 @@ import (
 	"context"
 	"path/filepath"
 
-	"github.com/yumiaura/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 )
 
 // AtomicWriteFile writes data via a temporary file then renames it into place.

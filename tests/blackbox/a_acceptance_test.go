@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/tests/acceptance"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/tests/acceptance"
 )
 
 func TestA1SearchGeneratesCandidatesWithoutHandWrittenMooncakesURLs(t *testing.T) {

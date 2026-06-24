@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 	"github.com/google/go-github/v88/github"
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
 )
 
 func TestRepositoryURLParsingAndUnsupported(t *testing.T) {

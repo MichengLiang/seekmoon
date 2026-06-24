@@ -11,7 +11,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // AssetClient reads Mooncakes asset payloads and source archives.

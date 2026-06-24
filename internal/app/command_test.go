@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 )
 
 func TestCommandResultFromRunMapsPlatformResultToModelState(t *testing.T) {

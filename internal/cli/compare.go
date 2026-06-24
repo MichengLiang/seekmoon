@@ -1,10 +1,10 @@
 package cli
 
 import (
+	"github.com/MichengLiang/seekmoon/internal/app"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/service"
 	"github.com/spf13/cobra"
-	"github.com/yumiaura/seekmoon/internal/app"
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/service"
 )
 
 func newCompareCommand(rt *app.Runtime) *cobra.Command {

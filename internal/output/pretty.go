@@ -5,7 +5,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // RenderPretty writes the default human-oriented command output.

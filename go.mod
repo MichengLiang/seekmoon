@@ -1,4 +1,4 @@
-module github.com/yumiaura/seekmoon
+module github.com/MichengLiang/seekmoon
 
 go 1.26.3
 

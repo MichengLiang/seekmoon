@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/MichengLiang/seekmoon/internal/model"
 	"github.com/itchyny/gojq"
-	"github.com/yumiaura/seekmoon/internal/model"
 )
 
 // RenderJQ projects a value to JSON and evaluates a gojq expression over it.

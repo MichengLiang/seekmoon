@@ -1,6 +1,6 @@
 package contract
 
-import "github.com/yumiaura/seekmoon/internal/model"
+import "github.com/MichengLiang/seekmoon/internal/model"
 
 // Schema is a JSON Schema object rendered by the schema output mode.
 type Schema map[string]any

@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/source"
-	"github.com/yumiaura/seekmoon/internal/store"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/source"
+	"github.com/MichengLiang/seekmoon/internal/store"
 )
 
 // DoctorFlow reports local environment and project context evidence.

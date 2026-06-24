@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/yumiaura/seekmoon/internal/output"
-	"github.com/yumiaura/seekmoon/internal/platform"
-	"github.com/yumiaura/seekmoon/internal/service"
-	"github.com/yumiaura/seekmoon/internal/source"
-	"github.com/yumiaura/seekmoon/internal/store"
+	"github.com/MichengLiang/seekmoon/internal/output"
+	"github.com/MichengLiang/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/service"
+	"github.com/MichengLiang/seekmoon/internal/source"
+	"github.com/MichengLiang/seekmoon/internal/store"
 )
 
 // Runtime contains all host capabilities, stores, sources, services, and rendering.

@@ -10,8 +10,8 @@ import (
 	"github.com/google/go-github/v88/github"
 	"golang.org/x/oauth2"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/platform"
 )
 
 // RepositoryReader reads repository evidence from GitHub.

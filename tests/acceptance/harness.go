@@ -7,12 +7,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/yumiaura/seekmoon/internal/app"
-	"github.com/yumiaura/seekmoon/internal/cli"
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/output"
-	"github.com/yumiaura/seekmoon/internal/platform"
-	"github.com/yumiaura/seekmoon/internal/service"
+	"github.com/MichengLiang/seekmoon/internal/app"
+	"github.com/MichengLiang/seekmoon/internal/cli"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/output"
+	"github.com/MichengLiang/seekmoon/internal/platform"
+	"github.com/MichengLiang/seekmoon/internal/service"
 )
 
 // Harness owns a real CLI runtime wired to fake services.

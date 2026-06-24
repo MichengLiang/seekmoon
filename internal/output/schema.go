@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/yumiaura/seekmoon/internal/contract"
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/contract"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // RenderSchema writes the JSON Schema contract for a schema identifier.

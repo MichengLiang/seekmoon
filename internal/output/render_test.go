@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 func sampleSearchOutput() model.SearchOutput {

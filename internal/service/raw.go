@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/source"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/source"
 )
 
 // RawFlow projects upstream source payloads without normalization.

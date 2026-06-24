@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"path/filepath"
 
-	"github.com/yumiaura/seekmoon/internal/model"
-	"github.com/yumiaura/seekmoon/internal/source"
-	"github.com/yumiaura/seekmoon/internal/store"
+	"github.com/MichengLiang/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/source"
+	"github.com/MichengLiang/seekmoon/internal/store"
 )
 
 // SourceFlow resolves source acquisition options for a candidate.

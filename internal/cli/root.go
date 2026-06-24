@@ -7,9 +7,9 @@ import (
 	"io"
 	"strings"
 
+	"github.com/MichengLiang/seekmoon/internal/app"
+	"github.com/MichengLiang/seekmoon/internal/output"
 	"github.com/spf13/cobra"
-	"github.com/yumiaura/seekmoon/internal/app"
-	"github.com/yumiaura/seekmoon/internal/output"
 )
 
 // Options configures command output streams.

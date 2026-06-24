@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/yumiaura/seekmoon/internal/model"
+	"github.com/MichengLiang/seekmoon/internal/model"
 )
 
 // Registry groups all command service interfaces.
