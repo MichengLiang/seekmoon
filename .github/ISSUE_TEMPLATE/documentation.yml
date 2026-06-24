@@ -1,0 +1,38 @@
+name: Documentation issue
+description: Report unclear, outdated, or incorrect documentation.
+title: "docs: "
+labels: ["documentation"]
+body:
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Documentation surface
+      options:
+        - README.md
+        - README.zh-CN.md
+        - Published bookshelf
+        - Source AsciiDoc
+        - CLI help
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Provide a URL, file path, heading, or command help path.
+      placeholder: "README.md#output-modes or seekmoon search --help"
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Problem
+      description: Describe what is unclear, incorrect, missing, or inconsistent.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction
+      description: Provide replacement wording when you have one.

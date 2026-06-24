@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Maintained documentation
+    url: https://michengliang.github.io/seekmoon/
+    about: Read the published bookshelf before opening documentation or contract questions.
+  - name: Security policy
+    url: https://github.com/MichengLiang/seekmoon/security/policy
+    about: Use the security policy for vulnerability reports.

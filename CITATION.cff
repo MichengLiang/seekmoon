@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use SeekMoon or the package reuse ecosystem bookshelf, please cite this repository."
+title: "SeekMoon: MoonBit Package Discovery Workbench"
+type: software
+authors:
+  - family-names: "Mi"
+    given-names: "Chengliang"
+repository-code: "https://github.com/MichengLiang/seekmoon"
+url: "https://michengliang.github.io/seekmoon/"
+license: "Apache-2.0"
+keywords:
+  - MoonBit
+  - package discovery
+  - package management
+  - package reuse
+  - software supply chain
+  - AsciiDoc

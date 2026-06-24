@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/MichengLiang/seekmoon/actions/workflows/ci.yml/badge.svg)](https://github.com/MichengLiang/seekmoon/actions/workflows/ci.yml)
 [![Pages](https://github.com/MichengLiang/seekmoon/actions/workflows/pages.yml/badge.svg)](https://github.com/MichengLiang/seekmoon/actions/workflows/pages.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![Go Reference](https://pkg.go.dev/badge/github.com/MichengLiang/seekmoon.svg)](https://pkg.go.dev/github.com/MichengLiang/seekmoon)
 
 English | [简体中文](README.zh-CN.md)
 
@@ -28,6 +30,38 @@ and acceptance journeys for SeekMoon and the package-reuse research series.
 | Go module | `github.com/MichengLiang/seekmoon` |
 | Published bookshelf | <https://michengliang.github.io/seekmoon/> |
 | License | [Apache-2.0](LICENSE) |
+| Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Security | [SECURITY.md](SECURITY.md) |
+| Support | [SUPPORT.md](SUPPORT.md) |
+
+## Documentation
+
+| Document | Purpose |
+| --- | --- |
+| [Package Reuse Ecosystem](https://michengliang.github.io/seekmoon/books/08-package-reuse-ecosystem/book.html) | Conceptual background for package discovery, package management, lifecycle, evidence, evaluation, and governance. |
+| [SeekMoon: MoonBit Package Discovery Workbench](https://michengliang.github.io/seekmoon/books/09-seekmoon-cli-discovery-workbench/book.html) | Maintained specification for SeekMoon's consumer-side CLI workflow, evidence model, command surface, and output contracts. |
+
+## Project Position
+
+SeekMoon sits between MoonBit package ecosystem facts and a consumer's dependency
+adoption decision. It does not replace `moon`, Mooncakes, or the registry. It
+reads Mooncakes data, local MoonBit toolchain state, repository signals, and
+project records, then projects them into a reproducible CLI investigation
+workflow. Upstream facts remain separate from local derived evidence, with
+missing, unknown, and unverified states kept explicit.
+
+```mermaid
+flowchart TD
+  A[MoonBit Ecosystem] --> B[Mooncakes / Registry / Docs / Skills]
+  A --> C[moon Toolchain]
+  B --> D[SeekMoon]
+  C --> D
+  E[Repository Signals] --> D
+  D --> F[Search / View / Compare]
+  F --> G[Probe / Record / Report]
+  G --> H[Adoption Decision]
+  H --> I[moon add / install / runwasm]
+```
 
 ## Repository Layout
 
@@ -37,7 +71,7 @@ and acceptance journeys for SeekMoon and the package-reuse research series.
 | `internal/` | Go implementation packages for CLI, services, sources, stores, output, contracts, and help text. |
 | `tests/` | Acceptance, black-box, integration, and journey tests. |
 | `bookshelf/` | AsciiDoc bookshelf source and build workspace. |
-| `docs/` | Research notes, validation reports, and raw design material. |
+| `docs/` | Research notes, raw investigation material, and validation reports. The maintained documentation surface is the published bookshelf, especially books 08 and 09. |
 | `spike/` | Exploratory MoonBit and CLI probes. |
 | `justfile` | Local Go quality-gate entrypoints. |
 

@@ -1,0 +1,50 @@
+name: Bug report
+description: Report incorrect CLI behavior, output, or local state handling.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for behavior that differs from the command contract or README.
+  - type: input
+    id: version
+    attributes:
+      label: SeekMoon version or commit
+      description: Provide the version, commit SHA, or command used to run from source.
+      placeholder: "go run ./cmd/seekmoon, commit SHA, or release version"
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command
+      description: Include the exact command and relevant flags.
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Describe the expected command behavior or output.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include output, error surface, or log references. Remove secrets and private paths.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, Go version, MoonBit toolchain version, and whether network or GitHub API was involved.
+      render: text
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Add links, screenshots, or related command output when useful.

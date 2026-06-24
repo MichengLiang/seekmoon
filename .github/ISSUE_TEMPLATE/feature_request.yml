@@ -1,0 +1,34 @@
+name: Feature request
+description: Propose a CLI, evidence, output, or documentation improvement.
+title: "feature: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Consumer action or problem
+      description: Describe the package discovery action or maintenance problem this feature would support.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the command, output, source, or documentation behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence sources
+      description: Identify which upstream facts, local state, or derived evidence would support the behavior.
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Boundary
+      description: State what this feature should not claim or change.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Describe current workarounds or related commands.
