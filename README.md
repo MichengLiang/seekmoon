@@ -273,6 +273,9 @@ Create a local snapshot release:
 just release-snapshot
 ```
 
+Tagged releases are published by the `Release` workflow when a `v*` tag is
+pushed. Release notes come from [CHANGELOG.md](CHANGELOG.md).
+
 The release build targets Linux, macOS, and Windows on `amd64` and `arm64`.
 
 ## License

@@ -252,6 +252,9 @@ Release 配置位于 [.goreleaser.yaml](.goreleaser.yaml)。
 just release-snapshot
 ```
 
+推送 `v*` tag 时，`Release` workflow 会发布正式版本。Release notes 来自
+[CHANGELOG.md](CHANGELOG.md)。
+
 Release build 目标覆盖 Linux、macOS 和 Windows 的 `amd64` 与 `arm64`。
 
 ## License
