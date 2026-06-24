@@ -6,6 +6,48 @@ on:
     branches: [main, master]
 
 jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: 1.26.4
+          cache: true
+      - name: Install Go quality tools
+        run: |
+          go install mvdan.cc/gofumpt@v0.10.0
+          go install gotest.tools/gotestsum@v1.13.0
+          go install golang.org/x/vuln/cmd/govulncheck@v1.4.0
+          go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
+      - name: Install GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          install-only: true
+          version: v2.16.0
+      - name: Run Go quality gate
+        run: |
+          test -z "$(gofumpt -l cmd internal tests)"
+          golangci-lint run ./...
+          gotestsum --format=pkgname -- -count=1 ./...
+          gotestsum --format=pkgname -- -race -count=1 ./...
+          mkdir -p .artifacts
+          go test -coverprofile=.artifacts/coverage.out ./...
+          go tool cover -func=.artifacts/coverage.out
+          for attempt in 1 2 3; do
+            if govulncheck ./...; then
+              break
+            fi
+            if [ "$attempt" = "3" ]; then
+              exit 1
+            fi
+            sleep 20
+          done
+          go mod tidy
+          git diff --exit-code -- go.mod go.sum
+          go mod verify
+          goreleaser check
+
   bookshelf:
     runs-on: ubuntu-latest
     steps:

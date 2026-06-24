@@ -30,7 +30,15 @@ fuzz:
 
 vuln:
     command -v govulncheck >/dev/null
-    govulncheck ./...
+    for attempt in 1 2 3; do \
+        if govulncheck ./...; then \
+            break; \
+        fi; \
+        if [ "$attempt" = "3" ]; then \
+            exit 1; \
+        fi; \
+        sleep 20; \
+    done
 
 mod-check:
     go mod tidy
