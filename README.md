@@ -3,39 +3,45 @@
 [![CI](https://github.com/MichengLiang/seekmoon/actions/workflows/ci.yml/badge.svg)](https://github.com/MichengLiang/seekmoon/actions/workflows/ci.yml)
 [![Pages](https://github.com/MichengLiang/seekmoon/actions/workflows/pages.yml/badge.svg)](https://github.com/MichengLiang/seekmoon/actions/workflows/pages.yml)
 
-SeekMoon is a MoonBit package discovery workbench and the public bookshelf that
-defines its evidence model, command contracts, and implementation plan.
+SeekMoon is a MoonBit package discovery workbench. It helps dependency
+consumers discover candidate packages, inspect evidence, run local validation,
+record adoption judgments, and render investigation reports before adding a
+dependency.
 
-The Go CLI reads Mooncakes, MoonBit local toolchain state, project context, and
-GitHub repository evidence. It keeps upstream facts separate from derived local
-evidence so package discovery, inspection, comparison, probing, adoption
-records, and reports can share the same source-state vocabulary.
+The Go CLI reads Mooncakes API data, Mooncakes assets, MoonBit local toolchain
+state, project context, local registry/cache state, repository signals, and
+project records. Upstream facts remain separate from local derived evidence, so
+search, inspection, comparison, probe, record, report, JSON, jq, shape, schema,
+and error output share the same evidence-state vocabulary.
 
-The bookshelf publishes the surrounding research and design material for
-《包复用生态：发现、管理与评价尺度》.
+The repository also contains the AsciiDoc bookshelf that defines the surrounding
+evidence model, command contracts, output contracts, implementation architecture,
+and acceptance journeys for SeekMoon and the package-reuse research series.
 
-## Repository
+## Links
 
-- GitHub: <https://github.com/MichengLiang/seekmoon>
-- Go module: `github.com/MichengLiang/seekmoon`
-- Published bookshelf: <https://michengliang.github.io/seekmoon/>
-- License: Apache-2.0
+| Item | Location |
+| --- | --- |
+| GitHub | <https://github.com/MichengLiang/seekmoon> |
+| Go module | `github.com/MichengLiang/seekmoon` |
+| Published bookshelf | <https://michengliang.github.io/seekmoon/> |
+| License | [Apache-2.0](LICENSE) |
 
-## Contents
+## Repository Layout
 
-```text
-cmd/seekmoon/       CLI entrypoint
-internal/           Go implementation packages
-tests/              black-box, journey, acceptance, and opt-in integration tests
-bookshelf/          AsciiDoc bookshelf source and build workspace
-docs/               research notes and validation reports
-spike/              exploratory MoonBit and CLI probes
-justfile            local quality-gate entrypoints
-```
+| Path | Purpose |
+| --- | --- |
+| `cmd/seekmoon/` | CLI process entrypoint. |
+| `internal/` | Go implementation packages for CLI, services, sources, stores, output, contracts, and help text. |
+| `tests/` | Acceptance, black-box, integration, and journey tests. |
+| `bookshelf/` | AsciiDoc bookshelf source and build workspace. |
+| `docs/` | Research notes, validation reports, and raw design material. |
+| `spike/` | Exploratory MoonBit and CLI probes. |
+| `justfile` | Local Go quality-gate entrypoints. |
 
-## CLI
+## CLI Quick Start
 
-Run the CLI from source:
+Run from source:
 
 ```bash
 go run ./cmd/seekmoon --help
@@ -48,59 +54,121 @@ go build -o seekmoon ./cmd/seekmoon
 ./seekmoon --help
 ```
 
-Available command groups:
+Start with command help before using a command for the first time:
 
-```text
-doctor       Check local MoonBit and project environment evidence
-sync         Create a local source snapshot
-search       Search library module candidates
-view         View a library module profile
-api          View a package API profile
-source       Locate published source
-skill        Search or view executable skill entries
-compare      Compare candidate evidence
-probe        Run local validation for a candidate
-record       Save an adoption judgment
-report       Render an investigation report
-raw          Read an upstream source payload without normalization
+```bash
+seekmoon search --help
+seekmoon probe --help
+seekmoon record --help
 ```
 
-Every public command supports the common output modes:
+Common investigation path:
 
 ```text
---json       render machine-readable JSON
---jq <expr>  evaluate a jq expression against JSON output
---shape      render the stable field shape
---schema     render the JSON Schema contract
+doctor -> sync -> search -> view/api/source/compare -> probe -> record -> report
 ```
+
+Example session:
+
+```bash
+seekmoon doctor
+seekmoon sync
+seekmoon search markdown --target js
+seekmoon view 1
+seekmoon api 1 --package mizchi/markdown/src/api
+seekmoon compare 1 2
+seekmoon probe 1 --target js
+seekmoon record 1 --conclusion continue-verification
+seekmoon report --format markdown
+```
+
+`search` and `skill search` write numbered candidates into the current
+project's default session. Later commands can use numbers such as `1` or `2`.
+When a number is unavailable, run search again or pass a full coordinate such as
+`owner/module@version`.
+
+## Commands
+
+| Command | Action |
+| --- | --- |
+| `doctor` | Check local MoonBit, registry, network, and project-context evidence. |
+| `sync` | Create a dated evidence snapshot. |
+| `search` | Search library module candidates. |
+| `view` | View one library module evidence profile. |
+| `api` | View one package API profile. |
+| `source` | Locate source material for a registry-published module version. |
+| `skill search` | Search executable skill entries from the Skills API. |
+| `skill view` | View one executable skill profile. |
+| `compare` | Compare multiple candidates on one evidence surface. |
+| `probe` | Run local validation for one candidate. |
+| `record` | Save an adoption judgment. |
+| `report` | Render an investigation report from records and evidence references. |
+| `raw` | Read an upstream source payload without normalization. |
+
+## Output Modes
+
+Every public output command supports the common output modes:
+
+| Mode | Purpose |
+| --- | --- |
+| default pretty text | Terminal reading. Do not use it as a parsing interface. |
+| `--json` | Command JSON projection for scripts and automation. |
+| `--jq <expr>` | Evaluate a jq expression against the command JSON projection. |
+| `--shape` | Show the command JSON field tree without running the data action. |
+| `--schema` | Show the command JSON Schema without running the data action. |
 
 Examples:
 
 ```bash
-go run ./cmd/seekmoon search argparse --json
-go run ./cmd/seekmoon search --shape
-go run ./cmd/seekmoon search --schema
+seekmoon search argparse --json
+seekmoon search argparse --jq '.results[].module'
+seekmoon search --shape
+seekmoon search --schema
 ```
 
-Integration commands that use network, GitHub, or local Moon CLI mutation are
-opt-in in the test suite. Default tests run without external credentials or
-service availability.
+## Local State
+
+SeekMoon separates project investigation state from reusable remote cache.
+
+Project state lives under the current project's `.seekmoon/` directory:
+
+```text
+.seekmoon/
+  snapshots/
+  sessions/
+  records/
+  reports/
+  probes/
+  sources/
+  logs/
+```
+
+Reusable cache lives under the user's XDG cache directory:
+
+```text
+$XDG_CACHE_HOME/seekmoon/
+  mooncakes/
+  assets/
+  github/
+```
 
 ## Development
 
 SeekMoon uses Go for the CLI and pnpm for the bookshelf build.
 
-Required local tools for the full Go gate:
+Required tools for the full local gate:
 
-- Go 1.26.x
-- `just`
-- `gofumpt`
-- `golangci-lint`
-- `gotestsum`
-- `govulncheck`
-- `goreleaser`
+| Tool | Purpose |
+| --- | --- |
+| Go 1.26.x | Build, test, coverage, module checks, and Go tooling. |
+| `just` | Local quality-gate orchestration. |
+| `gofumpt` | Go formatting gate. |
+| `golangci-lint` | Aggregate lint gate. |
+| `gotestsum` | Readable Go test output. |
+| `govulncheck` | Reachable Go vulnerability exposure check. |
+| `goreleaser` | Release configuration and snapshot artifact checks. |
 
-Install Go dependencies:
+Install Go module dependencies:
 
 ```bash
 go mod download
@@ -128,8 +196,21 @@ PATH="$(go env GOPATH)/bin:$PATH" just ci
 `just cover` writes `.artifacts/coverage.out`. The file is generated output and
 is ignored by Git.
 
-The GitHub `CI` workflow validates the bookshelf workspace. The Go quality gate
-is represented by the local `just ci` target.
+Integration tests that use real network, GitHub, Moon CLI commands, source
+downloads, or probe mutation are opt-in. Default test runs use fixtures, fake
+source readers, fake filesystems, and fake command runners.
+
+## Continuous Integration
+
+The `CI` workflow runs two jobs:
+
+| Job | Checks |
+| --- | --- |
+| `go` | `gofumpt`, `golangci-lint`, unit tests, race tests, coverage, `govulncheck`, module integrity, and `goreleaser check`. |
+| `bookshelf` | pnpm install, structural check, and bookshelf build. |
+
+The `Pages` workflow builds and deploys `bookshelf/build/html` to GitHub Pages
+from the `main` branch or a manual dispatch.
 
 ## Bookshelf
 
@@ -145,10 +226,6 @@ pnpm run build
 ```
 
 Generated HTML is written to `bookshelf/build/html/`.
-
-GitHub Pages is built from GitHub Actions. The Pages workflow installs the
-bookshelf dependencies, runs structural checks, builds the HTML output, and
-deploys `bookshelf/build/html`.
 
 ## Release
 
