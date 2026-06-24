@@ -37,12 +37,12 @@ jobs:
           if [ -n "$GITLINK_KNOWN_HOSTS" ]; then
             printf '%s\n' "$GITLINK_KNOWN_HOSTS" > ~/.ssh/known_hosts
           else
-            ssh-keyscan -T 30 www.gitlink.org.cn gitlink.org.cn > ~/.ssh/known_hosts
+            ssh-keyscan -T 30 code.gitlink.org.cn www.gitlink.org.cn gitlink.org.cn > ~/.ssh/known_hosts
           fi
           chmod 600 ~/.ssh/known_hosts
 
           cat > ~/.ssh/config <<'EOF'
-          Host www.gitlink.org.cn gitlink.org.cn
+          Host code.gitlink.org.cn www.gitlink.org.cn gitlink.org.cn
             User git
             IdentityFile ~/.ssh/gitlink_sync
             IdentitiesOnly yes
