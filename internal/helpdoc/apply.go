@@ -53,10 +53,7 @@ func applyFlagDocs(cmd *cobra.Command, flags map[string]FlagDoc) {
 }
 
 func isSeekMoonAuthored(cmd *cobra.Command) bool {
-	if isCobraInfrastructure(cmd) {
-		return false
-	}
-	return true
+	return !isCobraInfrastructure(cmd)
 }
 
 func isCobraInfrastructure(cmd *cobra.Command) bool {

@@ -220,6 +220,7 @@ seekmoon raw skills`,
 	}
 }
 
+// CommonFlagDocs returns shared output-mode flag documentation.
 func CommonFlagDocs() map[string]FlagDoc {
 	return map[string]FlagDoc{
 		"json": {
